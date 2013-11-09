@@ -1,0 +1,9 @@
+<p class="mtd">
+{% if questions.has_previous %}
+    <a class="fl f_stng wb imp" href="?page={{ questions.previous_page_number }}">Daha Önceki Sorular</a>
+{% endif %}
+
+{% if questions.has_next %}
+    <a class="fr f_stng wb imp" href="?page={{ questions.next_page_number }}">Daha Sonraki Sorular</a>
+{% endif %}
+</p>

@@ -1,0 +1,81 @@
+{% extends "base.html" %}{% load thumbnail i18n %}
+
+{% block extra_head %}
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
+{% endblock %}
+
+{% block content %}
+  {% if answer_is_visible %}
+    <div class="panel-left bg-dark pad">
+      <div class="pb ba ra bg pa fl shadowed">
+        {% thumbnail answer.image "900" as img %}
+          <img src="{{ img.url }}">
+        {% endthumbnail %}
+        <div class="db">
+          <div class="f_weak fl mth">{% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse %}</div>
+          {% include "question/like_button_inc.html" %}
+        </div>
+      </div>
+    </div>
+    <div class="panel-right" style="width: 360px; border: none;">
+      {% if answer.title or answer.description %}
+        <div class="info mb bb">
+          {% if answer.title %}
+            <h2 class="mbd mtd">{{ answer.title }}</h2>
+          {% endif %}
+          {% if answer.description %}
+            {{ answer.description|linebreaks }}
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <p class="mb pb bb"><a class="wb" href="{{ answer.question.get_absolute_url }}">{{ answer.question}}</a> sorusuna cevap olarak {{ answer.created_at }} tarihinde {{ answer.get_visible_for_display|lower }} gözükecek şekilde gönderildi.</p>
+
+      {% if answer.like_score %}
+        <h2 class="mb">Kalpleyenler</h2>
+        {% if answer.owner == user or user.is_staff %}
+          <p class="mbd">
+            {% for user in answer.likers %}
+              {% include "auth/username_inc.html" with user=user %}, 
+            {% endfor %}
+          </p>
+        {% else %}
+          <p class="mbd">Kalpleyenler sadece cevap sahibi tarafından görüntülenebilir.</p>
+        {% endif %}
+      {% endif %}
+      {% if answer.owner == user %}
+        <h3 class="mb">Aksiyonlar</h3>
+        <a class="pa ra fl bttn green" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update" %}</a>
+        <form id="delete_form" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="delete" />
+          <input type="submit" class="fl bttn red ra pa" value="{% trans "Delete Answer" %}">
+        </form>
+      {% endif %}
+    </div>
+  {% else %}
+    <p class="pad ba imp tac f_stng">
+      {% if answer.status == 1 %}
+        {% trans "Answer is deleted by it's owner" %}
+      {% elif answer.status == 2 %}
+        {% trans "Answer is deleted by admins" %}
+      {% else %}
+        {% trans "This answer is not visible for you" %}</p>
+      {% endif %}
+    </p>
+  {% endif %}
+{% endblock %}
+
+{% if answer_is_visible %}
+  {% block extra_foot %}
+    <script>
+      $('#delete_form').submit(function() {
+        var confirmed1 = confirm('Bu cevabı silmek istediğinden emin misin?');
+        var confirmed2 = false;
+        if (confirmed1) {confirmed2 = confirm('Baya baya eminsin yani? Bu işlem geri alınamıyor da?');}
+        return confirmed1 && confirmed2;
+      })
+    </script>
+  {% endblock %}
+{% endif %}

@@ -1,0 +1,46 @@
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+
+SECRET_KEY = "1234"
+DEBUG = True
+ALLOWED_HOSTS = ['*', ]
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'sqlite3.db'
+    }
+}
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+DEFAULT_AVATAR_QUESTION_ID = 1
+DEFAULT_AVATAR_ANSWER_ID = 1
+MIDDLEWARE_CLASSES = (
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
+    'pipeline.middleware.MinifyHTMLMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+)
+INSTALLED_APPS = (
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.sites',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'apps.question',
+    'apps.account',
+    'seo_cascade',
+    'sorl.thumbnail',
+    'pipeline',
+    'debug_toolbar',
+    'tastypie'
+)
+
+INTERNAL_IPS = ('127.0.0.1',)
+
+

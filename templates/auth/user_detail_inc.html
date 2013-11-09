@@ -1,0 +1,65 @@
+{% load thumbnail i18n %}
+{% with profile=profile_user.userprofile %}
+  <div class="oa mbd bg ra ba oa" style="position: relative;">
+    <div class="pa fr" >
+    	<p class="pb bb">&#10084; {{ profile.like_score }}</p>
+    	<p>☍ {{ profile.num_of_followers }}</p>
+    </div>
+    {% thumbnail profile.avatar "100x100" crop="center" as im %}
+      <img class="fl mr" src="{{ im.url }}">
+    {% endthumbnail %}
+    <p class="mt mb f_weak "><a class="username f_stng wb" href="/u/{{profile_user.username}}">{{ profile_user }}</a>{% if profile.bio %}, {{ profile.bio }}.{% endif %}</p>
+    {% if profile.location or profile.website %}
+      <p class="f_weak  mb">
+        {% if profile.location %}{{ profile.location }}{% endif %}
+        {% if profile.location and profile.website %}, {% endif %}
+        {% if profile.website %}<a href="{{ profile.website }}">{{ profile.website }}</a>{% endif %}
+      </p>
+    {% endif %}
+  </div>
+  {% if follow_form %}
+    <form method="post" enctype="multipart/form-data" class="imp pa ra ba">
+      {% if action == 'block' %}
+        <p>Bu kullanıcıyı bloklarsan onun soru ve cevaplarını göremeyeceğin gibi, o da senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?</p>
+      {% endif %}
+      {% if action == 'unblock' %}
+        <p>Bu kullanıcının blokunu kaldırırsan onun soru ve cevaplarını görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?</p>
+      {% endif %}
+      {% if action == 'follow' %}
+        <p>Bu kullanıcıyı takibe almak istiyorsun?</p>
+      {% endif %}
+      {% if action == 'unfollow' %}
+        <p>Bu kullanıcıyı takipten çıkarmak istiyorsun?</p>
+      {% endif %}
+      {% csrf_token %}
+      {{ follow_form }}
+      <input class="fr bttn red ra" type="submit" value="Evet">
+    </form>
+  {% else %}
+    <p class="pa bg ra ba mbd">
+      {% if user == profile_user %}
+	      <a class="f_weak pr mr br" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
+	      <a class="f_weak pr mr br" href="{% url 'email_form' %}">{% trans "Update Email" %}</a>
+	      <a class="f_weak pr mr br" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
+      {% else %}
+        {% if user.is_authenticated %}
+          {% if user_is_blocked_by_me %}
+            <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/unblock/">{% trans "Unblock" %}</a>
+          {% else %}
+            {% if i_am_follower_of_user %}
+              <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/unfollow/">{% trans "Unfollow" %}</a>
+            {% else %}
+            	{% if have_pending_follow_request %}
+            	  <span class="f_weak pr mr br">{% trans "Your follow request sent" %}</span>
+            	{% else %}
+                <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/follow/">{% trans "Follow" %}</a>
+              {% endif %}
+            {% endif %}
+           <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/block/">{% trans "Block" %}</a>
+          {% endif %}
+        {% endif %}
+      {% endif %}
+    </p>
+  {% endif %}
+{% endwith %}
+

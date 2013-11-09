@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+  <div class="narrow fc">
+    <div class="panel-right">
+      <p class="mb"><a href="/">Resm.in</a> sorulan sorulara sadece fotoğraf paylaşarak cevap verilebilen soru-cevap sitesi.</p>
+      <p class="mb">Şifreni unuttuysan <a href="{% url 'password_reset' %}">belki de buraya tıklarsın</a>?</p>
+    </div>
+    <div class="panel-left">
+      <h2 class="f_stng mbd" style="clear: both;">Giriş yap <span class="f_weak c_weak wn">veya <a href="{% url 'register'%}">kayıt ol</a>?</span></h2>
+      <form method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input class="fr bttn green ra" type="submit" value="{% trans 'Login' %}">
+      </form>
+    </div>
+  </div>
+{% endblock content %}

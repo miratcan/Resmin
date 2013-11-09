@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+
+<h2 class="f_stng  mb">Davetiyeler</h2>
+
+{% if invs %}
+	<h2 class="f_stng  mb">Tebrikler, davetiyeniz var :)</h2>
+	<p class="  mbd">Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin kişiye kutucuklardaki linklerden birini vermek. Aktif olacağını, güzel paylaşımlarda bulunacağını düşündüğün kişileri çağırırmalısın. Uzaktan izleyenleri sevmiyoruz. :)</p>
+
+	{% for i in invs %}
+		<p><input style="width: 330px" value="http://{{ site }}{{ i.get_absolute_url }}"> {% if i.used_by %}{% include "auth/username_inc.html" with user=i.used_by %} kullanmış.{% endif %}</p>
+	{% endfor %}
+{% else %}
+	<p class="f_stng c_ntml">Hiç davetiyeniz yok :(</p>
+{% endif %}
+{% endblock %}

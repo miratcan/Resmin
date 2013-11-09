@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+  <div class="narrow fc">
+    <div class="panel-right">
+      <p class="  mb"><a href="/">Resm.in</a>'e kayıt olabilmek için bir davetiye koduna ihtiyacın var.</p>
+      <p class="  mb">Davetiye kodunu eğer varsa resm.in hesabı olan bir arkadaşından isteyebilir, ya da <a href="mailto:merhaba@resm.in">merhaba@resm.in</a> adresine yüzün gözükecek şekilde ve elinde "merhaba" yazan bir karton ile fotoğraf göndererek davetiye isteyebilirsin.</p>
+    </div>
+    <div class="panel-left">
+      <h2 class="f_stng  mbd">Kayıt ol <span class="f_weak c_weak wn">veya  <a href="{% url 'login'%}">giriş yap</a>?</span></h2>
+      <form method="post" >
+        {% csrf_token %}
+        {{ form }}
+        <input class="fr bttn green ra" type="submit" value="{% trans 'Register' %}">
+      </form>
+    </div>
+  </div>
+{% endblock content %}

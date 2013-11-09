@@ -1,0 +1,48 @@
+{% load i18n %}
+<form method="post" enctype="multipart/form-data" id="answer_form" class="ra ba shadowed" style="margin-left: auto; margin-right: auto;">
+  {% csrf_token %}
+  <div class="row oa db">
+  
+    {% if answer_form.non_field_errors %}
+      <p>{{ answer_form.non_field_errors  }}</p>
+    {% endif %}
+    {{ answer_form.image }}
+    <div class="oa mb bb">
+      <div id="file-select-box" class="tac pa bg-dark file-select-box">
+
+        Göndermek istediğin resmi seçmek için tıkla
+        {% if answer_form.image.errors %}
+          {{ answer_form.image.errors }}
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="fl mrd">
+      {{ answer_form.visible_for.errors }}
+      <p>
+        <label>{{ answer_form.visible_for.label }}:</label>
+        {{ answer_form.visible_for }}
+      </p>
+    </div>
+
+    <div class="fl mrd">
+      <p>
+        <label>{{ answer_form.is_nsfw.label }}:</label>
+        {{ answer_form.is_nsfw }}
+      </p>
+    </div>
+
+    <div class="fl mrd">
+      <p>
+        <label>{{ answer_form.is_anonymouse.label }}:</label>
+        {{ answer_form.is_anonymouse }}
+      </p>
+    </div>
+
+    <div class="fr mld">
+      <p>
+        <input name="answer" class="fr bttn green ra" type="submit" value="{% trans 'Submit' %}">
+      </p>
+    </div>
+  </div>
+</form>

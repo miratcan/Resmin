@@ -1,0 +1,6 @@
+<div class="mb" id="{{field.html_name}}" {% if field.is_hidden %}style="display:none"{% endif %}>
+    {{ fieldd.errors }}
+    <label class="f_stng " for="{{field.html_name}}">{{ field.label }}: {{ field.errors }} <span class="f_weak c_weak">{{ field.help_text }}</span>
+</label>
+    {{ field }}
+</div>

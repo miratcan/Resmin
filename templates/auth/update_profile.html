@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<p class="mb   imp">Avatarını "<a href="{{ avatar_question.get_absolute_url }}">{{ avatar_question }}</a>" sorusuna cevap vererek değiştirebilirsin. Son gönderdiğin cevap avatarın olarak kabul edilir.</p>
+	<form class="mtd" method="post" enctype="multipart/form-data">
+		{% csrf_token %}
+		{{ form }}
+		<input type="submit" class="fr bttn green ra">
+	</form>
+{% endblock content %}

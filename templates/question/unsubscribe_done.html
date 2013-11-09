@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<p class="imp pa mb  ">Takipten çıktın, şu andan itibaren "<a href="{{ question.get_absolute_url }}">{{ question.text }}</a>" sorusu ile ilgili herhangi bir bildirim almayacaksın.</p>
+{% endblock %}

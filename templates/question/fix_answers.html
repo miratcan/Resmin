@@ -1,0 +1,74 @@
+{% extends "base.html" %}{% load i18n thumbnail %}
+
+{% block extra_head %}
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>  
+{% endblock %}
+
+{% block content %}
+<div class="imp pa mbd">
+  <h2 class="mt mbd">Aşağıdaki Cevapları Düzeltmen Gerekiyor</h2>
+  <p class="mb">Seni bu sayfaya yönlendirdim çünkü aşağıdaki cevapların eskiden kalma ve kimin görmesini istediğine dair bir bilgi olmadığı için <strong>kimseye için görülebilir değiller</strong>.</p>
+  <p class="mb">Cevaplarının karşısındaki "kime görünür" seçeneklerini ayarlayıp sayfanın sonundaki kaydet butonunu kullanman gerekiyor.</p>
+</div>
+{% for answer in answers %}
+<div data-answer-id="{{ answer.id }}" class="answer pb pt bb oa">
+
+  {% thumbnail answer.image "220" as thmb %}
+      <a class="thmb mr fl" style="height: {{ thmb.height }}px; width: {{ thmb.width }}px; background-image: url({{ thmb.url }});" href="{{ answer.get_absolute_url }}"></a>
+  {% endthumbnail %}
+
+  {% if answer.is_anonymouse or answer.is_nsfw %}
+  <p>{% if answer.is_anonymouse %}Anonim{% endif %} / {% if answer.is_nsfw %}AYIP{% endif %}</p>
+  {% endif %}
+ 
+  <div class="oa db">
+    <input type="button" class="action mr bttn green ra pah" data-action="set_to_public" value="Herkese Açık">
+    <input type="button" class="action mr bttn green ra pah" data-action="set_to_followings" value="Müritlerime Açık"> 
+    <input type="button" class="action mr bttn red   ra pah" data-action="delete" value="Sil">
+  </div>
+
+</div>
+{% endfor %}
+  <script>
+
+	function getCookie(name) {
+	    var cookieValue = null;
+	    if (document.cookie && document.cookie != '') {
+	        var cookies = document.cookie.split(';');
+	        for (var i = 0; i < cookies.length; i++) {
+	            var cookie = jQuery.trim(cookies[i]);
+	            // Does this cookie string begin with the name we want?
+	            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+	                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+	                break;
+	            }
+	        }
+	    }
+	    return cookieValue;
+	}
+	var csrftoken = getCookie('csrftoken');
+
+  $(".action").click(function(e) {
+    e.preventDefault();
+    var answer_el = $(e.target).parent().parent()[0];
+    var id = $(answer_el).attr('data-answer-id');
+    var action = $(this).attr('data-action');
+    $(answer_el).hide("fast");
+    $.ajax({
+      type: "POST",
+      url: "/fix_answer/",
+      data: {
+        "aid" : id,
+        "action": action,
+        "csrfmiddlewaretoken": csrftoken
+      },
+      dataType: "json",
+      beforeSend: function() {
+      },
+      success: function() {
+      }
+    });
+    return false;
+  })
+  </script>
+{% endblock %}

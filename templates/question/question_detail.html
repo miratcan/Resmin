@@ -1,0 +1,50 @@
+{% extends "base.html" %}{% load thumbnail chunks i18n %}
+0
+{% block extra_head %}
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>  
+  <script src="http://masonry.desandro.com/masonry.pkgd.min.js"></script>
+  <script>
+    $(document).ready(function() {
+      var container = document.querySelector('#thumbnails');
+      var msnry = new Masonry(container, {
+          // options
+          itemSelector: '.thmb-wrap',
+          columnWidth: 240
+      });
+    });
+  </script>
+  <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
+{% endblock %}
+
+{% block content %}
+{% if delete_form %}
+  <form method="post" enctype="multipart/form-data" class="imp pa ra ba">
+    <p>Bu sorunun listelenmesini yok etmek, cevaplarını sadece linki var ise bulunabilir hale getirmek istediğine emin misin? Bu işlem geri alınamaz ve derin pişmanlıklar yaratabilir.</p>
+    {% csrf_token %}
+    {{ delete_form }}
+    <input name="delete" class="fr bttn red ra" type="submit" value="Evet, Eminim.">
+  </form>
+{% endif %}
+
+{% include "question/question_sentence.html" %}
+
+{% if answer_form %}
+  {% if answer_form %}
+    {% include 'question/answer_form_inc.html' %}
+  {% endif %}
+{% endif %}
+
+{% include "question/answer_thumbnails.html" with answers=answers %}
+
+<script>
+  var file_el = document.getElementById('id_image');
+  $('#file-select-box').click(function() {
+    $(file_el).trigger('click');
+  });
+  $('#id_image').change(function() {
+      var filename = $('#id_image').val().split('\\').pop();;
+      $('#file-select-box').html(filename);
+  });
+</script>
+
+{% endblock %}

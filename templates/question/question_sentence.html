@@ -1,0 +1,17 @@
+{% load i18n %}
+<p class="q_s">
+  <a class="{% if question.merged_to or question.is_deleted %}lt{% endif %}" href="{% if question.merged_to %}{{ question.merged_to.get_absolute_url }}{% else %}{{ question.get_absolute_url }}{% endif %}">{{ question.text }}</a>
+
+  <span class="f_tiny c_weak wn">{% if question.is_anonymouse == True or question.is_deleted == False %} {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %},{% endif %} {% blocktrans with count=question.answers_count %}got {{ count }} answers{% endblocktrans %}.</span>
+
+
+  {% if question.owner == user and show_delete_action %}<a class="action ml" href="{{ question.get_deletion_url }}">Sil</a>{% endif %}
+
+  {% if not question.is_deleted %}
+  	<a class="action" href="{{ question.get_absolute_url }}">Cevapla</a>
+  {% endif %}
+</p>
+
+{% if question.merged_to %}<p class="f_weak c_weak mb">Bu soru "<a href="{{ question.merged_to.get_absolute_url }}">{{ question.merged_to }}</a>" sorusuna birleştirildi.</p>{% endif %}
+
+{% if question.is_deleted %}<p class="f_weak c_weak mb">Bu soru silinmiş, soru olarak listelenmez yeni cevap gönderilemez.</p>{% endif %}

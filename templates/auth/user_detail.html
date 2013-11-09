@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block extra_head %}
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
+{% endblock %}
+
+{% block content %}
+    {% include "auth/user_detail_inc.html" %}
+    {% include "question/answer_thumbnails.html" %}
+{% endblock content %}

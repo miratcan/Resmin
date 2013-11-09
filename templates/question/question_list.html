@@ -1,0 +1,52 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block extra_head %}
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script>
+    $(document).ready(function() {
+
+      var search_form_cleaned=false;
+      var create_form_cleaned=false;
+
+      $("#id_q").on('click', function(ev) {
+        if (search_form_cleaned===false) {
+          $(ev.target).val('');
+          search_form_cleaned=true;
+        };
+      });
+
+      $("#id_text").on('click', function(ev) {
+        if (create_form_cleaned===false) {
+          $(ev.target).val('');
+          create_form_cleaned=true;
+        };
+      });
+    });
+   </script>
+
+{% endblock %}
+
+{% block content %}
+  <form method="get" id="search_form">
+    {{ search_form.q }}
+    {% if search_form.is_bound and user.is_authenticated %}
+      <p class="fl">Aradığın soru daha önce sorulmamış ise <a class="imp" href="#" onclick="$('#create_form').show('slow'); $('#search_form').hide('slow');">buraya tıklayarak</a> sen sorabilirsin.</p>
+    {% endif %}
+    <input type="submit" class="fr bttn green ra" value="{% trans "Search" %}">
+  </form>
+
+    {% if not search_question_form.is_bound %}
+    <form method="post" id="create_form" style="display: none;">
+      {% csrf_token %}
+      {{ create_form.text.errors }}
+      {{ create_form.text }}
+      {{ create_form.is_anonymouse.errors }}
+      <label for="id_is_anonymouse">{% trans create_form.is_anonymouse.label %}:</label>
+      {{ create_form.is_anonymouse }}
+      <input name="submit" type="submit" class="fr bttn green ra" value="{% trans "Submit" %}">
+    </form>
+  {% endif %}
+
+  {% include "question/question_list_inc.html" with questions=questions.object_list %}
+  {% include "includes/pagination_links_for_questions.html" %}
+{% endblock %}

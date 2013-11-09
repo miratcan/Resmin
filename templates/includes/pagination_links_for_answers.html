@@ -1,0 +1,9 @@
+<p class="mtd">
+{% if answers.has_previous %}
+    <a class="fl f_stng wb imp" href="?page={{ answers.previous_page_number }}">Daha Önceki Cevaplar</a>
+{% endif %}
+
+{% if answers.has_next %}
+    <a class="fr f_stng wb imp" href="?page={{ answers.next_page_number }}">Daha Sonraki Cevaplar</a>
+{% endif %}
+</p>

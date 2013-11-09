@@ -1,0 +1,2 @@
+{% include "question/question_sentence.html" %}
+{% if not trimmed %}{% include "question/answer_thumbnails.html" with answers=question.latest_answers %}{% endif %}

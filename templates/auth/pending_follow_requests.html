@@ -1,0 +1,38 @@
+{% extends "base.html" %}{% load i18n %}
+{% block extra_head %}
+
+{% endblock %}
+{% block content %}
+  {% for follow_request in pending_follow_requests %}
+    <div class="pt pb bb mb" id="{{ follow_request.id }}">
+      <p>{% include 'auth/username_inc.html' with user=follow_request.follower %} takipçin olmak istiyor.</p>
+      <input type="button" class="bttn green pa ra accept" value="{% trans 'Accept' %}" data-action='accept'/>
+      <input type="button" class="bttn red pa ra decline" value="{% trans 'Decline' %}" data-action='decline'/>
+    </div>
+  {% endfor %}
+  <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
+
+  <script>
+  $(document).ready(function() {
+    $('.bttn').click(function(ev){
+      var target = $(ev.target);
+      var id = target.parent().attr('id');
+      var action = target.attr('data-action');
+      $.ajax({
+        method: "post",
+        url: "/upfr/",
+        data: {'id': id, 'action': action}
+      })
+      .done(function(data) {
+        if (data['success'] === true) {
+          target.parent().slideUp('slow');
+        } else {
+          alert('Bir hata oluştu... Bize nazar deymiş olabilir.');
+        }
+      });
+
+    })
+  }); 
+  </script>
+
+{% endblock content %}

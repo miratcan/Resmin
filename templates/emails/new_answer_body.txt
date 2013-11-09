@@ -1,0 +1,7 @@
+Cevabı görüntülemek için aşağıdaki linke tıkla:
+
+http://{{ domain }}{{ answer.get_absolute_url }}
+
+Eğer bu soru hakkında daha fazla bildirim almak istemiyorsan, aşağıdaki linke tıklayabilirsin:
+
+http://{{ domain }}{{ follow.cancellation_url }}
