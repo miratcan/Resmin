@@ -54,12 +54,12 @@ User.has_pending_follow_request = lambda u, t: \
     UserFollow.objects.filter(follower=u, target=t, status=0).exists()
 
 User.follower_user_ids = \
-    lambda u: [f.follower_id for f in UserFollow.objects.filter(
-        target=u, status=1)]
+    property(lambda u: [f.follower_id for f in UserFollow.objects.filter(	
+             target=u, status=1)])
 
 User.following_user_ids = \
-    lambda u: [f.target_id for f in UserFollow.objects.filter(
-        follower=u, status=1)]
+    property(lambda u: [f.target_id for f in UserFollow.objects.filter(
+             follower=u, status=1)])
 
 
 def compute_blocked_user_ids_for(user):
