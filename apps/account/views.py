@@ -147,14 +147,20 @@ def update_pending_follow_request(request):
 def update_profile(request):
     profile = get_object_or_404(UserProfile, user=request.user)
     form = UpdateProfileForm(instance=profile)
+
     if request.POST:
-        form = UpdateProfileForm(request.POST, request.FILES, instance=profile)
+
+        form = UpdateProfileForm(
+            request.POST, request.FILES, instance=profile)
+
         if form.is_valid():
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
             messages.success(request, _('Your profile updated'))
-            return HttpResponseRedirect(reverse('me'))
+            return HttpResponseRedirect(
+                reverse('profile',
+                        kwargs={'username': request.user.username}))
 
     return render(
         request,
