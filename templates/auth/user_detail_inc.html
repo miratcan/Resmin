@@ -20,16 +20,16 @@
   {% if follow_form %}
     <form method="post" enctype="multipart/form-data" class="imp pa ra ba">
       {% if action == 'block' %}
-        <p>Bu kullanıcıyı bloklarsan onun soru ve cevaplarını göremeyeceğin gibi, o da senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?</p>
+        <p>Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?</p>
       {% endif %}
       {% if action == 'unblock' %}
-        <p>Bu kullanıcının blokunu kaldırırsan onun soru ve cevaplarını görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?</p>
+        <p>Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?</p>
       {% endif %}
       {% if action == 'follow' %}
-        <p>Bu kullanıcıyı takibe almak istiyorsun?</p>
+        <p>Bu kullanıcının müridi olmak istiyorsun?</p>
       {% endif %}
       {% if action == 'unfollow' %}
-        <p>Bu kullanıcıyı takipten çıkarmak istiyorsun?</p>
+        <p>Artık bu kullanıcının müridi olmak istemiyorsun?</p>
       {% endif %}
       {% csrf_token %}
       {{ follow_form }}

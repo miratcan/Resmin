@@ -22,7 +22,7 @@ urlpatterns = patterns(
 
     url(r'^f/$', 'apps.question.views.index',
         name='index-from-followings',
-        kwargs={'get_filter': 'followings'}),
+        kwargs={'get_filter': 'from_followings'}),
 
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
@@ -44,7 +44,7 @@ urlpatterns = patterns(
     url(r'^u/(?P<username>[-\w]+)/to/followings/$',
         'apps.account.views.profile',
         name='my-answers-to-followers',
-        kwargs={'visible_for': 1}),
+        kwargs={'get_filter': 'to_followings'}),
 
     url(r'^u/(?P<username>[-\w]+)/to/others/$',
         'apps.account.views.profile',
@@ -105,15 +105,17 @@ urlpatterns = patterns(
         'apps.question.views.question',
         name='question'),
 
+    url(r'^q/(?P<base62_id>[-\w]+)/f/$',
+        'apps.question.views.question',
+        name='question-detail-from-followings',
+        kwargs={'get_filter': 'followings'}),
+
+
     url(r'^q/(?P<base62_id>[-\w]+)/delete/$',
         'apps.question.views.question',
         name='delete_question',
         kwargs={'show_delete': True}),
 
-    url(r'^q/(?P<base62_id>[-\w]+)/f/$',
-        'apps.question.views.question',
-        name='index',
-        kwargs={'get_filter': 'followings'}),
 
     url(r'q/(?P<base62_id>[-\w]+)/d/^$',
         'apps.question.views.question',
