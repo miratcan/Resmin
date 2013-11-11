@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 11:34+0200\n"
+"POT-Creation-Date: 2013-11-11 14:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,39 +79,39 @@ msgstr "konum"
 msgid "email"
 msgstr "e-posta"
 
-#: apps/account/views.py:99
+#: apps/account/views.py:92
 msgid "Follow request sent to user"
 msgstr "Mürit olma isteyin kullanıcıya gönderildi"
 
-#: apps/account/views.py:102
+#: apps/account/views.py:95
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının müridi değilsin"
 
-#: apps/account/views.py:105
+#: apps/account/views.py:98
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:108
+#: apps/account/views.py:101
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:156
+#: apps/account/views.py:157
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:177
+#: apps/account/views.py:179
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:215
+#: apps/account/views.py:217
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:236
+#: apps/account/views.py:238
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
-#: apps/account/views.py:253
+#: apps/account/views.py:255
 msgid "E-mail confirmation"
 msgstr "E-Posta onayı"
 
@@ -124,12 +124,12 @@ msgstr "Adımı Gizle"
 msgid "Select an image to submit an answer"
 msgstr "Cevap olarak göndereceğin resmi seç"
 
-#: apps/question/forms.py:58
+#: apps/question/forms.py:57
 #, fuzzy
 msgid "You can not update an answer that is not yours."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
 
-#: apps/question/forms.py:74
+#: apps/question/forms.py:73
 msgid "Understood"
 msgstr "Anladım"
 
@@ -153,23 +153,23 @@ msgstr "Herkese"
 msgid "My Followers"
 msgstr "Takipçilerime"
 
-#: apps/question/views.py:134
+#: apps/question/views.py:157
 msgid "Your question is deleted"
 msgstr "Sorun silindi"
 
-#: apps/question/views.py:163
+#: apps/question/views.py:189
 msgid "Enter word(s) that you want to search in questions"
 msgstr "Sorular içinde aramak istediğin kelime/yi/leri yaz"
 
-#: apps/question/views.py:166
+#: apps/question/views.py:192
 msgid "Submit a question"
 msgstr "Bir soru gönder"
 
-#: apps/question/views.py:199
+#: apps/question/views.py:225
 msgid "Your answer deleted"
 msgstr "Cevabın silindi"
 
-#: apps/question/views.py:226
+#: apps/question/views.py:252
 #, fuzzy
 msgid "Your answer updated"
 msgstr "Cevabın silindi"
@@ -178,30 +178,45 @@ msgstr "Cevabın silindi"
 msgid "Answer questions with pics."
 msgstr "Sorulara fotoğraflarla cevap ver"
 
-#: templates/base.html:33
+#: templates/base.html:30
 msgid "Latest Answers"
 msgstr "Son Cevaplar"
 
-#: templates/base.html:35
+#: templates/base.html:32
 msgid "Random Question"
 msgstr "Rasgele Soru"
 
-#: templates/base.html:41 templates/auth/login.html:12
+#: templates/base.html:38 templates/auth/login.html:13
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/index.html:48 templates/question/question_sentence.html:5
-msgid "asked by"
-msgstr "diye sordu"
+#: templates/index.html:23 templates/question/question_detail.html:7
+msgid "Public Answers"
+msgstr "Umumi Cevaplar"
 
-#: templates/index.html:48 templates/question/question_sentence.html:5
-#, python-format
-msgid "got %(count)s answers"
-msgstr "%(count)s cevap aldı"
+#: templates/index.html:24 templates/question/question_detail.html:8
+msgid "Answers From Followings"
+msgstr "Müridi Olduklarımdan Cevaplar"
 
-#: templates/auth/register.html:12
+#: templates/auth/pending_follow_requests.html:9
+msgid "Accept"
+msgstr ""
+
+#: templates/auth/pending_follow_requests.html:10
+msgid "Decline"
+msgstr ""
+
+#: templates/auth/register.html:13
 msgid "Register"
 msgstr "Kayıt Ol"
+
+#: templates/auth/user_detail.html:7
+msgid "My Answers To Public"
+msgstr "Umumi Cevaplarım"
+
+#: templates/auth/user_detail.html:8
+msgid "My Answers To Followers"
+msgstr "Müritlerim İçin Cevaplarım"
 
 #: templates/auth/user_detail_inc.html:41
 msgid "Update Profile"
@@ -215,23 +230,23 @@ msgstr "E-Posta Güncelle"
 msgid "Log Out"
 msgstr "Çıkış Yap"
 
-#: templates/auth/user_detail_inc.html:46
+#: templates/auth/user_detail_inc.html:47
 msgid "Unblock"
 msgstr "Engeli Kaldır"
 
-#: templates/auth/user_detail_inc.html:49
+#: templates/auth/user_detail_inc.html:50
 msgid "Unfollow"
 msgstr "Müritlikten Çık"
 
-#: templates/auth/user_detail_inc.html:52
+#: templates/auth/user_detail_inc.html:53
 msgid "Your follow request sent"
 msgstr "Mürit Olma İsteği Gönderilmiş"
 
-#: templates/auth/user_detail_inc.html:54
+#: templates/auth/user_detail_inc.html:55
 msgid "Follow"
 msgstr "Müridi Ol"
 
-#: templates/auth/user_detail_inc.html:57
+#: templates/auth/user_detail_inc.html:58
 msgid "Block"
 msgstr "Engelle"
 
@@ -239,67 +254,56 @@ msgstr "Engelle"
 msgid "Anonymouse user"
 msgstr "Gizli kullanıcı"
 
-#: templates/question/answer_detail.html:50
-#, fuzzy
-msgid "Update"
-msgstr "E-Posta Güncelle"
+#: templates/question/answer_detail.html:49
+msgid "Update Answer"
+msgstr "Cevap Güncelle"
 
-#: templates/question/answer_detail.html:54
+#: templates/question/answer_detail.html:53
 msgid "Delete Answer"
 msgstr "Cevabı Sil"
 
-#: templates/question/answer_detail.html:61
+#: templates/question/answer_detail.html:60
 msgid "Answer is deleted by it's owner"
 msgstr "Bu cevap sahibi tarafından silinmiş"
 
-#: templates/question/answer_detail.html:63
+#: templates/question/answer_detail.html:62
 msgid "Answer is deleted by admins"
 msgstr "Bu cevap adminler tarafından silinmiş"
 
-#: templates/question/answer_detail.html:65
+#: templates/question/answer_detail.html:64
 msgid "This answer is not visible for you"
 msgstr "Bu cevabı görmeye hakkın yok"
 
-#: templates/question/answer_form_inc.html:5
+#: templates/question/answer_form_inc.html:44
 #: templates/question/question_list.html:46
 msgid "Submit"
 msgstr "Gönder"
-
-#: templates/question/answer_list.html:31
-msgid "My Answers To Public"
-msgstr "Umumi Cevaplarım"
-
-#: templates/question/answer_list.html:33
-msgid "My Answers To Followers"
-msgstr "Müritlerim İçin Cevaplarım"
-
-#: templates/question/answer_list.html:34
-msgid "My Direct Answers"
-msgstr "Direkt Cevapların"
-
-#: templates/question/answer_list.html:40
-msgid "Public Answers"
-msgstr "Umumi Cevaplar"
-
-#: templates/question/answer_list.html:42
-msgid "Answers From Followings"
-msgstr "Müridi Olduklarımdan Cevaplar"
-
-#: templates/question/answer_list.html:43
-msgid "Direct Answers"
-msgstr "Bana Özel Cevaplar"
 
 #: templates/question/answer_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
 
-#: templates/question/fix_answers.html:26
-msgid "Save"
-msgstr "Kaydet"
-
 #: templates/question/question_list.html:35
 msgid "Search"
 msgstr "Ara"
+
+#: templates/question/question_sentence.html:5
+msgid "asked by"
+msgstr "diye sordu"
+
+#: templates/question/question_sentence.html:5
+#, python-format
+msgid "got %(count)s answers"
+msgstr "%(count)s cevap aldı"
+
+#~ msgid "My Direct Answers"
+#~ msgstr "Direkt Cevapların"
+
+#~ msgid "Direct Answers"
+#~ msgstr "Bana Özel Cevaplar"
+
+#~ msgid "Save"
+#~ msgstr "Kaydet"
 
 #~ msgid "Selected Users"
 #~ msgstr "Seçtiğim Kişilere"

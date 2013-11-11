@@ -46,7 +46,7 @@
       {% endif %}
       {% if answer.owner == user %}
         <h3 class="mb">Aksiyonlar</h3>
-        <a class="pa ra fl bttn green" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update" %}</a>
+        <a class="pa ra fl bttn green" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update Answer" %}</a>
         <form id="delete_form" method="post">
           {% csrf_token %}
           <input type="hidden" name="delete" />
