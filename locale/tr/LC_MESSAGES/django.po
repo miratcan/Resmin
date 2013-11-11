@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-11 14:00+0200\n"
+"POT-Creation-Date: 2013-11-11 14:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,13 +198,19 @@ msgstr "Umumi Cevaplar"
 msgid "Answers From Followings"
 msgstr "Müridi Olduklarımdan Cevaplar"
 
+#: templates/auth/email_form.html:7
+msgid ""
+"Adresini bildirim gereken durumlarda sana e-posta atmak için kullanacağız ve "
+"kimseye vermeyeceğiz."
+msgstr ""
+
 #: templates/auth/pending_follow_requests.html:9
 msgid "Accept"
-msgstr ""
+msgstr "Kabul ediyorum"
 
 #: templates/auth/pending_follow_requests.html:10
 msgid "Decline"
-msgstr ""
+msgstr "Görmezden gel"
 
 #: templates/auth/register.html:13
 msgid "Register"
