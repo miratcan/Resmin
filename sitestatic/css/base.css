@@ -301,9 +301,6 @@ img.db {
   background-position: center;
   background-repeat: no-repeat;
 }
-.thmb-row {
-  overflow: auto;
-}
 .thmb span {
   width: 100%;
   text-align: center;
@@ -337,6 +334,16 @@ img.db {
   float: left;
   padding-top: 10px;
   margin-bottom: 5px;
+}
+.yellow-stripe {
+  background: #FCF99C;
+  text-align: center;
+  color: #222222;
+  border-color: #bbb;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 #logo {
   font-family: 'Oleo Script Swash Caps', cursive;
