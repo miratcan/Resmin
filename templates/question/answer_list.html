@@ -3,15 +3,15 @@
 {% block extra_messages %}
 
   {% if pending_follow_requests > 0 %}
-    <p class="imp tac c_stng bb pt pb">{{ pending_follow_requests }} kişi müridin olmak istiyor. Bekleyen talep(leri) incelemek için <a href="{% url 'pending-follow-requests' %}">buraya tıkla.</p>
+    <p class="yellow-stripe">{{ pending_follow_requests }} kişi müridin olmak istiyor. Bekleyen talep(leri) incelemek için <a href="{% url 'pending-follow-requests' %}">buraya tıkla.</p>
   {% endif %}
 
   {% if show_email_message %}
-    <p class="imp tac c_stng bb pt pb nm">E-posta adresin kayıtlı olmadığı için sorulara ve cevaplara ilişkin bildirimleri alamıyorsun. Ayrıca şifreni unutursan hatırlatma servisini de kullanamayacaksın. Lütfen <a href="{% url 'email_form' %}">buraya tıklayarak</a> e-posta adresini kaydet.</p>
+    <p class="yellow-stripe">E-posta adresin kayıtlı olmadığı için sorulara ve cevaplara ilişkin bildirimleri alamıyorsun. Ayrıca şifreni unutursan hatırlatma servisini de kullanamayacaksın. Lütfen <a href="{% url 'email_form' %}">buraya tıklayarak</a> e-posta adresini kaydet.</p>
   {% endif %}
 
   {% if show_fix_answers_message %}
-    <p class="imp tac c_stng bb pt pb nm">Görünürlüğü belirsiz cevaplar var. Lütfen <a href="{% url 'fix-answers' %}">buraya tıklayarak</a> cevaplarını düzenle.</p>
+    <p class="yellow-stripe">Görünürlüğü belirsiz cevaplar var. Lütfen <a href="{% url 'fix-answers' %}">buraya tıklayarak</a> cevaplarını düzenle.</p>
   {% endif %}
 
 {% endblock %}

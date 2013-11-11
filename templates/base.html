@@ -17,7 +17,9 @@
   </head>
   <body>
     {% if messages %}
-      <div class="bb">{% for message in messages %}<p class="imp pa tac">{{ message }}</p>{% endfor %}</div>
+      {% for message in messages %}
+        <p class="yellow-stripe">{{ message }}</p>
+      {% endfor %}
     {% endif %}
     {% block extra_messages %}
     {% endblock %}
