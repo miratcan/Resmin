@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-11 14:36+0200\n"
+"POT-Creation-Date: 2013-11-11 18:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -224,6 +224,30 @@ msgstr "Umumi Cevaplarım"
 msgid "My Answers To Followers"
 msgstr "Müritlerim İçin Cevaplarım"
 
+#: templates/auth/user_detail_inc.html:23
+msgid ""
+"Blocking this user means that you wouldn't dispose any of your questions or "
+"answers while you wouldn't be to see any question or answer. Is this cool?"
+msgstr ""
+"Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da "
+"senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?"
+
+#: templates/auth/user_detail_inc.html:26
+msgid ""
+"As you unblock you'd be able to see questions & answers by this user who "
+"would also be able to access your contributions. Am I magnificient?"
+msgstr ""
+"Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını "
+"görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?"
+
+#: templates/auth/user_detail_inc.html:29
+msgid "You want to be a disciple of this user. You're nuts..."
+msgstr "Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?"
+
+#: templates/auth/user_detail_inc.html:32
+msgid "Me don't want no more contact with this user. Ummmm are you bored?"
+msgstr "Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?"
+
 #: templates/auth/user_detail_inc.html:41
 msgid "Update Profile"
 msgstr "Profili Güncelle"
@@ -260,6 +284,14 @@ msgstr "Engelle"
 msgid "Anonymouse user"
 msgstr "Gizli kullanıcı"
 
+#: templates/question/answer_detail.html:36
+msgid "Kalpleyenler"
+msgstr ""
+
+#: templates/question/answer_detail.html:44
+msgid "Kalpleyenler sadece cevap sahibi tarafından görüntülenebilir."
+msgstr ""
+
 #: templates/question/answer_detail.html:49
 msgid "Update Answer"
 msgstr "Cevap Güncelle"
@@ -279,6 +311,14 @@ msgstr "Bu cevap adminler tarafından silinmiş"
 #: templates/question/answer_detail.html:64
 msgid "This answer is not visible for you"
 msgstr "Bu cevabı görmeye hakkın yok"
+
+#: templates/question/answer_detail.html:74
+msgid "Bu cevabı silmek istediğinden emin misin?"
+msgstr ""
+
+#: templates/question/answer_detail.html:76
+msgid "Baya baya eminsin yani? Bu işlem geri alınamıyor da?"
+msgstr ""
 
 #: templates/question/answer_form_inc.html:44
 #: templates/question/question_list.html:46
