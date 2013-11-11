@@ -81,7 +81,7 @@ msgstr "e-posta"
 
 #: apps/account/views.py:92
 msgid "Follow request sent to user"
-msgstr "Mürit olma isteyin kullanıcıya gönderildi"
+msgstr "Mürit olma isteğin kullanıcıya gönderildi"
 
 #: apps/account/views.py:95
 msgid "You are not a follower anymore"
