@@ -1,73 +1,35 @@
-{% extends "base.html" %}{% load i18n chunks %}
-{% block extra_head %}
-  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>  
-  <script src="http://masonry.desandro.com/masonry.pkgd.min.js"></script>
-  <script>
-    $(document).ready(function() {
-      var cleaned=false;
-      var extended=false;
+{% extends "answers_base.html" %}{% load i18n %}
 
-      $("#id_text").on('click', function(ev) {
-        if (cleaned===false) {
-          $(ev.target).val('');
-          $("#hidden_part").show('normal');
-          cleaned=true;
-        }
-      });
+{% block extra_messages %}
 
-      var timeoutReference;
-      $('input#id_text').keypress(function() {
-          var _this = $(this);     
-          if (timeoutReference) clearTimeout(timeoutReference);
-          timeoutReference = setTimeout(function() {
-              if (extended===false) {
-                $("#suggestions").slideDown("slow");
-                extended = true;
-              }
-              $("#inner").load("/sq/", {'q': $(this).val()});
-          }, 500);
-      });
-      var container = document.querySelector('#thumbnails');
-      var msnry = new Masonry(container, {
-          // options
-          itemSelector: '.thmb-wrap-wrap'
-      });
-    });
-  </script>
-  <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
+  {% if pending_follow_requests > 0 %}
+    <p class="yellow-stripe">{{ pending_follow_requests }} kişi müridin olmak istiyor. Bekleyen talep(leri) incelemek için <a href="{% url 'pending-follow-requests' %}">buraya tıkla.</p>
+  {% endif %}
+
+  {% if show_email_message %}
+    <p class="yellow-stripe">E-posta adresin kayıtlı olmadığı için sorulara ve cevaplara ilişkin bildirimleri alamıyorsun. Ayrıca şifreni unutursan hatırlatma servisini de kullanamayacaksın. Lütfen <a href="{% url 'email_form' %}">buraya tıklayarak</a> e-posta adresini kaydet.</p>
+  {% endif %}
+
+  {% if show_fix_answers_message %}
+    <p class="yellow-stripe">Görünürlüğü belirsiz cevapların var. Lütfen <a href="{% url 'fix-answers' %}">buraya tıklayarak</a> cevaplarını düzenle.</p>
+  {% endif %}
 
 {% endblock %}
+
+{% block subheader %}
+  {% if user.is_authenticated %}
+  <div class="subnav">
+    <div class="f_weak db oa wrap">
+      <a class="mrd{% if answers.filter == 'public' %} wb{% endif %}" href="{% url 'index' %}">{% trans "Public Answers" %}</a>
+      <a class="mrd{% if answers.filter == 'followings' %} wb{% endif %}" href="{% url 'index-from-followings' %}">{% trans "Answers From Followings" %}</a>
+    </div>
+  </div>
+  {% endif %}
+{% endblock %}
+
 {% block content %}
-  {% regroup answers by question as answers_by_questions %}
-
-    {% for item in answers_by_questions %}
-      <div class="db oa" style="width: 810px;">
-        <div class="fl mtd pt bt" style="width: 300px; text-align: right;">
-          {% with item.grouper as question %}
-            <a class="db" href="{{ question.get_absolute_url }}">{{ question.text }}</a>
-            <span class="db f_tiny c_weak wn">{% if question.is_anonymouse == True or question.is_deleted == False %} {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %},{% endif %} {% blocktrans with count=question.answers_count %}got {{ count }} answers{% endblocktrans %}.</span>
-
-          {% endwith %}
-        </div>
-        <table class="fr bg-dark" style="width: 500px; border-top: none; border-bottom: none;">
-          {% if item.list|length = 1 %}
-            {% for answer in item.list %} 
-              <tr>
-                <td colspan=3>{% include "question/answer_thumbnail.html" with width='470' %}</td>
-              </tr>
-            {% endfor %}
-          {% endif %}
-          {% if item.list|length >= 2 %}
-            {% for chunk in item.list|chunks:2 %}
-            <tr>
-              {% for answer in chunk %} 
-                <td colspan=3>{% include "question/answer_thumbnail.html" with width='220' %}</td>
-              {% endfor %}
-            </tr>
-            {% endfor %}
-          {% endif %}
-          </div>
-        </table>
-      </div>
-    {% endfor %}
-{% endblock content %}
+  {% with answers=answers.paginated_object_list %}
+    {% include "question/answer_thumbnails.html" %}
+    {% include "includes/pagination_links_for_answers.html" %}
+  {% endwith %}
+{% endblock %}

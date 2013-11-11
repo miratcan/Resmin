@@ -1,11 +1,19 @@
-{% extends "base.html" %}
+{% extends "answers_base.html" %}{% load i18n %}
 
-{% block extra_head %}
-  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
-  <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
+{% block subheader %}
+  {% if profile_user == user %}
+  <div class="subnav">
+    <div class="f_weak db oa wrap">
+      <a class="mrd{% if answers.filter == 'public' %} wb{% endif %}" href="{% url 'profile' user %}">{% trans "My Answers To Public" %}</a>
+      <a class="mrd{% if answers.filter == 'to_followings' %} wb{% endif %}" href="{% url 'my-answers-to-followers' user %}">{% trans "My Answers To Followers" %}</a>
+    </div>
+  </div>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
+  {% with answers=answers.paginated_object_list %}
     {% include "auth/user_detail_inc.html" %}
     {% include "question/answer_thumbnails.html" %}
+  {% endwith %}
 {% endblock content %}

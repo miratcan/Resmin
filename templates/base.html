@@ -23,10 +23,10 @@
     {% endif %}
     {% block extra_messages %}
     {% endblock %}
-    <header id="header" class="bg bb">
+    <header id="header" class="bb bg">
       <div class="oa na wrap">
         <img src="{{ STATIC_URL }}logo-small.png" class="fl mr">
-        <a href="/" class="fl f_weak wb mr pa {% if request.path == '/' %}imp{% endif %}">{% trans "Latest Answers" %}</a>
+        <a href="/" class="fl f_weak wb mr pa {% if page_name == 'index' %}imp{% endif %}">{% trans "Latest Answers" %}</a>
         <a href="/q/" class="fl f_weak wb mr pa {% if request.path == '/q/' %}imp{% endif %}">Sorulara Bak</a>
         <a href="/r/" class="fl f_weak wb mr pa">{% trans "Random Question" %}</a>
         <a href="/hof/" class="fl f_weak wb pa {% if request.path == '/hof/' %}imp{% endif %}">Sevdicekler</a>
@@ -44,7 +44,7 @@
         {% block content %}{% endblock content %}
       </div>
     </div>
-    <footer class="oa tac pbh pth bg bt">
+    <footer class="oa tac pbh pth bt bg">
       <div class="wrap mb">
         <a href="http://twitter.com/mirat/">twitter</a>
         <a class="mld mrd" href="http://resm-in.tumblr.com/">blog</a>

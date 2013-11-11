@@ -67,29 +67,39 @@ def build_answer_queryset(request, **kwargs):
         queryset = queryset & Q(visible_for=0)
     else:
         if user_is_authenticated:
-            if get_filter == 'followings':
+            if get_filter == 'from_followings':
                 queryset = queryset & Q(
                     visible_for=1, owner_id__in=user.following_user_ids)
-            if get_filter == 'direct':
+            elif get_filter == 'to_followings':
+                queryset = queryset & Q(visible_for=1)
+            elif get_filter == 'direct':
                 queryset = queryset & Q(
                     visible_for=2, visible_for_users=user)
         else:
             return []
 
     if user.is_authenticated():
-        blocked_user_ids = compute_blocked_user_ids_for(user)
-        queryset = queryset & ~Q(owner_id__in=blocked_user_ids)
 
-    return Answer.objects\
+        blocked_user_ids = compute_blocked_user_ids_for(user)
+
+        if blocked_user_ids:
+            queryset = queryset & ~Q(owner_id__in=blocked_user_ids)
+
+    answers = Answer.objects\
         .filter(queryset)\
         .prefetch_related('question__owner__userprofile')\
         .select_related('question__owner__userprofile')
+
+    return {
+        'paginated_object_list': paginated(
+            request, answers, settings.ANSWERS_PER_PAGE),
+        'from': get_from,
+        'filter': get_filter}
 
 
 def index(request, **kwargs):
 
     answers = build_answer_queryset(request, **kwargs)
-    answers_paginated = paginated(request, answers, settings.ANSWERS_PER_PAGE)
 
     if request.user.is_authenticated():
         pending_follow_requests = UserFollow.objects.filter(
@@ -106,8 +116,9 @@ def index(request, **kwargs):
                               visible_for=None).exists()
 
     return render(request,
-                  "question/answer_list.html",
-                  {'answers': answers_paginated,
+                  "index.html",
+                  {'page_name': 'index',
+                   'answers': answers,
                    'show_question_info_below_answers': True,
                    'show_email_message': show_email_message,
                    'show_fix_answers_message': show_fix_answers_message,
@@ -164,9 +175,9 @@ def question(request, base62_id, show_delete=False, **kwargs):
             else:
                 print answer_form.errors
 
-    return render(request, "question/answer_list.html", {
+    return render(request, "question/question_detail.html", {
         'question': question,
-        'answers': paginated(request, answers, settings.ANSWERS_PER_PAGE),
+        'answers': answers,
         'show_delete_action': show_delete_action,
         'answer_form': answer_form,
         'delete_form': delete_form})

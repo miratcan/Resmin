@@ -25,8 +25,8 @@ from django.conf import settings
 from apps.account.models import Invitation, UserProfile
 from apps.account.forms import FollowForm
 
-from apps.question.models import Question, Answer
-
+from apps.question.models import Question
+from apps.question.views import build_answer_queryset
 from apps.follow.models import UserFollow
 
 from datetime import datetime, timedelta
@@ -40,18 +40,17 @@ from apps.account.models import EmailCandidate
 from redis_cache import get_redis_connection
 from tastypie.models import ApiKey
 
-from utils import paginated
 from utils import render_to_json
 
 redis = get_redis_connection('default')
 
 
-def profile(request, username=None, action=None, visible_for=0):
+def profile(request, username=None, action=None, get_filter='public'):
 
     user = get_object_or_404(User, username=username) if username \
         else request.user
 
-    if visible_for != 0 and not request.user == user:
+    if get_filter != 'public' and not request.user == user:
         return HttpResponseNotFound()
 
     user_is_blocked_me, user_is_blocked_by_me,\
@@ -66,7 +65,6 @@ def profile(request, username=None, action=None, visible_for=0):
             request.user.has_pending_follow_request(user)
 
     ctx = {'profile_user': user,
-           'visible_for': visible_for,
            'user_is_blocked_by_me': user_is_blocked_by_me,
            'user_is_blocked_me': user_is_blocked_me,
            'have_pending_follow_request': have_pending_follow_request,
@@ -74,13 +72,9 @@ def profile(request, username=None, action=None, visible_for=0):
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        answers = Answer.objects.filter(owner=user,
-                                        status=0,
-                                        visible_for=visible_for)
+        ctx['answers'] = build_answer_queryset(
+            request, get_from='user', get_filter=get_filter, user=user)
 
-        ctx['answers'] = paginated(request,
-                                   answers,
-                                   settings.ANSWERS_PER_PAGE)
     if action:
         ctx['action'] = action
         follow_form = FollowForm(follower=request.user,
@@ -109,7 +103,7 @@ def profile(request, username=None, action=None, visible_for=0):
 
         ctx['follow_form'] = follow_form
 
-    return render(request, "question/answer_list.html", ctx)
+    return render(request, "auth/user_detail.html", ctx)
 
 
 #TODO: Move this view under follow app
