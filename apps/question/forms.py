@@ -48,8 +48,6 @@ class UpdateAnswerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.requested_by = kwargs.pop('requested_by')
-        self.base_fields['visible_for_users'].queryset = \
-            User.objects.filter(id__in=self.requested_by.follower_user_ids)
         super(UpdateAnswerForm, self).__init__(*args, **kwargs)
 
     def clean(self):
