@@ -26,10 +26,10 @@
         <p>Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?</p>
       {% endif %}
       {% if action == 'follow' %}
-        <p>Bu kullanıcının müridi olmak istiyorsun?</p>
+        <p>Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?</p>
       {% endif %}
       {% if action == 'unfollow' %}
-        <p>Artık bu kullanıcının müridi olmak istemiyorsun?</p>
+        <p>Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?</p>
       {% endif %}
       {% csrf_token %}
       {{ follow_form }}
