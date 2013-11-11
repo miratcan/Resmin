@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-11 18:09+0200\n"
+"POT-Creation-Date: 2013-11-11 19:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,11 +190,45 @@ msgstr "Rasgele Soru"
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/index.html:23 templates/question/question_detail.html:7
+#: templates/index.html:11
+#, python-format
+msgid ""
+"%(pending_follow_requests)s user(s) want to become your disciples. In order "
+"to take a look at the request(s) please <a href=\"%(the_pending_url)s\" "
+"title=\"Click here!\">click here.</a>"
+msgstr ""
+"%(pending_follow_requests)s kişi müridin olmak istiyor. Bekleyen talep(leri) "
+"incelemek için <a href=\"%(the_pending_url)s\" title=\"Buraya tıkla!"
+"\">buraya tıkla."
+
+#: templates/index.html:19
+#, python-format
+msgid ""
+"Your email isn't registered. You can't receive the notifications related "
+"with questions & answers. Also you wouldn't be able to use the password "
+"reminder option. Please  <a href=\"%(the_emailform_url)s\" title=\"Click "
+"here!\">click here</a> to register your email."
+msgstr ""
+"E-posta adresin kayıtlı olmadığı için sorulara ve cevaplara ilişkin "
+"bildirimleri alamıyorsun. Ayrıca şifreni unutursan hatırlatma servisini de "
+"kullanamayacaksın. Lütfen <a href=\"%(the_emailform_url)s\" title=\"Buraya "
+"tıkla!\">buraya tıklayarak</a> e-posta adresini kaydet."
+
+#: templates/index.html:26
+#, python-format
+msgid ""
+"Some of your answers lack the visibility information. Please <a href="
+"\"%(the_fixanswers_url)s\" title=\"Click here!\">click here</a> to update "
+"your answers and decide who can be able to see them."
+msgstr ""
+"Görünürlüğü belirsiz cevapların var. Lütfen <a href=\"%(the_fixanswers_url)s"
+"\">buraya tıklayarak</a> cevaplarını düzenle."
+
+#: templates/index.html:35 templates/question/question_detail.html:7
 msgid "Public Answers"
 msgstr "Umumi Cevaplar"
 
-#: templates/index.html:24 templates/question/question_detail.html:8
+#: templates/index.html:36 templates/question/question_detail.html:8
 msgid "Answers From Followings"
 msgstr "Müridi Olduklarımdan Cevaplar"
 
