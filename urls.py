@@ -108,7 +108,7 @@ urlpatterns = patterns(
     url(r'^q/(?P<base62_id>[-\w]+)/f/$',
         'apps.question.views.question',
         name='question-detail-from-followings',
-        kwargs={'get_filter': 'followings'}),
+        kwargs={'get_filter': 'from_followings'}),
 
 
     url(r'^q/(?P<base62_id>[-\w]+)/delete/$',
