@@ -56,8 +56,7 @@ def profile(request, username=None, action=None, visible_for=0):
 
     user_is_blocked_me, user_is_blocked_by_me,\
         i_am_follower_of_user, have_pending_follow_request \
-            = False, False, False, False
-
+        = False, False, False, False
 
     if request.user.is_authenticated():
         user_is_blocked_me = user.is_blocked_by(request.user)
@@ -112,13 +111,17 @@ def profile(request, username=None, action=None, visible_for=0):
 
     return render(request, "question/answer_list.html", ctx)
 
+
 #TODO: Move this view under follow app
 @login_required
 def pending_follow_requests(request):
     pending_follow_requests = UserFollow.objects.filter(
         status=0, target=request.user)
-    return render(request, 'auth/pending_follow_requests.html',
+    return render(
+        request,
+        'auth/pending_follow_requests.html',
         {'pending_follow_requests': pending_follow_requests})
+
 
 #TODO: Move this view under follow app
 @csrf_exempt
@@ -161,13 +164,12 @@ def update_profile(request):
             return HttpResponseRedirect(
                 reverse('profile',
                         kwargs={'username': request.user.username}))
-
+    avatar_question = Question.objects.get(id=settings.AVATAR_QUESTION_ID)
     return render(
         request,
         "auth/update_profile.html",
         {'form': form,
-         'avatar_question': Question.objects.get(
-            id=settings.AVATAR_QUESTION_ID)})
+         'avatar_question': avatar_question})
 
 
 def register(request):
