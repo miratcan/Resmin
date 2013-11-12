@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-11 19:21+0200\n"
+"POT-Creation-Date: 2013-11-12 17:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -124,12 +124,12 @@ msgstr "Adımı Gizle"
 msgid "Select an image to submit an answer"
 msgstr "Cevap olarak göndereceğin resmi seç"
 
-#: apps/question/forms.py:57
+#: apps/question/forms.py:55
 #, fuzzy
 msgid "You can not update an answer that is not yours."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
 
-#: apps/question/forms.py:73
+#: apps/question/forms.py:71
 msgid "Understood"
 msgstr "Anladım"
 
@@ -232,11 +232,25 @@ msgstr "Umumi Cevaplar"
 msgid "Answers From Followings"
 msgstr "Müridi Olduklarımdan Cevaplar"
 
-#: templates/auth/email_form.html:7
+#: templates/auth/email_form.html:8
 msgid ""
+"We'll use your e-mail address to send you notifications when it's necessary "
+"and we'll never share it with other people."
+msgstr ""
 "Adresini bildirim gereken durumlarda sana e-posta atmak için kullanacağız ve "
 "kimseye vermeyeceğiz."
+
+#: templates/auth/email_form.html:19
+msgid "The link that you've clicked isn't valid. You might try it again. :\\"
 msgstr ""
+"Tıkladığın link yanlış ya da tarihi geçmiş. Tekrar denesen iyi olacak :\\"
+
+#: templates/auth/email_form.html:21
+msgid ""
+"We just sent a link to your e-mail. You can confirm the action clicking on "
+"it."
+msgstr ""
+"E-posta adresine bir link gönderdik, ona tıklayarak işlemi tamamlayabilirsin."
 
 #: templates/auth/pending_follow_requests.html:9
 msgid "Accept"
