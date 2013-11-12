@@ -125,7 +125,6 @@ msgid "Select an image to submit an answer"
 msgstr "Cevap olarak göndereceğin resmi seç"
 
 #: apps/question/forms.py:55
-#, fuzzy
 msgid "You can not update an answer that is not yours."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
 
