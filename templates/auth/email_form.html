@@ -11,7 +11,7 @@
       <form method="post">
         {% csrf_token %}
         {{ form }}
-        <input class="fr bttn green ra" type="submit">
+        <input class="fr bttn green ra" type="submit" value="{% trans 'Submit your e-mail' %}">
       </form>
     </div>
   {% else %}
