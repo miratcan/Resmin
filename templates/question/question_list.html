@@ -30,7 +30,7 @@
   <form method="get" id="search_form">
     {{ search_form.q }}
     {% if search_form.is_bound and user.is_authenticated %}
-      <p class="fl">Aradığın soru daha önce sorulmamış ise <a class="imp" href="#" onclick="$('#create_form').show('slow'); $('#search_form').hide('slow');">buraya tıklayarak</a> sen sorabilirsin.</p>
+      <p class="fl">{% blocktrans %}If the question you're searching for wasn't previously asked, <a class="imp" href="#" onclick="$('#create_form').show('slow'); $('#search_form').hide('slow');">click here</a> to ask it now.{% endblocktrans %}</p>
     {% endif %}
     <input type="submit" class="fr bttn green ra" value="{% trans "Search" %}">
   </form>
