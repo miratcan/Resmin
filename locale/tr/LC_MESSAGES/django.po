@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-12 19:33+0200\n"
+"POT-Creation-Date: 2013-11-14 12:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -189,6 +189,34 @@ msgstr "Rasgele Soru"
 msgid "Login"
 msgstr "Giriş Yap"
 
+#: templates/base.html:50
+msgid "twitter"
+msgstr ""
+
+#: templates/base.html:51
+msgid "blog"
+msgstr ""
+
+#: templates/base.html:52
+msgid "suggestions"
+msgstr "istek & öneri"
+
+#: templates/base.html:53
+msgid "api"
+msgstr ""
+
+#: templates/base.html:57
+msgid ""
+"Non of the images & content that appear at this site are real. Site content "
+"might not be convenient for kids & minors. Users who create the questions & "
+"share the images are responsible and liable from their content. Every "
+"content should be conveniently credited. By the way Why do you just copy "
+"when you can create something original?"
+msgstr ""
+"Bu sitedeki fotoğrafların hiç biri gerçek değildir. Site içeriği küçükler "
+"için sakıncalı olabilir. Sorulardan ve gönderilen cevaplardan göndericileri "
+"sorumludur. Kaynak göstermeden alıntılanamaz. Zaten niye alıntılıyorsun?"
+
 #: templates/index.html:11
 #, python-format
 msgid ""
@@ -257,6 +285,22 @@ msgstr ""
 #: templates/auth/hof.html:4
 msgid "Users receiving most hearts"
 msgstr "En çok kalp toplayan kullanıcılar"
+
+#: templates/auth/invitations.html:4
+msgid "Davetiyeler"
+msgstr ""
+
+#: templates/auth/invitations.html:8
+msgid ""
+"Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin "
+"kişiye kutucuklardaki linklerden birini vermek. Aktif olacağını, güzel "
+"paylaşımlarda bulunacağını düşündüğün kişileri çağırırmalısın. Uzaktan "
+"izleyenleri sevmiyoruz. :)"
+msgstr ""
+
+#: templates/auth/invitations.html:14
+msgid "Hiç davetiyeniz yok :("
+msgstr ""
 
 #: templates/auth/pending_follow_requests.html:9
 msgid "Accept"
