@@ -1,8 +1,9 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block content %}
 	<form method="post" class="bg ra ba pa narrow">
 		{% csrf_token w%}
 		{{ update_answer_form }}
-		<input class="bttn fr green ra" type="submit" />
+		<input class="bttn fr green ra" type="submit" value="{% trans 'Submit' %}" />
 	</form>
 {% endblock %}
