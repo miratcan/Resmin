@@ -10,7 +10,7 @@
     <div class="oa mb bb">
       <div id="file-select-box" class="tac pa bg-dark file-select-box">
 
-        Göndermek istediğin resmi seçmek için tıkla
+        {% trans 'Click and choose the image that you want to send' %}
         {% if answer_form.image.errors %}
           {{ answer_form.image.errors }}
         {% endif %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-14 14:02+0200\n"
+"POT-Creation-Date: 2013-11-14 14:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -417,6 +417,10 @@ msgstr ""
 #: templates/question/answer_detail.html:76
 msgid "Baya baya eminsin yani? Bu işlem geri alınamıyor da?"
 msgstr ""
+
+#: templates/question/answer_form_inc.html:13
+msgid "Click and choose the image that you want to send"
+msgstr "Göndermek istediğin resmi seçmek için tıkla"
 
 #: templates/question/answer_form_inc.html:44
 #: templates/question/question_list.html:46
