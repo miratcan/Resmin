@@ -1,2 +1,2 @@
 -r requirements
-debug-toolbar
+django-debug-toolbar
