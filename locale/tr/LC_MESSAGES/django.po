@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-05 11:34+0200\n"
+"POT-Creation-Date: 2013-11-14 14:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,39 +79,39 @@ msgstr "konum"
 msgid "email"
 msgstr "e-posta"
 
-#: apps/account/views.py:99
+#: apps/account/views.py:92
 msgid "Follow request sent to user"
-msgstr "Mürit olma isteyin kullanıcıya gönderildi"
+msgstr "Mürit olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:102
+#: apps/account/views.py:95
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının müridi değilsin"
 
-#: apps/account/views.py:105
+#: apps/account/views.py:98
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:108
+#: apps/account/views.py:101
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:156
+#: apps/account/views.py:157
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:177
+#: apps/account/views.py:179
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:215
+#: apps/account/views.py:217
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:236
+#: apps/account/views.py:238
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
-#: apps/account/views.py:253
+#: apps/account/views.py:255
 msgid "E-mail confirmation"
 msgstr "E-Posta onayı"
 
@@ -124,12 +124,11 @@ msgstr "Adımı Gizle"
 msgid "Select an image to submit an answer"
 msgstr "Cevap olarak göndereceğin resmi seç"
 
-#: apps/question/forms.py:58
-#, fuzzy
+#: apps/question/forms.py:55
 msgid "You can not update an answer that is not yours."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
 
-#: apps/question/forms.py:74
+#: apps/question/forms.py:71
 msgid "Understood"
 msgstr "Anladım"
 
@@ -153,23 +152,23 @@ msgstr "Herkese"
 msgid "My Followers"
 msgstr "Takipçilerime"
 
-#: apps/question/views.py:134
+#: apps/question/views.py:157
 msgid "Your question is deleted"
 msgstr "Sorun silindi"
 
-#: apps/question/views.py:163
+#: apps/question/views.py:189
 msgid "Enter word(s) that you want to search in questions"
 msgstr "Sorular içinde aramak istediğin kelime/yi/leri yaz"
 
-#: apps/question/views.py:166
+#: apps/question/views.py:192
 msgid "Submit a question"
 msgstr "Bir soru gönder"
 
-#: apps/question/views.py:199
+#: apps/question/views.py:225
 msgid "Your answer deleted"
 msgstr "Cevabın silindi"
 
-#: apps/question/views.py:226
+#: apps/question/views.py:252
 #, fuzzy
 msgid "Your answer updated"
 msgstr "Cevabın silindi"
@@ -178,30 +177,174 @@ msgstr "Cevabın silindi"
 msgid "Answer questions with pics."
 msgstr "Sorulara fotoğraflarla cevap ver"
 
-#: templates/base.html:33
+#: templates/base.html:30
 msgid "Latest Answers"
 msgstr "Son Cevaplar"
 
-#: templates/base.html:35
+#: templates/base.html:32
 msgid "Random Question"
 msgstr "Rasgele Soru"
 
-#: templates/base.html:41 templates/auth/login.html:12
+#: templates/base.html:38 templates/auth/login.html:13
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/index.html:48 templates/question/question_sentence.html:5
-msgid "asked by"
-msgstr "diye sordu"
+#: templates/base.html:50
+msgid "twitter"
+msgstr ""
 
-#: templates/index.html:48 templates/question/question_sentence.html:5
+#: templates/base.html:51
+msgid "blog"
+msgstr ""
+
+#: templates/base.html:52 templates/base.html.py:72
+msgid "suggestions"
+msgstr "istek & öneri"
+
+#: templates/base.html:53
+msgid "api"
+msgstr ""
+
+#: templates/base.html:57
+msgid ""
+"Non of the images & content that appear at this site are real. Site content "
+"might not be convenient for kids & minors. Users who create the questions & "
+"share the images are responsible and liable from their content. Every "
+"content should be conveniently credited. By the way Why do you just copy "
+"when you can create something original?"
+msgstr ""
+"Bu sitedeki fotoğrafların hiç biri gerçek değildir. Site içeriği küçükler "
+"için sakıncalı olabilir. Sorulardan ve gönderilen cevaplardan göndericileri "
+"sorumludur. Kaynak göstermeden alıntılanamaz. Zaten niye alıntılıyorsun?"
+
+#: templates/index.html:11
 #, python-format
-msgid "got %(count)s answers"
-msgstr "%(count)s cevap aldı"
+msgid ""
+"%(pending_follow_requests)s user(s) want to become your disciples. In order "
+"to take a look at the request(s) please <a href=\"%(the_pending_url)s\" "
+"title=\"Click here!\">click here.</a>"
+msgstr ""
+"%(pending_follow_requests)s kişi müridin olmak istiyor. Bekleyen talep(leri) "
+"incelemek için <a href=\"%(the_pending_url)s\" title=\"Buraya tıkla!"
+"\">buraya tıkla."
 
-#: templates/auth/register.html:12
+#: templates/index.html:19
+#, python-format
+msgid ""
+"Your email isn't registered. You can't receive the notifications related "
+"with questions & answers. Also you wouldn't be able to use the password "
+"reminder option. Please  <a href=\"%(the_emailform_url)s\" title=\"Click "
+"here!\">click here</a> to register your email."
+msgstr ""
+"E-posta adresin kayıtlı olmadığı için sorulara ve cevaplara ilişkin "
+"bildirimleri alamıyorsun. Ayrıca şifreni unutursan hatırlatma servisini de "
+"kullanamayacaksın. Lütfen <a href=\"%(the_emailform_url)s\" title=\"Buraya "
+"tıkla!\">buraya tıklayarak</a> e-posta adresini kaydet."
+
+#: templates/index.html:26
+#, python-format
+msgid ""
+"Some of your answers lack the visibility information. Please <a href="
+"\"%(the_fixanswers_url)s\" title=\"Click here!\">click here</a> to update "
+"your answers and decide who can be able to see them."
+msgstr ""
+"Görünürlüğü belirsiz cevapların var. Lütfen <a href=\"%(the_fixanswers_url)s"
+"\">buraya tıklayarak</a> cevaplarını düzenle."
+
+#: templates/index.html:35 templates/question/question_detail.html:7
+msgid "Public Answers"
+msgstr "Umumi Cevaplar"
+
+#: templates/index.html:36 templates/question/question_detail.html:8
+msgid "Answers From Followings"
+msgstr "Müridi Olduklarımdan Cevaplar"
+
+#: templates/auth/email_form.html:8
+msgid ""
+"We'll use your e-mail address to send you notifications when it's necessary "
+"and we'll never share it with other people."
+msgstr ""
+"Adresini bildirim gereken durumlarda sana e-posta atmak için kullanacağız ve "
+"kimseye vermeyeceğiz."
+
+#: templates/auth/email_form.html:14
+msgid "Submit your e-mail"
+msgstr "Gönder"
+
+#: templates/auth/email_form.html:19
+msgid "The link that you've clicked isn't valid. You might try it again."
+msgstr "Tıkladığın link yanlış ya da tarihi geçmiş. Tekrar denesen iyi olacak."
+
+#: templates/auth/email_form.html:21
+msgid ""
+"We just sent a link to your e-mail. You can confirm the action clicking on "
+"it."
+msgstr ""
+"E-posta adresine bir link gönderdik, ona tıklayarak işlemi tamamlayabilirsin."
+
+#: templates/auth/hof.html:4
+msgid "Users receiving most hearts"
+msgstr "En çok kalp toplayan kullanıcılar"
+
+#: templates/auth/invitations.html:4
+msgid "Davetiyeler"
+msgstr ""
+
+#: templates/auth/invitations.html:8
+msgid ""
+"Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin "
+"kişiye kutucuklardaki linklerden birini vermek. Aktif olacağını, güzel "
+"paylaşımlarda bulunacağını düşündüğün kişileri çağırırmalısın. Uzaktan "
+"izleyenleri sevmiyoruz. :)"
+msgstr ""
+
+#: templates/auth/invitations.html:14
+msgid "Hiç davetiyeniz yok :("
+msgstr ""
+
+#: templates/auth/pending_follow_requests.html:9
+msgid "Accept"
+msgstr "Kabul ediyorum"
+
+#: templates/auth/pending_follow_requests.html:10
+msgid "Decline"
+msgstr "Görmezden gel"
+
+#: templates/auth/register.html:13
 msgid "Register"
 msgstr "Kayıt Ol"
+
+#: templates/auth/user_detail.html:7
+msgid "My Answers To Public"
+msgstr "Umumi Cevaplarım"
+
+#: templates/auth/user_detail.html:8
+msgid "My Answers To Followers"
+msgstr "Müritlerim İçin Cevaplarım"
+
+#: templates/auth/user_detail_inc.html:23
+msgid ""
+"Blocking this user means that you wouldn't dispose any of your questions or "
+"answers while you wouldn't be to see any question or answer. Is this cool?"
+msgstr ""
+"Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da "
+"senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?"
+
+#: templates/auth/user_detail_inc.html:26
+msgid ""
+"As you unblock you'd be able to see questions & answers by this user who "
+"would also be able to access your contributions. Am I magnificient?"
+msgstr ""
+"Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını "
+"görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?"
+
+#: templates/auth/user_detail_inc.html:29
+msgid "You want to be a disciple of this user. You're nuts..."
+msgstr "Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?"
+
+#: templates/auth/user_detail_inc.html:32
+msgid "Me don't want no more contact with this user. Ummmm are you bored?"
+msgstr "Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?"
 
 #: templates/auth/user_detail_inc.html:41
 msgid "Update Profile"
@@ -215,23 +358,23 @@ msgstr "E-Posta Güncelle"
 msgid "Log Out"
 msgstr "Çıkış Yap"
 
-#: templates/auth/user_detail_inc.html:46
+#: templates/auth/user_detail_inc.html:47
 msgid "Unblock"
 msgstr "Engeli Kaldır"
 
-#: templates/auth/user_detail_inc.html:49
+#: templates/auth/user_detail_inc.html:50
 msgid "Unfollow"
 msgstr "Müritlikten Çık"
 
-#: templates/auth/user_detail_inc.html:52
+#: templates/auth/user_detail_inc.html:53
 msgid "Your follow request sent"
 msgstr "Mürit Olma İsteği Gönderilmiş"
 
-#: templates/auth/user_detail_inc.html:54
+#: templates/auth/user_detail_inc.html:55
 msgid "Follow"
 msgstr "Müridi Ol"
 
-#: templates/auth/user_detail_inc.html:57
+#: templates/auth/user_detail_inc.html:58
 msgid "Block"
 msgstr "Engelle"
 
@@ -239,67 +382,96 @@ msgstr "Engelle"
 msgid "Anonymouse user"
 msgstr "Gizli kullanıcı"
 
-#: templates/question/answer_detail.html:50
-#, fuzzy
-msgid "Update"
-msgstr "E-Posta Güncelle"
+#: templates/question/answer_detail.html:36
+msgid "Kalpleyenler"
+msgstr ""
 
-#: templates/question/answer_detail.html:54
+#: templates/question/answer_detail.html:44
+msgid "Kalpleyenler sadece cevap sahibi tarafından görüntülenebilir."
+msgstr ""
+
+#: templates/question/answer_detail.html:49
+msgid "Update Answer"
+msgstr "Cevap Güncelle"
+
+#: templates/question/answer_detail.html:53
 msgid "Delete Answer"
 msgstr "Cevabı Sil"
 
-#: templates/question/answer_detail.html:61
+#: templates/question/answer_detail.html:60
 msgid "Answer is deleted by it's owner"
 msgstr "Bu cevap sahibi tarafından silinmiş"
 
-#: templates/question/answer_detail.html:63
+#: templates/question/answer_detail.html:62
 msgid "Answer is deleted by admins"
 msgstr "Bu cevap adminler tarafından silinmiş"
 
-#: templates/question/answer_detail.html:65
+#: templates/question/answer_detail.html:64
 msgid "This answer is not visible for you"
 msgstr "Bu cevabı görmeye hakkın yok"
 
-#: templates/question/answer_form_inc.html:5
+#: templates/question/answer_detail.html:74
+msgid "Bu cevabı silmek istediğinden emin misin?"
+msgstr ""
+
+#: templates/question/answer_detail.html:76
+msgid "Baya baya eminsin yani? Bu işlem geri alınamıyor da?"
+msgstr ""
+
+#: templates/question/answer_form_inc.html:13
+msgid "Click and choose the image that you want to send"
+msgstr "Göndermek istediğin resmi seçmek için tıkla"
+
+#: templates/question/answer_form_inc.html:44
 #: templates/question/question_list.html:46
 msgid "Submit"
 msgstr "Gönder"
-
-#: templates/question/answer_list.html:31
-msgid "My Answers To Public"
-msgstr "Umumi Cevaplarım"
-
-#: templates/question/answer_list.html:33
-msgid "My Answers To Followers"
-msgstr "Müritlerim İçin Cevaplarım"
-
-#: templates/question/answer_list.html:34
-msgid "My Direct Answers"
-msgstr "Direkt Cevapların"
-
-#: templates/question/answer_list.html:40
-msgid "Public Answers"
-msgstr "Umumi Cevaplar"
-
-#: templates/question/answer_list.html:42
-msgid "Answers From Followings"
-msgstr "Müridi Olduklarımdan Cevaplar"
-
-#: templates/question/answer_list.html:43
-msgid "Direct Answers"
-msgstr "Bana Özel Cevaplar"
 
 #: templates/question/answer_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
 
-#: templates/question/fix_answers.html:26
-msgid "Save"
-msgstr "Kaydet"
+#: templates/question/question_list.html:33
+msgid ""
+"If the question you're searching for wasn't previously asked, <a class=\"imp"
+"\" href=\"#\" onclick=\"$('#create_form').show('slow'); $('#search_form')."
+"hide('slow');\">click here</a> to ask it now."
+msgstr ""
+"Aradığın soru daha önce sorulmamış ise <a class=\"imp\" href=\"#\" onclick="
+"\"$('#create_form').show('slow'); $('#search_form').hide('slow');\">buraya "
+"tıklayarak</a> sen sorabilirsin."
 
 #: templates/question/question_list.html:35
 msgid "Search"
 msgstr "Ara"
+
+#: templates/question/question_sentence.html:5
+msgid "asked by"
+msgstr "diye sordu"
+
+#: templates/question/question_sentence.html:5
+#, python-format
+msgid "got %(count)s answers"
+msgstr "%(count)s cevap aldı"
+
+#~ msgid ""
+#~ "<a class=\"wb\" href=\"%(answer.question.get_absolute_url)s\">%(answer."
+#~ "question)s</a> sorusuna cevap olarak %(answer.created_at)s tarihinde "
+#~ "%(answer.get_visible_for_display|lower)s gözükecek şekilde gönderildi."
+#~ msgstr ""
+#~ "<a class=\"wb\" title=\"%(answer.question)s\" href=\"%(answer.question."
+#~ "get_absolute_url)s\">%(answer.question)s</a> sorusuna cevap olarak "
+#~ "%(answer.created_at)s tarihinde %(answer.get_visible_for_display|lower)s "
+#~ "gözükecek şekilde gönderildi."
+
+#~ msgid "My Direct Answers"
+#~ msgstr "Direkt Cevapların"
+
+#~ msgid "Direct Answers"
+#~ msgstr "Bana Özel Cevaplar"
+
+#~ msgid "Save"
+#~ msgstr "Kaydet"
 
 #~ msgid "Selected Users"
 #~ msgstr "Seçtiğim Kişilere"

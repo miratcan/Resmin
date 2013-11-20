@@ -1,4 +1,6 @@
 <p class="">
 	{% include "auth/username_inc.html" with user=answer.question.owner %}: {{ answer.question.text }}
 </p>
-<p>{% include "auth/username_inc.html" with user=answer.owner %}:</p>
+<p>
+	{% include "auth/username_inc.html" with user=answer.owner %}:
+</p>

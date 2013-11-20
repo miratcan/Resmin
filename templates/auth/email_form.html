@@ -5,20 +5,20 @@
 <div class="narrow fc">
   {% if form %}
     <div class="panel-right">
-      <p class="mb">{% trans 'Adresini bildirim gereken durumlarda sana e-posta atmak için kullanacağız ve kimseye vermeyeceğiz.' %}</p>
+      <p class="mb">{% trans "We'll use your e-mail address to send you notifications when it's necessary and we'll never share it with other people." %}</p>
     </div>
     <div class="panel-left">
       <form method="post">
         {% csrf_token %}
         {{ form }}
-        <input class="fr bttn green ra" type="submit">
+        <input class="fr bttn green ra" type="submit" value="{% trans 'Submit your e-mail' %}">
       </form>
     </div>
   {% else %}
     {% if key_wrong %}
-      <p class="imp f_stng tac pad">Tıkladığın link yanlış ya da tarihi geçmiş. Tekrar denesen iyi olacak :\</p>
+      <p class="imp f_stng tac pad">{% trans "The link that you've clicked isn't valid. You might try it again." %} :\</p>
     {% else %}
-      <p class="imp f_stng tac pad">E-posta adresine bir link gönderdik, ona tıklayarak işlemi tamamlayabilirsin.</p>
+      <p class="imp f_stng tac pad">{% trans "We just sent a link to your e-mail. You can confirm the action clicking on it." %}</p>
     {% endif %}
   {% endif %}
 </div>

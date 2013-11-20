@@ -33,7 +33,7 @@
       <p class="mb pb bb"><a class="wb" href="{{ answer.question.get_absolute_url }}">{{ answer.question}}</a> sorusuna cevap olarak {{ answer.created_at }} tarihinde {{ answer.get_visible_for_display|lower }} gözükecek şekilde gönderildi.</p>
 
       {% if answer.like_score %}
-        <h2 class="mb">Kalpleyenler</h2>
+        <h2 class="mb">{% trans "Kalpleyenler" %}</h2>
         {% if answer.owner == user or user.is_staff %}
           <p class="mbd">
             {% for user in answer.likers %}
@@ -41,12 +41,12 @@
             {% endfor %}
           </p>
         {% else %}
-          <p class="mbd">Kalpleyenler sadece cevap sahibi tarafından görüntülenebilir.</p>
+          <p class="mbd">{% trans "Kalpleyenler sadece cevap sahibi tarafından görüntülenebilir." %}</p>
         {% endif %}
       {% endif %}
       {% if answer.owner == user %}
         <h3 class="mb">Aksiyonlar</h3>
-        <a class="pa ra fl bttn green" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update" %}</a>
+        <a class="pa ra fl bttn green" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update Answer" %}</a>
         <form id="delete_form" method="post">
           {% csrf_token %}
           <input type="hidden" name="delete" />
@@ -71,9 +71,9 @@
   {% block extra_foot %}
     <script>
       $('#delete_form').submit(function() {
-        var confirmed1 = confirm('Bu cevabı silmek istediğinden emin misin?');
+        var confirmed1 = confirm('{% trans "Bu cevabı silmek istediğinden emin misin?" %}');
         var confirmed2 = false;
-        if (confirmed1) {confirmed2 = confirm('Baya baya eminsin yani? Bu işlem geri alınamıyor da?');}
+        if (confirmed1) {confirmed2 = confirm('{% trans "Baya baya eminsin yani? Bu işlem geri alınamıyor da?" %}');}
         return confirmed1 && confirmed2;
       })
     </script>

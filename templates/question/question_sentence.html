@@ -4,7 +4,6 @@
 
   <span class="f_tiny c_weak wn">{% if question.is_anonymouse == True or question.is_deleted == False %} {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %},{% endif %} {% blocktrans with count=question.answers_count %}got {{ count }} answers{% endblocktrans %}.</span>
 
-
   {% if question.owner == user and show_delete_action %}<a class="action ml" href="{{ question.get_deletion_url }}">Sil</a>{% endif %}
 
   {% if not question.is_deleted %}

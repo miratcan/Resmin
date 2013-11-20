@@ -46,14 +46,14 @@
     </div>
     <footer class="oa tac pbh pth bt bg">
       <div class="wrap mb">
-        <a href="http://twitter.com/mirat/">twitter</a>
-        <a class="mld mrd" href="http://resm-in.tumblr.com/">blog</a>
-        <a class="mld mrd" href="https://resmin.uservoice.com/forums/219051-general">istek & öneri</a>
-        <a href="http://resm-in.tumblr.com/post/59702522278/resm-in-api-ilk-nefes">api</a>
+        <a href="http://twitter.com/mirat/">{% trans 'twitter' %}</a>
+        <a class="mld mrd" href="http://resm-in.tumblr.com/">{% trans 'blog' %}</a>
+        <a class="mld mrd" href="https://resmin.uservoice.com/forums/219051-general">{% trans 'suggestions' %}</a>
+        <a href="http://resm-in.tumblr.com/post/59702522278/resm-in-api-ilk-nefes">{% trans 'api' %}</a>
       </div>
       <div class="wrap mb">
         <p class="f_weak c_weak mb">
-          Bu sitedeki fotoğrafların hiç biri gerçek değildir. Site içeriği küçükler için sakıncalı olabilir. Sorulardan ve gönderilen cevaplardan göndericileri sorumludur. Kaynak göstermeden alıntılanamaz. Zaten niye alıntılıyorsun?</p>
+          {% trans 'Non of the images & content that appear at this site are real. Site content might not be convenient for kids & minors. Users who create the questions & share the images are responsible and liable from their content. Every content should be conveniently credited. By the way Why do you just copy when you can create something original?' %}</p>
       </div>
     </footer>
   {% block extra_foot %}{% endblock %}
@@ -68,7 +68,7 @@
       link_color: '#c15d64',
       default_mode: 'feedback',
       forum_id: 219051,
-      tab_label: 'Öneri & İstek',
+      tab_label: '{% trans 'suggestions' %}',
       tab_color: '#c15d64',
       tab_position: 'middle-right',
       tab_inverted: false
