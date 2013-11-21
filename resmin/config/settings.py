@@ -32,7 +32,7 @@ DEFAULT_FROM_EMAIL = EMAIL_FROM
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 PROJECT_ROOT = os.path.dirname(
-    os.path.abspath(os.path.join(__file__.decode('utf-8'), '..'))
+    os.path.abspath(os.path.join(__file__.decode('utf-8'), '..', '..'))
 )
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
@@ -43,7 +43,7 @@ STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "sitestatic/"), )
 
-LOCALE_PATHS = [os.path.join(PROJECT_ROOT, "locale/"), ]
+LOCALE_PATHS = [os.path.join(PROJECT_ROOT, "locale/"),]
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -73,7 +73,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "templates"), )
+TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "resmin","templates"), )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -178,6 +178,6 @@ ONLY_QUESTIONS_WITHOUT_ANSWERS_CAN_BE_DELETED = True
 SEND_NOTIFICATION_EMAILS = False
 
 try:
-    from config.local_settings import *
+    from resmin.config.local_settings import *
 except:
     pass
