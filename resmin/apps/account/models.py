@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.conf import settings
 from django.utils.translation import ugettext as _
 
-from apps.question.models import Answer, BaseModel
+from apps.question.models import BaseModel
 from apps.follow.models import UserFollow
 
 from libs import key_generator

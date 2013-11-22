@@ -2,9 +2,7 @@
 
 # Django settings for cb project.
 import os
-import djcelery
-
-djcelery.setup_loader()
+import sys
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -34,6 +32,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 PROJECT_ROOT = os.path.dirname(
     os.path.abspath(os.path.join(__file__.decode('utf-8'), '..', '..'))
 )
+
+sys.path.append(os.path.join(PROJECT_ROOT, 'resmin'))
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
@@ -168,6 +168,8 @@ PIPELINE_JS = {
         'output_filename': 'js/ga.js',
     }
 }
+
+BROKER_URL = 'redis://localhost:6379/0'
 
 AVATAR_QUESTION_ID = 808
 DEFAULT_AVATAR_ANSWER_ID = 7

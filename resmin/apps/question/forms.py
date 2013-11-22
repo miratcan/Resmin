@@ -96,7 +96,7 @@ class DeleteQuestionForm(forms.Form):
 
         if answers.count():
             self.question.status = 1
-            self.question.save()
+            self.question.save(fields=['status'])
         else:
             self.question.delete()
 

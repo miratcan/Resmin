@@ -1,23 +1,16 @@
 from django.contrib.auth.models import User, AnonymousUser
-
 from django.core.urlresolvers import reverse
-
+from django.conf import settings
+from django.db import models
+from django.db.models.signals import post_save, pre_save, post_delete
+from django.dispatch import receiver
 from django.utils.translation import ugettext as _
 
-from django.db import models
-from django.db.models.signals import post_save
-
-from django.dispatch import receiver
-
-from django.conf import settings
-
-from libs.baseconv import base62
-
 from datetime import datetime
+from redis_cache import get_redis_connection
 
 from utils import unique_filename_for_answer
-
-from redis_cache import get_redis_connection
+from libs.baseconv import base62
 
 
 redis = get_redis_connection('default')
@@ -103,15 +96,16 @@ class Question(BaseModel):
     def get_deletion_url(self):
         return '%sdelete/' % self.get_absolute_url()
 
+    def update_answers_count(self):
+        """Updates answers_count but does not saves question
+        instance, it have to be saved later."""
+        self.answers_count = self.answer_set.filter(status=0).count()
+
+    def update_updated_at(self):
+        self.updated_at = datetime.now()
+
     def related_answers(self):
         return self.answer_set.filter(status=0)
-
-
-@receiver(post_save, sender=Question)
-def question_saved_handler(sender, **kwargs):
-    from apps.question.tasks import new_question_handler
-    new_question_handler(kwargs['instance'])
-
 
 class Answer(BaseModel):
     question = models.ForeignKey(Question)
@@ -136,6 +130,10 @@ class Answer(BaseModel):
     objects = AnswerManager()
 
     LIKES_SET_PATTERN = 'answer:%s:likes'
+
+    @property
+    def is_deleted(self):
+        return bool(self.status)
 
     def get_absolute_url(self):
         return reverse('answer', kwargs={
@@ -215,26 +213,31 @@ class Answer(BaseModel):
         ordering = ['-created_at']
 
 
-@receiver(post_save, sender=Answer)
-def answer_saved_handler(sender, **kwargs):
-    from apps.account.models import UserProfile
-    from apps.question.tasks import new_answer_handler
+@receiver(post_save, sender=Question)
+def question_post_save_callback(sender, **kwargs):
+    from apps.question.tasks import question_post_save_callback_task
+    question_post_save_callback_task.delay(kwargs['instance'])
 
+
+@receiver(pre_save, sender=Answer)
+def answer_pre_save_callback(sender, **kwargs):
+    # If answer.status changed 0 to another, means that it's deleted.
     answer = kwargs['instance']
-    answer.question.answers_count = Answer.objects.filter(
-        question=answer.question, status=0).count()
-    answer.question.save()
+    if answer.pk and not Answer.objects.get(pk=answer.pk).is_deleted \
+        and answer.is_deleted:
+        post_delete.send(answer)
 
-    # If answer is deleted by owner or admins reduce score of answer owner
-    # and delete related like objects from db.
-    if answer.status in (1, 2):
-        redis.zincrby(UserProfile.scoreboard_key(), answer.owner.username,
-                      -len(list(answer.likers())))
-        redis.delete(answer._like_set_key())
-        return
 
-    # Update updated_at of related question
-    answer.question.updated_at = datetime.now()
-    answer.question.save()
+@receiver(post_delete, sender=Answer)
+def answer_post_delete_callback(sender, **kwargs):
+    from apps.account.models import UserProfile
+    answer = kwargs['instance']
+    redis.zincrby(UserProfile.scoreboard_key(), answer.owner.username,
+                  -len(list(answer.likers())))
+    redis.delete(answer._like_set_key())
 
-    new_answer_handler(kwargs['instance'])
+
+@receiver(post_save, sender=Answer)
+def answer_post_save_callback(sender, **kwargs):
+    from apps.question.tasks import answer_post_save_callback_task
+    answer_post_save_callback_task.delay(kwargs['instance'])
