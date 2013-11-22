@@ -7,7 +7,7 @@ class InvitationAdmin(admin.ModelAdmin):
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'bio', 'like_score')
+    list_display = ('user', 'bio', 'like_count')
 
 admin.site.register(Invitation, InvitationAdmin)
 admin.site.register(UserProfile, ProfileAdmin)

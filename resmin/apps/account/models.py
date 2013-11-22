@@ -27,9 +27,9 @@ class UserProfile(models.Model):
 
     @staticmethod
     def scoreboard_key():
-        return 'like_scoreboard'
+        return 'like_countboard'
 
-    def like_score(self):
+    def like_count(self):
         return int(redis.zscore(self.scoreboard_key(), self.user.username))
 
     # TODO: DENORMALIZE IT

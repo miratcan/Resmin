@@ -54,19 +54,17 @@ class Question(BaseModel):
     merged_to = models.ForeignKey(
         'self', null=True, blank=True, related_name='m_to')
     answers_count = models.PositiveIntegerField(default=0)
-
     status = models.PositiveSmallIntegerField(
         default=0, choices=((0, 'Published '),
                             (1, 'Deleted by Owner'),
                             (2, 'Deleted by Admins')))
-
     objects = QuestionManager()
-
-    def __unicode__(self):
-        return unicode(self.text)
 
     class Meta:
         ordering = ["-is_featured", "-updated_at"]
+
+    def __unicode__(self):
+        return unicode(self.text)
 
     @property
     def is_deleted(self):
@@ -92,9 +90,9 @@ class Question(BaseModel):
         return reverse('question', kwargs={
             'base62_id': base62.from_decimal(self.id)})
 
-    # FIXME: get_delete_url
     def get_deletion_url(self):
-        return '%sdelete/' % self.get_absolute_url()
+        return reverse('delete_question', kwargs={
+            'base62_id': base62.from_decimal(self.id)})
 
     def update_answers_count(self):
         """Updates answers_count but does not saves question
@@ -104,8 +102,6 @@ class Question(BaseModel):
     def update_updated_at(self):
         self.updated_at = datetime.now()
 
-    def related_answers(self):
-        return self.answer_set.filter(status=0)
 
 class Answer(BaseModel):
     question = models.ForeignKey(Question)
@@ -126,40 +122,12 @@ class Answer(BaseModel):
                  (1, _('My Followers'))))
     visible_for_users = models.ManyToManyField(
         User, related_name='visible_for_users', null=True, blank=True)
-
     objects = AnswerManager()
-
     LIKES_SET_PATTERN = 'answer:%s:likes'
 
     @property
     def is_deleted(self):
         return bool(self.status)
-
-    def get_absolute_url(self):
-        return reverse('answer', kwargs={
-            'base62_id': base62.from_decimal(self.id)})
-
-    def _like_set_key(self):
-        return self.LIKES_SET_PATTERN % self.id
-
-    def set_like(self, user, liked=True):
-        from apps.account.models import UserProfile
-
-        if liked:
-            result = redis.sadd(self._like_set_key(), user.username)
-            if result:
-                redis.zincrby(
-                    UserProfile.scoreboard_key(), self.owner.username, 1)
-        else:
-            result = redis.srem(self._like_set_key(), user.username)
-            if result:
-                redis.zincrby(
-                    UserProfile.scoreboard_key(), self.owner.username, -1)
-        return result
-
-    def likers(self):
-        for username in redis.smembers(self._like_set_key()):
-            yield User(username=username)
 
     def is_liked_by(self, user):
         return redis.sismember(self._like_set_key(), user.username)
@@ -206,7 +174,33 @@ class Answer(BaseModel):
                 is_visible = False
         return is_visible
 
-    def like_score(self):
+    def get_absolute_url(self):
+        return reverse('answer', kwargs={
+            'base62_id': base62.from_decimal(self.id)})
+
+    def _like_set_key(self):
+        return self.LIKES_SET_PATTERN % self.id
+
+    def set_like(self, user, liked=True):
+        from apps.account.models import UserProfile
+
+        if liked:
+            result = redis.sadd(self._like_set_key(), user.username)
+            if result:
+                redis.zincrby(
+                    UserProfile.scoreboard_key(), self.owner.username, 1)
+        else:
+            result = redis.srem(self._like_set_key(), user.username)
+            if result:
+                redis.zincrby(
+                    UserProfile.scoreboard_key(), self.owner.username, -1)
+        return result
+
+    def get_likers(self):
+        for username in redis.smembers(self._like_set_key()):
+            yield User(username=username)
+
+    def like_count(self):
         return redis.scard(self._like_set_key())
 
     class Meta:
@@ -223,9 +217,10 @@ def question_post_save_callback(sender, **kwargs):
 def answer_pre_save_callback(sender, **kwargs):
     # If answer.status changed 0 to another, means that it's deleted.
     answer = kwargs['instance']
-    if answer.pk and not Answer.objects.get(pk=answer.pk).is_deleted \
-        and answer.is_deleted:
-        post_delete.send(answer)
+    if answer.pk:
+        answer_orig = Answer.objects.get(pk=answer.pk)
+        if answer.is_deleted and not answer_orig.is_deleted:
+            post_delete.send(answer)
 
 
 @receiver(post_delete, sender=Answer)
@@ -233,7 +228,7 @@ def answer_post_delete_callback(sender, **kwargs):
     from apps.account.models import UserProfile
     answer = kwargs['instance']
     redis.zincrby(UserProfile.scoreboard_key(), answer.owner.username,
-                  -len(list(answer.likers())))
+                  -len(answer.like_count))
     redis.delete(answer._like_set_key())
 
 

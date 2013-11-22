@@ -2,7 +2,7 @@
 {% with profile=profile_user.userprofile %}
   <div class="oa mbd bg ra ba oa" style="position: relative;">
     <div class="pa fr" >
-    	<p class="pb bb">&#10084; {{ profile.like_score }}</p>
+    	<p class="pb bb">&#10084; {{ profile.like_count }}</p>
     	<p>☍ {{ profile.num_of_followers }}</p>
     </div>
     {% thumbnail profile.avatar "100x100" crop="center" as im %}

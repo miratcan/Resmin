@@ -9,10 +9,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for user in User.objects.all():
-            like_score = 0
+            like_count = 0
             for answer in Answer.objects.filter(owner=user):
-                like_score += answer.like_score
+                like_count += answer.like_count
             profile = user.profile
-            profile.like_score = like_score
+            profile.like_count = like_count
             profile.save()
-            print "updated %s like score %s" % (user, like_score)
+            print "updated %s like score %s" % (user, like_count)

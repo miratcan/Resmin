@@ -10,7 +10,7 @@ $(document).ready(function() {
       },
       dataType: "json",
       success: function(data) {
-        target.find(".count").html(data['like_score']);
+        target.find(".count").html(data['like_count']);
         if (data['status']===true) {
           target.find(".heart").toggleClass("pink");
         }

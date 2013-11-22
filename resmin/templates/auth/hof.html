@@ -4,7 +4,7 @@
 <h2 class="f_stng  mbd ">{% trans 'Users receiving most hearts' %}</h2>
 <ol class="mld pld">
 	{% for user in users %}
-		<li class="mb  ">{% include "auth/username_inc.html" with user=user %} <span class="f_weak c_weak">- {{ user.like_score }}</span></li>
+		<li class="mb  ">{% include "auth/username_inc.html" with user=user %} <span class="f_weak c_weak">- {{ user.like_count }}</span></li>
 	{% endfor %}
 </ol>
 

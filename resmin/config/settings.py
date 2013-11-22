@@ -43,7 +43,7 @@ STATIC_URL = "/static/"
 
 STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "sitestatic/"), )
 
-LOCALE_PATHS = [os.path.join(PROJECT_ROOT, "locale/"),]
+LOCALE_PATHS = [os.path.join(PROJECT_ROOT, "locale/")]
 
 # List of finder classes that know how to find static files in
 # various locations.
@@ -73,7 +73,7 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "resmin","templates"), )
+TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "resmin", "templates"), )
 
 INSTALLED_APPS = (
     'django.contrib.auth',

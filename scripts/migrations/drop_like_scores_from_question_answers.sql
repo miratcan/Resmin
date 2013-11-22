@@ -8,7 +8,7 @@ CREATE TABLE "question_answer_BKP" (
     "is_nsfw" bool NOT NULL,
     "is_anonymouse" bool NOT NULL,
     "status" smallint unsigned NOT NULL,
-    "like_score" int);
+    "like_count" int);
 
 INSERT INTO question_answer_BKP select * from question_answer;
 

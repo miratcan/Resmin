@@ -197,14 +197,14 @@ def hof(request):
     def users(items):
         for item in items:
             user = User(username=item[0])
-            user.like_score = int(item[1])
+            user.like_count = int(item[1])
             yield user
 
     return render(
         request,
         'auth/hof.html',
         {'users': users(redis.zrevrange(
-            "like_scoreboard", 0, 40, withscores=True))})
+            "like_countboard", 0, 40, withscores=True))})
 
 
 @login_required

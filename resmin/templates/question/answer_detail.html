@@ -32,11 +32,11 @@
 
       <p class="mb pb bb"><a class="wb" href="{{ answer.question.get_absolute_url }}">{{ answer.question}}</a> sorusuna cevap olarak {{ answer.created_at }} tarihinde {{ answer.get_visible_for_display|lower }} gözükecek şekilde gönderildi.</p>
 
-      {% if answer.like_score %}
+      {% if answer.like_count %}
         <h2 class="mb">{% trans "Kalpleyenler" %}</h2>
         {% if answer.owner == user or user.is_staff %}
           <p class="mbd">
-            {% for user in answer.likers %}
+            {% for user in answer.get_likers %}
               {% include "auth/username_inc.html" with user=user %}, 
             {% endfor %}
           </p>
