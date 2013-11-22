@@ -208,11 +208,11 @@ class Answer(BaseModel):
         ordering = ['-created_at']
 
 
-@receiver(pre_save, sender=Question)
-def question_pre_save_callback(sender, **kwargs):
-    from apps.question.tasks import question_pre_save_callback_task
-    question_pre_save_callback_task.delay(kwargs['instance'])
-
+@receiver(post_save, sender=Question)
+def question_post_save_callback(sender, **kwargs):
+    from apps.question.tasks import question_post_save_callback_task
+    question_post_save_callback_task.delay(
+        kwargs['instance'], kwargs['created'])
 
 @receiver(pre_save, sender=Answer)
 def answer_pre_save_callback(sender, **kwargs):

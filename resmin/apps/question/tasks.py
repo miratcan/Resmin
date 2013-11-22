@@ -6,8 +6,8 @@ from utils import (_send_notification_emails_to_followers_of_question,
 
 
 @app.task
-def question_pre_save_callback_task(question):
-    if not question.pk and question.owner.email and not \
+def question_post_save_callback_task(question, created):
+    if created and question.owner.email and not \
        QuestionFollow.objects.filter(follower=question.owner,
                                      target=question).exists():
         QuestionFollow.objects.create(
