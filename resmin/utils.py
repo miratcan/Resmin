@@ -72,8 +72,8 @@ def _send_notification_emails_to_followers_of_question(new_answer):
 
 
 def _set_avatar_to_answer(answer):
-    answer.owner.avatar = answer.image
-    answer.owner.save()
+    answer.owner.userprofile.avatar = answer.image
+    answer.owner.userprofile.save(update_fields=['avatar'])
 
 
 def render_to_json(data):

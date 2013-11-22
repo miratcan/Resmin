@@ -24,8 +24,6 @@ def answer_post_save_callback_task(answer):
     if settings.SEND_NOTIFICATION_EMAILS:
         _send_notification_emails_to_followers_of_question(answer)
 
-    print answer.question.id, settings.AVATAR_QUESTION_ID
-
     # Set avatar for user if necessary
     if answer.question.id == settings.AVATAR_QUESTION_ID:
         _set_avatar_to_answer(answer)
