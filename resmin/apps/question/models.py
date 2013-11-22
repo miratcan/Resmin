@@ -200,6 +200,7 @@ class Answer(BaseModel):
         for username in redis.smembers(self._like_set_key()):
             yield User(username=username)
 
+    @property
     def like_count(self):
         return redis.scard(self._like_set_key())
 
@@ -207,10 +208,10 @@ class Answer(BaseModel):
         ordering = ['-created_at']
 
 
-@receiver(post_save, sender=Question)
-def question_post_save_callback(sender, **kwargs):
-    from apps.question.tasks import question_post_save_callback_task
-    question_post_save_callback_task.delay(kwargs['instance'])
+@receiver(pre_save, sender=Question)
+def question_pre_save_callback(sender, **kwargs):
+    from apps.question.tasks import question_pre_save_callback_task
+    question_pre_save_callback_task.delay(kwargs['instance'])
 
 
 @receiver(pre_save, sender=Answer)
@@ -219,8 +220,8 @@ def answer_pre_save_callback(sender, **kwargs):
     answer = kwargs['instance']
     if answer.pk:
         answer_orig = Answer.objects.get(pk=answer.pk)
-        if answer.is_deleted and not answer_orig.is_deleted:
-            post_delete.send(answer)
+        if answer.pk and answer.is_deleted and not answer_orig.is_deleted:
+            post_delete.send(sender=Answer, instance=answer)
 
 
 @receiver(post_delete, sender=Answer)
@@ -228,7 +229,7 @@ def answer_post_delete_callback(sender, **kwargs):
     from apps.account.models import UserProfile
     answer = kwargs['instance']
     redis.zincrby(UserProfile.scoreboard_key(), answer.owner.username,
-                  -len(answer.like_count))
+                  -answer.like_count)
     redis.delete(answer._like_set_key())
 
 

@@ -297,7 +297,7 @@ def like(request):
     answer = get_object_or_404(Answer, id=int(aid))
     created = answer.set_like(request.user, liked=bool(int(v)))
 
-    return HttpResponse(simplejson.dumps({'like_count': answer.like_count(),
+    return HttpResponse(simplejson.dumps({'like_count': answer.like_count,
                                           'status': bool(created)}))
 
 

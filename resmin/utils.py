@@ -11,6 +11,7 @@ import os
 import uuid
 import datetime
 
+
 def unique_filename(instance, filename, prefix):
     f, ext = os.path.splitext(filename)
     n = datetime.datetime.now()
@@ -21,11 +22,14 @@ def unique_filename(instance, filename, prefix):
                                  uuid.uuid4().hex,
                                  ext)
 
+
 def unique_filename_for_answer(instance, filename):
     return unique_filename(instance, filename, 'answers')
 
+
 def unique_filename_for_avatar(instance, filename):
     return unique_filename(instance, filename, 'avatars')
+
 
 def paginated(request, query, amount):
 
@@ -40,6 +44,7 @@ def paginated(request, query, amount):
         objects = paginator.page(paginator.num_pages)
 
     return objects
+
 
 def _send_notification_emails_to_followers_of_question(new_answer):
 
@@ -63,13 +68,14 @@ def _send_notification_emails_to_followers_of_question(new_answer):
                   email_ctx,
                   settings.EMAIL_FROM,
                   [follow.follower.email],
-                  fail_silently=False)  
+                  fail_silently=False)
 
-def _set_avatar_to_answer(new_answer):
-    new_answer.owner.avatar = new_answer.image
-    new_answer.owner.save()
+
+def _set_avatar_to_answer(answer):
+    answer.owner.avatar = answer.image
+    answer.owner.save()
 
 
 def render_to_json(data):
-	return HttpResponse(simplejson.dumps(data),
-		                content_type="application/json")
+    return HttpResponse(simplejson.dumps(data),
+                        content_type="application/json")

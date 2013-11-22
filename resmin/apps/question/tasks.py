@@ -4,16 +4,15 @@ from apps.follow.models import QuestionFollow
 from utils import (_send_notification_emails_to_followers_of_question,
                    _set_avatar_to_answer)
 
+
 @app.task
-def question_post_save_callback_task(new_question):
-
-    if not new_question.owner.email:
-        return
-
-    if not QuestionFollow.objects.filter(
-       follower=new_question.owner, target=new_question).exists():
+def question_pre_save_callback_task(question):
+    if not question.pk and question.owner.email and not \
+       QuestionFollow.objects.filter(follower=question.owner,
+                                     target=question).exists():
         QuestionFollow.objects.create(
-            follower=new_question.owner, target=new_question, reason='asked')
+            follower=question.owner, target=question, reason='asked')
+
 
 @app.task
 def answer_post_save_callback_task(answer):
@@ -24,6 +23,8 @@ def answer_post_save_callback_task(answer):
     # Send emails to question followers if necessary
     if settings.SEND_NOTIFICATION_EMAILS:
         _send_notification_emails_to_followers_of_question(answer)
+
+    print answer.question.id, settings.AVATAR_QUESTION_ID
 
     # Set avatar for user if necessary
     if answer.question.id == settings.AVATAR_QUESTION_ID:

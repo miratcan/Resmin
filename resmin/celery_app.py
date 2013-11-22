@@ -12,10 +12,10 @@ app = Celery('resmin')
 # Configure app from django settings
 app.config_from_object('django.conf:settings')
 
-print settings.INSTALLED_APPS
 
 # Autodiscover tasks
 app.autodiscover_tasks(settings.INSTALLED_APPS, related_name='tasks')
+
 
 # Here is a dummy task to test if celery is running
 @app.task(bind=True)
