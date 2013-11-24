@@ -31,6 +31,11 @@ def user_created_answer_callback_task(answer):
     answer.question.update_updated_at()
     answer.question.save(update_fields=['answer_count', 'updated_at'])
 
+    # Update related profile.
+    profile = answer.owner.get_profile()
+    profile.update_answer_count()
+    profile.save(update_fields=['answer_count'])
+
     # Send emails to question followers if necessary.
     if settings.SEND_NOTIFICATION_EMAILS:
         _send_notification_emails_to_followers_of_question(answer)
@@ -49,14 +54,20 @@ def user_created_answer_callback_task(answer):
 
 @app.task
 def answer_like_changed_callback_task(answer, **kwargs):
+
+    # Update like count of answer.
     answer.update_like_count()
     answer.save(update_fields=['like_count'])
 
+    # Update like count of user.
+    profile = answer.owner.get_profile()
+    profile.update_like_count()
+    profile.save(update_fields=['like_count'])
+
 @app.task
 def user_deleted_answer_callback_task(answer):
-    # TODO: Normalize user like counts to relational database.
-    redis.zincrby(UserProfile.scoreboard_key(), answer.owner.username,
-                  -answer.like_count)
     redis.delete(answer._like_set_key())
 
-
+    profile = answer.owner.get_profile()
+    profile.update_like_count()
+    profile.save(update_fields=['like_count'])

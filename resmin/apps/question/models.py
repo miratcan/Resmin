@@ -14,19 +14,6 @@ from libs.baseconv import base62
 redis = get_redis_connection('default')
 
 
-class QuestionManager(models.Manager):
-    def get_query_set(self):
-        return super(QuestionManager, self)\
-            .get_query_set()\
-            .prefetch_related('owner')
-
-
-class AnswerManager(models.Manager):
-    def get_query_set(self):
-        return super(AnswerManager, self).get_query_set()\
-            .prefetch_related('owner')
-
-
 class BaseModel(models.Model):
     owner = models.ForeignKey(User)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -56,7 +43,6 @@ class Question(BaseModel):
         default=0, choices=((0, 'Published '),
                             (1, 'Deleted by Owner'),
                             (2, 'Deleted by Admins')))
-    objects = QuestionManager()
 
     class Meta:
         ordering = ["-is_featured", "-updated_at"]
@@ -121,7 +107,6 @@ class Answer(BaseModel):
                  (1, _('My Followers'))))
     visible_for_users = models.ManyToManyField(
         User, related_name='visible_for_users', null=True, blank=True)
-    objects = AnswerManager()
     LIKES_SET_PATTERN = 'answer:%s:likes'
 
     @property
@@ -184,15 +169,15 @@ class Answer(BaseModel):
         if liked:
             result = redis.sadd(self._like_set_key(), user.username)
             if result:
-                answer_like_changed.send(sender=self)
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, 1)
+                answer_like_changed.send(sender=self)
         else:
             result = redis.srem(self._like_set_key(), user.username)
             if result:
-                answer_like_changed.send(sender=self)
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, -1)
+                answer_like_changed.send(sender=self)
         return result
 
     def get_absolute_url(self):

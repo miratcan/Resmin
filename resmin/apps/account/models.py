@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
@@ -17,7 +18,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     bio = models.CharField(_('bio'), max_length=255, null=True, blank=True)
     website = models.URLField(_('website'), null=True, blank=True)
-
+    like_count = models.PositiveIntegerField(default=0)
+    follower_count = models.PositiveIntegerField(default=0)
+    answer_count = models.PositiveIntegerField(default=0)
     location = models.CharField(_('location'), max_length=64,
                                 null=True, blank=True)
 
@@ -27,14 +30,17 @@ class UserProfile(models.Model):
 
     @staticmethod
     def scoreboard_key():
-        return 'like_countboard'
+        return 'like_scoreboard'
 
-    def like_count(self):
-        return int(redis.zscore(self.scoreboard_key(), self.user.username))
+    def update_like_count(self):
+        self.like_count = self.user.answer_set.filter(status=0)\
+            .aggregate(like_count_total=Sum('like_count'))['like_count_total']
 
-    # TODO: DENORMALIZE IT
-    def num_of_followers(self):
-    	return UserFollow.objects.filter(target=self).count()
+    def update_follower_count(self):
+    	self.follower_count = UserFollow.objects.filter(target=self).count()
+
+    def update_answer_count(self):
+        self.answer_count = self.user.answer_set.filter(status=0).count()
 
     def __unicode__(self):
         return "%s's profile" % self.user
