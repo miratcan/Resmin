@@ -4,6 +4,7 @@ from django.utils.translation import ugettext as _
 from apps.account.models import Invitation, UserProfile, EmailCandidate
 
 from apps.follow.models import UserFollow
+from apps.account.signals import follower_count_changed
 
 
 class RegisterForm(forms.Form):
@@ -127,8 +128,8 @@ class FollowForm(forms.Form):
     	if self.action == 'follow':
             UserFollow.objects.create(
                 follower=self.follower, target=self.target)
-            return True    		
         if self.action == 'block':
             UserFollow.objects.create(
                 follower=self.follower, target=self.target, status=2)
-            return True
+        if self.action in ('unfollow', 'block', 'unblock'):
+            follower_count_changed.send(sender=self.target)

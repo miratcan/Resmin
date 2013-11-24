@@ -36,6 +36,7 @@ from apps.account.forms import UpdateProfileForm
 from apps.account.forms import EmailCandidateForm
 
 from apps.account.models import EmailCandidate
+from apps.account.signals import follower_count_changed
 
 from redis_cache import get_redis_connection
 from tastypie.models import ApiKey
@@ -131,6 +132,7 @@ def update_pending_follow_request(request):
         if action == 'accept':
             follow_request.status = 1
             follow_request.save()
+            follower_count_changed.send(sender=request.user)
             return render_to_json({'success': True})
 
         if action == 'decline':
@@ -193,18 +195,10 @@ def invitations(request):
 
 @login_required
 def hof(request):
-
-    def users(items):
-        for item in items:
-            user = User(username=item[0])
-            user.like_count = int(item[1])
-            yield user
-
     return render(
         request,
         'auth/hof.html',
-        {'users': users(redis.zrevrange(
-            "like_countboard", 0, 40, withscores=True))})
+        {'profiles': UserProfile.objects.order_by('like_count')[:40]})
 
 
 @login_required

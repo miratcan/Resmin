@@ -3,7 +3,7 @@
   <div class="oa mbd bg ra ba oa" style="position: relative;">
     <div class="pa fr" >
     	<p class="pb bb">&#10084; {{ profile.like_count }}</p>
-    	<p>☍ {{ profile.num_of_followers }}</p>
+    	<p>☍ {{ profile.follower_count }}</p>
     </div>
     {% thumbnail profile.avatar "100x100" crop="center" as im %}
       <img class="fl mr" src="{{ im.url }}">
