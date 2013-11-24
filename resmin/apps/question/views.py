@@ -138,7 +138,7 @@ def question(request, base62_id, show_delete=False, **kwargs):
         requested_by=request.user, question=question) if show_delete_action \
         and show_delete else None
 
-    answer_form = AnswerQuestionForm(user=request.user) if \
+    answer_form = AnswerQuestionForm(owner=request.user) if \
         question.is_answerable_by(request.user) else None
 
     # If request method is not post directly jump over render
@@ -161,16 +161,14 @@ def question(request, base62_id, show_delete=False, **kwargs):
         elif request.POST.get('answer'):
 
             #Fill answer form with posted data and files
-            answer_form = AnswerQuestionForm(
-                request.POST, request.FILES, user=request.user)
+            answer_form = AnswerQuestionForm(request.POST,
+                                             request.FILES,
+                                             owner=request.user)
 
             # If form is valid save answer and redirect
             if answer_form.is_valid():
-                answer = answer_form.save(commit=False)
-                answer.question = question
-                answer.owner = request.user
+                answer = answer_form.save(question=question)
                 answer.save()
-                answer_form.save_m2m()
                 return HttpResponseRedirect(answer.get_absolute_url())
             else:
                 print answer_form.errors
@@ -201,9 +199,7 @@ def questions(request):
     elif request.method == 'POST':
         create_form = CreateQuestionForm(request.POST)
         if create_form.is_valid():
-            question = create_form.save(commit=False)
-            question.owner = request.user
-            question.save()
+            question = create_form.save(owner=request.user)
             return HttpResponseRedirect(question.get_absolute_url())
     questions = paginated(request, questions, settings.QUESTIONS_PER_PAGE)
     return render(request,
@@ -219,8 +215,12 @@ def answer(request, base62_id):
         answer = get_object_or_404(
             Answer, id=base62.to_decimal(base62_id), owner=request.user)
 
+        # TODO: Create DeleteAnswerForm and move these 4 lines
+        # to save method.
+        from apps.question.signals import user_deleted_answer
         answer.status = 1
         answer.save()
+        user_deleted_answer.send(sender=answer)
 
         messages.success(request, _('Your answer deleted'))
         return HttpResponseRedirect(reverse('index'))
@@ -297,9 +297,9 @@ def like(request):
     answer = get_object_or_404(Answer, id=int(aid))
     created = answer.set_like(request.user, liked=bool(int(v)))
 
-    return HttpResponse(simplejson.dumps({'like_count': answer.like_count,
-                                          'status': bool(created)}))
-
+    return HttpResponse(simplejson.dumps(
+        {'like_count': answer.get_like_count_from_redis(),
+         'status': bool(created)}))
 
 @login_required
 def fix_answers(request):

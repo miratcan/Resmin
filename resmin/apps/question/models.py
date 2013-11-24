@@ -2,8 +2,6 @@ from django.contrib.auth.models import User, AnonymousUser
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.db import models
-from django.db.models.signals import post_save, pre_save, post_delete
-from django.dispatch import receiver
 from django.utils.translation import ugettext as _
 
 from datetime import datetime
@@ -53,7 +51,7 @@ class Question(BaseModel):
     updated_at = models.DateTimeField(auto_now_add=True)
     merged_to = models.ForeignKey(
         'self', null=True, blank=True, related_name='m_to')
-    answers_count = models.PositiveIntegerField(default=0)
+    answer_count = models.PositiveIntegerField(default=0)
     status = models.PositiveSmallIntegerField(
         default=0, choices=((0, 'Published '),
                             (1, 'Deleted by Owner'),
@@ -76,12 +74,12 @@ class Question(BaseModel):
             None else answers
 
         if settings.ONLY_QUESTIONS_WITHOUT_ANSWERS_CAN_BE_DELETED:
-            answers_count = len(answers)
+            answer_count = len(answers)
         else:
-            answers_count = 0
+            answer_count = 0
 
         return True if user.is_authenticated() and not self.is_deleted \
-                       and answers_count == 0 else False
+                       and answer_count == 0 else False
 
     def is_answerable_by(self, user):
         return not self.is_deleted and user.is_authenticated()
@@ -94,10 +92,10 @@ class Question(BaseModel):
         return reverse('delete_question', kwargs={
             'base62_id': base62.from_decimal(self.id)})
 
-    def update_answers_count(self):
-        """Updates answers_count but does not saves question
+    def update_answer_count(self):
+        """Updates answer_count but does not saves question
         instance, it have to be saved later."""
-        self.answers_count = self.answer_set.filter(status=0).count()
+        self.answer_count = self.answer_set.filter(status=0).count()
 
     def update_updated_at(self):
         self.updated_at = datetime.now()
@@ -111,6 +109,7 @@ class Answer(BaseModel):
     source_url = models.URLField(null=True, blank=True)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
+    like_count = models.PositiveIntegerField(default=0)
     status = models.PositiveSmallIntegerField(
         default=0,
         choices=((0, 'Published'),
@@ -174,66 +173,43 @@ class Answer(BaseModel):
                 is_visible = False
         return is_visible
 
-    def get_absolute_url(self):
-        return reverse('answer', kwargs={
-            'base62_id': base62.from_decimal(self.id)})
 
     def _like_set_key(self):
         return self.LIKES_SET_PATTERN % self.id
 
     def set_like(self, user, liked=True):
         from apps.account.models import UserProfile
+        from apps.question.signals import answer_like_changed
 
         if liked:
             result = redis.sadd(self._like_set_key(), user.username)
             if result:
+                answer_like_changed.send(sender=self)
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, 1)
         else:
             result = redis.srem(self._like_set_key(), user.username)
             if result:
+                answer_like_changed.send(sender=self)
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, -1)
         return result
 
-    def get_likers(self):
+    def get_absolute_url(self):
+        return reverse('answer', kwargs={
+            'base62_id': base62.from_decimal(self.id)})
+
+    def get_likers_from_redis(self):
         for username in redis.smembers(self._like_set_key()):
             yield User(username=username)
 
-    @property
-    def like_count(self):
+    def get_like_count_from_redis(self):
         return redis.scard(self._like_set_key())
+
+    def update_like_count(self):
+        """Updates self.likes count from redis db, it does not save, must
+        be saved manually."""
+        self.like_count = self.get_like_count_from_redis()
 
     class Meta:
         ordering = ['-created_at']
-
-
-@receiver(post_save, sender=Question)
-def question_post_save_callback(sender, **kwargs):
-    from apps.question.tasks import question_post_save_callback_task
-    question_post_save_callback_task.delay(
-        kwargs['instance'], kwargs['created'])
-
-@receiver(pre_save, sender=Answer)
-def answer_pre_save_callback(sender, **kwargs):
-    # If answer.status changed 0 to another, means that it's deleted.
-    answer = kwargs['instance']
-    if answer.pk:
-        answer_orig = Answer.objects.get(pk=answer.pk)
-        if answer.pk and answer.is_deleted and not answer_orig.is_deleted:
-            post_delete.send(sender=Answer, instance=answer)
-
-
-@receiver(post_delete, sender=Answer)
-def answer_post_delete_callback(sender, **kwargs):
-    from apps.account.models import UserProfile
-    answer = kwargs['instance']
-    redis.zincrby(UserProfile.scoreboard_key(), answer.owner.username,
-                  -answer.like_count)
-    redis.delete(answer._like_set_key())
-
-
-@receiver(post_save, sender=Answer)
-def answer_post_save_callback(sender, **kwargs):
-    from apps.question.tasks import answer_post_save_callback_task
-    answer_post_save_callback_task.delay(kwargs['instance'])

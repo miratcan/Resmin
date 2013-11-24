@@ -5,6 +5,8 @@ from django.conf import settings
 
 from apps.question.models import Question, Answer
 
+from apps.question.signals import (user_created_question,
+                                   user_created_answer)
 
 class CreateQuestionForm(forms.ModelForm):
 
@@ -14,24 +16,49 @@ class CreateQuestionForm(forms.ModelForm):
 
     is_anonymouse = forms.BooleanField(label=_('Hide my name'), required=False)
 
+    def save(self, *args, **kwargs):
+        question = super(CreateQuestionForm, self).save(commit=False)
+        question.owner = kwargs.pop('owner')
+        question.save()
+        user_created_question.send(sender=question)
+        return question
+
     class Meta:
         model = Question
         fields = ['text', 'is_anonymouse']
 
 
 class AnswerQuestionForm(forms.ModelForm):
+    """
+    Must be initialized with owner:
+
+    answer_form = AnswerQuestionForm(owner=request.user)
+
+    And question must be given when saved:
+
+    answer_form.save(question=question)
+    """
     image = forms.ImageField(label=_('Select an image to submit an answer'))
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
+        self.owner = kwargs.pop('owner')
         """
         self.base_fields['visible_for_users'].queryset = \
-            User.objects.filter(id__in=self.user.follower_user_ids)
+            User.objects.filter(id__in=self.owner.follower_user_ids)
         """
         super(AnswerQuestionForm, self).__init__(*args, **kwargs)
 
+    def save(self, *args, **kwargs):
+        answer = super(AnswerQuestionForm, self).save(commit=False)
+        answer.owner = self.owner
+        answer.question = kwargs.pop('question')
+        answer.save()
+        self.save_m2m()
+        user_created_answer.send(sender=answer)
+        return answer
+
     def clean(self):
-        if not self.user.is_authenticated():
+        if not self.owner.is_authenticated():
             raise forms.ValidationError("You have to login to answer "
                                         "a question.")
         return self.cleaned_data
