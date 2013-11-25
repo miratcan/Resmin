@@ -2,12 +2,12 @@
 <p class="q_s">
   <a class="{% if question.merged_to or question.is_deleted %}lt{% endif %}" href="{% if question.merged_to %}{{ question.merged_to.get_absolute_url }}{% else %}{{ question.get_absolute_url }}{% endif %}">{{ question.text }}</a>
 
-  <span class="f_tiny c_weak wn">{% if question.is_anonymouse == True or question.is_deleted == False %} {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %},{% endif %} {% blocktrans with count=question.answer_count %}got {{ count }} answers{% endblocktrans %}.</span>
+  <span class="f_tiny c_weak wn">{% if question.is_anonymouse == False or question.is_deleted == False %} {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %},{% endif %} {% blocktrans with count=question.answer_count %}got {{ count }} answers{% endblocktrans %}.</span>
 
-  {% if question.owner == user and show_delete_action %}<a class="action ml" href="{{ question.get_deletion_url }}">Sil</a>{% endif %}
+  {% if question.owner == user and show_delete_action %}<a class="action ml" href="{{ question.get_deletion_url }}">{% trans "Delete" %}</a>{% endif %}
 
   {% if not question.is_deleted %}
-  	<a class="action" href="{{ question.get_absolute_url }}">Cevapla</a>
+  	<a class="action" href="{{ question.get_absolute_url }}">{% trans "Answer" %}</a>
   {% endif %}
 </p>
 
