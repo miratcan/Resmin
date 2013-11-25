@@ -57,7 +57,7 @@ class RegisterForm(forms.Form):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        exclude = ['user', 'like_count', 'avatar']
+        fields = ['bio', 'website', 'location']
 
 
 class EmailCandidateForm(forms.ModelForm):
