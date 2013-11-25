@@ -34,7 +34,8 @@ class UserProfile(models.Model):
 
     def update_like_count(self):
         self.like_count = self.user.answer_set.filter(status=0)\
-            .aggregate(like_count_total=Sum('like_count'))['like_count_total']
+            .aggregate(like_count_total=Sum('like_count')
+                )['like_count_total'] or 0
 
     def update_follower_count(self):
     	self.follower_count = UserFollow.objects.filter(target=self).count()
