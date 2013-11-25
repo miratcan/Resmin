@@ -36,7 +36,7 @@
         <h2 class="mb">{% trans "Kalpleyenler" %}</h2>
         {% if answer.owner == user or user.is_staff %}
           <p class="mbd">
-            {% for user in answer.get_likers %}
+            {% for user in answer.get_likers_from_redis %}
               {% include "auth/username_inc.html" with user=user %}, 
             {% endfor %}
           </p>
