@@ -38,7 +38,8 @@ class UserProfile(models.Model):
                 )['like_count_total'] or 0
 
     def update_follower_count(self):
-    	self.follower_count = UserFollow.objects.filter(target=self).count()
+    	self.follower_count = UserFollow.objects.filter(
+            target=self.user, status=1).count()
 
     def update_answer_count(self):
         self.answer_count = self.user.answer_set.filter(status=0).count()
