@@ -32,7 +32,7 @@ def user_created_answer_callback_task(answer):
     answer.question.save(update_fields=['answer_count', 'updated_at'])
 
     # Update related profile.
-    profile = answer.owner.get_profile()
+    profile = answer.owner.profile
     profile.update_answer_count()
     profile.save(update_fields=['answer_count'])
 
@@ -60,7 +60,7 @@ def answer_like_changed_callback_task(answer, **kwargs):
     answer.save(update_fields=['like_count'])
 
     # Update like count of user.
-    profile = answer.owner.get_profile()
+    profile = answer.owner.profile
     profile.update_like_count()
     profile.save(update_fields=['like_count'])
 
@@ -68,6 +68,6 @@ def answer_like_changed_callback_task(answer, **kwargs):
 def user_deleted_answer_callback_task(answer):
     redis.delete(answer._like_set_key())
 
-    profile = answer.owner.get_profile()
+    profile = answer.owner.profile
     profile.update_like_count()
     profile.save(update_fields=['like_count'])

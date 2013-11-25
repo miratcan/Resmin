@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from apps.question.models import Answer
-from apps.account.models import UserProfile
+from django.contrib.auth.models import User
 from redis_cache import get_redis_connection
 
 redis = get_redis_connection('default')
@@ -19,12 +19,13 @@ class Command(BaseCommand):
             print "Updated %s/%s of answers." % (counter + 1, answers.count())
             counter += 1
 
-        userprofiles = UserProfile.objects.all()
+        users = User.objects.all()
         counter = 0
-        for userprofile in userprofiles:
+        for user in users:
+            userprofile = user.profile
             userprofile.update_like_count()
             userprofile.update_follower_count()
             userprofile.update_answer_count()
             userprofile.save()
-            print "Updated %s/%s of users." % (counter + 1, userprofiles.count())
+            print "Updated %s/%s of users." % (counter + 1, users.count())
             counter += 1
