@@ -36,6 +36,7 @@
       <input class="fr bttn red ra" type="submit" value="Evet">
     </form>
   {% else %}
+    {% if user.is_authenticated %}
     <p class="pa bg ra ba mbd">
       {% if user == profile_user %}
 	      <a class="f_weak pr mr br" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
@@ -60,6 +61,7 @@
         {% endif %}
       {% endif %}
     </p>
+    {% endif %}
   {% endif %}
 {% endwith %}
 
