@@ -7,7 +7,11 @@
   {% if question.owner == user and show_delete_action %}<a class="action ml" href="{{ question.get_deletion_url }}">{% trans "Delete" %}</a>{% endif %}
 
   {% if not question.is_deleted %}
-  	<a class="action" href="{{ question.get_absolute_url }}">{% trans "Answer" %}</a>
+    {% if user.is_authenticated %}
+       <a class="action" href="{{ question.get_absolute_url }}">{% trans "Answer" %}</a>
+    {% else %}
+       <a class="action" href="{% url "login" %}">{% trans "Login To Answer" %}</a>    
+    {% endif %}
   {% endif %}
 </p>
 

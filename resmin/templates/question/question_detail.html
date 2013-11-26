@@ -13,7 +13,9 @@
 
 {% block content %}
   {% include "question/question_sentence.html" %}
-  {% include 'question/answer_form_inc.html' %}
+  {% if user.is_authenticated %}
+    {% include 'question/answer_form_inc.html' %}
+  {% endif %}
   {% with answers=answers.paginated_object_list %}
     {% include "question/answer_thumbnails.html" %}
     {% include "includes/pagination_links_for_answers.html" %}
