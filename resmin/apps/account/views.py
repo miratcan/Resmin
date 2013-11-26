@@ -198,7 +198,7 @@ def hof(request):
     return render(
         request,
         'auth/hof.html',
-        {'profiles': UserProfile.objects.order_by('like_count')[:40]})
+        {'profiles': UserProfile.objects.order_by('-like_count')[:40]})
 
 
 @login_required
