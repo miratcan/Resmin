@@ -132,7 +132,11 @@ urlpatterns = patterns(
 
     url(r'^r/$',
         'apps.question.views.random',
-        name='random'),
+        name='random-question'),
+
+    url(r'^ru/$',
+        'apps.question.views.random_unanswered',
+        name='random-unanswered-question'),
 
     url(r'^reg/$',
         'apps.account.views.register',

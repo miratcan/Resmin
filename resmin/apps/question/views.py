@@ -274,11 +274,17 @@ def cancel_follow(request, key):
                   {'question': follow.target})
 
 
-@login_required
 def random(request):
     return HttpResponseRedirect(
         Question.objects
         .filter(status=0)
+        .order_by('?')[0].get_absolute_url())
+
+
+def random_unanswered(request):
+    return HttpResponseRedirect(
+        Question.objects
+        .filter(status=0, answer_count=0)
         .order_by('?')[0].get_absolute_url())
 
 
@@ -300,6 +306,7 @@ def like(request):
     return HttpResponse(simplejson.dumps(
         {'like_count': answer.get_like_count_from_redis(),
          'status': bool(created)}))
+
 
 @login_required
 def fix_answers(request):
