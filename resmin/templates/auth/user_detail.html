@@ -14,7 +14,7 @@
 {% block content %}
   {% with answers=answers.paginated_object_list %}
     {% include "auth/user_detail_inc.html" %}
-    {% include "question/answer_thumbnails.html" %}
+    {% include "question/answer_thumbnails.html" with show_question_info_below_answers=True %}
     {% include "includes/pagination_links_for_answers.html" %}
   {% endwith %}
 {% endblock content %}
