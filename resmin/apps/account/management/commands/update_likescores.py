@@ -1,10 +1,11 @@
 from django.core.management.base import BaseCommand
 
-from apps.question.models import Answer
+from apps.question.models import Answer, Question
 from django.contrib.auth.models import User
 from redis_cache import get_redis_connection
 
 redis = get_redis_connection('default')
+
 
 class Command(BaseCommand):
     args = '<username amount...>'
@@ -17,6 +18,15 @@ class Command(BaseCommand):
             answer.update_like_count()
             answer.save()
             print "Updated %s/%s of answers." % (counter + 1, answers.count())
+            counter += 1
+
+        questions = Question.objects.all()
+        counter = 0
+        for question in questions:
+            question.update_answer_count()
+            question.save()
+            print "Updated %s/%s of questions." % (counter + 1,
+                                                   questions.count())
             counter += 1
 
         users = User.objects.all()
