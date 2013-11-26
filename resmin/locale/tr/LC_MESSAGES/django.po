@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-26 12:14+0200\n"
+"POT-Creation-Date: 2013-11-26 16:22+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -305,6 +305,10 @@ msgstr "En çok kalp toplayan kullanıcılar"
 msgid "Davetiyeler"
 msgstr ""
 
+#: templates/auth/invitations.html:7
+msgid "Tebrikler, davetiyeniz var :)"
+msgstr ""
+
 #: templates/auth/invitations.html:8
 msgid ""
 "Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin "
@@ -396,6 +400,14 @@ msgstr "Engelle"
 #: templates/auth/username_inc.html:1
 msgid "Anonymouse user"
 msgstr "Gizli kullanıcı"
+
+#: templates/includes/pagination_links_for_answers.html:4
+msgid "Previous Answers"
+msgstr "Önceki Cevaplar"
+
+#: templates/includes/pagination_links_for_answers.html:8
+msgid "Next Answers"
+msgstr "Sonraki Cevaplar"
 
 #: templates/question/answer_detail.html:36
 msgid "Kalpleyenler"
