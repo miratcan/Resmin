@@ -54,8 +54,9 @@ class UserProfile(models.Model):
 User.profile = property(
     lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
+
 class Invitation(models.Model):
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, null=True, blank=True)
     key = models.CharField(max_length=255, blank=True)
     used_by = models.ForeignKey(User, null=True, blank=True,
                                 related_name='used_by')
@@ -64,7 +65,8 @@ class Invitation(models.Model):
         return reverse('register') + "?key=%s" % self.key
 
     def save(self, *args, **kwargs):
-        self.key = key_generator(size=10)
+        if not self.key:
+            self.key = key_generator()
         super(Invitation, self).save(*args, **kwargs)
 
 

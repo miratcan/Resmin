@@ -1,10 +1,13 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from apps.account.models import Invitation, UserProfile, EmailCandidate
 
 from apps.follow.models import UserFollow
 from apps.account.signals import follower_count_changed
+
+from libs import key_generator
 
 
 class RegisterForm(forms.Form):
@@ -31,6 +34,13 @@ class RegisterForm(forms.Form):
 
     def clean_key(self):
         key = self.cleaned_data['key']
+
+        # If there is key_prefix, we don't need to check key is exists.
+        # It will be created on fly
+        if key in settings.FIXED_INVITATION_KEYS:
+            return key
+
+        # Check invitation key exists and is not used.
         try:
             invitation = Invitation.objects.get(key=key)
         except Invitation.DoesNotExist:
@@ -48,7 +58,18 @@ class RegisterForm(forms.Form):
     def save(self):
         user = User.objects.create_user(username=self.cleaned_data['username'],
                                         password=self.cleaned_data['pass_1'])
-        invitation = Invitation.objects.get(key=self.cleaned_data['key'])
+ 
+        key = self.cleaned_data['key']
+
+        # If key in FIXED_INVITATION_KEYS, create an invitation
+        if key in settings.FIXED_INVITATION_KEYS:
+            invitation = Invitation(
+                key=key_generator(prefix=key))
+
+        # Else use existing one.
+        else:
+            invitation = Invitation.objects.get(key=key)
+
         invitation.used_by = user
         invitation.save()
         return user
