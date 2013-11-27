@@ -2,11 +2,13 @@
 {% block content %}
   <div class="narrow fc">
     <div class="panel-right">
-      <p class="mb"><a href="/">Resm.in</a> sorulan sorulara sadece fotoğraf paylaşarak cevap verilebilen soru-cevap sitesi.</p>
-      <p class="mb">Şifreni unuttuysan <a href="{% url 'password_reset' %}">belki de buraya tıklarsın</a>?</p>
+      {% url 'password_reset' as password_reset_url %}
+      <p class="mb">{% blocktrans %}<a href="/">Resm.in</a> is a question/answer platform where you can only answer sharing pictures.{% endblocktrans %}</p>
+      <p class="mb">{% blocktrans %}<a href="{{ password_reset_url }}">Forgotten password?</a>{% endblocktrans %}</p>
     </div>
     <div class="panel-left">
-      <h2 class="f_stng mbd" style="clear: both;">Giriş yap <span class="f_weak c_weak wn">veya <a href="{% url 'register'%}">kayıt ol</a>?</span></h2>
+      {% url 'register' as register_url %}
+      <h2 class="f_stng mbd" style="clear: both;">{% blocktrans %}Sign in <span class="f_weak c_weak wn">or <a href="{{ register_url }}">get registered</a>?</span>{% endblocktrans %}</h2>
       <form method="post">
         {% csrf_token %}
         {{ form }}

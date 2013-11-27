@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-27 18:01+0200\n"
+"POT-Creation-Date: 2013-11-27 18:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -200,7 +200,7 @@ msgstr "Sevdicekler"
 msgid "Invitations"
 msgstr "Davetiyeler"
 
-#: templates/base.html:40 templates/auth/login.html:13
+#: templates/base.html:40 templates/auth/login.html:15
 msgid "Login"
 msgstr "Giriş Yap"
 
@@ -320,6 +320,30 @@ msgstr ""
 #: templates/auth/invitations.html:14
 msgid "Hiç davetiyeniz yok :("
 msgstr ""
+
+#: templates/auth/login.html:6
+msgid ""
+"<a href=\"/\">Resm.in</a> is a question/answer platform where you can only "
+"answer sharing pictures."
+msgstr ""
+"<a href=\"/\">Resm.in</a> sorulan sorulara sadece fotoğraf paylaşarak cevap "
+"verilebilen soru-cevap sitesi."
+
+#: templates/auth/login.html:7
+#, python-format
+msgid "<a href=\"%(password_reset_url)s\">Forgotten password?</a>"
+msgstr ""
+"Şifreni unuttuysan <a href=\"%(password_reset_url)s\">belki de buraya "
+"tıklarsın</a>?"
+
+#: templates/auth/login.html:11
+#, python-format
+msgid ""
+"Sign in <span class=\"f_weak c_weak wn\">or <a href=\"%(register_url)s\">get "
+"registered</a>?</span>"
+msgstr ""
+"Giriş yap <span class=\"f_weak c_weak wn\">veya <a href=\"%(register_url)s"
+"\">kayıt ol</a>?</span>"
 
 #: templates/auth/pending_follow_requests.html:9
 msgid "Accept"
