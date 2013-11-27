@@ -483,20 +483,15 @@ table td {
   padding: 10px;
 }
 .nsfw_block {
-  border-color: #bbb;
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-color: #bbb;
-  border-right-style: solid;
-  border-right-width: 1px;
-  border-color: #bbb;
-  border-top-style: solid;
-  border-top-width: 1px;
-  background: #ffffff;
-  width: 150px;
-  height: 150px;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px;
+  display: block !important;
+  width: 220px;
+  height: 140px;
+  background: #e4e4e4;
+}
+.nsfw_block a {
+  display: block !important;
+  padding-top: 60px;
+  text-align: center;
 }
 #answer_form {
   background: #ffffff;

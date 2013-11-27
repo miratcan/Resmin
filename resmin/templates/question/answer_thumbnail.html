@@ -1,7 +1,9 @@
 {% load thumbnail liked_by %}
 <div class="thmb-wrap shadowed" style="position: relative">
   {% if answer.is_nsfw %}
-    <span>AYIPÇI</span>
+    <div class="nsfw_block">
+      <a href="{{ answer.get_absolute_url }}">AYIPÇI</a>
+    </div>
   {% else %}
     {% thumbnail answer.image "220" as thmb %}
       <a class="thmb" style="height: {{ thmb.height }}px; width: {{ thmb.width }}px; background-image: url({{ thmb.url }});" href="{{ answer.get_absolute_url }}">
