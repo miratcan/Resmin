@@ -289,8 +289,9 @@ def random_unanswered(request):
 
 
 @csrf_exempt
-@login_required
 def like(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
 
     if not request.POST:
         return HttpResponse(status=400)

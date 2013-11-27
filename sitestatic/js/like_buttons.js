@@ -14,6 +14,11 @@ $(document).ready(function() {
         if (data['status']===true) {
           target.find(".heart").toggleClass("pink");
         }
+      },
+      statusCode: {
+        401: function() {
+          alert("Yu hev tu login tu kompiliyt dis ekşın.");
+        }
       }
     });
   });

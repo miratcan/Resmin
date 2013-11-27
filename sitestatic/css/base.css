@@ -15,7 +15,8 @@
   border-right: 1px solid #fff;
   border-bottom: 1px solid #fff;
 }
-a, .pink {
+a,
+.pink {
   color: #C15D63;
 }
 .errorlist {
@@ -289,7 +290,8 @@ body {
   border-bottom-style: solid;
   border-bottom-width: 1px;
 }
-#logo, a {
+#logo,
+a {
   text-decoration: none;
 }
 a:hover {
@@ -414,22 +416,18 @@ label {
   color: #525B64;
   margin-bottom: 5px;
 }
-input[type=text], input[type=password] {
+input[type=text],
+input[type=password] {
   box-sizing: border-box;
   /* css3 rec */
-
   -moz-box-sizing: border-box;
   /* ff2 */
-
   -ms-box-sizing: border-box;
   /* ie8 */
-
   -webkit-box-sizing: border-box;
   /* safari3 */
-
   -khtml-box-sizing: border-box;
   /* konqueror */
-
   width: 100%;
 }
 input[type=file] {
@@ -437,7 +435,8 @@ input[type=file] {
   width: 100%;
   padding: 0;
 }
-input, textarea {
+input,
+textarea {
   padding: 5px;
   font-size: 16px;
   line-height: 23px;
@@ -477,7 +476,8 @@ table td {
 .q:hover p.info {
   visibility: visible;
 }
-#id_text, #id_q {
+#id_text,
+#id_q {
   font-size: 23px;
   line-height: 27px;
   padding: 10px;
@@ -498,7 +498,8 @@ table td {
   max-width: 800px;
   padding: 5px;
 }
-#answer_form input, #answer_form inlineFieldWrapper {
+#answer_form input,
+#answer_form inlineFieldWrapper {
   float: left;
 }
 #answer_form label {
@@ -523,7 +524,8 @@ table td {
   margin-right: 10px;
   clear: left;
 }
-#bulk_edit_answers_form input, #bulk_edit_answers_form select {
+#bulk_edit_answers_form input,
+#bulk_edit_answers_form select {
   float: left;
   display: block !important;
 }
@@ -578,7 +580,8 @@ table td {
   }
 }
 @media only screen and (max-width: 400px) {
-  .panel-left, .panel-right {
+  .panel-left,
+  .panel-right {
     width: 100%;
     float: both;
     border-left: none;
