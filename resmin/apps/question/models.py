@@ -67,9 +67,6 @@ class Question(BaseModel):
         return True if user.is_authenticated() and not self.is_deleted \
                        and answer_count == 0 else False
 
-    def is_answerable_by(self, user):
-        return not self.is_deleted and user.is_authenticated()
-
     def get_absolute_url(self):
         return reverse('question', kwargs={
             'base62_id': base62.from_decimal(self.id)})

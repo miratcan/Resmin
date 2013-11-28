@@ -8,7 +8,7 @@
 
   {% if not question.is_deleted %}
     {% if user.is_authenticated %}
-       <a class="action" href="{{ question.get_absolute_url }}">{% trans "Answer" %}</a>
+       <a class="action" href="{% url 'create-answer' question.base62_id %}">{% trans "Answer" %}</a>
     {% else %}
        <a class="action" href="{% url "login" %}">{% trans "Login To Answer" %}</a>    
     {% endif %}

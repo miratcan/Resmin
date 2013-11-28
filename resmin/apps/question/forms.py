@@ -30,18 +30,15 @@ class CreateQuestionForm(forms.ModelForm):
 
 class AnswerQuestionForm(forms.ModelForm):
     """
-    Must be initialized with owner:
+    Must be initialized with owner and question:
 
     answer_form = AnswerQuestionForm(owner=request.user)
-
-    And question must be given when saved:
-
-    answer_form.save(question=question)
     """
     image = forms.ImageField(label=_('Select an image to submit an answer'))
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
+        self.question = kwargs.pop('question')
         """
         self.base_fields['visible_for_users'].queryset = \
             User.objects.filter(id__in=self.owner.follower_user_ids)
@@ -51,7 +48,7 @@ class AnswerQuestionForm(forms.ModelForm):
     def save(self, *args, **kwargs):
         answer = super(AnswerQuestionForm, self).save(commit=False)
         answer.owner = self.owner
-        answer.question = kwargs.pop('question')
+        answer.question = self.question
         answer.save()
         self.save_m2m()
         user_created_answer.send(sender=answer)

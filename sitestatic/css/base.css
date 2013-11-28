@@ -369,6 +369,8 @@ img.db {
   margin: 0 10px 0 0;
 }
 .q_s {
+  font-size: 23px;
+  line-height: 27px;
   color: #888888;
   font-weight: bold;
   margin-top: 20px;
@@ -493,11 +495,6 @@ table td {
   padding-top: 60px;
   text-align: center;
 }
-#answer_form {
-  background: #ffffff;
-  max-width: 800px;
-  padding: 5px;
-}
 #answer_form input,
 #answer_form inlineFieldWrapper {
   float: left;
@@ -559,12 +556,8 @@ table td {
   float: left;
 }
 .panel-right {
-  width: 30%;
+  width: 32.5%;
   margin-top: 10px;
-  padding-left: 10px;
-  border-color: #bbb;
-  border-left-style: solid;
-  border-left-width: 1px;
   padding-bottom: 10px;
   float: right;
 }

@@ -138,9 +138,6 @@ def question(request, base62_id, show_delete=False, **kwargs):
         requested_by=request.user, question=question) if show_delete_action \
         and show_delete else None
 
-    answer_form = AnswerQuestionForm(owner=request.user) if \
-        question.is_answerable_by(request.user) else None
-
     # If request method is not post directly jump over render
     if request.method == 'POST' and request.user.is_authenticated():
 
@@ -157,27 +154,10 @@ def question(request, base62_id, show_delete=False, **kwargs):
                 messages.success(request, _('Your question is deleted'))
                 return HttpResponseRedirect(reverse('index'))
 
-        # If answer requested by page
-        elif request.POST.get('answer'):
-
-            #Fill answer form with posted data and files
-            answer_form = AnswerQuestionForm(request.POST,
-                                             request.FILES,
-                                             owner=request.user)
-
-            # If form is valid save answer and redirect
-            if answer_form.is_valid():
-                answer = answer_form.save(question=question)
-                answer.save()
-                return HttpResponseRedirect(answer.get_absolute_url())
-            else:
-                print answer_form.errors
-
     return render(request, "question/question_detail.html", {
         'question': question,
         'answers': answers,
         'show_delete_action': show_delete_action,
-        'answer_form': answer_form,
         'delete_form': delete_form})
 
 
@@ -234,6 +214,27 @@ def answer(request, base62_id):
         {'answer': answer,
          'answer_is_visible': answer_is_visible})
 
+
+def create_answer(request, question_base62_id):
+    qid = base62.to_decimal(question_base62_id)
+    question = get_object_or_404(Question, id=qid, status=0)
+    answer_form = AnswerQuestionForm(owner=request.user, question=question)
+
+    if request.POST:
+        #Fill answer form with posted data and files
+        answer_form = AnswerQuestionForm(request.POST,
+                                         request.FILES,
+                                         owner=request.user,
+                                         question=question)
+
+        # If form is valid save answer and redirect
+        if answer_form.is_valid():
+            answer = answer_form.save(question=question)
+            return HttpResponseRedirect(answer.get_absolute_url())
+
+    return render(request,
+                  'question/create_answer.html',
+                  {'answer_form': answer_form})
 
 def update_answer(request, base62_id):
     answer = get_object_or_404(Answer,

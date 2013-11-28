@@ -13,24 +13,8 @@
 
 {% block content %}
   {% include "question/question_sentence.html" %}
-  {% if user.is_authenticated %}
-    {% include 'question/answer_form_inc.html' %}
-  {% endif %}
   {% with answers=answers.paginated_object_list %}
     {% include "question/answer_thumbnails.html" %}
     {% include "includes/pagination_links_for_answers.html" %}
   {% endwith %}
-{% endblock %}
-
-{% block extra_foot %}
-<script>
-  var file_el = document.getElementById('id_image');
-  $('#file-select-box').click(function() {
-    $(file_el).trigger('click');
-  });
-  $('#id_image').change(function() {
-      var filename = $('#id_image').val().split('\\').pop();;
-      $('#file-select-box').html(filename);
-  });
-</script>
 {% endblock %}

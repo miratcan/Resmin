@@ -105,6 +105,10 @@ urlpatterns = patterns(
         'apps.question.views.question',
         name='question'),
 
+    url(r'^q/(?P<question_base62_id>[-\w]+)/answer/$',
+        'apps.question.views.create_answer',
+        name='create-answer'),
+
     url(r'^q/(?P<base62_id>[-\w]+)/f/$',
         'apps.question.views.question',
         name='question-detail-from-followings',
