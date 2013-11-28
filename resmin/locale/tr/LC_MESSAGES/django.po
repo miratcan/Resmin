@@ -186,11 +186,11 @@ msgstr "Sorular"
 
 #: templates/base.html:32
 msgid "Random Question"
-msgstr "Rasgele Soru"
+msgstr "Rasgtele Soru"
 
 #: templates/base.html:33
 msgid "Random Unanswered Question"
-msgstr "Rasgele Cevaplanmamış Soru"
+msgstr "Rasgtele Cevaplanmamış Soru"
 
 #: templates/base.html:35
 msgid "Top Users"
