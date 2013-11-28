@@ -20,6 +20,10 @@ urlpatterns = patterns(
         'apps.question.views.index',
         name='index'),
 
+    url(r'^2/$',
+        'apps.question.views.index2',
+        name='index2'),
+
     url(r'^f/$', 'apps.question.views.index',
         name='index-from-followings',
         kwargs={'get_filter': 'from_followings'}),

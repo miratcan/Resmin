@@ -125,6 +125,12 @@ def index(request, **kwargs):
                    'pending_follow_requests': pending_follow_requests})
 
 
+def index2(request):
+    questions = paginated(request, Question.objects.all(), settings.QUESTIONS_PER_PAGE)
+    return render(request,
+                  'index2.html',
+                  {'questions': questions})
+
 def question(request, base62_id, show_delete=False, **kwargs):
     question = get_object_or_404(Question, id=base62.to_decimal(base62_id))
 
