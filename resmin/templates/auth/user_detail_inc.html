@@ -1,6 +1,6 @@
 {% load thumbnail i18n %}
 {% with profile=profile_user.userprofile %}
-  <div class="oa mbd bg ra ba oa" style="position: relative;">
+  <div class="oa mb bg ra ba oa" style="position: relative;">
     <div class="pa fr" >
     	<p class="pb bb">&#10084; {{ profile.like_count }}</p>
     	<p>☍ {{ profile.follower_count }}</p>
@@ -37,32 +37,32 @@
     </form>
   {% else %}
     {% if user.is_authenticated %}
-    <p class="mbd oa">
+    <p class="mbd oa pl pr">
       {% if user == profile_user %}
-        <a class="f_weak pl ml bl fr" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
-	      <a class="f_weak pl ml bl fr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
+        <a class="f_weak pl ml fr" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
+	      <a class="f_weak pl ml fr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
 	      <a class="f_weak pl ml fr" href="{% url 'email_form' %}">{% trans "Update Email" %}</a>
-        <a href="/i/" class="f_weak pl ml fr">{% trans "Invitations" %}</a>
+        <a href="/i/" class="f_weak fr">{% trans "Invitations" %}</a>
       {% else %}
         {% if user.is_authenticated %}
           {% if user_is_blocked_by_me %}
-            <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/unblock/">{% trans "Unblock" %}</a>
+            <a class="f_weak pr mr" href="/u/{{ profile_user.username }}/unblock/">{% trans "Unblock" %}</a>
           {% else %}
             {% if i_am_follower_of_user %}
-              <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/unfollow/">{% trans "Unfollow" %}</a>
+              <a class="f_weak pr mr" href="/u/{{ profile_user.username }}/unfollow/">{% trans "Unfollow" %}</a>
             {% else %}
             	{% if have_pending_follow_request %}
-            	  <span class="f_weak pr mr br">{% trans "Your follow request sent" %}</span>
+            	  <span class="f_weak pr mr">{% trans "Your follow request sent" %}</span>
             	{% else %}
-                <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/follow/">{% trans "Follow" %}</a>
+                <a class="f_weak pr mr" href="/u/{{ profile_user.username }}/follow/">{% trans "Follow" %}</a>
               {% endif %}
             {% endif %}
            <a class="f_weak" href="/u/{{ profile_user.username }}/block/">{% trans "Block" %}</a>
           {% endif %}
         {% endif %}
       {% endif %}
-      <a class="f_weak pr mr br{% if list_followers %} wb{% endif %}" href="/u/{{ profile_user.username }}/followers/">{% trans "Followers" %}</a> 
-      <a class="f_weak pr mr br {% if list_followings %} wb{% endif %}" href="/u/{{ profile_user.username }}/followings/">{% trans "Followings" %}</a> 
+      <a class="f_weak pr mr{% if list_followers %} wb{% endif %}" href="/u/{{ profile_user.username }}/followers/">{% trans "Followers" %}</a> 
+      <a class="f_weak pr mr{% if list_followings %} wb{% endif %}" href="/u/{{ profile_user.username }}/followings/">{% trans "Followings" %}</a> 
     </p>
     {% endif %}
   {% endif %}
