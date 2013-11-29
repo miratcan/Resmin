@@ -1,5 +1,5 @@
 *.pyc
 sqlite3.db
 media/
-config/local_settings.py
+resmin/config/local_settings.py
 
