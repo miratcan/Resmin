@@ -38,6 +38,8 @@
   {% else %}
     {% if user.is_authenticated %}
     <p class="mbd oa pl pr">
+      <a class="f_weak pr mr{% if list_followers %} wb{% endif %}" href="/u/{{ profile_user.username }}/followers/">{% trans "Followers" %}</a> 
+      <a class="f_weak pr mr{% if list_followings %} wb{% endif %}" href="/u/{{ profile_user.username }}/followings/">{% trans "Followings" %}</a> 
       {% if user == profile_user %}
         <a class="f_weak pl ml fr" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
 	      <a class="f_weak pl ml fr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
@@ -61,8 +63,6 @@
           {% endif %}
         {% endif %}
       {% endif %}
-      <a class="f_weak pr mr{% if list_followers %} wb{% endif %}" href="/u/{{ profile_user.username }}/followers/">{% trans "Followers" %}</a> 
-      <a class="f_weak pr mr{% if list_followings %} wb{% endif %}" href="/u/{{ profile_user.username }}/followings/">{% trans "Followings" %}</a> 
     </p>
     {% endif %}
   {% endif %}
