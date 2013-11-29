@@ -51,10 +51,6 @@ class Question(BaseModel):
         return unicode(self.text)
 
     @property
-    def best_answers(self):
-        return self.answer_set.order_by('-like_count')
-
-    @property
     def is_deleted(self):
         return bool(self.status)
 

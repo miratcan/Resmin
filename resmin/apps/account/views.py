@@ -40,13 +40,14 @@ from apps.account.signals import follower_count_changed
 
 from redis_cache import get_redis_connection
 from tastypie.models import ApiKey
-
+from utils import paginated
 from utils import render_to_json
 
 redis = get_redis_connection('default')
 
 
-def profile(request, username=None, action=None, get_filter='public'):
+def profile(request, username=None, action=None, get_filter='public',
+            list_followers=False, list_followings=False):
 
     user = get_object_or_404(User, username=username) if username \
         else request.user
@@ -69,13 +70,39 @@ def profile(request, username=None, action=None, get_filter='public'):
            'user_is_blocked_by_me': user_is_blocked_by_me,
            'user_is_blocked_me': user_is_blocked_me,
            'have_pending_follow_request': have_pending_follow_request,
-           'i_am_follower_of_user': i_am_follower_of_user}
+           'i_am_follower_of_user': i_am_follower_of_user,
+           'list_followers': list_followers,
+           'list_followings': list_followings,}
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        ctx['answers'] = build_answer_queryset(
-            request, get_from='user', get_filter=get_filter, user=user)
+        if not list_followings and not list_followers:
+            ctx['answers'] = build_answer_queryset(
+                request, get_from='user', get_filter=get_filter, user=user)
+        else:
+            if list_followers:
 
+                # TODO: Should we move this select related action to
+                # User.following_users method?
+                follower_users = User.objects\
+                    .filter(id__in=user.follower_user_ids)\
+                    .select_related('userprofile')
+
+                ctx['follower_users'] = \
+                    paginated(request,
+                              follower_users,
+                              settings.QUESTIONS_PER_PAGE)
+
+            elif list_followings:
+
+                following_users = User.objects\
+                    .filter(id__in=user.following_user_ids)\
+                    .select_related('userprofile')
+
+                ctx['following_users'] = \
+                    paginated(request,
+                              following_users,
+                               settings.QUESTIONS_PER_PAGE)
     if action:
         ctx['action'] = action
         follow_form = FollowForm(follower=request.user,

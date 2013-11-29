@@ -14,7 +14,17 @@
 {% block content %}
   {% with answers=answers.paginated_object_list %}
     {% include "auth/user_detail_inc.html" %}
-    {% include "question/answer_thumbnails.html" with show_question_info_below_answers=True %}
-    {% include "includes/pagination_links_for_answers.html" %}
+    {% if list_followers %}
+      <h3 class="mb">Followers</h3>
+      {% include "auth/user_list_inc.html" with users=follower_users %}
+      {% include "includes/pagination_links_for_users.html" with users=following_users %}
+    {% elif list_followings %}
+      <h3 class="mb">Followings</h3>
+      {% include "auth/user_list_inc.html" with users=following_users %}
+      {% include "includes/pagination_links_for_users.html" with users=following_users %}
+    {% else %}
+      {% include "question/answer_thumbnails.html" with show_question_info_below_answers=True %}
+      {% include "includes/pagination_links_for_answers.html" %}
+    {% endif %}
   {% endwith %}
 {% endblock content %}

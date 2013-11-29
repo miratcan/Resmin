@@ -45,6 +45,16 @@ urlpatterns = patterns(
         'apps.account.views.profile',
         name='profile'),
 
+    url(r'^u/(?P<username>[-\w]+)/followers/$',
+        'apps.account.views.profile',
+        name='profile',
+        kwargs={'list_followers': True}),
+
+    url(r'^u/(?P<username>[-\w]+)/followings/$',
+        'apps.account.views.profile',
+        name='profile',
+        kwargs={'list_followings': True}),
+
     url(r'^u/(?P<username>[-\w]+)/to/followings/$',
         'apps.account.views.profile',
         name='my-answers-to-followers',

@@ -61,6 +61,13 @@ User.following_user_ids = \
     property(lambda u: [f.target_id for f in UserFollow.objects.filter(
              follower=u, status=1)])
 
+User.follower_users = \
+    property(lambda u: [f.follower for f in UserFollow.objects.filter(   
+             target=u, status=1).select_related('follower')])
+
+User.following_users = \
+    property(lambda u: [f.target for f in UserFollow.objects.filter(
+             follower=u, status=1).select_related('target')])
 
 def compute_blocked_user_ids_for(user):
     ids = set()

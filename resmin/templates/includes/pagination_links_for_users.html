@@ -1,0 +1,9 @@
+{% load i18n %}
+<p class="mtd">
+  {% if users.has_previous %}
+    <a class="fl f_stng wb imp" href="?page={{ users.previous_page_number }}">{% trans "Previous Users" %}</a>
+  {% endif %}
+  {% if users.has_next %}
+    <a class="fr f_stng wb imp" href="?page={{ users.next_page_number }}">{% trans "Next Users" %}</a>
+  {% endif %}
+</p>
