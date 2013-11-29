@@ -42,6 +42,7 @@
         <a class="f_weak pl ml bl fr" href="{% url 'logout' %}">{% trans "Log Out" %}</a>
 	      <a class="f_weak pl ml bl fr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
 	      <a class="f_weak pl ml fr" href="{% url 'email_form' %}">{% trans "Update Email" %}</a>
+        <a href="/i/" class="f_weak pl ml fr">{% trans "Invitations" %}</a>
       {% else %}
         {% if user.is_authenticated %}
           {% if user_is_blocked_by_me %}

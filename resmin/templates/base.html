@@ -30,10 +30,8 @@
         <a href="/q/" class="fl f_weak wb mr pa {% if request.path == '/q/' %}imp{% endif %}">{% trans "Questions" %}</a>
         <a href="/r/" class="fl f_weak wb mr pa">{% trans "Random Question" %}</a>
         <a href="{% url 'random-unanswered-question' %}" class="fl f_weak wb mr pa">{% trans "Random Unanswered Question" %}</a>
-
         <a href="/hof/" class="fl f_weak wb pa {% if request.path == '/hof/' %}imp{% endif %}">{% trans "Top Users" %}</a>
         {% if user.is_authenticated %}
-        <a href="/i/" class="fl f_weak wb mr pa {% if request.path == '/i/' %}imp{% endif %}">{% trans "Invitations" %}</a>
         <a href="{{ user.get_absolute_url }}" class="fr f_weak wb mr pa {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>
         {% else %}
           <a href="{% url 'login' %}" class="fr f_weak wb mr pa {% if request.path == '/login/' %}imp{% endif %}">{% trans 'Login' %}</a>
