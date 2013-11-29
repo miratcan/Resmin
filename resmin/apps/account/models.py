@@ -1,9 +1,10 @@
 from django.db import models
 from django.db.models import Sum
+from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
-
+from django.dispatch import receiver
 from apps.question.models import BaseModel
 from apps.follow.models import UserFollow
 
@@ -50,7 +51,7 @@ class UserProfile(models.Model):
     def get_absolute_url(self):
         reverse('profile', args=[self.user.username, ])
 
-
+# TODO: Remove it.
 User.profile = property(
     lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
@@ -80,3 +81,7 @@ class EmailCandidate(BaseModel):
 
     def get_absolute_url(self):
         return reverse('email_confirm', kwargs={'key': self.key})
+
+@receiver(post_save, sender=User)
+def user_created_callback(sender, **kwargs):
+    UserProfile.objects.create(user=kwargs['instance'])
