@@ -43,8 +43,6 @@
 	      <a class="f_weak pl ml bl fr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
 	      <a class="f_weak pl ml fr" href="{% url 'email_form' %}">{% trans "Update Email" %}</a>
       {% else %}
-        <a class="f_weak pr mr br{% if list_followers %} wb{% endif %}" href="/u/{{ profile_user.username }}/followers/">{% trans "Followers" %}</a> 
-        <a class="f_weak pr mr br {% if list_followings %} wb{% endif %}" href="/u/{{ profile_user.username }}/followings/">{% trans "Followings" %}</a> 
         {% if user.is_authenticated %}
           {% if user_is_blocked_by_me %}
             <a class="f_weak pr mr br" href="/u/{{ profile_user.username }}/unblock/">{% trans "Unblock" %}</a>
@@ -62,6 +60,8 @@
           {% endif %}
         {% endif %}
       {% endif %}
+      <a class="f_weak pr mr br{% if list_followers %} wb{% endif %}" href="/u/{{ profile_user.username }}/followers/">{% trans "Followers" %}</a> 
+      <a class="f_weak pr mr br {% if list_followings %} wb{% endif %}" href="/u/{{ profile_user.username }}/followings/">{% trans "Followings" %}</a> 
     </p>
     {% endif %}
   {% endif %}
