@@ -84,4 +84,5 @@ class EmailCandidate(BaseModel):
 
 @receiver(post_save, sender=User)
 def user_created_callback(sender, **kwargs):
-    UserProfile.objects.create(user=kwargs['instance'])
+    if kwargs.get('created'):
+        UserProfile.objects.get_or_create(user=kwargs['instance'])
