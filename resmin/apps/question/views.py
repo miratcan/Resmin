@@ -126,10 +126,12 @@ def index(request, **kwargs):
 
 
 def index2(request):
-    questions = paginated(request, Question.objects.all(), settings.QUESTIONS_PER_PAGE)
+    questions = Question.objects.filter(status=0)
+    questions = paginated(request, questions, settings.QUESTIONS_PER_PAGE)
     return render(request,
                   'index2.html',
                   {'questions': questions})
+
 
 def question(request, base62_id, show_delete=False, **kwargs):
     question = get_object_or_404(Question, id=base62.to_decimal(base62_id))
@@ -212,6 +214,13 @@ def answer(request, base62_id):
         return HttpResponseRedirect(reverse('index'))
 
     answer = get_object_or_404(Answer, id=base62.to_decimal(base62_id))
+
+    if 'set_cover' in request.POST:
+        answer.question.cover_answer = answer
+        answer.question.save()
+        messages.success(request, _('Updated Cover Image'))
+        return HttpResponseRedirect(answer.get_absolute_url())
+
     answer_is_visible = answer.is_visible_for(request.user) and \
         answer.status == 0
     return render(

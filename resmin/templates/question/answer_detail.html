@@ -46,11 +46,13 @@
       {% endif %}
       {% if answer.owner == user %}
         <h3 class="mb">Aksiyonlar</h3>
-        <a class="pa ra fl bttn green" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update Answer" %}</a>
-        <form id="delete_form" method="post">
+        <a class="pah ra fl bttn green mr" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update Answer" %}</a>
+        <form id="action_form" method="post">
           {% csrf_token %}
-          <input type="hidden" name="delete" />
-          <input type="submit" class="fl bttn red ra pa" value="{% trans "Delete Answer" %}">
+          {% if user.is_superuser %}
+            <input name="set_cover" type="submit" class="fl bttn green ra pah" value="{% trans "Set As Cover Of Question" %}" />
+          {% endif %}
+          <input name="delete" type="submit" class="fl bttn red ra pah" value="{% trans "Delete Answer" %}" />
         </form>
       {% endif %}
     </div>
@@ -70,11 +72,9 @@
 {% if answer_is_visible %}
   {% block extra_foot %}
     <script>
-      $('#delete_form').submit(function() {
-        var confirmed1 = confirm('{% trans "Bu cevabı silmek istediğinden emin misin?" %}');
-        var confirmed2 = false;
-        if (confirmed1) {confirmed2 = confirm('{% trans "Baya baya eminsin yani? Bu işlem geri alınamıyor da?" %}');}
-        return confirmed1 && confirmed2;
+      $('#action_form').submit(function() {
+        var confirmed = confirm('{% trans "Bu cevabı silmek istediğinden emin misin?" %}');
+        return confirmed;
       })
     </script>
   {% endblock %}
