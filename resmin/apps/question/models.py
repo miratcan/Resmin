@@ -44,11 +44,25 @@ class Question(BaseModel):
                             (1, 'Deleted by Owner'),
                             (2, 'Deleted by Admins')))
 
+    cover_answer = models.ForeignKey(
+        'Answer', related_name='cover_image', null=True, blank=True)
+
     class Meta:
         ordering = ["-is_featured", "-updated_at"]
 
     def __unicode__(self):
         return unicode(self.text)
+
+    @property
+    def cover_image(self):
+        if not self.cover_answer:
+            answers = self.answer_set\
+                .filter(status=0, is_nsfw=False)\
+                .order_by('-like_count')
+            if answers:
+                self.cover_answer = answers[0]
+                self.save()
+        return self.cover_answer.image
 
     @property
     def is_deleted(self):

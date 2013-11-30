@@ -2,7 +2,7 @@
 {% block extra_head %}
   <style>
   .question { height: 220px; width: 100%; background-position: center center; background-repeat: no-repeat; margin-bottom: 20px; position: relative; } 
-  .question .inner { position: absolute; top: 80px; left: 0; width: 100%; line-height: 40px; background: rgba(0, 0, 0, 0.3); text-align: center; font-size: 20px;}
+  .question .inner { position: absolute; top: 80px; left: 0; width: 100%; line-height: 40px; background: rgba(0, 0, 0, 0.4); text-align: center; font-size: 20px;}
   .question .inner a { color: #fff;}
   </style>
 {% endblock %}
@@ -10,10 +10,10 @@
 {% block content %}
   <div class="narrow">
   {% for question in questions %}
-    {% thumbnail question.best_answers.0.image "800x220" crop="center" as bgimg %}
+    {% thumbnail question.cover_image "800x220" crop="center" as bgimg %}
     <div class="question ba shadowed" style="background-image: url({{ bgimg.url }})">
     {% endthumbnail %}
-      <p class="inner"><a href="{{ question.get_absolute_url }}">{{ question }}</a> {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %}, {% blocktrans with count=question.answer_count %}got {{ count }} answers{% endblocktrans %}.</p>
+      <p class="inner"><a href="{{ question.get_absolute_url }}">{{ question }}</a></p>
     </div>
   {% endfor %}
   </div>
