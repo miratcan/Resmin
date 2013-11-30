@@ -10,9 +10,7 @@
 {% block content %}
   <div class="narrow">
   {% for question in questions %}
-    {% thumbnail question.cover_image "800x220" crop="center" as bgimg %}
-    <div class="question ba shadowed" style="background-image: url({{ bgimg.url }})">
-    {% endthumbnail %}
+    <div class="question ba shadowed" style="background-image: url({% thumbnail question.cover_image "800x220" crop="center" as bgimg %}{{ bgimg.url }}{% endthumbnail %})">
       <p class="inner"><a href="{{ question.get_absolute_url }}">{{ question }}</a></p>
     </div>
   {% endfor %}
