@@ -55,6 +55,13 @@
           <input name="delete" type="submit" class="fl bttn red ra pah" value="{% trans "Delete Answer" %}" />
         </form>
       {% endif %}
+      {% if user.is_superuser %}
+        <h3 class="mb">Admin</h3>
+        <form id="action_form" method="post">
+          {% csrf_token %}
+            <input name="set_cover" type="submit" class="fl bttn green ra pah" value="{% trans "Set As Cover Of Question" %}" />
+        </form>
+      {% endif %}
     </div>
   {% else %}
     <p class="pad ba imp tac f_stng">
