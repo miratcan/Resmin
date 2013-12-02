@@ -251,6 +251,7 @@ def create_answer(request, question_base62_id):
                   'question/create_answer.html',
                   {'answer_form': answer_form})
 
+
 def update_answer(request, base62_id):
     answer = get_object_or_404(Answer,
                                id=base62.to_decimal(base62_id),
@@ -327,8 +328,12 @@ def like(request):
 
 @login_required
 def fix_answers(request):
-    answers = Answer.objects.filter(
-        owner=request.user, status=0, visible_for=None)
+    if request.user.is_superuser:
+        answers = Answer.objects.filter(status=0, visible_for=None)
+    else:
+        answers = Answer.objects.filter(
+            owner=request.user, status=0, visible_for=None)
+
     return render(
         request,
         'question/fix_answers.html',
@@ -345,7 +350,10 @@ def fix_answer(request):
     if not action in ('set_to_public', 'set_to_followings', 'delete'):
         return render_to_json({'success': False})
 
-    answer = get_object_or_404(Answer, owner=request.user, id=aid)
+    if request.user.is_superuser:
+        answer = get_object_or_404(Answer, id=aid)
+    else:
+        answer = get_object_or_404(Answer, owner=request.user, id=aid)
 
     if action in ('set_to_public', 'set_to_followings'):
         answer.visible_for = {'set_to_public': 0,
