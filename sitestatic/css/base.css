@@ -324,6 +324,9 @@ img.db {
 }
 .thmb-wrap {
   margin-bottom: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  float: left;
   box-shadow: 0 0 10px #ccc;
   border-color: #bbb;
   border-style: solid;
@@ -346,6 +349,14 @@ img.db {
   float: left;
   padding-top: 10px;
   margin-bottom: 5px;
+}
+.thmb-wrap .private_answer_indicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background-image: url(../icons/lock.png);
 }
 .yellow-stripe {
   background: #FCF99C;

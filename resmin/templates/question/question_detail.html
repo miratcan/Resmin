@@ -1,16 +1,5 @@
 {% extends "answers_base.html" %}{% load i18n %}
 
-{% block subheader %}
-  {% if user.is_authenticated %}
-  <div class="subnav">
-    <div class="f_weak db oa wrap">
-      <a class="mrd{% if answers.filter == 'public' %} wb{% endif %}" href="{% url 'question' question.base62_id %}">{% trans "Public Answers" %}</a>
-      <a class="mrd{% if answers.filter == 'from_followings' %} wb{% endif %}" href="{% url 'question-detail-from-followings' question.base62_id %}">{% trans "Answers From Followings" %}</a>
-    </div>
-  </div>
-  {% endif %}
-{% endblock %}
-
 {% block content %}
   {% include "question/question_sentence.html" %}
   {% with answers=answers.paginated_object_list %}

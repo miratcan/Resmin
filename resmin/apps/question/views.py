@@ -41,6 +41,11 @@ redis = get_redis_connection('default')
 
 def build_answer_queryset(request, **kwargs):
     """
+    Every build has: 
+        Public answers,
+        Answers from followings which is marked as for following_user_ids
+        Answers from request.user
+
     build_answer_queryset(request)
     Returns public answers
 
@@ -48,37 +53,46 @@ def build_answer_queryset(request, **kwargs):
     Returns public answers from question
 
     build_answer_queryset(request, get_from='user', user=request.user)
-    Returns public answers from user
+    Returns public answers from userm
     """
 
+    # TODO: MUST BE OPTIMIZED
+
     user = request.user
-    user_is_authenticated = user.is_authenticated()
-    queryset = kwargs.get('queryset', Q(status=0))
 
+    # Get queryset if exits
+    queryset = kwargs.get('queryset', Q(status=0, visible_for=0))
+
+    # Get from can be user, question, and public.
     get_from = kwargs.get('get_from', None)
-    get_filter = kwargs.get('get_filter', 'public')
 
+    # Build queryset via get_from.
     if get_from == 'user':
-        queryset = queryset & Q(owner=kwargs.get('user'))
+        queryset = queryset & \
+            Q(owner=kwargs.get('user'), visible_for=0) 
     elif get_from == 'question':
-        queryset = queryset & Q(question=kwargs.get('question'))
-
-    if get_filter == 'public':
-        queryset = queryset & Q(visible_for=0)
-    else:
-        if user_is_authenticated:
-            if get_filter == 'from_followings':
-                queryset = queryset & Q(
-                    visible_for=1, owner_id__in=user.following_user_ids)
-            elif get_filter == 'to_followings':
-                queryset = queryset & Q(visible_for=1)
-            elif get_filter == 'direct':
-                queryset = queryset & Q(
-                    visible_for=2, visible_for_users=user)
-        else:
-            return []
+        queryset = queryset & \
+            Q(question=kwargs.get('question'), visible_for=0)
 
     if user.is_authenticated():
+
+        following_user_ids = user.following_user_ids
+        following_user_ids.append(user.id)
+
+        if get_from == 'user':
+            queryset = queryset | Q(
+                owner=kwargs.get('user'),
+                owner_id__in=following_user_ids,
+                visible_for__in=[1, 2])
+        elif get_from == 'question':
+            queryset = queryset | Q(
+                question=kwargs.get('question'),
+                owner_id__in=following_user_ids,
+                visible_for__in=[1, 2])
+        else:
+            queryset = queryset | Q(
+                owner_id__in=following_user_ids,
+                visible_for__in=[1, 2])
 
         blocked_user_ids = compute_blocked_user_ids_for(user)
 
@@ -88,13 +102,12 @@ def build_answer_queryset(request, **kwargs):
     answers = Answer.objects\
         .filter(queryset)\
         .prefetch_related('question__owner__userprofile')\
-        .select_related('question__owner__userprofile')
+        .select_related('question__owner__userprofile', 'owner')
 
     return {
         'paginated_object_list': paginated(
             request, answers, settings.ANSWERS_PER_PAGE),
-        'from': get_from,
-        'filter': get_filter}
+        'from': get_from}
 
 
 def index(request, **kwargs):
@@ -126,11 +139,32 @@ def index(request, **kwargs):
 
 
 def index2(request):
+
+    search_form = SearchQuestionForm(
+        initial={'q': _('Enter word(s) that you want to search in questions')})
+
+    create_form = CreateQuestionForm(
+        initial={'text': _('Submit a question')}) if \
+        request.user.is_authenticated() else None
+
     questions = Question.objects.filter(status=0)
+
+    if request.method == 'GET':
+        search_form = SearchQuestionForm(request.GET)
+        if search_form.is_valid():
+            questions = questions.filter(text__search=search_form['q'])
+    elif request.method == 'POST':
+        create_form = CreateQuestionForm(request.POST)
+        if create_form.is_valid():
+            question = create_form.save(owner=request.user)
+            return HttpResponseRedirect(question.get_absolute_url())
     questions = paginated(request, questions, settings.QUESTIONS_PER_PAGE)
     return render(request,
-                  'index2.html',
-                  {'questions': questions})
+                  "index2.html",
+                  {'questions': questions,
+                   'create_form': create_form,
+                   'search_form': search_form,
+                   'trimmed': True})
 
 
 def question(request, base62_id, show_delete=False, **kwargs):

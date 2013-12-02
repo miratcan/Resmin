@@ -49,9 +49,6 @@
         <a class="pah ra fl bttn green mr" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update Answer" %}</a>
         <form id="action_form" method="post">
           {% csrf_token %}
-          {% if user.is_superuser %}
-            <input name="set_cover" type="submit" class="fl bttn green ra pah" value="{% trans "Set As Cover Of Question" %}" />
-          {% endif %}
           <input name="delete" type="submit" class="fl bttn red ra pah" value="{% trans "Delete Answer" %}" />
         </form>
       {% endif %}

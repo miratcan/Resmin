@@ -28,17 +28,6 @@
 
 {% endblock %}
 
-{% block subheader %}
-  {% if user.is_authenticated %}
-  <div class="subnav">
-    <div class="f_weak db oa wrap">
-      <a class="mrd{% if answers.filter == 'public' %} wb{% endif %}" href="{% url 'index' %}">{% trans "Public Answers" %}</a>
-      <a class="mrd{% if answers.filter == 'followings' %} wb{% endif %}" href="{% url 'index-from-followings' %}">{% trans "Answers From Followings" %}</a>
-    </div>
-  </div>
-  {% endif %}
-{% endblock %}
-
 {% block content %}
   {% with answers=answers.paginated_object_list %}
     {% include "question/answer_thumbnails.html" %}

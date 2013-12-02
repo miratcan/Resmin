@@ -24,10 +24,6 @@ urlpatterns = patterns(
         'apps.question.views.index2',
         name='index2'),
 
-    url(r'^f/$', 'apps.question.views.index',
-        name='index-from-followings',
-        kwargs={'get_filter': 'from_followings'}),
-
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
 
@@ -122,12 +118,6 @@ urlpatterns = patterns(
     url(r'^q/(?P<question_base62_id>[-\w]+)/answer/$',
         'apps.question.views.create_answer',
         name='create-answer'),
-
-    url(r'^q/(?P<base62_id>[-\w]+)/f/$',
-        'apps.question.views.question',
-        name='question-detail-from-followings',
-        kwargs={'get_filter': 'from_followings'}),
-
 
     url(r'^q/(?P<base62_id>[-\w]+)/delete/$',
         'apps.question.views.question',
