@@ -174,6 +174,10 @@ class Answer(BaseModel):
         return self.LIKES_SET_PATTERN % self.id
 
     def set_like(self, user, liked=True):
+        """
+
+        @type liked: object
+        """
         from apps.account.models import UserProfile
         from apps.question.signals import answer_like_changed
 

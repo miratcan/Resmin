@@ -1,3 +1,5 @@
-{% for user in users %}
-  <p>{% include "auth/username_inc.html" %}{% if user.userprofile.bio %} <span class="f_tiny ml">{{ user.userprofile.bio }}</span>{% endif %}</p>
+{% for user in users %}{% load i18n %}
+  <p>{% include "auth/username_inc.html" %}{% if user.userprofile.bio %} <span class="f_tiny mlh">{{ user.userprofile.bio }}</span>{% endif %}</p>
+{% empty %}
+  <p class="imp pa">{% trans "Nothing to show here" %}</p>
 {% endfor %}

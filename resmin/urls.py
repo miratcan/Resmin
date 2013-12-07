@@ -42,14 +42,12 @@ urlpatterns = patterns(
         name='profile'),
 
     url(r'^u/(?P<username>[-\w]+)/followers/$',
-        'apps.account.views.profile',
-        name='profile',
-        kwargs={'list_followers': True}),
+        'apps.account.views.followers',
+        name='followers'),
 
     url(r'^u/(?P<username>[-\w]+)/followings/$',
-        'apps.account.views.profile',
-        name='profile',
-        kwargs={'list_followings': True}),
+        'apps.account.views.followings',
+        name='followings'),
 
     url(r'^u/(?P<username>[-\w]+)/to/followings/$',
         'apps.account.views.profile',
@@ -80,6 +78,10 @@ urlpatterns = patterns(
     url(r'^me/key/$',
         'apps.account.views.remote_key',
         name='remote_key'),
+
+    url(r'^p/$',
+        'apps.account.views.update_preferences',
+        name='update_preferences'),
 
     url(r'^p/r/$',
         'django.contrib.auth.views.password_reset',

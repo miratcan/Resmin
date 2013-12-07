@@ -1,15 +1,14 @@
-from django.contrib import messages
 
 from django.utils.translation import ugettext as _
 
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
 
-from django.http import HttpResponseRedirect
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from django.core.mail import send_mail
 
@@ -22,20 +21,21 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.conf import settings
 
-from apps.account.models import Invitation, UserProfile
-from apps.account.forms import FollowForm
+from apps.account.models import (Invitation, UserProfile,
+                                 EmailCandidate, UserPreferenceSet)
+
+from apps.account.forms import (FollowForm, UserPreferenceSetForm,
+                                RegisterForm, UpdateProfileForm,
+                                EmailCandidateForm)
 
 from apps.question.models import Question
 from apps.question.views import build_answer_queryset
+
 from apps.follow.models import UserFollow
 
 from datetime import datetime, timedelta
 
-from apps.account.forms import RegisterForm
-from apps.account.forms import UpdateProfileForm
-from apps.account.forms import EmailCandidateForm
 
-from apps.account.models import EmailCandidate
 from apps.account.signals import follower_count_changed
 
 from redis_cache import get_redis_connection
@@ -46,8 +46,7 @@ from utils import render_to_json
 redis = get_redis_connection('default')
 
 
-def profile(request, username=None, action=None, get_filter='public',
-            list_followers=False, list_followings=False):
+def profile(request, username=None, action=None, get_filter='public'):
 
     user = get_object_or_404(User, username=username) if username \
         else request.user
@@ -70,39 +69,13 @@ def profile(request, username=None, action=None, get_filter='public',
            'user_is_blocked_by_me': user_is_blocked_by_me,
            'user_is_blocked_me': user_is_blocked_me,
            'have_pending_follow_request': have_pending_follow_request,
-           'i_am_follower_of_user': i_am_follower_of_user,
-           'list_followers': list_followers,
-           'list_followings': list_followings,}
+           'i_am_follower_of_user': i_am_follower_of_user}
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        if not list_followings and not list_followers:
-            ctx['answers'] = build_answer_queryset(
-                request, get_from='user', get_filter=get_filter, user=user)
-        else:
-            if list_followers:
+        ctx['answers'] = build_answer_queryset(
+            request, get_from='user', get_filter=get_filter, user=user)
 
-                # TODO: Should we move this select related action to
-                # User.following_users method?
-                follower_users = User.objects\
-                    .filter(id__in=user.follower_user_ids)\
-                    .select_related('userprofile')
-
-                ctx['follower_users'] = \
-                    paginated(request,
-                              follower_users,
-                              settings.QUESTIONS_PER_PAGE)
-
-            elif list_followings:
-
-                following_users = User.objects\
-                    .filter(id__in=user.following_user_ids)\
-                    .select_related('userprofile')
-
-                ctx['following_users'] = \
-                    paginated(request,
-                              following_users,
-                               settings.QUESTIONS_PER_PAGE)
     if action:
         ctx['action'] = action
         follow_form = FollowForm(follower=request.user,
@@ -192,7 +165,25 @@ def update_profile(request):
         request,
         "auth/update_profile.html",
         {'form': form,
+         'profile_user': request.user,
          'avatar_question': avatar_question})
+
+
+@login_required
+def update_preferences(request):
+    p_set = UserPreferenceSet.objects.get_or_create(user=request.user)[0]
+    p_form = UserPreferenceSetForm(instance=p_set)
+    if request.method == 'POST':
+        p_form = UserPreferenceSetForm(request.POST, instance=p_set)
+        if p_form.is_valid():
+            p_set = p_form.save()
+            messages.success(request, _('Your preferences updated'))
+            return HttpResponseRedirect(
+                reverse('profile', args=[request.user.username]))
+    return render(
+        request,
+        'auth/preferences.html',
+        {'preferences_form': p_form, 'profile_user': request.user})
 
 
 def register(request):
@@ -216,8 +207,39 @@ def invitations(request):
         request,
         'auth/invitations.html',
         {'site': get_current_site(request),
+         'profile_user': request.user,
          'invs': Invitation.objects.filter(
              owner=request.user).order_by("used_by")})
+
+
+@login_required
+def followers(request, username):
+    user = get_object_or_404(User, username=username)
+    follower_users = User.objects\
+        .filter(id__in=user.follower_user_ids)\
+        .select_related('userprofile')
+    follower_users = paginated(
+        request, follower_users, settings.QUESTIONS_PER_PAGE)
+    return render(
+        request,
+        'auth/followers.html',
+        {'profile_user': request.user,
+         'follower_users': follower_users})
+
+
+@login_required
+def followings(request, username):
+    user = get_object_or_404(User, username=username)
+    following_users = User.objects\
+        .filter(id__in=user.following_user_ids)\
+        .select_related('userprofile')
+    following_users = paginated(
+        request, following_users, settings.QUESTIONS_PER_PAGE)
+    return render(
+        request,
+        'auth/followings.html',
+        {'profile_user': request.user,
+         'following_users': following_users})
 
 
 @login_required
@@ -279,10 +301,13 @@ def email(request, key=None):
                           [candidate.email],
                           fail_silently=False)
 
-                return render(request, 'auth/email_form.html')
+                return render(request, 'auth/email_form.html', {
+                    'profile_user': request.user})
             else:
                 return render(request, 'auth/email_form.html', {
-                    'form': form})
+                    'form': form,
+                    'profile_user': request.user})
         else:
             return render(request, 'auth/email_form.html', {
-                'form': EmailCandidateForm})
+                'form': EmailCandidateForm,
+                'profile_user': request.user})

@@ -2,10 +2,12 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
-from apps.account.models import Invitation, UserProfile, EmailCandidate
+from apps.account.models import (Invitation, UserProfile, EmailCandidate,
+                                 UserPreferenceSet)
 
 from apps.follow.models import UserFollow
-from apps.account.signals import follower_count_changed
+from apps.account.signals import (follower_count_changed,
+                                  following_count_changed)
 
 from libs import key_generator
 
@@ -103,7 +105,6 @@ class DeleteQuestionForm(forms.Form):
                                         "delete this question.")
         return accepted
 
-
     def clean(self):
         data = self.cleaned_data
         if self.question.owner is not self.requested_by:
@@ -127,6 +128,7 @@ class DeleteQuestionForm(forms.Form):
 
         return self.question
 
+
 class FollowForm(forms.Form):
     """
     Blocks or unblocks user
@@ -141,12 +143,15 @@ class FollowForm(forms.Form):
     def clean(self):
         if self.follower == self.target:
             raise forms.ValidationError(
-            	_('You can not do that action on yourself.'))
+                _('You can not do that action on yourself.'))
         return self.cleaned_data
 
     def save(self):
-    	UserFollow.objects.filter(follower=self.follower, target=self.target).delete()
-    	if self.action == 'follow':
+
+        UserFollow.objects.filter(
+            follower=self.follower, target=self.target).delete()
+
+        if self.action == 'follow':
             UserFollow.objects.create(
                 follower=self.follower, target=self.target)
         if self.action == 'block':
@@ -154,3 +159,14 @@ class FollowForm(forms.Form):
                 follower=self.follower, target=self.target, status=2)
         if self.action in ('unfollow', 'block', 'unblock'):
             follower_count_changed.send(sender=self.target)
+            following_count_changed.send(sender=self.follower)
+
+
+class UserPreferenceSetForm(forms.ModelForm):
+    class Meta:
+        model = UserPreferenceSet
+        fields = ['ew_liked_ma',
+                  'ew_answered_mq',
+                  'ew_contributed_aq',
+                  'ew_commented_ma',
+                  'ew_commented_ca']

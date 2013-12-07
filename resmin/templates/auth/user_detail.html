@@ -3,21 +3,7 @@
 {% block content %}
   {% with answers=answers.paginated_object_list %}
     {% include "auth/user_detail_inc.html" %}
-    {% if list_followers %}
-      <div class="narrow fc pa bg">
-      <h3 class="mb">Followers</h3>
-      {% include "auth/user_list_inc.html" with users=follower_users %}
-      {% include "includes/pagination_links_for_users.html" with users=following_users %}
-      </div>
-    {% elif list_followings %}
-      <div class="narrow fc pa bg">
-      <h3 class="mb">Followings</h3>
-      {% include "auth/user_list_inc.html" with users=following_users %}
-      {% include "includes/pagination_links_for_users.html" with users=following_users %}
-      </div>
-    {% else %}
-      {% include "question/answer_thumbnails.html" with show_question_info_below_answers=True %}
-      {% include "includes/pagination_links_for_answers.html" %}
-    {% endif %}
+    {% include "question/answer_thumbnails.html" with show_question_info_below_answers=True %}
+    {% include "includes/pagination_links_for_answers.html" %}
   {% endwith %}
 {% endblock content %}

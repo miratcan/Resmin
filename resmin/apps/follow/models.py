@@ -33,12 +33,25 @@ class QuestionFollow(FollowBase):
         return reverse('cancel_follow', kwargs={'key': self.key})
 
 
+class AnswerFollow(FollowBase):
+    target = models.ForeignKey('question.Answer', related_name='answer')
+    status = models.PositiveSmallIntegerField(
+        default=0, choices=((0, 'Following'),
+                            (1, 'Unfollowed')))
+    key = models.CharField(max_length=255, blank=True)
+    reason = models.CharField(max_length=16,
+                              choices=(('created', 'Created'),
+                                       ('', '')))
+
+
 class UserFollow(FollowBase):
     target = models.ForeignKey(User, related_name='user')
     status = models.PositiveSmallIntegerField(
         default=0, choices=((0, 'Pending'),
                             (1, 'Following'),
                             (2, 'Blocked')))
+
+
 
 
 User.is_blocked = lambda u, t: bool(

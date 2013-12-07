@@ -23,7 +23,7 @@
     {% endif %}
     {% block extra_messages %}
     {% endblock %}
-    <header id="header" class="bb bg">
+    <header id="header" class="bg">
       <div class="oa na wrap">
         <img src="{{ STATIC_URL }}logo-small.png" class="fl mr">
         <a href="/" class="fl f_weak wb mr pa {% if page_name == 'index' %}imp{% endif %}">{% trans "Latest Answers" %}</a>
@@ -43,7 +43,7 @@
         {% block content %}{% endblock content %}
       </div>
     </div>
-    <footer class="oa tac pbh pth bt bg">
+    <footer class="oa tac pbh pth">
       <div class="wrap mb">
         <a href="http://twitter.com/mirat/">{% trans 'twitter' %}</a>
         <a class="mld mrd" href="http://resm-in.tumblr.com/">{% trans 'blog' %}</a>

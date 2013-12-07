@@ -1,0 +1,8 @@
+{% extends "auth/dashboard_base.html" %}{% load i18n %}
+
+{% block page_title %}{% trans 'Followers' %}{% endblock %}
+
+{% block content_inner %}
+  {% include "auth/user_list_inc.html" with users=follower_users %}
+  {% include "includes/pagination_links_for_users.html" with users=follower_users %}
+{% endblock %}

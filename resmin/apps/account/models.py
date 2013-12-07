@@ -21,6 +21,7 @@ class UserProfile(models.Model):
     website = models.URLField(_('website'), null=True, blank=True)
     like_count = models.PositiveIntegerField(default=0)
     follower_count = models.PositiveIntegerField(default=0)
+    following_count = models.PositiveIntegerField(default=0)
     answer_count = models.PositiveIntegerField(default=0)
     location = models.CharField(_('location'), max_length=64,
                                 null=True, blank=True)
@@ -35,12 +36,16 @@ class UserProfile(models.Model):
 
     def update_like_count(self):
         self.like_count = self.user.answer_set.filter(status=0)\
-            .aggregate(like_count_total=Sum('like_count')
-                )['like_count_total'] or 0
+            .aggregate(like_count_total=Sum('like_count'))['like_count_total']\
+            or 0
 
     def update_follower_count(self):
-    	self.follower_count = UserFollow.objects.filter(
+        self.follower_count = UserFollow.objects.filter(
             target=self.user, status=1).count()
+
+    def update_following_count(self):
+        self.following_count = UserFollow.objects.filter(
+            follower=self.user, status=1).count()
 
     def update_answer_count(self):
         self.answer_count = self.user.answer_set.filter(status=0).count()
@@ -54,6 +59,50 @@ class UserProfile(models.Model):
 # TODO: Remove it.
 User.profile = property(
     lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
+
+class UserPreferenceSet(models.Model):
+
+    """
+    Holds user preferences on relational database. To keep column names clean
+    i've shorten field names as:
+
+    ew..: email when
+    aa..: an answer
+    aq..: a question
+    ma..: my answer
+    ca..: commented answer
+
+    ew_liked_a........: email when liked answer
+    ew_contributed_q..: email when contributed question
+    """
+
+    user = models.OneToOneField(User)
+
+    ew_follow_received = models.BooleanField(
+        _("Email when somebody sends follow request to me"),
+        default=True)
+
+    ew_liked_ma = models.BooleanField(
+        _("Email when somebody liked my answer"),
+        default=False)
+
+    ew_answered_mq = models.BooleanField(
+        _("Email when somebody posted answer to my question"),
+        default=True)
+
+    ew_contributed_aq = models.BooleanField(
+        _("Email when somebody posted answer to a question that "
+          "i contributed"),
+        default=True)
+
+    ew_commented_ma = models.BooleanField(
+        _("Email when somebody commented on my answer"),
+        default=True)
+
+    ew_commented_ca = models.BooleanField(
+        _("Email when somebody commented on answer that i commented before"),
+        default=True)
 
 
 class Invitation(models.Model):
@@ -82,7 +131,9 @@ class EmailCandidate(BaseModel):
     def get_absolute_url(self):
         return reverse('email_confirm', kwargs={'key': self.key})
 
+
 @receiver(post_save, sender=User)
 def user_created_callback(sender, **kwargs):
     if kwargs.get('created'):
         UserProfile.objects.get_or_create(user=kwargs['instance'])
+        UserPreferenceSet.objects.get_or_create(user=kwargs['instance'])

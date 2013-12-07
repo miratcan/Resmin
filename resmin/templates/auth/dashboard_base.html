@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="narrow fc">
+    <h2 class="mbd mt">{% include "auth/username_inc.html" with user=profile_user %} › {% block page_title %}{% endblock %}</h2>
+    {% block content_inner %}{% endblock %}
+  </div>
+{% endblock %}
