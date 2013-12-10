@@ -69,10 +69,10 @@ def build_answer_queryset(request, **kwargs):
     # Build queryset via get_from.
     if get_from == 'user':
         queryset = queryset & \
-            Q(owner=kwargs.get('user'), visible_for=0)
+            Q(owner=kwargs.get('user'))
     elif get_from == 'question':
         queryset = queryset & \
-            Q(question=kwargs.get('question'), visible_for=0)
+            Q(question=kwargs.get('question'))
 
     if user.is_authenticated():
 
@@ -198,10 +198,6 @@ def question(request, base62_id, show_delete=False, **kwargs):
         requested_by=request.user, question=question) if show_delete_action \
         and show_delete else None
 
-    is_following = QuestionFollow.objects.filter(follower=request.user,
-                                                 target=question,
-                                                 status=0).exists()
-
     # If request method is not post directly jump over render
     if request.method == 'POST' and request.user.is_authenticated():
 
@@ -222,7 +218,6 @@ def question(request, base62_id, show_delete=False, **kwargs):
         'question': question,
         'answers': answers,
         'show_delete_action': show_delete_action,
-        'is_following': is_following,
         'delete_form': delete_form})
 
 
