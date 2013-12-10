@@ -1,3 +1,3 @@
-E-posta adresini onaylamak için aşağıdaki bağlantıya tıkla:
+{% load i18n %}{% trans 'To confirm email address click the link below' %}:
 
 http://{{ domain }}{{ candidate.get_absolute_url }}

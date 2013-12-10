@@ -1,0 +1,29 @@
+{% load i18n thumbnail %}
+<div class="panel-left">
+
+  <p class="mb wb">{% include "auth/username_inc.html" with user=answer.owner %} › <a href="{{ answer.question.get_absolute_url }}">{{ answer.question}}</a> <span class="fr f_tiny c_weak wn mth"> {{ answer.created_at|date:"E Y" }} {{ answer.get_visible_for_display|lower }} görünür</span></p>
+  <div class="bg bb mb" style="border-bottom-width: 3px;">
+    {% thumbnail answer.image "900" as img %}
+      <img src="{{ img.url }}">
+    {% endthumbnail %}
+    <div class="db pl pr oa">
+      <div class="f_weak fl mth">{% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse %}</div>
+      {% include "question/like_button_inc.html" %}
+    </div>
+  </div>
+
+    <p class="actions">
+      {% if answer.owner == user %}
+        <a class="action" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update" %}</a>
+        <a class="action" href="#">{% trans 'Delete' %}</a>
+      {% endif %}
+      {% if user.is_superuser %}
+        <form id="action_form" method="post" style="display: none;">
+          {% csrf_token %}<input name="set_cover" type="submit" class="fl bttn green ra pah" />
+        </form>
+      {% endif %}
+    </p>
+</div>
+
+<div class="panel-right">
+</div>

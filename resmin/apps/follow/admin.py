@@ -7,7 +7,7 @@ class UserFollowAdmin(admin.ModelAdmin):
 
 
 class QuestionFollowAdmin(admin.ModelAdmin):
-    list_display = ('follower', 'target', 'reason')
+    list_display = ('follower', 'target', 'reason', 'status')
 
 admin.site.register(UserFollow, UserFollowAdmin)
 admin.site.register(QuestionFollow, QuestionFollowAdmin)

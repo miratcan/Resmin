@@ -1,0 +1,1 @@
+{% load i18n %}{% blocktrans with follower_username=follow.follower.username %}{{ follower_username }} wants to be your follower{% endblocktrans %}

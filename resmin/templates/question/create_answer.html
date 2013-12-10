@@ -6,13 +6,12 @@
 
 {% block content %}
 <div class="narrow fc mtd mbd">
-
   <div class="panel-left">
 	<h3 class="mbd"><a href="{{ answer_Form.question.get_absolute_url }}">{{ answer_form.question }}</a></h3>
    {% include "question/answer_form_inc.html" %}
   </div>
   <div class="panel-right">
-  	<p class="f_weak">Kural değil, ama paint ile çizilmiş bir şeyler ya da ekran görüntüsü göndermez, fotoğraf çekersen daha güzel olacak sanki.</p>
+  	<p>Kural değil, ama paint ile çizilmiş bir şeyler ya da ekran görüntüsü göndermez, fotoğraf çekersen daha güzel olacak sanki.</p>
   </div>
 </div>
 {% endblock %}

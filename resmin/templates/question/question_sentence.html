@@ -1,20 +1,46 @@
 {% load i18n %}
-<p class="q_s">
-  <a class="{% if question.merged_to or question.is_deleted %}lt{% endif %}" href="{% if question.merged_to %}{{ question.merged_to.get_absolute_url }}{% else %}{{ question.get_absolute_url }}{% endif %}">{{ question.text }}</a>
-
-  <span class="f_tiny c_weak wn">{% if question.is_anonymouse == False %}{% if question.is_deleted == False %} {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %},{% endif %}{% endif %} {% blocktrans with count=question.answer_count %}got {{ count }} answers{% endblocktrans %}.</span>
-
-  {% if question.owner == user and show_delete_action %}<a class="action ml" href="{{ question.get_deletion_url }}">{% trans "Delete" %}</a>{% endif %}
-
-  {% if not question.is_deleted %}
-    {% if user.is_authenticated %}
-       <a class="action" href="{% url 'create-answer' question.base62_id %}">{% trans "Post Answer" %}</a>
-    {% else %}
-       <a class="action" href="{% url "login" %}">{% trans "Login To Post Answer" %}</a>    
-    {% endif %}
+<div data-question-id="{{ question.id }}" class="q_s">
+  <p class="nm">
+    <a class="{% if question.merged_to or question.is_deleted %}lt{% endif %}" href="{% if question.merged_to %}{{ question.merged_to.get_absolute_url }}{% else %}{{ question.get_absolute_url }}{% endif %}">{{ question.text }}</a>
+    <span class="f_tiny c_weak wn">{% if question.is_anonymouse == False %}{% if question.is_deleted == False %} {% trans "asked by" %} {% include "auth/username_inc.html" with user=question.owner %},{% endif %}{% endif %} {% blocktrans with count=question.answer_count %}got {{ count }} answers{% endblocktrans %}.</span>
+    {% if not question.is_deleted %}
+    <span>
+    <span class="f_tiny c_weak wn">
+      {% if user.is_authenticated %}
+        {% url 'create-answer' question.base62_id as create_answer_url %}
+          {% blocktrans %}<a class="imp" href="{{ create_answer_url }}">Click here</a> to post an answer.{% endblocktrans %}
+      {% else %}
+        {% url 'login' as login_url %}
+          {% blocktrans %}<a class="imp" href="{{ login_url }}">Login</a> to post an answer.{% endblocktrans %}
+      {% endif %}
+    </span>
   {% endif %}
-</p>
+  </p>
 
-{% if question.merged_to %}<p class="f_weak c_weak mb">Bu soru "<a href="{{ question.merged_to.get_absolute_url }}">{{ question.merged_to }}</a>" sorusuna birleştirildi.</p>{% endif %}
+  {% if question.merged_to %}
+    <p class="f_weak c_weak mb wn">
+      Bu soru "<a href="{{ question.merged_to.get_absolute_url }}">{{ question.merged_to }}</a>" sorusuna birleştirildi.
+    </p>
+  {% endif %}
 
-{% if question.is_deleted %}<p class="f_weak c_weak mb">Bu soru silinmiş, soru olarak listelenmez yeni cevap gönderilemez.</p>{% endif %}
+  {% if question.is_deleted %}
+    <p class="f_weak c_weak mb">
+      Bu soru silinmiş, soru olarak listelenmez yeni cevap gönderilemez.
+    </p>
+  {% endif %}
+
+  <p class="mtd actions">
+    {% if question.owner == user and show_delete_action %}
+      <a class="action" href="{{ question.get_deletion_url }}">{% trans "Delete" %}</a>
+    {% endif %}
+    {% comment %}
+      {% if is_following %}
+         <a class="follow_action" data-action='unfollow' href="#">{% trans 'Unfollow' context "follow" %}</a>
+      {% else %}
+         <a class="follow_action" data-action='follow' href="#">{% trans 'Follow' context "follow" %}</a>
+      {% endif %}
+    {% endcomment %}
+  </p>
+</div>
+
+

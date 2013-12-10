@@ -7,59 +7,7 @@
 
 {% block content %}
   {% if answer_is_visible %}
-    <div class="panel-left bg-dark pad">
-      <div class="pb ba ra bg pa fl shadowed">
-        {% thumbnail answer.image "900" as img %}
-          <img src="{{ img.url }}">
-        {% endthumbnail %}
-        <div class="db">
-          <div class="f_weak fl mth">{% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse %}</div>
-          {% include "question/like_button_inc.html" %}
-        </div>
-      </div>
-    </div>
-    <div class="panel-right" style="width: 260px; border: none;">
-      {% if answer.title or answer.description %}
-        <div class="info mb bb">
-          {% if answer.title %}
-            <h2 class="mbd mtd">{{ answer.title }}</h2>
-          {% endif %}
-          {% if answer.description %}
-            {{ answer.description|linebreaks }}
-          {% endif %}
-        </div>
-      {% endif %}
-
-      <p class="mb pb bb"><a class="wb" href="{{ answer.question.get_absolute_url }}">{{ answer.question}}</a> sorusuna cevap olarak {{ answer.created_at }} tarihinde {{ answer.get_visible_for_display|lower }} gözükecek şekilde gönderildi.</p>
-
-      {% if answer.like_count %}
-        <h2 class="mb">{% trans "Kalpleyenler" %}</h2>
-        {% if answer.owner == user or user.is_staff %}
-          <p class="mbd">
-            {% for user in answer.get_likers_from_redis %}
-              {% include "auth/username_inc.html" with user=user %}, 
-            {% endfor %}
-          </p>
-        {% else %}
-          <p class="mbd">{% trans "Kalpleyenler sadece cevap sahibi tarafından görüntülenebilir." %}</p>
-        {% endif %}
-      {% endif %}
-      {% if answer.owner == user %}
-        <h3 class="mb">Aksiyonlar</h3>
-        <a class="pah ra fl bttn green mr" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update Answer" %}</a>
-        <form id="action_form" method="post">
-          {% csrf_token %}
-          <input name="delete" type="submit" class="fl bttn red ra pah" value="{% trans "Delete Answer" %}" />
-        </form>
-      {% endif %}
-      {% if user.is_superuser %}
-        <h3 class="mb">Admin</h3>
-        <form id="action_form" method="post">
-          {% csrf_token %}
-            <input name="set_cover" type="submit" class="fl bttn green ra pah" value="{% trans "Set As Cover Of Question" %}" />
-        </form>
-      {% endif %}
-    </div>
+    {% include "question/answer_detail_inc.html" %}
   {% else %}
     <p class="pad ba imp tac f_stng">
       {% if answer.status == 1 %}
@@ -72,14 +20,3 @@
     </p>
   {% endif %}
 {% endblock %}
-
-{% if answer_is_visible %}
-  {% block extra_foot %}
-    <script>
-      $('#action_form').submit(function() {
-        var confirmed = confirm('{% trans "Bu cevabı silmek istediğinden emin misin?" %}');
-        return confirmed;
-      })
-    </script>
-  {% endblock %}
-{% endif %}

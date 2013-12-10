@@ -52,8 +52,6 @@ class UserFollow(FollowBase):
                             (2, 'Blocked')))
 
 
-
-
 User.is_blocked = lambda u, t: bool(
     UserFollow.objects.filter(follower=u, target=t, status=2).exists())
 
@@ -67,7 +65,7 @@ User.has_pending_follow_request = lambda u, t: \
     UserFollow.objects.filter(follower=u, target=t, status=0).exists()
 
 User.follower_user_ids = \
-    property(lambda u: [f.follower_id for f in UserFollow.objects.filter(	
+    property(lambda u: [f.follower_id for f in UserFollow.objects.filter(
              target=u, status=1)])
 
 User.following_user_ids = \
@@ -75,12 +73,13 @@ User.following_user_ids = \
              follower=u, status=1)])
 
 User.follower_users = \
-    property(lambda u: [f.follower for f in UserFollow.objects.filter(   
+    property(lambda u: [f.follower for f in UserFollow.objects.filter(
              target=u, status=1).select_related('follower')])
 
 User.following_users = \
     property(lambda u: [f.target for f in UserFollow.objects.filter(
              follower=u, status=1).select_related('target')])
+
 
 def compute_blocked_user_ids_for(user):
     ids = set()

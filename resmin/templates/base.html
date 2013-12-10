@@ -26,8 +26,7 @@
     <header id="header" class="bg">
       <div class="oa na wrap">
         <img src="{{ STATIC_URL }}logo-small.png" class="fl mr">
-        <a href="/" class="fl f_weak wb mr pa {% if page_name == 'index' %}imp{% endif %}">{% trans "Latest Answers" %}</a>
-        <a href="/q/" class="fl f_weak wb mr pa {% if request.path == '/q/' %}imp{% endif %}">{% trans "Questions" %}</a>
+        <a href="/" class="fl f_weak wb mr pa {% if page_name == 'index' %}imp{% endif %}">{% trans "Latest Questions" %}</a>
         <a href="/r/" class="fl f_weak wb mr pa">{% trans "Random Question" %}</a>
         <a href="{% url 'random-unanswered-question' %}" class="fl f_weak wb mr pa">{% trans "Random Unanswered Question" %}</a>
         <a href="/hof/" class="fl f_weak wb pa {% if request.path == '/hof/' %}imp{% endif %}">{% trans "Top Users" %}</a>

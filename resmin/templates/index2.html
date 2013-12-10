@@ -1,31 +1,84 @@
 {% extends "base.html" %}{% load thumbnail i18n %}
 {% block extra_head %}
-  <style>
-  .question {
-     height: 270px;
-     width: 290px;
-     background-position: center center;
-     background-repeat: no-repeat;
-     margin-bottom: 20px;
-     margin-left:5px;
-     margin-right: 5px;
-     position: relative;
-     float: left;
-   } 
-  .question .inner { position: absolute; top: 100px; left: 0; width: 100%; background: rgba(0, 0, 0, 0.4); text-align: center; font-size: 20px;}
-  .question .inner a { color: #fff;}
-  .question .inner p { color: #ccc;}
-  </style>
+  <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+  <script>
+    $(document).ready(function() {
+
+      var search_form_cleaned=false;
+      var create_form_cleaned=false;
+
+      $("#id_q").on('click', function(ev) {
+        if (search_form_cleaned===false) {
+          $(ev.target).val('');
+          search_form_cleaned=true;
+        };
+      });
+
+      $("#id_text").on('click', function(ev) {
+        if (create_form_cleaned===false) {
+          $(ev.target).val('');
+          create_form_cleaned=true;
+        };
+      });
+    });
+   </script>
+{% endblock %}
+
+{% block extra_messages %}
+
+  {# Developers: be careful with url & blocktrans conventions. #}
+
+  {% if pending_follow_requests > 0 %}
+  {% url 'pending-follow-requests' as the_pending_url %}
+    
+    <p class="yellow-stripe">
+    {% blocktrans %}{{ pending_follow_requests }} user(s) want to become your disciples. In order to take a look at the request(s) please <a href="{{ the_pending_url }}" title="Click here!">click here.</a>{% endblocktrans %}
+    </p>
+    
+  {% endif %}
+
+  {% url 'email_form' as the_emailform_url %}
+  {% if show_email_message %}
+    <p class="yellow-stripe">
+    {% blocktrans %}Your email isn't registered. You can't receive the notifications related with questions & answers. Also you wouldn't be able to use the password reminder option. Please  <a href="{{ the_emailform_url }}" title="Click here!">click here</a> to register your email.{% endblocktrans %}
+    </p>
+  {% endif %}
+
+  {% url 'fix-answers' as the_fixanswers_url %}
+  {% if show_fix_answers_message %}
+    <p class="yellow-stripe">
+      {% blocktrans %}Some of your answers lack the visibility information. Please <a href="{{ the_fixanswers_url }}" title="Click here!">click here</a> to update your answers and decide who can be able to see them.{% endblocktrans %}</p>
+  {% endif %}
+
 {% endblock %}
 
 {% block content %}
+  <form method="get" id="search_form">
+    {{ search_form.q }}
+    {% if search_form.is_bound and user.is_authenticated %}
+      <p class="fl">{% blocktrans %}If the question you're searching for wasn't previously asked, <a class="imp" href="#" onclick="$('#create_form').show('slow'); $('#search_form').hide('slow');">click here</a> to ask it now.{% endblocktrans %}</p>
+    {% endif %}
+    <input type="submit" class="fr bttn green ra" value="{% trans "Search" %}">
+  </form>
+
+  {% if not search_question_form.is_bound %}
+  <form method="post" id="create_form" style="display: none;">
+    {% csrf_token %}
+    {{ create_form.text.errors }}
+    {{ create_form.text }}
+    {{ create_form.is_anonymouse.errors }}
+    <label for="id_is_anonymouse">{% trans create_form.is_anonymouse.label %}:</label>
+    {{ create_form.is_anonymouse }}
+    <input name="submit" type="submit" class="fr bttn green ra" value="{% trans "Submit" %}">
+  </form>
+  {% endif %}
   {% for question in questions %}
     <div class="question" style="background-image: url({% thumbnail question.cover_image "290x290" crop="center" as bgimg %}{{ bgimg.url }}{% endthumbnail %})">
       <div class="inner">
         <p>
           <a href="{{ question.get_absolute_url }}">{{ question }}</a>
         </p>
-        <p class="f_tiny">{% blocktrans with updated_timesince=question.updated_at|timesince %} Updated at {{ updated_timesince }} ago.{% endblocktrans %}</p>
+        <p class="f_tiny">{% blocktrans with updated_timesince=question.updated_at|timesince %}Updated at {{ updated_timesince }} ago.{% endblocktrans %}</p>
       </div>
     </div>
   {% endfor %}

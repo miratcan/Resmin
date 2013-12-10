@@ -10,10 +10,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-from django.core.mail import send_mail
-
-from django.template.loader import render_to_string
-
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import get_current_site
 
@@ -22,10 +18,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 
 from apps.account.models import (Invitation, UserProfile,
-                                 EmailCandidate, UserPreferenceSet)
+                                 EmailCandidate)
 
-from apps.account.forms import (FollowForm, UserPreferenceSetForm,
-                                RegisterForm, UpdateProfileForm,
+from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
                                 EmailCandidateForm)
 
 from apps.question.models import Question
@@ -40,7 +35,7 @@ from apps.account.signals import follower_count_changed
 
 from redis_cache import get_redis_connection
 from tastypie.models import ApiKey
-from utils import paginated
+from utils import paginated, send_email_from_template
 from utils import render_to_json
 
 redis = get_redis_connection('default')
@@ -169,23 +164,6 @@ def update_profile(request):
          'avatar_question': avatar_question})
 
 
-@login_required
-def update_preferences(request):
-    p_set = UserPreferenceSet.objects.get_or_create(user=request.user)[0]
-    p_form = UserPreferenceSetForm(instance=p_set)
-    if request.method == 'POST':
-        p_form = UserPreferenceSetForm(request.POST, instance=p_set)
-        if p_form.is_valid():
-            p_set = p_form.save()
-            messages.success(request, _('Your preferences updated'))
-            return HttpResponseRedirect(
-                reverse('profile', args=[request.user.username]))
-    return render(
-        request,
-        'auth/preferences.html',
-        {'preferences_form': p_form, 'profile_user': request.user})
-
-
 def register(request):
     form = RegisterForm(initial={'key': request.GET.get("key", None)})
     if request.POST:
@@ -267,8 +245,8 @@ def remote_key(request):
 def email(request, key=None):
     EmailCandidate.objects.filter(
         created_at__lte=datetime.utcnow() - timedelta(days=6*30)).delete()
-    if key:
 
+    if key:
         try:
             email = EmailCandidate.objects.get(key=key)
         except EmailCandidate.DoesNotExist:
@@ -290,17 +268,11 @@ def email(request, key=None):
                 candidate = form.save(commit=False)
                 candidate.owner = request.user
                 candidate.save()
-
-                email_ctx = render_to_string('emails/confirmation_body.txt', {
-                    'domain': get_current_site(request),
-                    'candidate': candidate})
-
-                send_mail(_('E-mail confirmation'),
-                          email_ctx,
-                          settings.EMAIL_FROM,
-                          [candidate.email],
-                          fail_silently=False)
-
+                send_email_from_template(
+                    'confirmation',
+                    [candidate.email],
+                    {'domain': get_current_site(request),
+                     'candidate': candidate})
                 return render(request, 'auth/email_form.html', {
                     'profile_user': request.user})
             else:

@@ -47,7 +47,6 @@
       <p class="oa nm">
         {% if user == profile_user %}
           <a class="f_weak mr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
-          <a class="f_weak mr" href="{% url 'update_preferences' %}">{% trans "Update Preferences" %}</a>
   	      <a class="f_weak mr" href="{% url 'email_form' %}">{% trans "Update Email" %}</a>
           <a class="f_weak mr" href="/i/" >{% trans "Invitations" %}</a>
           <a class="f_weak mr" href="{% url 'logout' %}">{% trans "Log Out" %}</a>

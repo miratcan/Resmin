@@ -2,8 +2,7 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
-from apps.account.models import (Invitation, UserProfile, EmailCandidate,
-                                 UserPreferenceSet)
+from apps.account.models import (Invitation, UserProfile, EmailCandidate)
 
 from apps.follow.models import UserFollow
 from apps.account.signals import (follower_count_changed,
@@ -60,7 +59,7 @@ class RegisterForm(forms.Form):
     def save(self):
         user = User.objects.create_user(username=self.cleaned_data['username'],
                                         password=self.cleaned_data['pass_1'])
- 
+
         key = self.cleaned_data['key']
 
         # If key in FIXED_INVITATION_KEYS, create an invitation
@@ -154,6 +153,7 @@ class FollowForm(forms.Form):
         if self.action == 'follow':
             UserFollow.objects.create(
                 follower=self.follower, target=self.target)
+
         if self.action == 'block':
             UserFollow.objects.create(
                 follower=self.follower, target=self.target, status=2)
@@ -161,12 +161,3 @@ class FollowForm(forms.Form):
             follower_count_changed.send(sender=self.target)
             following_count_changed.send(sender=self.follower)
 
-
-class UserPreferenceSetForm(forms.ModelForm):
-    class Meta:
-        model = UserPreferenceSet
-        fields = ['ew_liked_ma',
-                  'ew_answered_mq',
-                  'ew_contributed_aq',
-                  'ew_commented_ma',
-                  'ew_commented_ca']
