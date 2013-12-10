@@ -12,10 +12,9 @@
   {% endif %}
   <div class="footer oa db pl pr">
     <div class="username">
-      {% if answer.visible_for == 1%}
+      {% if answer.visible_for == 1 %}
         <a href="#" title='{% trans "This question is visible for followers." %}' class="private_answer_indicator"></a>
       {% endif %}
-
       {% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse narrow=True %}
     </div>
     {% include "question/like_button_inc.html" %}

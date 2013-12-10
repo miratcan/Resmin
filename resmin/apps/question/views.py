@@ -69,7 +69,7 @@ def build_answer_queryset(request, **kwargs):
     # Build queryset via get_from.
     if get_from == 'user':
         queryset = queryset & \
-            Q(owner=kwargs.get('user'))
+            Q(owner=kwargs.get('user'), is_anonymouse=False)
     elif get_from == 'question':
         queryset = queryset & \
             Q(question=kwargs.get('question'))
