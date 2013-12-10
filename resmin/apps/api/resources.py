@@ -10,8 +10,8 @@ from tastypie.authorization import ReadOnlyAuthorization
 from apps.question.models import Question, Answer
 from apps.account.models import UserProfile
 
-class ProfileResource(ModelResource):
 
+class ProfileResource(ModelResource):
     class Meta:
         queryset = UserProfile.objects.all()
         resource_name = 'profile'

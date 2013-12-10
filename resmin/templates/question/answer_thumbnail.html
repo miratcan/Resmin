@@ -21,7 +21,7 @@
     {% include "question/like_button_inc.html" %}
   </div>
   {% if show_question_info_below_answers %}
-    <div class="oa db pa f_tiny bg" style="border-top: 1px dashed #ddd;">
+    <div class="oa db pa f_tiny" >
       <a href="{{ answer.question.get_absolute_url }}">{{ answer.question.text }}</a> sorusuna cevap olarak gönderildi.
     </div>
   {% endif %}

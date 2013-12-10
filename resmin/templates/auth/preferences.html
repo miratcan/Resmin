@@ -1,0 +1,11 @@
+{% extends "auth/dashboard_base.html" %}{% load i18n %}
+{% block page_title %}{% trans "Update Preferences" %}{% endblock %}
+{% block content_inner %}
+  <form id="preferences" method="POST">
+    {% csrf_token %}
+    {% for field in preferences_form %}
+      <p>{{ field }} {{ field.label }}</p>
+    {% endfor %}
+    <input type="submit" class="bttn fl green ra" value="{% trans 'Save' %}">
+  </form>
+{% endblock %}

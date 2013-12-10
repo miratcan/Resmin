@@ -33,6 +33,17 @@ class QuestionFollow(FollowBase):
         return reverse('cancel_follow', kwargs={'key': self.key})
 
 
+class AnswerFollow(FollowBase):
+    target = models.ForeignKey('question.Answer', related_name='answer')
+    status = models.PositiveSmallIntegerField(
+        default=0, choices=((0, 'Following'),
+                            (1, 'Unfollowed')))
+    key = models.CharField(max_length=255, blank=True)
+    reason = models.CharField(max_length=16,
+                              choices=(('created', 'Created'),
+                                       ('', '')))
+
+
 class UserFollow(FollowBase):
     target = models.ForeignKey(User, related_name='user')
     status = models.PositiveSmallIntegerField(
@@ -54,7 +65,7 @@ User.has_pending_follow_request = lambda u, t: \
     UserFollow.objects.filter(follower=u, target=t, status=0).exists()
 
 User.follower_user_ids = \
-    property(lambda u: [f.follower_id for f in UserFollow.objects.filter(	
+    property(lambda u: [f.follower_id for f in UserFollow.objects.filter(
              target=u, status=1)])
 
 User.following_user_ids = \
@@ -62,12 +73,13 @@ User.following_user_ids = \
              follower=u, status=1)])
 
 User.follower_users = \
-    property(lambda u: [f.follower for f in UserFollow.objects.filter(   
+    property(lambda u: [f.follower for f in UserFollow.objects.filter(
              target=u, status=1).select_related('follower')])
 
 User.following_users = \
     property(lambda u: [f.target for f in UserFollow.objects.filter(
              follower=u, status=1).select_related('target')])
+
 
 def compute_blocked_user_ids_for(user):
     ids = set()

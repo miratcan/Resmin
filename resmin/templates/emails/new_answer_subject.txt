@@ -1,0 +1,8 @@
+{% load i18n %}
+{% spaceless %}
+    {% if follow.reason == 'asked' %}
+      {% trans 'A question that you asked has a new answer' %}
+    {% else %}
+      {% trans 'A question that you answered before has new answer' %}
+    {% endif %}
+{% endspaceless %}

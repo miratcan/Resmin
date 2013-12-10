@@ -35,6 +35,7 @@ class Command(BaseCommand):
             userprofile = user.profile
             userprofile.update_like_count()
             userprofile.update_follower_count()
+            userprofile.update_following_count()
             userprofile.update_answer_count()
             userprofile.save()
             print "Updated %s/%s of users." % (counter + 1, users.count())

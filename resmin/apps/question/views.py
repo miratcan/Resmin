@@ -21,7 +21,7 @@ from libs.baseconv import base62
 
 from apps.question.models import Question, Answer
 
-from apps.follow.models import QuestionFollow, UserFollow
+from apps.follow.models import QuestionFollow, UserFollow, AnswerFollow
 from apps.follow.models import compute_blocked_user_ids_for
 
 from apps.question.forms import (CreateQuestionForm,
@@ -41,7 +41,7 @@ redis = get_redis_connection('default')
 
 def build_answer_queryset(request, **kwargs):
     """
-    Every build has: 
+    Every build has:
         Public answers,
         Answers from followings which is marked as for following_user_ids
         Answers from request.user
@@ -69,7 +69,7 @@ def build_answer_queryset(request, **kwargs):
     # Build queryset via get_from.
     if get_from == 'user':
         queryset = queryset & \
-            Q(owner=kwargs.get('user'), visible_for=0) 
+            Q(owner=kwargs.get('user'), visible_for=0)
     elif get_from == 'question':
         queryset = queryset & \
             Q(question=kwargs.get('question'), visible_for=0)
@@ -140,6 +140,20 @@ def index(request, **kwargs):
 
 def index2(request):
 
+    if request.user.is_authenticated():
+        pending_follow_requests = UserFollow.objects.filter(
+            target=request.user, status=0).count()
+    else:
+        pending_follow_requests = 0
+
+    show_email_message = request.user.is_authenticated() and \
+        not request.user.email
+
+    show_fix_answers_message = request.user.is_authenticated() and \
+        Answer.objects.filter(owner=request.user,
+                              status=0,
+                              visible_for=None).exists()
+
     search_form = SearchQuestionForm(
         initial={'q': _('Enter word(s) that you want to search in questions')})
 
@@ -147,7 +161,8 @@ def index2(request):
         initial={'text': _('Submit a question')}) if \
         request.user.is_authenticated() else None
 
-    questions = Question.objects.filter(status=0)
+    questions = Question.objects.filter(status=0)\
+        .select_related('cover_answer')
 
     if request.method == 'GET':
         search_form = SearchQuestionForm(request.GET)
@@ -164,7 +179,10 @@ def index2(request):
                   {'questions': questions,
                    'create_form': create_form,
                    'search_form': search_form,
-                   'trimmed': True})
+                   'trimmed': True,
+                   'pending_follow_requests': pending_follow_requests,
+                   'show_email_message': show_email_message,
+                   'show_fix_answers_message': show_fix_answers_message})
 
 
 def question(request, base62_id, show_delete=False, **kwargs):
@@ -179,6 +197,10 @@ def question(request, base62_id, show_delete=False, **kwargs):
     delete_form = DeleteQuestionForm(
         requested_by=request.user, question=question) if show_delete_action \
         and show_delete else None
+
+    is_following = QuestionFollow.objects.filter(follower=request.user,
+                                                 target=question,
+                                                 status=0).exists()
 
     # If request method is not post directly jump over render
     if request.method == 'POST' and request.user.is_authenticated():
@@ -200,6 +222,7 @@ def question(request, base62_id, show_delete=False, **kwargs):
         'question': question,
         'answers': answers,
         'show_delete_action': show_delete_action,
+        'is_following': is_following,
         'delete_form': delete_form})
 
 
@@ -344,6 +367,7 @@ def like(request):
     if not request.user.is_authenticated():
         return HttpResponse(status=401)
 
+    # TODO: Make it decorator
     if not request.POST:
         return HttpResponse(status=400)
 
@@ -358,6 +382,99 @@ def like(request):
     return HttpResponse(simplejson.dumps(
         {'like_count': answer.get_like_count_from_redis(),
          'status': bool(created)}))
+
+
+@csrf_exempt
+def follow_question(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
+
+    # TODO: Make it decorator
+    if not request.POST:
+        return HttpResponse(status=400)
+
+    qid, act = request.POST.get('qid'), request.POST.get('a')
+
+    if not qid:
+        return HttpResponse(status=400)
+
+    if act not in ['follow', 'unfollow']:
+        return HttpResponse(status=400)
+
+    question = get_object_or_404(Question, id=int(qid))
+
+    if act == 'follow':
+        qf = QuestionFollow.objects.get_or_create(follower=request.user,
+                                                  target=question)[0]
+
+        if not qf.status == 0:
+            qf.reason = 'followed'
+            qf.status = 0
+            qf.save(update_fields=['reason', 'status'])
+
+        is_following = True
+
+    elif act == 'unfollow':
+
+        try:
+            qf = QuestionFollow.objects.get(id=qid)
+        except:
+            qf = None
+
+        if qf:
+            qf.status = 1
+            qf.save(update_fields=['status'])
+
+        is_following = False
+
+    return HttpResponse(simplejson.dumps({'is_following': is_following}))
+
+
+@csrf_exempt
+def follow_answer(request):
+    if not request.user.is_authenticated():
+        return HttpResponse(status=401)
+
+    # TODO: Make it decorator
+    if not request.POST:
+        return HttpResponse(status=400)
+
+    aid, act = request.POST.get('qid'), request.POST.get('a')
+
+    if not aid:
+        return HttpResponse(status=400)
+
+    if act not in ['follow', 'unfollow']:
+        return HttpResponse(status=400)
+
+    answer = get_object_or_404(Answer, id=int(aid))
+
+    if act == 'follow':
+        af = AnswerFollow.objects.get_or_create(follower=request.user,
+                                                target=answer)[0]
+
+        if not af.status == 0:
+            af.reason = 'followed'
+            af.status = 0
+            af.save(update_fields=['reason', 'status'])
+
+        is_following = True
+
+    elif act == 'unfollow':
+
+        try:
+            af = AnswerFollow.objects.get(id=aid)
+        except:
+            af = None
+
+        if af:
+            af.status = 1
+            af.save(update_fields=['status'])
+
+        is_following = False
+
+    return HttpResponse(simplejson.dumps({'is_following': is_following}))
+
 
 
 @login_required

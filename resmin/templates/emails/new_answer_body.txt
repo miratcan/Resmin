@@ -1,7 +1,7 @@
-Cevabı görüntülemek için aşağıdaki linke tıkla:
+{% load i18n %}{% trans 'Click the link below to display answer' %}:
 
 http://{{ domain }}{{ answer.get_absolute_url }}
 
-Eğer bu soru hakkında daha fazla bildirim almak istemiyorsan, aşağıdaki linke tıklayabilirsin:
+{% trans "If you don't want to get more emails about that question, click the link below" %}:
 
 http://{{ domain }}{{ follow.cancellation_url }}

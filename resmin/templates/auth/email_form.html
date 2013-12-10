@@ -1,8 +1,6 @@
-{% extends "base.html" %}
-{% load i18n %}
-
-{% block content %}
-<div class="narrow fc">
+{% extends "auth/dashboard_base.html" %}{% load i18n %}
+{% block page_title %}{% trans "Update Email" %}{% endblock %}
+{% block content_inner %}
   {% if form %}
     <div class="panel-right">
       <p class="mb">{% trans "We'll use your e-mail address to send you notifications when it's necessary and we'll never share it with other people." %}</p>
@@ -21,5 +19,4 @@
       <p class="imp f_stng tac pad">{% trans "We just sent a link to your e-mail. You can confirm the action clicking on it." %}</p>
     {% endif %}
   {% endif %}
-</div>
 {% endblock %}

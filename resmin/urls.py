@@ -3,26 +3,15 @@ from django.contrib import admin
 from django.conf import settings
 
 from django.views.generic import TemplateView
-from apps.question.resources import QuestionResource
-from apps.account.resources import UserResource
-from tastypie.api import Api
+from apps.api import v1_api
 
 admin.autodiscover()
-
-v1_api = Api(api_name='v1')
-
-v1_api.register(QuestionResource())
-v1_api.register(UserResource())
 
 urlpatterns = patterns(
     '',
     url(r'^$',
-        'apps.question.views.index',
-        name='index'),
-
-    url(r'^2/$',
         'apps.question.views.index2',
-        name='index2'),
+        name='index'),
 
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
@@ -42,14 +31,12 @@ urlpatterns = patterns(
         name='profile'),
 
     url(r'^u/(?P<username>[-\w]+)/followers/$',
-        'apps.account.views.profile',
-        name='profile',
-        kwargs={'list_followers': True}),
+        'apps.account.views.followers',
+        name='followers'),
 
     url(r'^u/(?P<username>[-\w]+)/followings/$',
-        'apps.account.views.profile',
-        name='profile',
-        kwargs={'list_followings': True}),
+        'apps.account.views.followings',
+        name='followings'),
 
     url(r'^u/(?P<username>[-\w]+)/to/followings/$',
         'apps.account.views.profile',
@@ -166,6 +153,10 @@ urlpatterns = patterns(
         'apps.question.views.like',
         name='like'),
 
+    url(r'^fq/$',
+        'apps.question.views.follow_question',
+        name='follow_question'),
+
     (r'^fix_answer', 'apps.question.views.fix_answer'),
 
     url(r'^hof/$',
@@ -180,6 +171,7 @@ urlpatterns = patterns(
         include(admin.site.urls)),
 
     (r'^api/', include(v1_api.urls)),
+
 )
 
 if settings.DEBUG:

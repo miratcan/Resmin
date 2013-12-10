@@ -1,19 +1,14 @@
-from django.contrib import messages
 
 from django.utils.translation import ugettext as _
 
-from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, render
 
-from django.http import HttpResponseRedirect
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseRedirect, HttpResponseNotFound
 
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-
-from django.core.mail import send_mail
-
-from django.template.loader import render_to_string
+from django.contrib import messages
 
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import get_current_site
@@ -22,32 +17,31 @@ from django.views.decorators.csrf import csrf_exempt
 
 from django.conf import settings
 
-from apps.account.models import Invitation, UserProfile
-from apps.account.forms import FollowForm
+from apps.account.models import (Invitation, UserProfile,
+                                 EmailCandidate)
+
+from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
+                                EmailCandidateForm)
 
 from apps.question.models import Question
 from apps.question.views import build_answer_queryset
+
 from apps.follow.models import UserFollow
 
 from datetime import datetime, timedelta
 
-from apps.account.forms import RegisterForm
-from apps.account.forms import UpdateProfileForm
-from apps.account.forms import EmailCandidateForm
 
-from apps.account.models import EmailCandidate
 from apps.account.signals import follower_count_changed
 
 from redis_cache import get_redis_connection
 from tastypie.models import ApiKey
-from utils import paginated
+from utils import paginated, send_email_from_template
 from utils import render_to_json
 
 redis = get_redis_connection('default')
 
 
-def profile(request, username=None, action=None, get_filter='public',
-            list_followers=False, list_followings=False):
+def profile(request, username=None, action=None, get_filter='public'):
 
     user = get_object_or_404(User, username=username) if username \
         else request.user
@@ -70,39 +64,13 @@ def profile(request, username=None, action=None, get_filter='public',
            'user_is_blocked_by_me': user_is_blocked_by_me,
            'user_is_blocked_me': user_is_blocked_me,
            'have_pending_follow_request': have_pending_follow_request,
-           'i_am_follower_of_user': i_am_follower_of_user,
-           'list_followers': list_followers,
-           'list_followings': list_followings,}
+           'i_am_follower_of_user': i_am_follower_of_user}
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        if not list_followings and not list_followers:
-            ctx['answers'] = build_answer_queryset(
-                request, get_from='user', get_filter=get_filter, user=user)
-        else:
-            if list_followers:
+        ctx['answers'] = build_answer_queryset(
+            request, get_from='user', get_filter=get_filter, user=user)
 
-                # TODO: Should we move this select related action to
-                # User.following_users method?
-                follower_users = User.objects\
-                    .filter(id__in=user.follower_user_ids)\
-                    .select_related('userprofile')
-
-                ctx['follower_users'] = \
-                    paginated(request,
-                              follower_users,
-                              settings.QUESTIONS_PER_PAGE)
-
-            elif list_followings:
-
-                following_users = User.objects\
-                    .filter(id__in=user.following_user_ids)\
-                    .select_related('userprofile')
-
-                ctx['following_users'] = \
-                    paginated(request,
-                              following_users,
-                               settings.QUESTIONS_PER_PAGE)
     if action:
         ctx['action'] = action
         follow_form = FollowForm(follower=request.user,
@@ -192,6 +160,7 @@ def update_profile(request):
         request,
         "auth/update_profile.html",
         {'form': form,
+         'profile_user': request.user,
          'avatar_question': avatar_question})
 
 
@@ -216,8 +185,39 @@ def invitations(request):
         request,
         'auth/invitations.html',
         {'site': get_current_site(request),
+         'profile_user': request.user,
          'invs': Invitation.objects.filter(
              owner=request.user).order_by("used_by")})
+
+
+@login_required
+def followers(request, username):
+    user = get_object_or_404(User, username=username)
+    follower_users = User.objects\
+        .filter(id__in=user.follower_user_ids)\
+        .select_related('userprofile')
+    follower_users = paginated(
+        request, follower_users, settings.QUESTIONS_PER_PAGE)
+    return render(
+        request,
+        'auth/followers.html',
+        {'profile_user': request.user,
+         'follower_users': follower_users})
+
+
+@login_required
+def followings(request, username):
+    user = get_object_or_404(User, username=username)
+    following_users = User.objects\
+        .filter(id__in=user.following_user_ids)\
+        .select_related('userprofile')
+    following_users = paginated(
+        request, following_users, settings.QUESTIONS_PER_PAGE)
+    return render(
+        request,
+        'auth/followings.html',
+        {'profile_user': request.user,
+         'following_users': following_users})
 
 
 @login_required
@@ -245,8 +245,8 @@ def remote_key(request):
 def email(request, key=None):
     EmailCandidate.objects.filter(
         created_at__lte=datetime.utcnow() - timedelta(days=6*30)).delete()
-    if key:
 
+    if key:
         try:
             email = EmailCandidate.objects.get(key=key)
         except EmailCandidate.DoesNotExist:
@@ -268,21 +268,18 @@ def email(request, key=None):
                 candidate = form.save(commit=False)
                 candidate.owner = request.user
                 candidate.save()
-
-                email_ctx = render_to_string('emails/confirmation_body.txt', {
-                    'domain': get_current_site(request),
-                    'candidate': candidate})
-
-                send_mail(_('E-mail confirmation'),
-                          email_ctx,
-                          settings.EMAIL_FROM,
-                          [candidate.email],
-                          fail_silently=False)
-
-                return render(request, 'auth/email_form.html')
+                send_email_from_template(
+                    'confirmation',
+                    [candidate.email],
+                    {'domain': get_current_site(request),
+                     'candidate': candidate})
+                return render(request, 'auth/email_form.html', {
+                    'profile_user': request.user})
             else:
                 return render(request, 'auth/email_form.html', {
-                    'form': form})
+                    'form': form,
+                    'profile_user': request.user})
         else:
             return render(request, 'auth/email_form.html', {
-                'form': EmailCandidateForm})
+                'form': EmailCandidateForm,
+                'profile_user': request.user})

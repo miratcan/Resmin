@@ -6,4 +6,34 @@
     {% include "question/answer_thumbnails.html" %}
     {% include "includes/pagination_links_for_answers.html" %}
   {% endwith %}
+
+  <script>
+  $(".follow_action").click(function(ev) {
+    var q_el = $(ev.target).parent().parent();
+    var a_el = $(this);
+    $.ajax({
+      type: "POST",
+      url: "/fq/",
+      data: {
+        "qid" : q_el.attr('data-question-id'),
+        "a"   : a_el.attr('data-action')
+      },
+      dataType: "json",
+      success: function(data) {
+        if (data.is_following === true) {
+            a_el.html('Takipten Çık');
+            a_el.attr('data-action', 'unfollow')
+        } else {
+            a_el.html('Takip Et');
+            a_el.attr('data-action', 'follow')
+        }
+      },
+      statusCode: {
+        401: function() {
+          alert("Yu hev tu login tu kompiliyt dis ekşın.");
+        }
+      }
+    });
+  });
+  </script>
 {% endblock %}

@@ -21,6 +21,7 @@ class UserProfile(models.Model):
     website = models.URLField(_('website'), null=True, blank=True)
     like_count = models.PositiveIntegerField(default=0)
     follower_count = models.PositiveIntegerField(default=0)
+    following_count = models.PositiveIntegerField(default=0)
     answer_count = models.PositiveIntegerField(default=0)
     location = models.CharField(_('location'), max_length=64,
                                 null=True, blank=True)
@@ -35,12 +36,16 @@ class UserProfile(models.Model):
 
     def update_like_count(self):
         self.like_count = self.user.answer_set.filter(status=0)\
-            .aggregate(like_count_total=Sum('like_count')
-                )['like_count_total'] or 0
+            .aggregate(like_count_total=Sum('like_count'))['like_count_total']\
+            or 0
 
     def update_follower_count(self):
-    	self.follower_count = UserFollow.objects.filter(
+        self.follower_count = UserFollow.objects.filter(
             target=self.user, status=1).count()
+
+    def update_following_count(self):
+        self.following_count = UserFollow.objects.filter(
+            follower=self.user, status=1).count()
 
     def update_answer_count(self):
         self.answer_count = self.user.answer_set.filter(status=0).count()
@@ -82,7 +87,9 @@ class EmailCandidate(BaseModel):
     def get_absolute_url(self):
         return reverse('email_confirm', kwargs={'key': self.key})
 
+
 @receiver(post_save, sender=User)
 def user_created_callback(sender, **kwargs):
     if kwargs.get('created'):
         UserProfile.objects.get_or_create(user=kwargs['instance'])
+        UserPreferenceSet.objects.get_or_create(user=kwargs['instance'])

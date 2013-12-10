@@ -1,12 +1,12 @@
 from django import forms
 from django.utils.translation import ugettext as _
-from django.contrib.auth.models import User
 from django.conf import settings
 
 from apps.question.models import Question, Answer
 
 from apps.question.signals import (user_created_question,
                                    user_created_answer)
+
 
 class CreateQuestionForm(forms.ModelForm):
 

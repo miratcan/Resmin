@@ -3,17 +3,14 @@
   padding: 0;
 }
 .content {
-  background: #eeeeee url(http://ivorycity.com/global/images/background.png);
+  min-height: 400px;
+  background: #efefef url(http://ivorycity.com/global/images/background.png);
 }
 .bg {
   background: #ffffff;
 }
 .bg-dark {
   background: #ddd;
-  border-left: 1px solid #aaa;
-  border-top: 1px solid #aaa;
-  border-right: 1px solid #fff;
-  border-bottom: 1px solid #fff;
 }
 a,
 .pink {
@@ -37,6 +34,20 @@ p {
 .bl,
 .ba {
   border-color: #bbb;
+}
+.bt_weak,
+.br_weak,
+.bb_weak,
+.bl_weak,
+.ba_weak {
+  border-color: #ccc;
+}
+.bt_stng,
+.br_stng,
+.bb_stng,
+.bl_stng,
+.ba_stng {
+  border-color: #666;
 }
 .c_weak {
   color: #888888;
@@ -175,6 +186,22 @@ p {
   border-style: solid;
   border-width: 1px;
 }
+.bt_weak {
+  border-top-style: dashed;
+  border-top-width: 1px;
+}
+.bb_weak {
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+.bl_weak {
+  border-left-style: dashed;
+  border-left-width: 1px;
+}
+.br_weak {
+  border-right-style: dashed;
+  border-right-width: 1px;
+}
 .nb {
   border: none;
 }
@@ -215,6 +242,12 @@ p {
 }
 .tac {
   text-align: center;
+}
+.tal {
+  text-align: left;
+}
+.tar {
+  text-align: right;
 }
 .oa {
   overflow: auto;
@@ -277,15 +310,11 @@ body {
   font-size: 16px;
   line-height: 23px;
   color: #525B64;
-  background: #eee;
+  background: #fff;
 }
 .subnav {
   padding: 10px;
   background: #ddd;
-  border-left: 1px solid #aaa;
-  border-top: 1px solid #aaa;
-  border-right: 1px solid #fff;
-  border-bottom: 1px solid #fff;
   border-color: #bbb;
   border-bottom-style: solid;
   border-bottom-width: 1px;
@@ -323,25 +352,21 @@ img.db {
   margin-top: 90px;
 }
 .thmb-wrap {
+  background: #ffffff;
   margin-bottom: 20px;
   margin-left: 5px;
   margin-right: 5px;
   float: left;
   box-shadow: 0 0 10px #ccc;
-  border-color: #bbb;
-  border-style: solid;
-  border-width: 1px;
   width: 220px;
+  border-color: #bbb;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
   border-bottom-width: 3px;
 }
 .thmb-wrap .a {
   display: block !important;
   overflow: auto;
-}
-.thmb-wrap .footer {
-  background: #ffffff;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
 }
 .thmb-wrap .footer .username {
   font-size: 14px;
@@ -362,9 +387,6 @@ img.db {
   background: #FCF99C;
   text-align: center;
   color: #222222;
-  border-color: #bbb;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
   padding-top: 10px;
   padding-bottom: 10px;
   margin: 0;
@@ -385,20 +407,19 @@ img.db {
   color: #888888;
   font-weight: bold;
   margin-top: 20px;
-  margin-bottom: 10px;
-  border-color: #bbb;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
+  margin-bottom: 20px;
   overflow: auto;
 }
-.q_s a.action {
-  background: #FCF99C;
-  padding-right: 10px;
-  padding-left: 10px;
-  float: right;
-  font-size: 12px;
-  line-height: 16px;
-  font-weight: bold;
+p.actions {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: normal;
+}
+p.actions a {
+  margin-right: 10px;
+}
+.answer_actions a {
+  display: block !important;
 }
 ul {
   padding-left: 40px;
@@ -419,7 +440,7 @@ input[type='text'],
 input[type='password'],
 input[type='file'],
 textarea {
-  border: 1px solid #ccc;
+  border: none;
   margin-bottom: 10px;
 }
 label {
@@ -428,6 +449,7 @@ label {
   line-height: 23px;
   color: #525B64;
   margin-bottom: 5px;
+  margin-right: 10px;
 }
 input[type=text],
 input[type=password] {
@@ -447,6 +469,10 @@ input[type=file] {
   border: 0;
   width: 100%;
   padding: 0;
+}
+input[type=checkbox] {
+  float: left;
+  margin-top: 3px;
 }
 input,
 textarea {
@@ -485,6 +511,9 @@ table {
 }
 table td {
   vertical-align: top;
+}
+form#preferences input[type='checkbox'] {
+  margin-right: 10px;
 }
 .q:hover p.info {
   visibility: visible;
@@ -537,6 +566,9 @@ table td {
   float: left;
   display: block !important;
 }
+#create_form label {
+  float: left;
+}
 .like-wrap {
   float: right;
   color: #888888;
@@ -571,6 +603,32 @@ table td {
   margin-top: 10px;
   padding-bottom: 10px;
   float: right;
+}
+.question {
+  height: 270px;
+  width: 290px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-bottom: 20px;
+  margin-left: 5px;
+  margin-right: 5px;
+  position: relative;
+  float: left;
+}
+.question .inner {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center;
+  font-size: 20px;
+}
+.question .inner a {
+  color: #fff;
+}
+.question .inner p {
+  color: #ccc;
 }
 @media only screen and (max-width: 800px) {
   .thmb-row {

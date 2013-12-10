@@ -2,14 +2,11 @@
 
 *           { margin: 0; padding: 0;}
 
-.content    { background   : #eee url(http://ivorycity.com/global/images/background.png); }
+.content    { min-height: 400px; background   : #efefef url(http://ivorycity.com/global/images/background.png); }
 
 .bg         { background   : @white }
-.bg-dark    { background   : #ddd;
-              border-left: 1px solid #aaa;
-              border-top: 1px solid #aaa;
-              border-right: 1px solid #fff;
-              border-bottom: 1px solid #fff; }
+.bg-dark    { background   : #ddd; }
+
 a, .pink    { color        : #C15D63; }
 .errorlist  { background   : #d91c5c;
               color        : #ffffff;
@@ -18,7 +15,18 @@ p           { .f_nrml; .c_nrml; .mb; }
 
 .bt, .br,
 .bb, .bl,
-.ba         { border-color : #bbb;}
+.ba              { border-color : #bbb; }
+
+
+.bt_weak, .br_weak,
+.bb_weak, .bl_weak,
+.ba_weak         { border-color : #ccc; }
+
+
+.bt_stng, .br_stng,
+.bb_stng, .bl_stng,
+.ba_stng         { border-color : #666; }
+
 
 .c_weak     { color        : #888888; }
 .c_nrml     { color        : #525B64; }
@@ -77,6 +85,12 @@ p           { .f_nrml; .c_nrml; .mb; }
 .bl         { border-left-style   : solid; border-left-width: 1px; }
 .br         { border-right-style  : solid; border-right-width: 1px; }
 .ba         { border-style        : solid; border-width: 1px; }
+
+.bt_weak    { border-top-style: dashed; border-top-width: 1px; }
+.bb_weak    { border-bottom-style: dashed; border-bottom-width: 1px; }
+.bl_weak    { border-left-style: dashed; border-left-width: 1px; }
+.br_weak    { border-right-style: dashed; border-right-width: 1px; }
+
 .nb         { border: none; }
 .lt         { text-decoration: line-through; }
 
@@ -96,6 +110,8 @@ p           { .f_nrml; .c_nrml; .mb; }
 .auto_w     { width: auto; }
 .fsi        { font-style: italic; }
 .tac        { text-align: center; }
+.tal        { text-align: left; }
+.tar        { text-align: right; }
 .oa         { overflow: auto;}
 .db         { display: block !important;}
 
@@ -126,14 +142,14 @@ p           { .f_nrml; .c_nrml; .mb; }
 	height: 48px;
 }
 
-body        { font-family: sans-serif; .f_nrml; .c_nrml; background: #eee; }
+body        { font-family: sans-serif; .f_nrml; .c_nrml; background: #fff; }
 .subnav     { .pa; .bg-dark; .bb; }
 
 #logo, a    { text-decoration: none; }
 
 a:hover     { text-decoration: underline; }
 
-footer a    { margin: 0 5px; }
+footer a    { margin: 0 5px;}
 img         { .bg; .tac;
 	            max-width: 100%; }
 
@@ -144,10 +160,10 @@ img.db      { width: 100%; }
               background-repeat: no-repeat; }
 .thmb span  { width: 100%; .tac; .db; .f_weak; .wb; margin-top: 90px; }
 .thmb-wrap  {
-	.mbd; .mlh; .mrh; .fl; .shadowed; .ba; width: 220px; border-bottom-width: 3px;
+  .bg;
+	.mbd; .mlh; .mrh; .fl; .shadowed; width: 220px; .bb; border-bottom-width: 3px;
     .a { .db; .oa; }
     .footer {
-      .bg; .rb;
       .username { .f_weak; .fl; .pt; .mbh; }
       }
   .private_answer_indicator {
@@ -160,15 +176,18 @@ img.db      { width: 100%; }
   }
 }
 
-.yellow-stripe { .imp; .tac; .c_stng; .bb; .pt; .pb; .nm; }
+.yellow-stripe { .imp; .tac; .c_stng; .pt; .pb; .nm; }
 
 #logo       { font-family: 'Oleo Script Swash Caps', cursive;
               font-size: 46px; line-height: 50px; }
 
 .u_info     { }
 .p_pic      { width: 72px; float: left; margin: 0 10px 0 0;}
-.q_s        { .f_stng; .c_weak; .wb; .mtd; .mb; .bb; .oa;
-              a.action {.imp; .pr; .pl; .fr; .f_tiny; .wb;}}
+.q_s        { .f_stng; .c_weak; .wb; .mtd; .mbd; .oa; }
+p.actions { .f_weak; .wn; }
+p.actions a { .mr;}
+
+.answer_actions a { .db; }
 
 ul          { padding-left: 40px }
 
@@ -183,11 +202,10 @@ form            { overflow: auto; margin-bottom: 10px;}
 input[type='text'],
 input[type='password'],
 input[type='file'],
-textarea         { border: 1px solid #ccc;
-                   margin-bottom: 10px;}
+textarea         { border: none; margin-bottom: 10px;}
 
 label            { display: block;
-                   .f_nrml; .c_nrml; .mbh }
+                   .f_nrml; .c_nrml; .mbh; .mr; }
 input[type=text],
 input[type=password] 
                  { box-sizing: border-box; /* css3 rec */
@@ -201,9 +219,11 @@ input[type=file] { border: 0;
                    width: 100%;
                	   padding: 0; }
 
+input[type=checkbox] { .fl; margin-top: 3px; }
+
 input,
 textarea         { .pah; .f_nrml; }
-  
+
 .bttn {
     border: none;
     display: inline-block;
@@ -227,6 +247,9 @@ textarea         { .pah; .f_nrml; }
 table {
     text-align: center;
     td { vertical-align: top; }
+}
+form#preferences {
+  input[type='checkbox']{ .mr; }  
 }
 
 .q:hover p.info { visibility: visible; }
@@ -263,6 +286,10 @@ table {
   input, select { .fl;  .db; }
 }
 
+#create_form {
+  label { float: left; }
+}
+
 .like-wrap {
   .fr;
   .c_weak;
@@ -285,6 +312,29 @@ table {
 
 .panel-left { width: 65%; .fl; }
 .panel-right { width: 32.5%; .mt; .pb; .fr; }
+
+.question {
+  height: 270px;
+  width: 290px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin-bottom: 20px;
+  margin-left:5px;
+  margin-right: 5px;
+  position: relative;
+  float: left;
+}
+
+.question .inner {
+  position: absolute;
+  top: 100px;
+  left: 0;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  text-align: center; font-size: 20px;
+}
+.question .inner a { color: #fff;}
+.question .inner p { color: #ccc;}
 
 @media only screen and (max-width:800px) {
   .thmb-row {

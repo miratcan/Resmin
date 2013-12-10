@@ -1,6 +1,5 @@
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
-from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.contrib.sites.models import Site
@@ -46,29 +45,35 @@ def paginated(request, query, amount):
     return objects
 
 
+def send_email_from_template(template_name, recipients, context):
+    e_subject_path = '%s/%s_subject.txt' % (
+        settings.EMAIL_TEMPLATES_PREFIX, template_name)
+    e_body_path = '%s/%s_body.txt' % (
+        settings.EMAIL_TEMPLATES_PREFIX, template_name)
+
+    e_subject = render_to_string(e_subject_path, context).replace('\n', '')
+    e_body = render_to_string(e_body_path, context)
+
+    send_mail(e_subject, e_body, settings.EMAIL_FROM, recipients)
+
+
 def _send_notification_emails_to_followers_of_question(new_answer):
 
     from follow.models import QuestionFollow
 
-    titles = {'asked': _('A question that you asked has a new answer'),
-              'answered': _('A question that you answered before has '
-                            'new answer')}
-
+    # TODO: Check for optimisation of this query
     follows = QuestionFollow.objects\
         .filter(target=new_answer.question, status=0)\
-        .exclude(follower=new_answer.owner)
+        .exclude(follower=new_answer.owner)\
+        .prefetch_related('follower__userpreference_set')
 
     for follow in follows:
-        email_ctx = render_to_string(
-            'emails/new_answer_body.txt', {
-                'domain': Site.objects.get_current().domain,
-                'answer': new_answer,
-                'follow': follow})
-        send_mail(titles[follow.reason],
-                  email_ctx,
-                  settings.EMAIL_FROM,
-                  [follow.follower.email],
-                  fail_silently=False)
+        send_email_from_template(
+            'new_answer',
+            [follow.follower.email],
+            {'domain': Site.objects.get_current().domain,
+             'answer': new_answer,
+             'follow': follow})
 
 
 def _set_avatar_to_answer(answer):
