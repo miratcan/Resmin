@@ -73,7 +73,7 @@
   </form>
   {% endif %}
   {% for question in questions %}
-    <div class="question" style="background-image: url({% thumbnail question.latest_image "290x290" crop="center" as bgimg %}{{ bgimg.url }}{% endthumbnail %})">
+    <div class="question" style="background-image: url({% thumbnail question.latest_answer.image "290x290" crop="center" as bgimg %}{{ bgimg.url }}{% endthumbnail %})">
       <div class="inner">
         <p>
           <a href="{{ question.get_absolute_url }}">{{ question }}</a>
