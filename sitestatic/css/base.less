@@ -202,12 +202,13 @@ form            { overflow: auto; margin-bottom: 10px;}
 input[type='text'],
 input[type='password'],
 input[type='file'],
-textarea         { border: none; margin-bottom: 10px;}
+textarea         { border: none; .mb; }
 
 label            { display: block;
                    .f_nrml; .c_nrml; .mbh; .mr; }
 input[type=text],
-input[type=password] 
+input[type=password],
+textarea
                  { box-sizing: border-box; /* css3 rec */
                    -moz-box-sizing: border-box; /* ff2 */
                    -ms-box-sizing: border-box; /* ie8 */
@@ -223,6 +224,8 @@ input[type=checkbox] { .fl; margin-top: 3px; }
 
 input,
 textarea         { .pah; .f_nrml; }
+
+textarea         { height: 100px; }
 
 .bttn {
     border: none;
@@ -286,7 +289,7 @@ form#preferences {
   input, select { .fl;  .db; }
 }
 
-#create_form {
+#create_form, #update_form {
   label { float: left; }
 }
 

@@ -41,13 +41,10 @@ from utils import render_to_json
 redis = get_redis_connection('default')
 
 
-def profile(request, username=None, action=None, get_filter='public'):
+def profile(request, username=None, action=None):
 
     user = get_object_or_404(User, username=username) if username \
         else request.user
-
-    if get_filter != 'public' and not request.user == user:
-        return HttpResponseNotFound()
 
     user_is_blocked_me, user_is_blocked_by_me,\
         i_am_follower_of_user, have_pending_follow_request \
@@ -69,7 +66,7 @@ def profile(request, username=None, action=None, get_filter='public'):
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
         ctx['answers'] = build_answer_queryset(
-            request, get_from='user', get_filter=get_filter, user=user)
+            request, get_from='user', user=user)
 
     if action:
         ctx['action'] = action

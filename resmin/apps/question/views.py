@@ -21,7 +21,7 @@ from libs.baseconv import base62
 
 from apps.question.models import Question, Answer
 
-from apps.follow.models import QuestionFollow, UserFollow, AnswerFollow
+from apps.follow.models import QuestionFollow, UserFollow
 from apps.follow.models import compute_blocked_user_ids_for
 
 from apps.question.forms import (CreateQuestionForm,
@@ -110,45 +110,21 @@ def build_answer_queryset(request, **kwargs):
         'from': get_from}
 
 
-def index(request, **kwargs):
-
-    answers = build_answer_queryset(request, **kwargs)
-
+def index(request):
+    # If user is authenticated get number of pending follow requests
     if request.user.is_authenticated():
         pending_follow_requests = UserFollow.objects.filter(
             target=request.user, status=0).count()
     else:
         pending_follow_requests = 0
 
+    '''If user is authenticated and not registered email we will show
+    Register your email message'''
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
 
-    show_fix_answers_message = request.user.is_authenticated() and \
-        Answer.objects.filter(owner=request.user,
-                              status=0,
-                              visible_for=None).exists()
-
-    return render(request,
-                  "index.html",
-                  {'page_name': 'index',
-                   'answers': answers,
-                   'show_question_info_below_answers': True,
-                   'show_email_message': show_email_message,
-                   'show_fix_answers_message': show_fix_answers_message,
-                   'pending_follow_requests': pending_follow_requests})
-
-
-def index2(request):
-
-    if request.user.is_authenticated():
-        pending_follow_requests = UserFollow.objects.filter(
-            target=request.user, status=0).count()
-    else:
-        pending_follow_requests = 0
-
-    show_email_message = request.user.is_authenticated() and \
-        not request.user.email
-
+    '''If user is authenticated and has unfixed answers we will show
+    Fix your answers message'''
     show_fix_answers_message = request.user.is_authenticated() and \
         Answer.objects.filter(owner=request.user,
                               status=0,
@@ -156,7 +132,6 @@ def index2(request):
 
     search_form = SearchQuestionForm(
         initial={'q': _('Enter word(s) that you want to search in questions')})
-
     create_form = CreateQuestionForm(
         initial={'text': _('Submit a question')}) if \
         request.user.is_authenticated() else None
@@ -173,7 +148,9 @@ def index2(request):
         if create_form.is_valid():
             question = create_form.save(owner=request.user)
             return HttpResponseRedirect(question.get_absolute_url())
+
     questions = paginated(request, questions, settings.QUESTIONS_PER_PAGE)
+
     return render(request,
                   "index2.html",
                   {'questions': questions,
@@ -219,35 +196,6 @@ def question(request, base62_id, show_delete=False, **kwargs):
         'answers': answers,
         'show_delete_action': show_delete_action,
         'delete_form': delete_form})
-
-
-def questions(request):
-
-    search_form = SearchQuestionForm(
-        initial={'q': _('Enter word(s) that you want to search in questions')})
-
-    create_form = CreateQuestionForm(
-        initial={'text': _('Submit a question')}) if \
-        request.user.is_authenticated() else None
-
-    questions = Question.objects.filter(status=0)
-
-    if request.method == 'GET':
-        search_form = SearchQuestionForm(request.GET)
-        if search_form.is_valid():
-            questions = questions.filter(text__search=search_form['q'])
-    elif request.method == 'POST':
-        create_form = CreateQuestionForm(request.POST)
-        if create_form.is_valid():
-            question = create_form.save(owner=request.user)
-            return HttpResponseRedirect(question.get_absolute_url())
-    questions = paginated(request, questions, settings.QUESTIONS_PER_PAGE)
-    return render(request,
-                  "question/question_list.html",
-                  {'questions': questions,
-                   'create_form': create_form,
-                   'search_form': search_form,
-                   'trimmed': True})
 
 
 def answer(request, base62_id):
@@ -423,53 +371,6 @@ def follow_question(request):
         is_following = False
 
     return HttpResponse(simplejson.dumps({'is_following': is_following}))
-
-
-@csrf_exempt
-def follow_answer(request):
-    if not request.user.is_authenticated():
-        return HttpResponse(status=401)
-
-    # TODO: Make it decorator
-    if not request.POST:
-        return HttpResponse(status=400)
-
-    aid, act = request.POST.get('qid'), request.POST.get('a')
-
-    if not aid:
-        return HttpResponse(status=400)
-
-    if act not in ['follow', 'unfollow']:
-        return HttpResponse(status=400)
-
-    answer = get_object_or_404(Answer, id=int(aid))
-
-    if act == 'follow':
-        af = AnswerFollow.objects.get_or_create(follower=request.user,
-                                                target=answer)[0]
-
-        if not af.status == 0:
-            af.reason = 'followed'
-            af.status = 0
-            af.save(update_fields=['reason', 'status'])
-
-        is_following = True
-
-    elif act == 'unfollow':
-
-        try:
-            af = AnswerFollow.objects.get(id=aid)
-        except:
-            af = None
-
-        if af:
-            af.status = 1
-            af.save(update_fields=['status'])
-
-        is_following = False
-
-    return HttpResponse(simplejson.dumps({'is_following': is_following}))
-
 
 
 @login_required

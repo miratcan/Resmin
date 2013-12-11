@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-10 20:21+0200\n"
+"POT-Creation-Date: 2013-12-11 08:12+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,39 +70,39 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:88
+#: apps/account/views.py:85
 msgid "Follow request sent to user"
 msgstr "Mürit olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:91
+#: apps/account/views.py:88
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının müridi değilsin"
 
-#: apps/account/views.py:94
+#: apps/account/views.py:91
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:97
+#: apps/account/views.py:94
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:154
+#: apps/account/views.py:151
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:177
+#: apps/account/views.py:174
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:238
+#: apps/account/views.py:235
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:259
+#: apps/account/views.py:256
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
-#: apps/account/views_extra.py:9
+#: apps/account/views_extra.py:59
 msgid "Your preferences updated"
 msgstr "Tercihlerin güncellendi"
 
@@ -115,17 +115,25 @@ msgstr "Adımı Gizle"
 msgid "Select an image to submit an answer"
 msgstr "Cevap olarak göndereceğin resmi seç"
 
-#: apps/question/forms.py:79
+#: apps/question/forms.py:75
 msgid "You can not update an answer that is not yours."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
 
-#: apps/question/forms.py:95
+#: apps/question/forms.py:91
 msgid "Understood"
 msgstr "Anladım"
 
 #: apps/question/models.py:35
 msgid "Question"
 msgstr "Soru"
+
+#: apps/question/models.py:105
+msgid "Description"
+msgstr "Açıklama"
+
+#: apps/question/models.py:106
+msgid "Source URL"
+msgstr "Kaynak URL"
 
 #: apps/question/models.py:107
 msgid "NSFW"
@@ -143,27 +151,27 @@ msgstr "Herkese"
 msgid "My Followers"
 msgstr "Takipçilerime"
 
-#: apps/question/views.py:158 apps/question/views.py:232
+#: apps/question/views.py:134
 msgid "Enter word(s) that you want to search in questions"
 msgstr "Sorular içinde aramak istediğin kelime/yi/leri yaz"
 
-#: apps/question/views.py:161 apps/question/views.py:235
+#: apps/question/views.py:136
 msgid "Submit a question"
 msgstr "Bir soru gönder"
 
-#: apps/question/views.py:218
+#: apps/question/views.py:191
 msgid "Your question is deleted"
 msgstr "Sorun silindi"
 
-#: apps/question/views.py:270
+#: apps/question/views.py:213
 msgid "Your answer deleted"
 msgstr "Cevabın silindi"
 
-#: apps/question/views.py:278
+#: apps/question/views.py:221
 msgid "Updated Cover Image"
 msgstr "Kapak Fotoğrafı Güncellendi"
 
-#: apps/question/views.py:326
+#: apps/question/views.py:269
 msgid "Your answer updated"
 msgstr "Cevabın güncellendi"
 
@@ -278,7 +286,7 @@ msgstr "Gönder"
 msgid "Updated at %(updated_timesince)s ago."
 msgstr "%(updated_timesince)s önce güncellendi"
 
-#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:51
+#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:50
 msgid "Update Email"
 msgstr "E-Posta Güncelle"
 
@@ -369,7 +377,7 @@ msgstr "Kabul ediyorum"
 msgid "Decline"
 msgstr "Görmezden gel"
 
-#: templates/auth/preferences.html:2 templates/auth/user_detail_inc.html:50
+#: templates/auth/preferences.html:2
 msgid "Update Preferences"
 msgstr "Tercihleri Güncelle"
 
@@ -453,31 +461,31 @@ msgstr "Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?"
 msgid "Me don't want no more contact with this user. Ummmm are you bored?"
 msgstr "Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?"
 
-#: templates/auth/user_detail_inc.html:52
+#: templates/auth/user_detail_inc.html:51
 msgid "Invitations"
 msgstr "Davetiyeler"
 
-#: templates/auth/user_detail_inc.html:53
+#: templates/auth/user_detail_inc.html:52
 msgid "Log Out"
 msgstr "Çıkış Yap"
 
-#: templates/auth/user_detail_inc.html:57
+#: templates/auth/user_detail_inc.html:56
 msgid "Unblock"
 msgstr "Engeli Kaldır"
 
-#: templates/auth/user_detail_inc.html:60
+#: templates/auth/user_detail_inc.html:59
 msgid "Unfollow"
 msgstr "Müritlikten Çık"
 
-#: templates/auth/user_detail_inc.html:63
+#: templates/auth/user_detail_inc.html:62
 msgid "Your follow request sent"
 msgstr "Mürit Olma İsteği Gönderilmiş"
 
-#: templates/auth/user_detail_inc.html:65
+#: templates/auth/user_detail_inc.html:64
 msgid "Follow"
 msgstr "Müridi Ol"
 
-#: templates/auth/user_detail_inc.html:68
+#: templates/auth/user_detail_inc.html:67
 msgid "Block"
 msgstr "Engelle"
 
@@ -563,7 +571,7 @@ msgstr "Güncelle"
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/question/answer_form_inc.html:12
+#: templates/question/answer_form_inc.html:11
 msgid "Click and choose the image that you want to send"
 msgstr "Göndermek istediğin resmi seçmek için tıkla"
 

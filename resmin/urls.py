@@ -7,10 +7,11 @@ from apps.api import v1_api
 
 admin.autodiscover()
 
+
 urlpatterns = patterns(
     '',
     url(r'^$',
-        'apps.question.views.index2',
+        'apps.question.views.index',
         name='index'),
 
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
@@ -94,10 +95,6 @@ urlpatterns = patterns(
         name='password_reset_complete',
         kwargs={'template_name': 'auth/password_reset_done.html'}),
 
-    url(r'^q/$',
-        'apps.question.views.questions',
-        name='questions'),
-
     url(r'^q/(?P<base62_id>[-\w]+)/$',
         'apps.question.views.question',
         name='question'),
@@ -110,12 +107,6 @@ urlpatterns = patterns(
         'apps.question.views.question',
         name='delete_question',
         kwargs={'show_delete': True}),
-
-
-    url(r'q/(?P<base62_id>[-\w]+)/d/^$',
-        'apps.question.views.question',
-        name='index',
-        kwargs={'get_filter': 'direct'}),
 
     url(r'^a/(?P<base62_id>[-\w]+)/$',
         'apps.question.views.answer',

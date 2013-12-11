@@ -12,18 +12,35 @@
     </div>
   </div>
 
-    <p class="actions">
-      {% if answer.owner == user %}
-        <a class="action" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update" %}</a>
-        <a class="action" href="#">{% trans 'Delete' %}</a>
-      {% endif %}
-      {% if user.is_superuser %}
-        <form id="action_form" method="post" style="display: none;">
-          {% csrf_token %}<input name="set_cover" type="submit" class="fl bttn green ra pah" />
-        </form>
-      {% endif %}
-    </p>
+  <p class="actions">
+    {% if answer.owner == user %}
+      <a class="action" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update" %}</a>
+      <a class="action" href="#">{% trans 'Delete' %}</a>
+    {% endif %}
+    {% if user.is_superuser %}
+      <form id="action_form" method="post" style="display: none;">
+        {% csrf_token %}<input name="set_cover" type="submit" class="fl bttn green ra pah" />
+      </form>
+    {% endif %}
+  </p>
+
 </div>
 
 <div class="panel-right">
+  {% if answer.description %}
+    <p class="wb">{% trans 'Description' %}</p>
+    <div>{{ answer.description|linebreaks }}</div>
+  {% endif %}
+
+  {% if answer.source_url %}
+    <p class="wb">{% trans 'Source URL' %}</p>
+    <p><a href="{ answer.source_url }}">{{ answer.source_url }}</a></p>
+  {% endif %}
+
+  {% with likers=answer.get_likers_from_redis %}
+    {% if likers %}
+      <p class="wb">Kalpleyenler</p>
+      <p>{% for liker in likers %} {% include "auth/username_inc.html" with user=liker %}, {% endfor %}</p>
+    {% endif %}  
+  {% endwith %}
 </div>

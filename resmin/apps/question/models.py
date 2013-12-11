@@ -102,8 +102,8 @@ class Answer(BaseModel):
     question = models.ForeignKey(Question)
     image = models.ImageField(upload_to=unique_filename_for_answer)
     title = models.CharField(max_length=255, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    source_url = models.URLField(null=True, blank=True)
+    description = models.TextField(_('Description'), null=True, blank=True)
+    source_url = models.URLField(_('Source URL'), null=True, blank=True)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
     like_count = models.PositiveIntegerField(default=0)
@@ -169,7 +169,6 @@ class Answer(BaseModel):
                 is_visible = False
         return is_visible
 
-
     def _like_set_key(self):
         return self.LIKES_SET_PATTERN % self.id
 
@@ -200,8 +199,8 @@ class Answer(BaseModel):
             'base62_id': base62.from_decimal(self.id)})
 
     def get_likers_from_redis(self):
-        for username in redis.smembers(self._like_set_key()):
-            yield User(username=username)
+        return [User(username=username) for username in
+                redis.smembers(self._like_set_key())]
 
     def get_like_count_from_redis(self):
         return redis.scard(self._like_set_key())

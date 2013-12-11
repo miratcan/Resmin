@@ -452,7 +452,8 @@ label {
   margin-right: 10px;
 }
 input[type=text],
-input[type=password] {
+input[type=password],
+textarea {
   box-sizing: border-box;
   /* css3 rec */
   -moz-box-sizing: border-box;
@@ -479,6 +480,9 @@ textarea {
   padding: 5px;
   font-size: 16px;
   line-height: 23px;
+}
+textarea {
+  height: 100px;
 }
 .bttn {
   border: none;
@@ -566,7 +570,8 @@ form#preferences input[type='checkbox'] {
   float: left;
   display: block !important;
 }
-#create_form label {
+#create_form label,
+#update_form label {
   float: left;
 }
 .like-wrap {

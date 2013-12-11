@@ -39,10 +39,6 @@ class AnswerQuestionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
         self.question = kwargs.pop('question')
-        """
-        self.base_fields['visible_for_users'].queryset = \
-            User.objects.filter(id__in=self.owner.follower_user_ids)
-        """
         super(AnswerQuestionForm, self).__init__(*args, **kwargs)
 
     def save(self, *args, **kwargs):
@@ -65,7 +61,7 @@ class AnswerQuestionForm(forms.ModelForm):
         fields = ['image',
                   'visible_for',
                   'is_anonymouse',
-                  'is_nsfw']
+                  'is_nsfw', 'description', 'source_url']
 
 
 class UpdateAnswerForm(forms.ModelForm):
@@ -84,7 +80,7 @@ class UpdateAnswerForm(forms.ModelForm):
         model = Answer
         fields = ['is_anonymouse',
                   'is_nsfw',
-                  'visible_for']
+                  'visible_for', 'description', 'source_url']
 
 
 class SearchQuestionForm(forms.Form):
