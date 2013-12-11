@@ -45,7 +45,10 @@ class Question(BaseModel):
                             (2, 'Deleted by Admins')))
 
     cover_answer = models.ForeignKey(
-        'Answer', related_name='cover_image', null=True, blank=True)
+        'Answer', related_name='cover_answer', null=True, blank=True)
+
+    latest_answer = models.ForeignKey(
+        'Answer', related_name='latest_answer', null=True, blank=True)
 
     class Meta:
         ordering = ["-is_featured", "-updated_at"]

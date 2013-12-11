@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-11 08:12+0200\n"
+"POT-Creation-Date: 2013-12-11 18:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,7 +107,7 @@ msgid "Your preferences updated"
 msgstr "Tercihlerin güncellendi"
 
 #: apps/question/forms.py:17 apps/question/models.py:36
-#: apps/question/models.py:108
+#: apps/question/models.py:111
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
@@ -127,27 +127,27 @@ msgstr "Anladım"
 msgid "Question"
 msgstr "Soru"
 
-#: apps/question/models.py:105
+#: apps/question/models.py:108 templates/question/answer_detail_inc.html:31
 msgid "Description"
 msgstr "Açıklama"
 
-#: apps/question/models.py:106
+#: apps/question/models.py:109 templates/question/answer_detail_inc.html:36
 msgid "Source URL"
 msgstr "Kaynak URL"
 
-#: apps/question/models.py:107
+#: apps/question/models.py:110
 msgid "NSFW"
 msgstr "AYIP"
 
-#: apps/question/models.py:116
+#: apps/question/models.py:119
 msgid "Visible For"
 msgstr "Şuna Görünür"
 
-#: apps/question/models.py:117
+#: apps/question/models.py:120
 msgid "Everyone"
 msgstr "Herkese"
 
-#: apps/question/models.py:118
+#: apps/question/models.py:121
 msgid "My Followers"
 msgstr "Takipçilerime"
 
@@ -275,9 +275,9 @@ msgstr ""
 msgid "Search"
 msgstr "Ara"
 
-#: templates/index2.html:72 templates/question/answer_form_inc.html:43
+#: templates/index2.html:72 templates/question/answer_form_inc.html:41
 #: templates/question/question_list.html:45
-#: templates/question/update_answer.html:7
+#: templates/question/update_answer.html:34
 msgid "Submit"
 msgstr "Gönder"
 

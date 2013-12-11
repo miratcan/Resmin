@@ -29,7 +29,10 @@ def user_created_answer_callback_task(answer):
     # Update related question.
     answer.question.update_answer_count()
     answer.question.update_updated_at()
-    answer.question.save(update_fields=['answer_count', 'updated_at'])
+    answer.question.latest_answer = answer
+    answer.question.save(update_fields=['answer_count',
+                                        'updated_at',
+                                        'latest_answer'])
 
     # Update related profile.
     profile = answer.owner.profile
@@ -52,6 +55,7 @@ def user_created_answer_callback_task(answer):
             target=answer.question,
             reason='answered')
 
+
 @app.task
 def answer_like_changed_callback_task(answer, **kwargs):
 
@@ -63,6 +67,7 @@ def answer_like_changed_callback_task(answer, **kwargs):
     profile = answer.owner.profile
     profile.update_like_count()
     profile.save(update_fields=['like_count'])
+
 
 @app.task
 def user_deleted_answer_callback_task(answer):

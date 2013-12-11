@@ -24,6 +24,7 @@ class Command(BaseCommand):
         counter = 0
         for question in questions:
             question.update_answer_count()
+            question.latest_image = question.answer_set.all()[0] if question.answer_set.all() else None
             question.save()
             print "Updated %s/%s of questions." % (counter + 1,
                                                    questions.count())

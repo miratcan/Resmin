@@ -92,4 +92,3 @@ class EmailCandidate(BaseModel):
 def user_created_callback(sender, **kwargs):
     if kwargs.get('created'):
         UserProfile.objects.get_or_create(user=kwargs['instance'])
-        UserPreferenceSet.objects.get_or_create(user=kwargs['instance'])
