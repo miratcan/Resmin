@@ -12,8 +12,7 @@
 .bg-dark {
   background: #ddd;
 }
-a,
-.pink {
+a, .pink {
   color: #C15D63;
 }
 .errorlist {
@@ -319,8 +318,7 @@ body {
   border-bottom-style: solid;
   border-bottom-width: 1px;
 }
-#logo,
-a {
+#logo, a {
   text-decoration: none;
 }
 a:hover {
@@ -418,9 +416,8 @@ p.actions {
 p.actions a {
   margin-right: 10px;
 }
-.answer_actions a {
-  display: block !important;
-}
+/*.answer_actions a 
+              { .db; }*/
 ul {
   padding-left: 40px;
 }
@@ -451,19 +448,22 @@ label {
   margin-bottom: 5px;
   margin-right: 10px;
 }
-input[type=text],
-input[type=password],
-textarea {
+input[type=text], input[type=password], textarea {
   box-sizing: border-box;
   /* css3 rec */
+
   -moz-box-sizing: border-box;
   /* ff2 */
+
   -ms-box-sizing: border-box;
   /* ie8 */
+
   -webkit-box-sizing: border-box;
   /* safari3 */
+
   -khtml-box-sizing: border-box;
   /* konqueror */
+
   width: 100%;
 }
 input[type=file] {
@@ -475,8 +475,7 @@ input[type=checkbox] {
   float: left;
   margin-top: 3px;
 }
-input,
-textarea {
+input, textarea {
   padding: 5px;
   font-size: 16px;
   line-height: 23px;
@@ -522,8 +521,7 @@ form#preferences input[type='checkbox'] {
 .q:hover p.info {
   visibility: visible;
 }
-#id_text,
-#id_q {
+#id_text, #id_q {
   font-size: 23px;
   line-height: 27px;
   padding: 10px;
@@ -539,8 +537,7 @@ form#preferences input[type='checkbox'] {
   padding-top: 60px;
   text-align: center;
 }
-#answer_form input,
-#answer_form inlineFieldWrapper {
+#answer_form input, #answer_form inlineFieldWrapper {
   float: left;
 }
 #answer_form label {
@@ -560,18 +557,19 @@ form#preferences input[type='checkbox'] {
   overflow: auto;
   display: block !important;
 }
+#answer_form #file-select-box:hover {
+  background-color: #dde;
+}
 #bulk_edit_answers_form label {
   float: left;
   margin-right: 10px;
   clear: left;
 }
-#bulk_edit_answers_form input,
-#bulk_edit_answers_form select {
+#bulk_edit_answers_form input, #bulk_edit_answers_form select {
   float: left;
   display: block !important;
 }
-#create_form label,
-#update_form label {
+#create_form label, #update_form label {
   float: left;
 }
 .like-wrap {
@@ -648,8 +646,7 @@ form#preferences input[type='checkbox'] {
   }
 }
 @media only screen and (max-width: 400px) {
-  .panel-left,
-  .panel-right {
+  .panel-left, .panel-right {
     width: 100%;
     float: both;
     border-left: none;

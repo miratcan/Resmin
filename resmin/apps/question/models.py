@@ -116,6 +116,7 @@ class Answer(BaseModel):
                  (1, 'Deleted by Owner'),
                  (2, 'Deleted by Admins')))
     visible_for = models.PositiveSmallIntegerField(
+        default=0,
         verbose_name=_('Visible For'),
         choices=((0, _('Everyone')),
                  (1, _('My Followers'))))
