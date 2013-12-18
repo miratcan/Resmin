@@ -34,7 +34,7 @@
 
   {% if answer.source_url %}
     <p class="wb">{% trans 'Source URL' %}</p>
-    <p><a href="{ answer.source_url }}">{{ answer.source_url }}</a></p>
+    <p><a href="{{ answer.source_url }}">{{ answer.source_url }}</a></p>
   {% endif %}
     {% with likers=answer.get_likers_from_redis %}
       {% if likers %}
