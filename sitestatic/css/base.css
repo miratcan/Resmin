@@ -413,7 +413,7 @@ p.actions {
   line-height: 18px;
   font-weight: normal;
 }
-p.actions a {
+p.actions > a {
   margin-right: 10px;
 }
 /*.answer_actions a 
