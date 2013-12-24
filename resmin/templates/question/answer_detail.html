@@ -3,6 +3,18 @@
 {% block extra_head %}
   <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
   <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
+  <script>
+  $(document).ready(function() {
+    $("#fake_delete_button").click(function(){
+      $("#real_delete_button").toggle()
+      return false;
+    });
+    $("#real_delete_button").click(function() {
+      $("#delete_submit").trigger("click");
+      return false;
+    })
+  });
+  </script>
 {% endblock %}
 
 {% block content %}
