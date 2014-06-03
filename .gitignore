@@ -2,4 +2,4 @@
 sqlite3.db
 media/
 resmin/config/local_settings.py
-
+sitestatic/css/base.css
