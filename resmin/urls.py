@@ -116,13 +116,15 @@ urlpatterns = patterns(
         'apps.question.views.update_answer',
         name='update-answer'),
 
-    url(r'^r/$',
-        'apps.question.views.random',
-        name='random-question'),
+    url(r'^ar/',
+        'apps.account.views.pending_answer_requests',
+        name='pending-answer-requests'),
 
-    url(r'^ru/$',
-        'apps.question.views.random_unanswered',
-        name='random-unanswered-question'),
+
+    url(r'^n/',
+        'apps.notification.views.notifications',
+        name='notifications'),
+
 
     url(r'^reg/$',
         'apps.account.views.register',

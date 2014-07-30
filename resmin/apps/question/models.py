@@ -33,20 +33,16 @@ class BaseModel(models.Model):
 
 class Question(BaseModel):
     text = models.CharField(_('Question'), max_length=512)
-    is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
-    is_featured = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now_add=True)
-    merged_to = models.ForeignKey(
-        'self', null=True, blank=True, related_name='m_to')
+    is_featured = models.BooleanField(default=False)
+    is_sponsored = models.BooleanField(default=False)
     answer_count = models.PositiveIntegerField(default=0)
     status = models.PositiveSmallIntegerField(
         default=0, choices=((0, 'Published '),
                             (1, 'Deleted by Owner'),
                             (2, 'Deleted by Admins')))
-
     cover_answer = models.ForeignKey(
         'Answer', related_name='cover_answer', null=True, blank=True)
-
     latest_answer = models.ForeignKey(
         'Answer', related_name='latest_answer', null=True, blank=True)
 
@@ -104,17 +100,17 @@ class Question(BaseModel):
 class Answer(BaseModel):
     question = models.ForeignKey(Question)
     image = models.ImageField(upload_to=unique_filename_for_answer)
+
     title = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
     source_url = models.URLField(_('Source URL'), null=True, blank=True)
+
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
     like_count = models.PositiveIntegerField(default=0)
     status = models.PositiveSmallIntegerField(
-        default=0,
-        choices=((0, 'Published'),
-                 (1, 'Deleted by Owner'),
-                 (2, 'Deleted by Admins')))
+        default=0, choices=((0, 'Published'), (1, 'Deleted by Owner'),
+                            (2, 'Deleted by Admins')))
     visible_for = models.PositiveSmallIntegerField(
         default=0,
         verbose_name=_('Visible For'),
@@ -146,14 +142,14 @@ class Answer(BaseModel):
             if self.visible_for == 1:
 
                 # user.id must be in owners follower_user_ids
-                if not user.id in self.owner.follower_user_ids:
+                if user.id not in self.owner.follower_user_ids:
                     is_visible = False
 
             # If answer is visible for spesific users
             elif self.visible_for == 2:
 
                 # user must be in visible_for_users list in answer
-                if not user in self.visible_for_users.all():
+                if user not in self.visible_for_users.all():
                     is_visible = False
 
             # If blocked_user_ids didn't given before compute it
@@ -216,3 +212,18 @@ class Answer(BaseModel):
 
     class Meta:
         ordering = ['-created_at']
+
+
+class AnswerRequest(models.Model):
+    questioner = models.ForeignKey(User, null=True, blank=True,
+                                   related_name='questioner')
+    question = models.ForeignKey(Question)
+    questionee = models.ForeignKey(User, related_name='questionee')
+    is_anonymouse = models.BooleanField(default=False)
+    answer = models.ForeignKey(Answer, null=True, blank=True)
+    status = models.PositiveSmallIntegerField(
+        default=0, choices=((0, 'Pending'), (1, 'Answered'), (2, 'Rejected')))
+
+    def __unicode__(self):
+        return '%s - %s -> %s' % (self.questioner, self.question,
+                                  self.questionee)

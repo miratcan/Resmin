@@ -69,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'pipeline.middleware.MinifyHTMLMiddleware',
+    'apps.notification.middleware.NotificationMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
@@ -87,12 +88,12 @@ INSTALLED_APPS = (
     'apps.question',
     'apps.account',
     'apps.follow',
+    'apps.notification',
 
     'seo_cascade',
     'sorl.thumbnail',
     'pipeline',
     'tastypie',
-    'djcelery'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -104,6 +105,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.contrib.messages.context_processors.messages",
     'django.core.context_processors.request',
+    'apps.notification.context_processors.notifications'
 )
 
 LOGIN_URL = '/login/'
@@ -175,7 +177,7 @@ AVATAR_QUESTION_ID = 808
 DEFAULT_AVATAR_ANSWER_ID = 7
 
 QUESTIONS_PER_PAGE = 40
-ANSWERS_PER_PAGE = 40
+ANSWERS_PER_PAGE = 20
 ONLY_QUESTIONS_WITHOUT_ANSWERS_CAN_BE_DELETED = True
 SEND_NOTIFICATION_EMAILS = False
 INVITATION_KEY_LENGTH = 10

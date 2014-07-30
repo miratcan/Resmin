@@ -1,7 +1,7 @@
 {% load thumbnail i18n %}
 {% with profile=profile_user.userprofile %}
-  <div class="narrow fc mbd">
-    <div class="mb oa pt pb bt bb" style="position: relative;">
+  <div class="narrow fc mbd bg pa ra">
+    <div class="mb oa pt" style="position: relative;">
       <div class="fr pa" >
       	<p class="f_weak nm">{{ profile.like_count }} {% trans "Like" %}</p>
         <p class="f_weak nm">{{ profile.answer_count }} {% trans "Answer" %}</p>
@@ -13,16 +13,14 @@
         </p>
       </div>
       {% thumbnail profile.avatar "100x100" crop="center" as im %}
-        <img class="fl mr" src="{{ im.url }}">
+        <img class="fl mr" src="{{ im.url }}" style="position: absolute">
       {% endthumbnail %}
-      <p class="mb f_weak "><a class="username f_stng wb" href="/u/{{profile_user.username}}">{{ profile_user }}</a>{% if profile.bio %}, {{ profile.bio }}.{% endif %}</p>
-      {% if profile.location or profile.website %}
-        <p class="f_weak mb">
-          {% if profile.location %}{{ profile.location }}{% endif %}
-          {% if profile.location and profile.website %}, {% endif %}
-          {% if profile.website %}<a href="{{ profile.website }}">{{ profile.website }}</a>{% endif %}
-        </p>
-      {% endif %}
+      <p class="mb f_weak" style="margin-left: 110px;"><a class="username f_stng wb" href="/u/{{profile_user.username}}">{{ profile_user }}</a></p>
+      {% if profile.bio %}<p style="margin-left: 110px;">{{ profile.bio }}{% if profile.location %} <span class="f_weak c_weak"> / {{ profile.location }}</span>{% endif %}
+      {% if profile.website %}<span class="f_weak"> / <a href="{{ profile.website }}">{{ profile.website }}</a></span>{% endif %}
+</p>{% endif %}
+
+      </ul>
     </div>
     {% if follow_form %}
       <form method="post" enctype="multipart/form-data" class="imp pa ra ba">
@@ -44,7 +42,7 @@
       </form>
     {% else %}
       {% if user.is_authenticated %}
-      <p class="oa nm">
+        <p class="oa nm">
         {% if user == profile_user %}
           <a class="f_weak mr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
   	      <a class="f_weak mr" href="{% url 'email_form' %}">{% trans "Update Email" %}</a>
@@ -72,5 +70,11 @@
       {% endif %}
     {% endif %}
   </div>
+  <form method="post" class="narrow pa ra fc mbd">
+      {% csrf_token %}
+      {{ question_form }}
+      <input type="submit" class="fr bttn green"/>
+  </form>
+
 {% endwith %}
 

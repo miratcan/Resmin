@@ -2,10 +2,10 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.conf import settings
 
-from apps.question.models import Question, Answer
-
+from apps.question.models import (Question, Answer)
 from apps.question.signals import (user_created_question,
                                    user_created_answer)
+from apps.notification.utils import notify
 
 
 class CreateQuestionForm(forms.ModelForm):
@@ -39,7 +39,10 @@ class AnswerQuestionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
         self.question = kwargs.pop('question')
+        self.answer_request = kwargs.pop('answer_request', None)
         super(AnswerQuestionForm, self).__init__(*args, **kwargs)
+        if self.answer_request:
+            del self.fields['is_anonymouse']
 
     def save(self, *args, **kwargs):
         answer = super(AnswerQuestionForm, self).save(commit=False)
@@ -47,6 +50,13 @@ class AnswerQuestionForm(forms.ModelForm):
         answer.question = self.question
         answer.save()
         self.save_m2m()
+        if self.answer_request:
+            self.answer_request.status = 1
+            self.answer_request.answer = answer
+            self.answer_request.save()
+            notify(self.answer_request.questionee,
+                   'got_answer_to_answer_request', self.answer_request,
+                   self.answer_request.questioner, answer.get_absolute_url())
         user_created_answer.send(sender=answer)
         return answer
 

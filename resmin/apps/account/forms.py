@@ -5,6 +5,7 @@ from django.utils.translation import ugettext as _
 from apps.account.models import (Invitation, UserProfile, EmailCandidate)
 
 from apps.follow.models import UserFollow
+from apps.question.models import AnswerRequest, Question
 from apps.account.signals import (follower_count_changed,
                                   following_count_changed)
 
@@ -161,3 +162,30 @@ class FollowForm(forms.Form):
             follower_count_changed.send(sender=self.target)
             following_count_changed.send(sender=self.follower)
 
+
+class QuestionForm(forms.Form):
+    question = forms.CharField(max_length=512)
+    is_anonymouse = forms.BooleanField(required=False)
+
+    def __init__(self, *args, **kwargs):
+        self.questioner = kwargs.pop('questioner', None)
+        self.questionee = kwargs.pop('questionee')
+        super(QuestionForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+
+        question = Question.objects.get_or_create(
+            text=self.cleaned_data['question'],
+            defaults={'owner': self.questioner})[0]
+
+        answer_request = AnswerRequest.objects.create(
+            question=question,
+            questioner=self.questioner,
+            questionee=self.questionee,
+            is_anonymouse=self.cleaned_data['is_anonymouse'])
+
+        return answer_request
+
+    class Meta:
+        model = AnswerRequest
+        fields = ['question', 'is_anonymouse']

@@ -1,41 +1,7 @@
-{% extends "base.html" %}{% load thumbnail i18n %}
-{% block extra_head %}
-  <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
-  <script>
-    $(document).ready(function() {
-
-      var search_form_cleaned=false;
-      var create_form_cleaned=false;
-
-      $("#id_q").on('click', function(ev) {
-        if (search_form_cleaned===false) {
-          $(ev.target).val('');
-          search_form_cleaned=true;
-        };
-      });
-
-      $("#id_text").on('click', function(ev) {
-        if (create_form_cleaned===false) {
-          $(ev.target).val('');
-          create_form_cleaned=true;
-        };
-      });
-    });
-   </script>
-{% endblock %}
-
+{% extends "answers_base.html" %}{% load thumbnail i18n %}
 {% block extra_messages %}
 
   {# Developers: be careful with url & blocktrans conventions. #}
-
-  {% if pending_follow_requests > 0 %}
-  {% url 'pending-follow-requests' as the_pending_url %}
-    
-    <p class="yellow-stripe">
-    {% blocktrans %}{{ pending_follow_requests }} user(s) want to become your disciples. In order to take a look at the request(s) please <a href="{{ the_pending_url }}" title="Click here!">click here.</a>{% endblocktrans %}
-    </p>
-    
-  {% endif %}
 
   {% url 'email_form' as the_emailform_url %}
   {% if show_email_message %}
@@ -53,34 +19,27 @@
 {% endblock %}
 
 {% block content %}
-  <form method="get" id="search_form">
-    {{ search_form.q }}
-    {% if search_form.is_bound and user.is_authenticated %}
-      <p class="fl">{% blocktrans %}If the question you're searching for wasn't previously asked, <a class="imp" href="#" onclick="$('#create_form').show('slow'); $('#search_form').hide('slow');">click here</a> to ask it now.{% endblocktrans %}</p>
-    {% endif %}
-    <input type="submit" class="fr bttn green ra" value="{% trans "Search" %}">
-  </form>
-
-  {% if not search_question_form.is_bound %}
-  <form method="post" id="create_form" style="display: none;">
-    {% csrf_token %}
-    {{ create_form.text.errors }}
-    {{ create_form.text }}
-    {{ create_form.is_anonymouse.errors }}
-    <label for="id_is_anonymouse">{% trans create_form.is_anonymouse.label %}:</label>
-    {{ create_form.is_anonymouse }}
-    <input name="submit" type="submit" class="fr bttn green ra" value="{% trans "Submit" %}">
-  </form>
-  {% endif %}
-  {% for question in questions %}
-    <div class="question" style="background-image: url({% thumbnail question.latest_answer.image "290x290" crop="center" as bgimg %}{{ bgimg.url }}{% endthumbnail %})">
-      <div class="inner">
-        <p>
-          <a href="{{ question.get_absolute_url }}">{{ question }}</a>
-        </p>
-        <p class="f_tiny">{% blocktrans with updated_timesince=question.updated_at|timesince %}Updated at {{ updated_timesince }} ago.{% endblocktrans %}</p>
+  {% with answers=answers.paginated_object_list %}
+  {% if answers %}
+    <div id="thumbnails">
+      <div class="thmb-wrap pa" style="box-sizing: border-box">
+        <h4 class="mb bb pbh">{% trans "Latest Asked Questions" %}</h4>
+        {% for question in latest_asked_questions %}
+          <p class="f_tiny wb mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
+        {% endfor %}
       </div>
+      <div class="thmb-wrap pa" style="box-sizing: border-box">
+        <h4 class="mb bb pbh">{% trans "Latest Answered Questions" %}</h4>
+        {% for question in latest_answered_questions %}
+          <p class="f_tiny wb mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
+        {% endfor %}
+      </div>
+      {% for answer in answers %}
+        {% include "question/answer_thumbnail.html" with show_question_info_below_answers=True %}
+      {% endfor %}
     </div>
-  {% endfor %}
-  {% include "includes/pagination_links_for_questions.html" %}
+    {% include "includes/pagination_links_for_answers.html" %}
+  {% else %}
+  {% endif %}
+  {% endwith %}
 {% endblock %}

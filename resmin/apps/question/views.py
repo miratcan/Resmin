@@ -19,16 +19,13 @@ from django.conf import settings
 
 from libs.baseconv import base62
 
-from apps.question.models import Question, Answer
-
-from apps.follow.models import QuestionFollow, UserFollow
+from apps.question.models import Question, Answer, AnswerRequest
+from apps.follow.models import QuestionFollow
 from apps.follow.models import compute_blocked_user_ids_for
 
-from apps.question.forms import (CreateQuestionForm,
-                                 AnswerQuestionForm,
+from apps.question.forms import (AnswerQuestionForm,
                                  UpdateAnswerForm,
-                                 DeleteQuestionForm,
-                                 SearchQuestionForm)
+                                 DeleteQuestionForm)
 
 from django.views.decorators.csrf import csrf_exempt
 from redis_cache import get_redis_connection
@@ -53,11 +50,8 @@ def build_answer_queryset(request, **kwargs):
     Returns public answers from question
 
     build_answer_queryset(request, get_from='user', user=request.user)
-    Returns public answers from userm
+    Returns public answers from user
     """
-
-    # TODO: MUST BE OPTIMIZED
-
     user = request.user
 
     # Get queryset if exits
@@ -89,8 +83,12 @@ def build_answer_queryset(request, **kwargs):
                 question=kwargs.get('question'),
                 owner_id__in=following_user_ids,
                 visible_for__in=[1, 2])
+        elif get_from == 'followings':
+            queryset = Q(
+                owner_id__in=following_user_ids,
+                visible_for__in=[0, 1])
         else:
-            queryset = queryset | Q(
+            queryset = queryset & Q(
                 owner_id__in=following_user_ids,
                 visible_for__in=[1, 2])
 
@@ -103,21 +101,14 @@ def build_answer_queryset(request, **kwargs):
         .filter(queryset)\
         .prefetch_related('question__owner__userprofile')\
         .select_related('question__owner__userprofile', 'owner')
-
     return {
         'paginated_object_list': paginated(
             request, answers, settings.ANSWERS_PER_PAGE),
         'from': get_from}
 
 
+@login_required
 def index(request):
-    # If user is authenticated get number of pending follow requests
-    if request.user.is_authenticated():
-        pending_follow_requests = UserFollow.objects.filter(
-            target=request.user, status=0).count()
-    else:
-        pending_follow_requests = 0
-
     '''If user is authenticated and not registered email we will show
     Register your email message'''
     show_email_message = request.user.is_authenticated() and \
@@ -130,34 +121,16 @@ def index(request):
                               status=0,
                               visible_for=None).exists()
 
-    search_form = SearchQuestionForm(
-        initial={'q': _('Enter word(s) that you want to search in questions')})
-    create_form = CreateQuestionForm(
-        initial={'text': _('Submit a question')}) if \
-        request.user.is_authenticated() else None
-
-    questions = Question.objects.filter(status=0)\
-        .select_related('cover_answer')
-
-    if request.method == 'GET':
-        search_form = SearchQuestionForm(request.GET)
-        if search_form.is_valid():
-            questions = questions.filter(text__search=search_form['q'])
-    elif request.method == 'POST':
-        create_form = CreateQuestionForm(request.POST)
-        if create_form.is_valid():
-            question = create_form.save(owner=request.user)
-            return HttpResponseRedirect(question.get_absolute_url())
-
-    questions = paginated(request, questions, settings.QUESTIONS_PER_PAGE)
-
+    answers = build_answer_queryset(request, get_from='followings')
+    latest_asked_questions = Question.objects.order_by('-created_at')[:10]
+    latest_answered_questions = Question.objects.order_by('-updated_at')[:10]
     return render(request,
                   "index2.html",
-                  {'questions': questions,
-                   'create_form': create_form,
-                   'search_form': search_form,
+                  {'page_name': 'index',
+                   'answers': answers,
+                   'latest_asked_questions': latest_asked_questions,
+                   'latest_answered_questions': latest_answered_questions,
                    'trimmed': True,
-                   'pending_follow_requests': pending_follow_requests,
                    'show_email_message': show_email_message,
                    'show_fix_answers_message': show_fix_answers_message})
 
@@ -223,6 +196,7 @@ def answer(request, base62_id):
 
     answer_is_visible = answer.is_visible_for(request.user) and \
         answer.status == 0
+
     return render(
         request,
         'question/answer_detail.html',
@@ -230,17 +204,25 @@ def answer(request, base62_id):
          'answer_is_visible': answer_is_visible})
 
 
+@login_required
 def create_answer(request, question_base62_id):
+    rid = request.GET.get('rid')
     qid = base62.to_decimal(question_base62_id)
     question = get_object_or_404(Question, id=qid, status=0)
-    answer_form = AnswerQuestionForm(owner=request.user, question=question)
+    answer_request = get_object_or_404(
+        AnswerRequest, id=rid, questionee=request.user) if rid else None
+
+    answer_form = AnswerQuestionForm(
+        owner=request.user, question=question,
+        answer_request=answer_request)
 
     if request.POST:
-        #Fill answer form with posted data and files
+        # Fill answer form with posted data and files
         answer_form = AnswerQuestionForm(request.POST,
                                          request.FILES,
                                          owner=request.user,
-                                         question=question)
+                                         question=question,
+                                         answer_request=answer_request)
 
         # If form is valid save answer and redirect
         if answer_form.is_valid():
@@ -289,20 +271,6 @@ def cancel_follow(request, key):
     return render(request,
                   'question/unsubscribe_done.html',
                   {'question': follow.target})
-
-
-def random(request):
-    return HttpResponseRedirect(
-        Question.objects
-        .filter(status=0)
-        .order_by('?')[0].get_absolute_url())
-
-
-def random_unanswered(request):
-    return HttpResponseRedirect(
-        Question.objects
-        .filter(status=0, answer_count=0)
-        .order_by('?')[0].get_absolute_url())
 
 
 @csrf_exempt

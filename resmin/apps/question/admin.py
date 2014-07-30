@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.question.models import Question, Answer
+from apps.question.models import Question, Answer, AnswerRequest
 
 
 def merge_questions(modeladmin, request, queryset):
@@ -17,10 +17,8 @@ merge_questions.short_description = "Merge selected questions to oldest"
 class QuestionAdmin(admin.ModelAdmin):
     list_display = ('text',
                     'owner',
-                    'is_anonymouse',
                     'created_at',
                     'updated_at',
-                    'merged_to',
                     'is_featured',)
 
     actions = [merge_questions]
@@ -37,3 +35,4 @@ class AnswerAdmin(admin.ModelAdmin):
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Answer, AnswerAdmin)
+admin.site.register(AnswerRequest)

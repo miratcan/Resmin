@@ -1,5 +1,4 @@
 {% extends "answers_base.html" %}{% load i18n %}
-
 {% block content %}
   {% with answers=answers.paginated_object_list %}
     {% include "auth/user_detail_inc.html" %}

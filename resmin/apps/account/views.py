@@ -1,13 +1,13 @@
-
 from django.utils.translation import ugettext as _
 
 from django.shortcuts import get_object_or_404, render
 
-from django.http import HttpResponseRedirect, HttpResponseNotFound
+from django.http import HttpResponseRedirect
 
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.models import Site
 from django.contrib import messages
 
 from django.core.urlresolvers import reverse
@@ -21,9 +21,9 @@ from apps.account.models import (Invitation, UserProfile,
                                  EmailCandidate)
 
 from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
-                                EmailCandidateForm)
+                                EmailCandidateForm, QuestionForm)
 
-from apps.question.models import Question
+from apps.question.models import (Question, AnswerRequest)
 from apps.question.views import build_answer_queryset
 
 from apps.follow.models import UserFollow
@@ -68,6 +68,18 @@ def profile(request, username=None, action=None):
         ctx['answers'] = build_answer_queryset(
             request, get_from='user', user=user)
 
+    if request.POST:
+        question_form = QuestionForm(request.POST,
+                                     questioner=request.user,
+                                     questionee=user)
+        if question_form.is_valid():
+            question_form.save()
+            messages.success(request, _('Your question sent to user.'))
+            return HttpResponseRedirect(user.get_absolute_url())
+    else:
+        question_form = QuestionForm(questioner=request.user,
+                                     questionee=user)
+
     if action:
         ctx['action'] = action
         follow_form = FollowForm(follower=request.user,
@@ -95,22 +107,34 @@ def profile(request, username=None, action=None):
                 return HttpResponseRedirect(user.get_absolute_url())
 
         ctx['follow_form'] = follow_form
+    ctx['question_form'] = question_form
 
     return render(request, "auth/user_detail.html", ctx)
 
 
-#TODO: Move this view under follow app
 @login_required
 def pending_follow_requests(request):
-    pending_follow_requests = UserFollow.objects.filter(
+    pfr = UserFollow.objects.filter(
         status=0, target=request.user)
+    site = get_current_site(request) if not pfr else None
     return render(
         request,
         'auth/pending_follow_requests.html',
-        {'pending_follow_requests': pending_follow_requests})
+        {'pending_follow_requests': pfr,
+         'site': site})
 
 
-#TODO: Move this view under follow app
+@login_required
+def pending_answer_requests(request):
+    ar = AnswerRequest.objects.filter(questionee=request.user, status=0)
+    site = get_current_site(request) if not ar else None
+    return render(
+        request,
+        'question/pending_answer_requests.html',
+        {'answer_requests': ar,
+         'site': site})
+
+
 @csrf_exempt
 @login_required
 def update_pending_follow_request(request):

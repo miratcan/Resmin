@@ -16,10 +16,6 @@ def follow_request_sent_callback(sender, **kwargs):
     follow_request_sent_callback_task.delay(sender)
 
 
-def follow_request_received_callback(sender, **kwargs):
-    follow_request_received_callback_task.delay(sender)
-
-
 @receiver(follower_count_changed)
 def follower_count_changed_callback(sender, **kwargs):
     follower_count_changed_callback_task.delay(sender)

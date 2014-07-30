@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+  <ul>
+  {% for n in notifications %}
+    {% with tname='notification/'|add:n.ntype.slug|add:'/sentence.txt' %}
+      <li><a href="{{ n.url }}?nid={{ n.id }}">{% include tname %}</a></li>
+    {% endwith %}
+  {% empty %}
+  	<p class="imp pa f_stng">{% trans "No new notifications." %}</p>
+  {% endfor %}
+  </ul>
+{% endblock %}
