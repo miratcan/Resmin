@@ -1,12 +1,14 @@
 from django.db import models
 from django.db.models import Sum
 from django.db.models.signals import post_save
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 from apps.question.models import BaseModel
 from apps.follow.models import UserFollow
+
 
 from libs import key_generator
 from utils import unique_filename_for_avatar
@@ -64,8 +66,16 @@ User.profile = property(
 class Invitation(models.Model):
     owner = models.ForeignKey(User, null=True, blank=True)
     key = models.CharField(max_length=255, blank=True)
-    used_by = models.ForeignKey(User, null=True, blank=True,
-                                related_name='used_by')
+    used_count = models.PositiveIntegerField(default=0)
+    use_limit = models.PositiveIntegerField(
+        default=settings.DEFAULT_INVITATION_USE_LIMIT)
+    registered_users = models.ManyToManyField(User, null=True, blank=True,
+                                              related_name='registed_users')
+    is_usable = models.BooleanField(default=True)
+
+    @property
+    def remaining_use(self):
+        return self.use_limit - self.used_count
 
     def get_absolute_url(self):
         return reverse('register') + "?key=%s" % self.key
@@ -73,7 +83,13 @@ class Invitation(models.Model):
     def save(self, *args, **kwargs):
         if not self.key:
             self.key = key_generator()
-        super(Invitation, self).save(*args, **kwargs)
+        if self.pk is not None:
+            self.used_count = self.registered_users.count()
+        self.is_usable = bool(self.used_count < self.use_limit)
+        return super(Invitation, self).save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['is_usable']
 
 
 class EmailCandidate(BaseModel):

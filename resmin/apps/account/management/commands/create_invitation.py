@@ -14,15 +14,13 @@ class Command(BaseCommand):
             users = User.objects.all()
         else:
             users = User.objects.filter(username=username)
-
-        total = int(args[1])
+        try:
+            use_limit = int(args[1])
+        except KeyError:
+            use_limit = None
 
         for user in users:
-            num = Invitation.objects.filter(owner=user).count()
-            if num < total:
-                print "Creatin invitations for: %s" % user
-                for i in range(total-num):
-                    i = Invitation.objects.create(owner=user)
-                    print i.key
-            else:
-                print "%s has enought invitations" % user
+            invitation = Invitation.objects.create(owner=user,
+                                                   use_limit=use_limit)
+            print "Invitation with use_limit:%s for %s created. " % (
+                invitation.use_limit, user)
