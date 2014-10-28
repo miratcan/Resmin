@@ -12,29 +12,24 @@ import datetime
 def unique_filename(instance, filename, prefix):
     f, ext = os.path.splitext(filename)
     n = datetime.datetime.now()
-    return '%s/%s/%s/%s/%s%s' % (prefix,
-                                 n.year,
-                                 n.month,
-                                 n.day,
-                                 uuid.uuid4().hex,
-                                 ext)
+    # TODO: use os.path.join
+    return '%s/%s/%s/%s%s' % (prefix, n.year, n.month, uuid.uuid4().hex, ext)
 
 
-def unique_filename_for_storyimage(instance, filename):
-    return unique_filename(instance, filename, 'answers')
-
-
-def unique_filename_for_avatar(instance, filename):
+def filename_for_avatar(instance, filename):
     return unique_filename(instance, filename, 'avatars')
+
+
+def filename_for_image(instance, filename):
+    return unique_filename(instance, filename, 'story/images')
 
 
 def generate_upload_id():
     return uuid.uuid4().hex
 
 
-def generate_upload_filename(instance, filename):
-    return os.path.join(settings.CHUNKED_UPLOAD_PATH,
-                        instance.upload_id + '.part')
+def filename_for_upload(instance, filename):
+    return os.path.join(UPLOAD_PATH, instance.upload_id + '.part')
 
 
 def paginated(request, query, amount):

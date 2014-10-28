@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
@@ -9,6 +9,8 @@ from apps.question.models import Question, QuestionMeta
 from apps.story.forms import CreateStoryForm, UpdateStoryForm
 from apps.story.models import Story
 from libs.baseconv import base62
+from chunked_upload.views import ChunkedUpload
+from libs.shortcuts import render_to_json
 
 
 def story(request, base62_id):
@@ -96,3 +98,19 @@ def update_story(request, base62_id):
         request,
         'story/update_story.html',
         {'update_story_form': update_story_form})
+
+
+def upload_start(request, klass):
+    if request.POST:
+        if not 'md5sum' in request.POST or 'size' not in request.POST:
+            return render_to_json({
+                'success': False, 'msg': _('md5sum and size required.')},
+                HttpResponseBadRequest)
+        try:
+            obj = klass.objects.get(md5sum=request.POST['md5sum'])
+            return render_to_json({'success': True,
+                                   'status': 'uploaded',
+                                   'object': obj.serialize()})
+        except klass.DoesNotExist:
+            pass
+

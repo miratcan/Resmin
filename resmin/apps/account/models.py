@@ -9,7 +9,7 @@ from utils.models import BaseModel
 from apps.follow.models import UserFollow
 
 from libs import key_generator
-from utils import unique_filename_for_avatar
+from utils import filename_for_avatar
 
 
 class UserProfile(models.Model):
@@ -23,8 +23,7 @@ class UserProfile(models.Model):
     location = models.CharField(_('location'), max_length=64,
                                 null=True, blank=True)
 
-    avatar = models.ImageField(upload_to=unique_filename_for_avatar,
-                               null=True,
+    avatar = models.ImageField(upload_to=filename_for_avatar, null=True,
                                blank=True)
 
     @staticmethod

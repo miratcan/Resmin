@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.story.models import (Story, Slot, Image)
+from apps.story.models import (Story, Slot, Image, Upload)
 
 class StoryAdmin(admin.ModelAdmin):
     list_display = ('__unicode__',
@@ -14,7 +14,11 @@ class SlotAdmin(admin.ModelAdmin):
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('image', 'md5sum')
 
+class UploadAdmin(admin.ModelAdmin):
+    list_display = ('id', 'status', 'created_at')
+
 
 admin.site.register(Story, StoryAdmin)
 admin.site.register(Slot, SlotAdmin)
 admin.site.register(Image, ImageAdmin)
+admin.site.register(Upload, UploadAdmin)

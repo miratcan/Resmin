@@ -1,3 +1,5 @@
+import hashlib
+
 from django.db import models
 from django.contrib.auth.models import User, AnonymousUser
 
@@ -14,6 +16,24 @@ class BaseModel(models.Model):
 
     def base62_id(self):
         return base62.from_decimal(self.id)
+
+    class Meta:
+        abstract = True
+
+
+class UniqueFileModel(models.Model):
+    """
+    TODO: add unique=True property to given file field when initializing.
+    """
+
+    FILE_FIELD = 'image'
+    md5sum = models.CharField(max_length=36, blank=True)
+
+    def _update_md5sum(self):
+        md5 = hashlib.md5()
+        for chunk in getattr(self, self.FILE_FIELD).chunks():
+            md5.update(chunk)
+        self.md5sum = md5.hexdigest()
 
     class Meta:
         abstract = True

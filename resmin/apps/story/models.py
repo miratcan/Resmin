@@ -2,11 +2,12 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
-import hashlib
-from libs.baseconv import base62
+from resmin.libs.baseconv import base62
 from redis_cache import get_redis_connection
-from utils import unique_filename_for_storyimage
-from utils.models import BaseModel
+
+from utils import (filename_for_image, filename_for_upload, generate_upload_id)
+
+from utils.models import BaseModel, UniqueFileModel
 from geoposition.fields import GeopositionField
 
 redis = get_redis_connection('default')
@@ -98,20 +99,20 @@ class Story(BaseModel):
         @type liked: object
         """
         from apps.account.models import UserProfile
-        from apps.question.signals import answer_like_changed
+        from apps.question.signals import story_like_changed
 
         if liked:
             result = redis.sadd(self._like_set_key(), user.username)
             if result:
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, 1)
-                answer_like_changed.send(sender=self)
+                story_like_changed.send(sender=self)
         else:
             result = redis.srem(self._like_set_key(), user.username)
             if result:
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, -1)
-                answer_like_changed.send(sender=self)
+                story_like_changed.send(sender=self)
         return result
 
     def get_absolute_url(self):
@@ -137,17 +138,12 @@ class Story(BaseModel):
         ordering = ['-created_at']
 
 
-class Image(models.Model):
-    image = models.ImageField(upload_to=unique_filename_for_storyimage)
-    md5sum = models.CharField(max_length=36, blank=True)
+class Image(UniqueFileModel):
+    UNIQUE_FILE_FIELD = 'image'
+    image = models.ImageField(upload_to=filename_for_image)
 
-    def save(self, *args, **kwargs):
-        if not self.md5sum:
-            md5 = hashlib.md5()
-            for chunk in self.image.chunks():
-                md5.update(chunk)
-                self.md5sum = md5.hexdigest()
-        super(Image, self).save(*args, **kwargs)
+    def serialize(self):
+        return {'url': True}
 
 
 class Slot(models.Model):
@@ -164,3 +160,24 @@ class Slot(models.Model):
     class Meta:
         unique_together = ('order', 'story')
         ordering = ['story', 'order']
+
+
+class Upload(models.Model):
+    UPLOADING = 1
+    COMPLETE = 2
+    FAILED = 3
+
+    STATUS_CHOICES = (
+        (UPLOADING, _('Uploading')),
+        (COMPLETE, _('Complete')),
+        (FAILED, _('Failed')),
+    )
+
+    owner = models.ForeignKey(User)
+    upload_id = models.CharField(max_length=32, unique=True, editable=False,
+                                 default=generate_upload_id)
+    file = models.FileField(max_length=255, upload_to=filename_for_upload)
+    offset = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    completed_at = models.DateTimeField(auto_now_add=True)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES)
