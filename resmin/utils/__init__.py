@@ -29,7 +29,7 @@ def generate_upload_id():
 
 
 def filename_for_upload(instance, filename):
-    return os.path.join(UPLOAD_PATH, instance.upload_id + '.part')
+    return os.path.join('uploading/', instance.upload_id + '.part')
 
 
 def paginated(request, query, amount):

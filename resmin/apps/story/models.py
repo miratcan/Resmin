@@ -173,11 +173,25 @@ class Upload(models.Model):
         (FAILED, _('Failed')),
     )
 
+    MODEL_CHOICES = (
+        ('image', Image.__name__),
+    )
+
+    MODEL_MAPPING = {
+        'image': Image
+    }
+
     owner = models.ForeignKey(User)
     upload_id = models.CharField(max_length=32, unique=True, editable=False,
                                  default=generate_upload_id)
     file = models.FileField(max_length=255, upload_to=filename_for_upload)
     offset = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    model = models.CharField(max_length=64, choices=MODEL_CHOICES)
     completed_at = models.DateTimeField(auto_now_add=True)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES)
+
+    def get_object(self):
+        klass = self.MODEL_MAPPING[self.model]
+        field = klass.FILE_FIELD
+        return klass.objects.get_or_create(**{field: self.file})

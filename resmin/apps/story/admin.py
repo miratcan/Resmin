@@ -15,7 +15,7 @@ class ImageAdmin(admin.ModelAdmin):
     list_display = ('image', 'md5sum')
 
 class UploadAdmin(admin.ModelAdmin):
-    list_display = ('id', 'status', 'created_at')
+    list_display = ('upload_id', 'owner', 'status', 'created_at')
 
 
 admin.site.register(Story, StoryAdmin)
