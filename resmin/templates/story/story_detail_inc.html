@@ -1,0 +1,71 @@
+{% load i18n thumbnail %}
+
+<div class="panel-left">
+    {% for slot in story.slot_set.all %}
+      <div class="pa bg bb mb" style="border-bottom-width: 3px;">
+        <h3 class="mb">{{ slot.title }}</h3>
+        {% thumbnail slot.image.image "900" as img %}
+          <img src="{{ img.url }}" class="mb">
+        {% endthumbnail %}
+        {{ slot.description|linebreaks }}
+      </div>
+    {% endfor %}
+    <div class="db pl pr oa">
+      <div class="f_weak fl mth">{% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse %}</div>
+      {% include "story/like_button_inc.html" %}
+    </div>
+  </div>
+
+  <form id="action_form" method="post" style="display: none;">
+    {% csrf_token %}
+    <input name="delete" id="delete_submit" type="submit" />
+    <input name="set_cover" type="submit" />
+  </form>
+
+  <p class="actions">
+    {% if answer.owner == user %}
+      <span>
+        <a class="action" href="{% url 'update-answer' answer.base62_id %}">{% trans "Update" %}</a>
+      </span>
+      <span>
+        <a class="action" id="fake_delete_button" href="#">{% trans 'Delete' %}</a>
+        <span id="real_delete_button" style="display: none">({% blocktrans %}If you want to really delete this answer, <a id="real_delete_button" class="nm np f_tiny" href="#">click here</a>.{% endblocktrans %})</span>
+      </span>
+    {% endif %}
+  </p>
+
+<div class="panel-right">
+  {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
+  {% if story.description %}{{ story.description|linebreaks }}{% endif %}
+
+  <p class="f_weak c_weak">
+  {% if story.question %}
+    {% if story.is_anonymouse %}
+      {% blocktrans with question_text=story.question.text question_url=story.question.get_absolute_url %}Posted as answer to <a href="{{ question_url }}">{{ question_text }}</a> by an anonymouse user.{% endblocktrans %}
+    {% else %}
+      {% blocktrans with question_text=story.question.text question_url=story.question.get_absolute_url story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url %}Posted as answer to <a href="{{ question_url }}">{{ question_text }}</a> by <a href="{{ story_owner_url }}">{{ story_owner }}</a>.{% endblocktrans %}
+    {% endif %}
+  {% else %}
+    {% if story.is_anonymouse %}
+      {% blocktrans %}Posted by an anonymouse user.{% endblocktrans %}
+    {% else %}
+      {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url %}Posted by <a href="{{ story_owner_url }}">{{ story_owner }}</a>.{% endblocktrans %}
+    {% endif %}
+  {% endif %}
+  </p>
+
+  {% with likers=answer.get_likers_from_redis %}
+    {% if likers %}
+      <p class="wb">Kalpleyenler</p>
+        {% if answer.owner == user %}
+          <p>{% for liker in likers %} {% include "auth/username_inc.html" with user=liker %}, {% endfor %}</p>
+        {% else %}
+          <p>Kalpleyenler cevap sahibi tarafından görüntülenebilir.</p>
+        {% endif %}
+    {% endif %}
+  {% endwith %}
+
+</div>
+
+</div>
+

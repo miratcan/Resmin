@@ -5,14 +5,11 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
-from apps.question.models import BaseModel
+from utils.models import BaseModel
 from apps.follow.models import UserFollow
 
 from libs import key_generator
 from utils import unique_filename_for_avatar
-from redis_cache import get_redis_connection
-
-redis = get_redis_connection('default')
 
 
 class UserProfile(models.Model):

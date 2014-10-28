@@ -1,42 +1,31 @@
+import json
+
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-
 from django.core.urlresolvers import reverse
-
 from django.db.models import Q
-
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
-
-
 from django.http import (HttpResponseRedirect, HttpResponse)
-
 from django.utils.translation import ugettext as _
 from django.utils import simplejson
-
 from django.conf import settings
-
-from libs.baseconv import base62
-
-from apps.question.models import Question, Answer, AnswerRequest
-from apps.follow.models import QuestionFollow
-from apps.follow.models import compute_blocked_user_ids_for
-
-from apps.question.forms import (AnswerQuestionForm,
-                                 UpdateAnswerForm,
-                                 DeleteQuestionForm)
-
 from django.views.decorators.csrf import csrf_exempt
 from redis_cache import get_redis_connection
 
+from libs.baseconv import base62
+from apps.question.models import Question, QuestionMeta
+from apps.story.models import Story
+from apps.follow.models import QuestionFollow
+from apps.follow.models import compute_blocked_user_ids_for
+from apps.question.forms import (DeleteQuestionForm)
 from utils import paginated
-from utils import render_to_json
+
 
 redis = get_redis_connection('default')
 
 
-def build_answer_queryset(request, **kwargs):
+def build_story_queryset(request, **kwargs):
     """
     Every build has:
         Public answers,
@@ -97,13 +86,13 @@ def build_answer_queryset(request, **kwargs):
         if blocked_user_ids:
             queryset = queryset & ~Q(owner_id__in=blocked_user_ids)
 
-    answers = Answer.objects\
+    stories = Story.objects\
         .filter(queryset)\
         .prefetch_related('question__owner__userprofile')\
         .select_related('question__owner__userprofile', 'owner')
     return {
         'paginated_object_list': paginated(
-            request, answers, settings.ANSWERS_PER_PAGE),
+            request, stories, settings.STORIES_PER_PAGE),
         'from': get_from}
 
 
@@ -114,31 +103,26 @@ def index(request):
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
 
-    '''If user is authenticated and has unfixed answers we will show
-    Fix your answers message'''
-    show_fix_answers_message = request.user.is_authenticated() and \
-        Answer.objects.filter(owner=request.user,
-                              status=0,
-                              visible_for=None).exists()
+    stories = build_story_queryset(request, get_from='followings')
+    latest_asked_questions = QuestionMeta.objects.order_by(
+        '-created_at')[:10]
+    latest_answered_questions = QuestionMeta.objects.order_by(
+        '-updated_at')[:10]
 
-    answers = build_answer_queryset(request, get_from='followings')
-    latest_asked_questions = Question.objects.order_by('-created_at')[:10]
-    latest_answered_questions = Question.objects.order_by('-updated_at')[:10]
     return render(request,
                   "index2.html",
                   {'page_name': 'index',
-                   'answers': answers,
+                   'stories': stories,
                    'latest_asked_questions': latest_asked_questions,
                    'latest_answered_questions': latest_answered_questions,
                    'trimmed': True,
-                   'show_email_message': show_email_message,
-                   'show_fix_answers_message': show_fix_answers_message})
+                   'show_email_message': show_email_message})
 
 
 def question(request, base62_id, show_delete=False, **kwargs):
-    question = get_object_or_404(Question, id=base62.to_decimal(base62_id))
+    question = get_object_or_404(QuestionMeta, id=base62.to_decimal(base62_id))
 
-    answers = build_answer_queryset(
+    answers = build_story_queryset(
         request, get_from='question', question=question, **kwargs)
 
     show_delete_action = question.is_deletable_by(
@@ -171,92 +155,6 @@ def question(request, base62_id, show_delete=False, **kwargs):
         'delete_form': delete_form})
 
 
-def answer(request, base62_id):
-    if 'delete' in request.POST:
-        answer = get_object_or_404(
-            Answer, id=base62.to_decimal(base62_id), owner=request.user)
-
-        # TODO: Create DeleteAnswerForm and move these 4 lines
-        # to save method.
-        from apps.question.signals import user_deleted_answer
-        answer.status = 1
-        answer.save()
-        user_deleted_answer.send(sender=answer)
-
-        messages.success(request, _('Your answer deleted'))
-        return HttpResponseRedirect(reverse('index'))
-
-    answer = get_object_or_404(Answer, id=base62.to_decimal(base62_id))
-
-    if 'set_cover' in request.POST:
-        answer.question.cover_answer = answer
-        answer.question.save()
-        messages.success(request, _('Updated Cover Image'))
-        return HttpResponseRedirect(answer.get_absolute_url())
-
-    answer_is_visible = answer.is_visible_for(request.user) and \
-        answer.status == 0
-
-    return render(
-        request,
-        'question/answer_detail.html',
-        {'answer': answer,
-         'answer_is_visible': answer_is_visible})
-
-
-@login_required
-def create_answer(request, question_base62_id):
-    rid = request.GET.get('rid')
-    qid = base62.to_decimal(question_base62_id)
-    question = get_object_or_404(Question, id=qid, status=0)
-    answer_request = get_object_or_404(
-        AnswerRequest, id=rid, questionee=request.user) if rid else None
-
-    answer_form = AnswerQuestionForm(
-        owner=request.user, question=question,
-        answer_request=answer_request)
-
-    if request.POST:
-        # Fill answer form with posted data and files
-        answer_form = AnswerQuestionForm(request.POST,
-                                         request.FILES,
-                                         owner=request.user,
-                                         question=question,
-                                         answer_request=answer_request)
-
-        # If form is valid save answer and redirect
-        if answer_form.is_valid():
-            answer = answer_form.save(question=question)
-            return HttpResponseRedirect(answer.get_absolute_url())
-
-    return render(request,
-                  'question/create_answer.html',
-                  {'answer_form': answer_form})
-
-
-def update_answer(request, base62_id):
-    answer = get_object_or_404(Answer,
-                               id=base62.to_decimal(base62_id),
-                               owner=request.user)
-
-    update_answer_form = UpdateAnswerForm(instance=answer,
-                                          requested_by=request.user)
-
-    if request.method == "POST":
-        update_answer_form = UpdateAnswerForm(instance=answer,
-                                              data=request.POST,
-                                              requested_by=request.user)
-        if update_answer_form.is_valid():
-            update_answer_form.save()
-            messages.success(request, _('Your answer updated'))
-            return HttpResponseRedirect(answer.get_absolute_url())
-
-    return render(
-        request,
-        'question/update_answer.html',
-        {'update_answer_form': update_answer_form})
-
-
 @login_required
 def cancel_follow(request, key):
 
@@ -287,7 +185,7 @@ def like(request):
     if not aid:
         return HttpResponse(status=400)
 
-    answer = get_object_or_404(Answer, id=int(aid))
+    answer = get_object_or_404(Story, id=int(aid))
     created = answer.set_like(request.user, liked=bool(int(v)))
 
     return HttpResponse(simplejson.dumps(
@@ -338,45 +236,4 @@ def follow_question(request):
 
         is_following = False
 
-    return HttpResponse(simplejson.dumps({'is_following': is_following}))
-
-
-@login_required
-def fix_answers(request):
-    if request.user.is_superuser:
-        answers = Answer.objects.filter(status=0, visible_for=None)
-    else:
-        answers = Answer.objects.filter(
-            owner=request.user, status=0, visible_for=None)
-
-    return render(
-        request,
-        'question/fix_answers.html',
-        {'answers': answers})
-
-
-@csrf_exempt
-@require_http_methods(["POST"])
-@login_required
-def fix_answer(request):
-    aid = request.POST.get('aid')
-    action = request.POST.get('action')
-
-    if not action in ('set_to_public', 'set_to_followings', 'delete'):
-        return render_to_json({'success': False})
-
-    if request.user.is_superuser:
-        answer = get_object_or_404(Answer, id=aid)
-    else:
-        answer = get_object_or_404(Answer, owner=request.user, id=aid)
-
-    if action in ('set_to_public', 'set_to_followings'):
-        answer.visible_for = {'set_to_public': 0,
-                              'set_to_followings': 1}[action]
-
-    elif action in ('delete'):
-        answer.status = 1
-
-    answer.save()
-
-    return render_to_json({'success': True})
+    return HttpResponse(json.dumps({'is_following': is_following}))

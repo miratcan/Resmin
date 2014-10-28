@@ -19,13 +19,13 @@
 
 {% block content %}
   {% if answer_is_visible %}
-    {% include "question/answer_detail_inc.html" %}
+    {% include "story/story_detail_inc.html" %}
   {% else %}
     <p class="pad ba imp tac f_stng">
       {% if answer.status == 1 %}
-        {% trans "Answer is deleted by it's owner" %}
+        {% trans "Story is deleted by it's owner" %}
       {% elif answer.status == 2 %}
-        {% trans "Answer is deleted by admins" %}
+        {% trans "Story is deleted by admins" %}
       {% else %}
         {% trans "This answer is not visible for you" %}</p>
       {% endif %}

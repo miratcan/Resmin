@@ -1,8 +1,8 @@
 {% load i18n %}
 {% if answers %}
   <div id="thumbnails">
-    {% for answer in answers %}
-      {% include "question/answer_thumbnail.html" %}
+    {% for story in stories %}
+      {% include "story/story_thumbnail.html" %}
     {% endfor %}
   </div>
 {% else %}

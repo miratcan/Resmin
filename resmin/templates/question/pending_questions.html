@@ -1,21 +1,21 @@
 {% extends "base.html" %}{% load i18n %}
 {% block content %}
 <ul>
-{% for answer_request in answer_requests %}
+{% for question in pending_questions %}
   <li>
     <p>
-      {% if answer_request.is_anonymouse %}
-        {% blocktrans with question_text=answer_request.question.text question_url=answer_request.question.get_absolute_url %}
+      {% if question.is_anonymouse %}
+        {% blocktrans with question_text=question.question.text question_url=question.question.get_absolute_url %}
           Anonymouse user wants you to answer "<a href="{{ question_url }}">{{ question_text }}</a>"
         {% endblocktrans %}
       {% else %}
-        {% blocktrans with questioner_username=answer_request.questioner.username questioner_url=answer_request.questioner.get_absolute_url question_text=answer_request.question.text question_url=answer_request.question.get_absolute_url %}
+        {% blocktrans with questioner_username=question.questioner.username questioner_url=question.questioner.get_absolute_url question_text=question.question.text question_url=question.question.get_absolute_url %}
           <a href="{{ questioner_url }}">{{ questioner_username }}</a> wants you to answer <a href="{{ question_url }}">{{ question_text }}</a>
         {% endblocktrans %}
       {% endif %}
     </p>
     <p>
-      <a href="{% url 'create-answer' question_base62_id=answer_request.question.base62_id %}?rid={{ answer_request.id }}">Answer</a>
+      <a href="{% url 'create-story' base62_id=question.meta.base62_id %}?qid={{ question.id }}">{{ question.meta.text }}</a>
     </p>
   </li>
 {% empty %}

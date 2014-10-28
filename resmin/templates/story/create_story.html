@@ -1,0 +1,44 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block extra_head %}
+  <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+  <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
+  <script src="{{ STATIC_URL }}js/backbone-min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload.js"></script>
+  <script>
+    $(function () {
+    });
+  </script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="narrow fc mtd mbd">
+  <form method="post" enctype="multipart/form-data" id="answer_form">
+    <div class="panel-left">
+    {% csrf_token %}
+    <input id="id_images" name="images" type="file" multiple/>
+    <div id="image-list"></div>
+    <div id="image-select-box" class="bttn pa green row db oa tac">{% trans "Add Images" %}</div>
+    <div id="submit" class="bttn pa green row db oa tac">{% trans "Publish" %}</div>
+    </div>
+    <div class="panel-right">
+    <div class="db mb oa bb">
+      <p>{{ story_form.title }}</p>
+      {% if story_form.is_anonymouse %}<p class="oa db mb">{{ story_form.is_anonymouse }} {{ story_form.is_anonymouse.label_tag }}</p>{% endif %}
+      <p class="oa db">{{ story_form.is_nsfw }} {{ story_form.is_nsfw.label_tag }}</p>
+      <p class="oa db">{{ story_form.visible_for }}</p>
+    </div>
+    {% if story_form.question %}<p class="f_weak"><a href="{{ story_form.question.get_absolute_url }}">{{ story_form.question.meta.text }}</a> sorusuna cevap olarak göndermektesin.</p>{% endif %}
+    <p class="f_weak">Etraftan bulunmuş fotoğraflar ya da ekran görüntüleri yerine kendi çektiğin fotoğraflardan koyarsan seviniriz.</p>
+    <p class="f_weak">İstersen Adımı Gizle seçeneğini kullanarak anonim cevap verebilirsin.</p>
+    <p class="f_weak">Açıklama kısmını kullanırsan dil kurallarına uyman gerektiğini söylememize gerek yok umuyoruz.</p>
+    <p class="f_weak">Kaynak URL kısmına fotoğrafınla ilgili bir URL yazabilirsin. Örneğin köpeğinin fotoğrafını paylaştıysan ondan bahsettiğin blog gönderine link verebilirsin.</p>
+    </div>
+</form>
+</div>
+<script src="{{ STATIC_URL }}js/create_story.js"></script>
+{% endblock %}

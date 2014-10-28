@@ -7,9 +7,9 @@ from tastypie.resources import ModelResource
 from tastypie.authentication import ApiKeyAuthentication
 from tastypie.authorization import ReadOnlyAuthorization
 
-from apps.question.models import Question, Answer
+from apps.question.models import Question
 from apps.account.models import UserProfile
-
+"""
 class ProfileResource(ModelResource):
 
     class Meta:
@@ -84,3 +84,4 @@ class AnswerResource(ModelResource):
 
         authorization = ReadOnlyAuthorization()
         authentication = ApiKeyAuthentication()
+"""

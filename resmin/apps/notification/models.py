@@ -25,7 +25,6 @@ class NotificationPreference(models.Model):
 
 
 class Notification(models.Model):
-
     actor = models.ForeignKey(
         User, related_name='actor', null=True, blank=True)
     recipient = models.ForeignKey(

@@ -7,7 +7,7 @@
     <span>
     <span class="f_tiny c_weak wn">
       {% if user.is_authenticated %}
-        {% url 'create-answer' question.base62_id as create_answer_url %}
+        {% url 'create-story' question.base62_id as create_answer_url %}
           {% blocktrans %}<a class="imp" href="{{ create_answer_url }}">Click here</a> to post an answer.{% endblocktrans %}
       {% else %}
         {% url 'login' as login_url %}

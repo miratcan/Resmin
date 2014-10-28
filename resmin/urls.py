@@ -3,7 +3,8 @@ from django.contrib import admin
 from django.conf import settings
 
 from django.views.generic import TemplateView
-from apps.api import v1_api
+
+from chunked_upload.views import ChunkedUploadView, ChunkedUploadCompleteView
 
 admin.autodiscover()
 
@@ -19,9 +20,6 @@ urlpatterns = patterns(
 
     url(r'^upfr/$', 'apps.account.views.update_pending_follow_request',
         name='update-pending-follow-request'),
-
-    url(r'^fix/$', 'apps.question.views.fix_answers',
-        name='fix-answers'),
 
     url(r'^d/$', 'apps.question.views.index',
         name='index-from-direct',
@@ -99,32 +97,35 @@ urlpatterns = patterns(
         'apps.question.views.question',
         name='question'),
 
-    url(r'^q/(?P<question_base62_id>[-\w]+)/answer/$',
-        'apps.question.views.create_answer',
-        name='create-answer'),
+    url(r'^q/(?P<base62_id>[-\w]+)/answer/$',
+        'apps.story.views.create_story',
+        name='create-story'),
+
+    url(r'^up/$', ChunkedUploadView.as_view(), name='upload'),
+
+    url(r'^up/c/$', ChunkedUploadCompleteView.as_view(),
+        name='upload-complete'),
 
     url(r'^q/(?P<base62_id>[-\w]+)/delete/$',
         'apps.question.views.question',
         name='delete_question',
         kwargs={'show_delete': True}),
 
-    url(r'^a/(?P<base62_id>[-\w]+)/$',
-        'apps.question.views.answer',
-        name='answer'),
+    url(r'^s/(?P<base62_id>[-\w]+)/$',
+        'apps.story.views.story',
+        name='story'),
 
-    url(r'^a/(?P<base62_id>[-\w]+)/update/$',
-        'apps.question.views.update_answer',
-        name='update-answer'),
+    url(r'^s/(?P<base62_id>[-\w]+)/update/$',
+        'apps.story.views.update_story',
+        name='update-story'),
 
-    url(r'^ar/',
-        'apps.account.views.pending_answer_requests',
-        name='pending-answer-requests'),
-
+    url(r'^pq/',
+        'apps.account.views.pending_questions',
+        name='pending-questions'),
 
     url(r'^n/',
         'apps.notification.views.notifications',
         name='notifications'),
-
 
     url(r'^reg/$',
         'apps.account.views.register',
@@ -150,8 +151,6 @@ urlpatterns = patterns(
         'apps.question.views.follow_question',
         name='follow_question'),
 
-    (r'^fix_answer', 'apps.question.views.fix_answer'),
-
     url(r'^hof/$',
         'apps.account.views.hof',
         name='hof'),
@@ -162,9 +161,6 @@ urlpatterns = patterns(
 
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
-
-    (r'^api/', include(v1_api.urls)),
-
 )
 
 if settings.DEBUG:

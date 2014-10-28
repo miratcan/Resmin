@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 from apps.account.models import (Invitation, UserProfile, EmailCandidate)
 
 from apps.follow.models import UserFollow
-from apps.question.models import AnswerRequest, Question
+from apps.question.models import Question, QuestionMeta
 from apps.account.signals import (follower_count_changed,
                                   following_count_changed)
 
@@ -173,19 +173,16 @@ class QuestionForm(forms.Form):
         super(QuestionForm, self).__init__(*args, **kwargs)
 
     def save(self):
-
-        question = Question.objects.get_or_create(
+        meta = QuestionMeta.objects.get_or_create(
             text=self.cleaned_data['question'],
             defaults={'owner': self.questioner})[0]
-
-        answer_request = AnswerRequest.objects.create(
-            question=question,
+        question = Question.objects.create(
+            meta=meta,
             questioner=self.questioner,
             questionee=self.questionee,
             is_anonymouse=self.cleaned_data['is_anonymouse'])
-
-        return answer_request
+        return question
 
     class Meta:
-        model = AnswerRequest
+        model = QuestionMeta
         fields = ['question', 'is_anonymouse']

@@ -2,7 +2,7 @@
 
 *           { margin: 0; padding: 0;}
 
-.content    { min-height: 400px; background   : #efefef url(http://ivorycity.com/global/images/background.png); }
+.content    { min-height: 400px; background: #efefef; }
 
 .bg         { background   : @white }
 .bg-dark    { background   : #ddd; }
@@ -319,7 +319,8 @@ form#preferences {
 }
 
 .panel-left { width: 65%; .fl; }
-.panel-right { width: 32.5%; .mt; .pb; .fr; }
+.panel-right { width: 32.5%;
+ .pb; .fr; }
 
 .question {
   height: 270px;
@@ -345,6 +346,45 @@ form#preferences {
 }
 .question .inner a { color: #fff;}
 .question .inner p { color: #ccc;}
+
+.image-list-row {
+  .oa;
+  .db;
+  .pa;
+  .bb;
+  position: relative;
+  background: #efefef;
+
+  .remove {
+    position: absolute;
+    top: 0;
+    right: 5px}
+
+  .thmbWrap {
+    width: 100px;
+    min-height: 60px;
+    float: left;
+    position: relative;
+
+    .thmb {
+      width: 100px;
+      height: 60px;
+    }
+
+    .indicator {
+       position: absolute;
+       top: 0;
+       left: 0;
+       height: 3px;
+       width: 30%;
+       .bttn.green;
+    }
+  }
+
+  .filename {
+     margin-left: 110px }
+
+}
 
 @media only screen and (max-width:800px) {
   .thmb-row {

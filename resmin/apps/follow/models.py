@@ -13,14 +13,17 @@ class FollowBase(models.Model):
 
 
 class QuestionFollow(FollowBase):
-    target = models.ForeignKey('question.Question', related_name='question')
-    status = models.PositiveSmallIntegerField(
-        default=0, choices=((0, 'Following'),
-                            (1, 'Unfollowed')))
+    STATUS_CHOICES = ((0, 'Following'),
+                      (1, 'Unfollowed'))
+
+    REASON_CHOICES = ((0, 'Asked'),
+                      (1, 'Answered'))
+
+    target = models.ForeignKey('question.Question', related_name='target')
+    status = models.PositiveSmallIntegerField(default=0,
+                                              choices=STATUS_CHOICES)
     key = models.CharField(max_length=255, blank=True)
-    reason = models.CharField(max_length=16,
-                              choices=(('asked', 'Asked'),
-                                       ('answered', 'Answered')))
+    reason = models.PositiveIntegerField(max_length=16, choices=REASON_CHOICES)
 
     def __unicode__(self):
         return '%s %s %s' % (self.follower, self.reason, self.target)
@@ -33,8 +36,8 @@ class QuestionFollow(FollowBase):
         return reverse('cancel_follow', kwargs={'key': self.key})
 
 
-class AnswerFollow(FollowBase):
-    target = models.ForeignKey('question.Answer', related_name='answer')
+class StoryFollow(FollowBase):
+    target = models.ForeignKey('story.Story', related_name='target')
     status = models.PositiveSmallIntegerField(
         default=0, choices=((0, 'Following'),
                             (1, 'Unfollowed')))
@@ -56,7 +59,7 @@ User.is_blocked = lambda u, t: bool(
     UserFollow.objects.filter(follower=u, target=t, status=2).exists())
 
 User.is_blocked_by = lambda u, t: bool(
-    UserFollow.objects.filter(follower=t, target=u, status=2).exists())
+        UserFollow.objects.filter(follower=t, target=u, status=2).exists())
 
 User.is_following = lambda u, t: UserFollow.objects.filter(
     follower=u, target=t, status=1).exists()

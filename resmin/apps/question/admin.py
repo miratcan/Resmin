@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.question.models import Question, Answer, AnswerRequest
+from apps.question.models import QuestionMeta, Question
 
 
 def merge_questions(modeladmin, request, queryset):
@@ -14,7 +14,7 @@ def merge_questions(modeladmin, request, queryset):
 merge_questions.short_description = "Merge selected questions to oldest"
 
 
-class QuestionAdmin(admin.ModelAdmin):
+class QuestionMetaAdmin(admin.ModelAdmin):
     list_display = ('text',
                     'owner',
                     'created_at',
@@ -24,15 +24,13 @@ class QuestionAdmin(admin.ModelAdmin):
     actions = [merge_questions]
 
 
-class AnswerAdmin(admin.ModelAdmin):
-    list_display = ('question',
-                    'owner',
-                    'image',
-                    'is_nsfw',
-                    'status',
-                    'created_at')
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('questioner',
+                    'questionee',
+                    'meta')
+
+    actions = [merge_questions]
 
 
 admin.site.register(Question, QuestionAdmin)
-admin.site.register(Answer, AnswerAdmin)
-admin.site.register(AnswerRequest)
+admin.site.register(QuestionMeta, QuestionMetaAdmin)
