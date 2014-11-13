@@ -1,8 +1,10 @@
+import re
+
 from django import forms
 from django.utils.translation import ugettext as _
 from apps.notification.utils import notify
 from apps.question.signals import user_created_story
-from apps.story.models import Story
+from apps.story.models import Story, Slot
 
 __author__ = 'Mirat'
 
@@ -27,12 +29,14 @@ class UpdateStoryForm(forms.ModelForm):
                   'visible_for', 'description', 'source_url']
         """
 
+
 class CreateStoryForm(forms.ModelForm):
     """
     Must be initialized with owner and question:
 
     answer_form = CreateStoryForm(owner=request.user)
     """
+    SLOT_KEY_PATTERN = re.compile('image_(?P<image_id>\d+)_order')
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
@@ -43,10 +47,10 @@ class CreateStoryForm(forms.ModelForm):
             del self.fields['is_anonymouse']
 
     def save(self, *args, **kwargs):
+        slot_data = kwargs.pop('slot_data')
         story = super(CreateStoryForm, self).save(commit=False)
         story.owner = self.owner
-        story.question = self.question
-        story.meta = self.meta
+        story.meta = self.question
         story.save()
         self.save_m2m()
 
@@ -54,9 +58,18 @@ class CreateStoryForm(forms.ModelForm):
             self.question.status = 1
             self.question.answer = story
             self.question.save()
-            notify(self.answer_request.questionee,
-                   'got_answer_to_answer_request', self.answer_request,
-                   self.answer_request.questioner, answer.get_absolute_url())
+            notify(self.question.questionee,
+                   'got_answer_to_question', self.question,
+                   self.question.questioner, story.get_absolute_url())
+
+        for key, val in slot_data.iteritems():
+            match = self.SLOT_KEY_PATTERN.match(key)
+            if match:
+                Slot.objects.create(
+                    story=story,
+                    image_id=int(match.group('image_id')),
+                    order=int(val))
+
         user_created_story.send(sender=story)
         return story
 

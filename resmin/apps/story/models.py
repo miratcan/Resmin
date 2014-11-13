@@ -1,31 +1,42 @@
+import hashlib
+from datetime import datetime
+from sorl.thumbnail import get_thumbnail
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.core.files import File
+from django.core.files.base import ContentFile
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-from resmin.libs.baseconv import base62
 from redis_cache import get_redis_connection
 
 from utils import (filename_for_image, filename_for_upload, generate_upload_id)
-
 from utils.models import BaseModel, UniqueFileModel
-from geoposition.fields import GeopositionField
 
+from geoposition.fields import GeopositionField
 redis = get_redis_connection('default')
 
 
 class Story(BaseModel):
 
-    STATUS_CHOICES = (
-        (0, 'Published'),
-        (1, 'Deleted by Owner'),
-        (2, 'Deleted by Admins'))
+    DRAFT = 0
+    PUBLISHED = 1
+    DELETED_BY_OWNER = 2
+    DELETED_BY_ADMINS = 3
 
-    VISIBLE_FOR_CHOICES = (
-        (0, _('Everyone')),
-        (1, _('My Followers')))
+    VISIBLE_FOR_EVERYONE = 0
+    VISIBLE_FOR_FOLLOWERS = 0
+
+    STATUS_CHOICES = ((DRAFT, _('Draft')),
+                      (PUBLISHED, _('Published')),
+                      (DELETED_BY_OWNER, _('Deleted by Owner')),
+                      (DELETED_BY_ADMINS, _('Deleted by Admins')))
+
+    VISIBLE_FOR_CHOICES = ((VISIBLE_FOR_EVERYONE, _('Everyone')),
+                           (VISIBLE_FOR_FOLLOWERS, _('My Followers')))
 
     LIKE_SET_PATTERN = 'answer:%s:likes'
-
     question = models.ForeignKey(
         'question.QuestionMeta', null=True, blank=True)
     title = models.CharField(max_length=255, null=True, blank=True)
@@ -36,7 +47,7 @@ class Story(BaseModel):
     status = models.PositiveSmallIntegerField(default=0,
                                               choices=STATUS_CHOICES)
     visible_for = models.PositiveSmallIntegerField(
-        default=0, verbose_name=_('Visible For'),
+        default=VISIBLE_FOR_EVERYONE, verbose_name=_('Visible For'),
         choices=VISIBLE_FOR_CHOICES)
     visible_for_users = models.ManyToManyField(
         User, related_name='visible_for_users', null=True, blank=True)
@@ -117,7 +128,7 @@ class Story(BaseModel):
 
     def get_absolute_url(self):
         return reverse('story', kwargs={
-            'base62_id': base62.from_decimal(self.id)})
+            'base62_id': self.base62_id})
 
     def get_likers_from_redis(self):
         return [User(username=username) for username in
@@ -127,8 +138,10 @@ class Story(BaseModel):
         return redis.scard(self._like_set_key())
 
     def update_like_count(self):
-        """Updates self.likes count from redis db, it does not save, must
-        be saved manually."""
+        """
+        Update self.likes count from redis db, it does not save, must
+        be saved manually.
+        """
         self.like_count = self.get_like_count_from_redis()
 
     def __unicode__(self):
@@ -143,7 +156,10 @@ class Image(UniqueFileModel):
     image = models.ImageField(upload_to=filename_for_image)
 
     def serialize(self):
-        return {'url': True}
+        return {'pk': self.pk,
+                'thumbnail_url': get_thumbnail(self.image, '100x100',
+                                               crop='center').url,
+                'small_image_url': get_thumbnail(self.image, '220').url}
 
 
 class Slot(models.Model):
@@ -152,7 +168,7 @@ class Slot(models.Model):
     title = models.CharField(max_length=144, null=True, blank=True)
     image = models.ForeignKey(Image)
     description = models.TextField(null=True, blank=True)
-    position = GeopositionField(null=True, blank=True)
+    """position = GeopositionField(null=True, blank=True)"""
 
     def __unicode__(self):
         return u'%s of %s' % (self.order, self.story)
@@ -162,36 +178,127 @@ class Slot(models.Model):
         ordering = ['story', 'order']
 
 
+class UploadError(Exception):
+    def __init__(self, status, **data):
+        self.status = status
+        self.data = data
+
+
 class Upload(models.Model):
+
     UPLOADING = 1
     COMPLETE = 2
     FAILED = 3
 
-    STATUS_CHOICES = (
-        (UPLOADING, _('Uploading')),
-        (COMPLETE, _('Complete')),
-        (FAILED, _('Failed')),
-    )
+    STATUS_CHOICES = ((UPLOADING, _('Uploading')),
+                      (COMPLETE, _('Complete')),
+                      (FAILED, _('Failed')))
 
-    MODEL_CHOICES = (
-        ('image', Image.__name__),
-    )
-
-    MODEL_MAPPING = {
-        'image': Image
-    }
+    MODEL_CHOICES = (('image', Image.__name__),)
+    MODEL_MAPPING = {'image': Image}
 
     owner = models.ForeignKey(User)
     upload_id = models.CharField(max_length=32, unique=True, editable=False,
                                  default=generate_upload_id)
     file = models.FileField(max_length=255, upload_to=filename_for_upload)
     offset = models.PositiveIntegerField(default=0)
+    size = models.PositiveIntegerField()
+    md5sum = models.CharField(max_length=36, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    model = models.CharField(max_length=64, choices=MODEL_CHOICES)
+    expires_at = models.DateTimeField(blank=True)
     completed_at = models.DateTimeField(auto_now_add=True)
-    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES)
+    model = models.CharField(max_length=64, choices=MODEL_CHOICES)
+    status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES,
+                                              default=UPLOADING)
 
-    def get_object(self):
-        klass = self.MODEL_MAPPING[self.model]
-        field = klass.FILE_FIELD
-        return klass.objects.get_or_create(**{field: self.file})
+    @property
+    def is_completed(self):
+        return self.file.size == self.size if self.file else False
+
+    @property
+    def file_md5sum(self):
+        if not self.file.file.mode == 'rb':
+            self.close_file()
+        self.file.open()
+        md5 = hashlib.md5()
+        for chunk in self.file.chunks():
+            md5.update(chunk)
+        self.close_file()
+        return md5.hexdigest()
+
+    def delete_file(self, *args, **kwargs):
+        storage, path = self.file.storage, self.file.path
+        super(Upload, self).delete(*args, **kwargs)
+        storage.delete(path)
+
+    def close_file(self):
+        obj = self
+        while hasattr(obj, 'file'):
+            obj = getattr(obj, 'file')
+            obj.close()
+
+    def convert_to_model(self, delete=True):
+        """
+        Creates model instance that described in model field and deletes this.
+        You can override deleting behaviour via delete parameter. If it's
+        False Upload object will be kept.
+        """
+
+        if not self.status == self.COMPLETE or self.pk is None:
+            return None
+
+        model = self.MODEL_MAPPING[self.model]
+        obj = model.objects.get_or_create(
+            md5sum=self.md5sum,
+            defaults={
+                model.FILE_FIELD: File(open(self.file.path, 'r'))
+            })[0]
+        if delete:
+            self.delete_file()
+            if self.pk is not None:
+                self.delete()
+        return obj
+
+    def append_data(self, data, size=None, save=True):
+        """
+        Appends data to file, increases offset with pre calculated size or
+        length of data.
+        """
+        self.close_file()
+        self.file.open(mode='ab')
+        self.file.write(data)
+        self.close_file()
+        self.offset += size or (len(data) - 1)
+
+        if self.offset > self.size:
+            self.status = self.FAILED
+            raise UploadError('Expected file size exceeded.')
+
+        if save:
+            self.save()
+
+    def append_chunk(self, chunk, size=None, save=True):
+        """
+        Appends chunk to file, increases offset with pre calculated size or
+        chunk size.
+        """
+        self.append_data(chunk.read(), size or chunk.get('size'), save=save)
+
+    def save(self, *args, **kwargs):
+
+        if not self.pk:
+            if self.size > settings.MAXIMUM_UPLOAD_SIZE:
+                raise UploadError('File is too big to upload.')
+            self.created_at = datetime.now()
+            self.expires_at = self.created_at + \
+                settings.UPLOAD_EXPIRATION_TIMEDELTA
+            self.file.save(name='', content=ContentFile(''), save=False)
+
+        if self.is_completed:
+            if self.file_md5sum == self.md5sum:
+                self.status = self.COMPLETE
+                self.completed_at = datetime.now()
+            else:
+                self.status = self.FAILED
+
+        super(Upload, self).save(*args, **kwargs)

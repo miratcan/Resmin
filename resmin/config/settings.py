@@ -3,6 +3,7 @@
 # Django settings for cb project.
 import os
 import sys
+from datetime import timedelta
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -187,6 +188,8 @@ INVITATION_KEY_LENGTH = 10
 FIXED_INVITATION_KEYS = []
 EMAIL_TEMPLATES_PREFIX = 'emails'
 CHUNKED_UPLOAD_PATH = '/upload/'
+MAXIMUM_UPLOAD_SIZE = (1024 * 1024) * 6  # 6MB
+UPLOAD_EXPIRATION_TIMEDELTA = timedelta(hours=6)  # 6Hours
 
 try:
     from resmin.config.local_settings import *

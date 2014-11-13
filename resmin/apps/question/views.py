@@ -44,7 +44,9 @@ def build_story_queryset(request, **kwargs):
     user = request.user
 
     # Get queryset if exits
-    queryset = kwargs.get('queryset', Q(status=0, visible_for=0))
+    queryset = kwargs.get(
+        'queryset',
+        Q(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE))
 
     # Get from can be user, question, and public.
     get_from = kwargs.get('get_from', None)

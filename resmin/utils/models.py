@@ -3,6 +3,8 @@ import hashlib
 from django.db import models
 from django.contrib.auth.models import User, AnonymousUser
 
+from resmin.libs.baseconv import base62
+
 
 class BaseModel(models.Model):
     owner = models.ForeignKey(User)
@@ -14,6 +16,7 @@ class BaseModel(models.Model):
         else:
             return self.owner
 
+    @property
     def base62_id(self):
         return base62.from_decimal(self.id)
 

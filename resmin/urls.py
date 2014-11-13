@@ -101,10 +101,12 @@ urlpatterns = patterns(
         'apps.story.views.create_story',
         name='create-story'),
 
-    url(r'^up/$', ChunkedUploadView.as_view(), name='upload'),
+    url(r'^upload/$',
+        'apps.story.views.get_upload', name='get_upload'),
 
-    url(r'^up/c/$', ChunkedUploadCompleteView.as_view(),
-        name='upload-complete'),
+    url(r'^upload/(?P<upload_id>[-\w]+)/$',
+        'apps.story.views.upload',
+        name='upload'),
 
     url(r'^q/(?P<base62_id>[-\w]+)/delete/$',
         'apps.question.views.question',

@@ -2,28 +2,22 @@
 
 {% block extra_head %}
   <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.sortable.min.js"></script>  
   <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
   <script src="{{ STATIC_URL }}js/backbone-min.js"></script>
-  <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.iframe-transport.min.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.5.7/jquery.fileupload.js"></script>
-  <script>
-    $(function () {
-    });
-  </script>
-
+  <script src="{{ STATIC_URL }}js/spark-md5.min.js"></script>
+  <script>$(function () {});</script>
 {% endblock %}
 
 {% block content %}
-
 <div class="narrow fc mtd mbd">
-  <form method="post" enctype="multipart/form-data" id="answer_form">
+  <form method="post" enctype="multipart/form-data" action="" id="answer_form">
     <div class="panel-left">
     {% csrf_token %}
-    <input id="id_images" name="images" type="file" multiple/>
+    <input id="id_images" name="images" style="display: none;" type="file" multiple/>
     <div id="image-list"></div>
-    <div id="image-select-box" class="bttn pa green row db oa tac">{% trans "Add Images" %}</div>
-    <div id="submit" class="bttn pa green row db oa tac">{% trans "Publish" %}</div>
+    <div id="image-select-box" class="pl pr ptd pbd ba f_stng green tac mb" style="cursor: pointer;">{% trans "Add Images" %}</div>
+    <input type="submit" id="submit" onClick="$('id_images').val('')" class="bttn pa green row db oa tac">{% trans "Save" %}</div>
     </div>
     <div class="panel-right">
     <div class="db mb oa bb">
@@ -38,7 +32,7 @@
     <p class="f_weak">Açıklama kısmını kullanırsan dil kurallarına uyman gerektiğini söylememize gerek yok umuyoruz.</p>
     <p class="f_weak">Kaynak URL kısmına fotoğrafınla ilgili bir URL yazabilirsin. Örneğin köpeğinin fotoğrafını paylaştıysan ondan bahsettiğin blog gönderine link verebilirsin.</p>
     </div>
-</form>
+  </form>
 </div>
 <script src="{{ STATIC_URL }}js/create_story.js"></script>
 {% endblock %}
