@@ -5,6 +5,8 @@
     * Needs code review.
 */
 
+/* Helper Functions ------------------------------------------------------- */
+
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
@@ -66,43 +68,6 @@ function calculateMd5Sum(file, func, options) {
   loadChunk();
 };
 
-function upload(file, upload_id, options) {
-    var options = _.extend({
-      'chunk_size': 1024 * 100,
-      'url_prefix': '/upload/',
-      onUploadComplete: function(result) {},
-      onChunkSent: function(offset) {}
-    }, options || {});
-    var file_size = file.size;
-    var upload_request = new XMLHttpRequest();
-    function _contentRangeHeaderText(range_start, range_end) {
-        return 'bytes ' + range_start + '-' + range_end + '/' + file_size
-    };
-    function _upload(range_start, range_end) {
-      if (range_end > file_size) { range_end = file_size; };
-      var chunk = file.slice(range_start, range_end);
-      upload_request.open('PUT', options['url_prefix'] + upload_id + '/', true);
-      upload_request.overrideMimeType('application/octet-stream');
-      upload_request.setRequestHeader('Content-Range', _contentRangeHeaderText(range_start, range_end));
-      upload_request.setRequestHeader("X-CSRFToken", csrftoken)
-      upload_request.send(chunk);
-    };
-    upload_request.onreadystatechange = function() {
-      if (upload_request.readyState == 4 && upload_request.status == 200) {
-        var result = JSON.parse(upload_request.responseText);
-        if (result.status == 'uploaded') {
-          options['onUploadComplete'](result);
-        } else {
-          options['onChunkSent'](result.offset);
-          var range_start = result.offset;
-          var range_end = Math.min(file_size, range_start + options['chunk_size'])
-          _upload(range_start, range_end);            
-        }
-      }
-    }
-    _upload(0, Math.min(options['chunk_size'], file_size));
-};
-
 function fileNameExt(filename) {
   var a = filename.split(".");
   if( a.length === 1 || ( a[0] === "" && a.length === 2 ) ) {
@@ -127,17 +92,46 @@ function trimFileName(filename, ml, pl) {
   }
 };
 
-function updateOrders() {
-  var order = 0;
-  $('.order').each(function() {
-    $(this).attr('value', order);
-    order += 1;
-  });
+function upload(file, upload_id, options) {
+    var options = _.extend({
+      chunkSize: 1024 * 100,
+      urlPrefix: '/upload/',
+      onUploadComplete: function(result) {},
+      onChunkSent: function(offset) {}
+    }, options || {});
+    var fileSize = file.size;
+    var uploadRequest = new XMLHttpRequest();
+    function _contentRangeHeaderText(rangeStart, rangeEnd) {
+        return 'bytes ' + rangeStart + '-' + rangeEnd + '/' + fileSize
+    };
+    function _upload(rangeStart, rangeEnd) {
+      if (rangeEnd > fileSize) { rangeEnd = fileSize; };
+      var chunk = file.slice(rangeStart, rangeEnd);
+      uploadRequest.open('PUT', options['urlPrefix'] + upload_id + '/', true);
+      uploadRequest.overrideMimeType('application/octet-stream');
+      uploadRequest.setRequestHeader('Content-Range', _contentRangeHeaderText(rangeStart, rangeEnd));
+      uploadRequest.setRequestHeader("X-CSRFToken", csrftoken)
+      uploadRequest.send(chunk);
+    };
+    uploadRequest.onreadystatechange = function() {
+      if (uploadRequest.readyState == 4 && uploadRequest.status == 200) {
+        var result = JSON.parse(uploadRequest.responseText);
+        if (result.status == 'uploaded') {
+          options['onUploadComplete'](result);
+        } else {
+          options['onChunkSent'](result.offset);
+          var rangeStart = result.offset;
+          var rangeEnd = Math.min(fileSize, rangeStart + options['chunkSize'])
+          _upload(rangeStart, rangeEnd);
+        }
+      }
+    }
+    _upload(0, Math.min(options['chunkSize'], fileSize));
 };
 
-function getUpload(file, options) {
+function getFile(file, options) {
   var options = _.extend({
-    getUploadURL: '/upload/',
+    uploadURL: '/upload/',
     chunkSize: 1024 * 100,
     onUploadComplete: function(result) {},
     onChunkSent: function(offset) {}
@@ -153,84 +147,103 @@ function getUpload(file, options) {
           options['onUploadComplete'](result);
         } else if (result.status == 'uploading') {
           upload(file, result.upload_id, {
-            onUploadComplete: function(result) {options['onUploadComplete'](result)},
-            onChunkSent: function(offset) {options['onChunkSent'](offset)}
+            onUploadComplete: function(result) { options['onUploadComplete'](result) },
+            onChunkSent: function(offset) { options['onChunkSent'](offset) }
           });
         } else {
           alert('Unknown response');
         }
       }
     };
-    $.ajax(options.getUploadURL, settings);
+    $.ajax(options.uploadURL, settings);
   })
 };
 
-var UploadView = Backbone.View.extend({
+/* Backbone --------------------------------------------------------------- */
+
+var SlotView = Backbone.View.extend({
   tagName: 'div',
-  className: 'image-list-row',
-  template: _.template('<a href="#" class="remove">X</a><div class="thmbWrap"><img src="<%= thumbnail_url %>" class="thmb"><div class="indicator"></div></div><div class="filename"><%= filename %></div>'),
-  inputTemplate: _.template('<input class="order" type="hidden" name="image_<%= image_pk %>_order" value="" />'),
+  className: 'slot',
+  template: _.template('<div class="thmbWrap"><img src="<%= thumbnailUrl %>" class="thmb" style="opacity: <%= opacity %>"><div class="indicator" style="width: <%= indicatorPercent %>"></div><a href="#" class="remove">X</a></div><div class="filename"><%= filename %><input class="order" type="hidden" name="image_<%= filePk %>_order" value="<%= order %>" /></div>'),
   initialize: function() {
-    $('#image-list').append(this.$el);
+    $('#slot-list').append(this.$el);
     this.render();
   },
-  removeUploadFromDOM: function(cid) {
-    var el = $("#" + cid);
-    el.slideUp("slow", function() { el.remove(); updateOrders(); });
+  calculateOffsetPercent: function() {
+    if (!this.model.get('fileCompleted')) {
+      return Math.round(this.model.get('fileOffset') / this.model.get('fileSize') * 100);
+    } else {
+      return 100
+    }
   },
   updateIndicator: function() {
-    var v = (this.model.get('offset') / this.model.get('file').size) * 100;
     var indicatorEl = this.$el.find('.indicator');
-    indicatorEl.animate({'width': v + '%'});
-    if (Math.round(v) === 100) {
+    var percent = this.calculateOffsetPercent();
+    console.log(percent);
+    indicatorEl.animate({'width': percent + '%'});
+    if ((percent) === 100) {
       indicatorEl.slideUp();
     }
   },
-  updateThumbnailImage: function(thumbnail_url) {
+  updateThumbnailImage: function() {
     var imgEl = this.$el.find('img');
-    imgEl.attr('src', thumbnail_url);
+    imgEl.attr('src', this.model.get('thumbnailUrl'));
     imgEl.animate({opacity: 1});
   },
   render: function(){
     this.$el.html(this.template({
-      'thumbnail_url': this.model.get('thumbnail_url'),
-      'filename': trimFileName(this.model.get('file').name, 30),
+      'thumbnailUrl': this.model.get('thumbnailUrl') || '',
+      'filename': this.model.get('filename') || '',
+      'filePk': this.model.get('filePk') || '',
+      'fileModel': this.model.get('fileModel') || '',
+      'indicatorPercent': this.calculateOffsetPercent() || 0,
+      'order': this.model.get('order'),
+      'opacity': this.model.get('fileCompleted') ? 1 : 0
     }));
-    this.updateIndicator();
   }
 });
 
-var Upload = Backbone.Model.extend({
+var Slot = Backbone.Model.extend({
+  defaults: {
+    fileModel: 'image',
+    fileCompleted: true,
+  },
   initialize: function() {
     var _this = this;
-    getUpload(this.get('file'), {
-      onUploadComplete: function (result) {
-        _this.set('offset', _this.get('file').size);
-        _this.set('thumbnail_url', result.object.thumbnail_url);
-        _this.view.updateThumbnailImage(result.object.thumbnail_url);
-        _this.view.updateIndicator();
-        _this.view.$el.append(_this.view.inputTemplate({'image_pk': result.object.pk}));
-        updateOrders();
-      }, 
-      onChunkSent: function(offset) {
-        _this.set('offset', offset);
-        _this.view.updateIndicator();
-      }
-    });
-  }
+    var file = this.get('file');
+    if (file !== undefined) {
+      getFile(file, {
+        onUploadComplete: function (result) {
+          _this.set({
+            'fileName': trimFileName(file.name, 30),
+            'filePk': result.object.pk,
+            'thumbnailUrl': result.object.thumbnail_url,
+            'fileCompleted': true
+          });
+          _this.view.render();
+        }, 
+        onChunkSent: function(offset) {
+          _this.set({'fileOffset': offset});
+          _this.view.updateIndicator();
+        }
+      });
+    };
+    this.view = new SlotView({model: this});
+  },
 });
 
-var UploadList = Backbone.Collection.extend({model: Upload});
+var SlotList = Backbone.Collection.extend({model: Slot});
 
-var UploadListView = Backbone.View.extend({
+var SlotListView = Backbone.View.extend({
   events: {'click #image-select-box' : 'openFileSelect',
            'change #id_images'       : 'addFiles',
            'click .remove'           : 'removeFile'},
+
   el: 'form',
   initialize: function(){
     _.bindAll(this, 'render', 'addFile');
-    this.collection = new UploadList();
-    this.collection.bind('add', this.appendUploadToDOM);
+    this.collection = new SlotList();
+    this.collection.bind('add', this.appendSlotToDOM);
     this.counter = 0;
     this.render();
   },
@@ -241,29 +254,35 @@ var UploadListView = Backbone.View.extend({
     var files = document.getElementById('id_images').files;
     for (var i = 0; i < files.length; i++) {
       this.addFile(files[i]);
-    }
+    };
+    $('#id_images').val('');
   },
   removeFile: function(ev) {
     var cid = $(ev.currentTarget).parent()[0].getAttribute("id");
-    var upload = this.collection.find({'cid': cid});
-    upload.view.removeUploadFromDOM(cid);
+    var slot = this.collection.find({'cid': cid});
+    slot.view.removeSlotFromDOM(cid);
     this.collection.remove(upload);
     return false;
   },
   addFile: function(file){
     this.counter++;
-    var upload = new Upload({'file': file, 'order': this.counter});
-    var uploadView = new UploadView({model: upload, id: upload.cid});
-    upload.view = uploadView;
+
+    var upload = new Slot({file: file,
+                           order: this.counter,
+                           fileOffset: 0,
+                           fileSize: file.size,
+                           fileCompleted: false});
     this.collection.add(upload);
   },
+  render: function() {
+    var slotListEl = this.$el.find('slot-list');
+    slotListEl.empty();
+    _.each(this.collection.models, function(model) {
+      slotListEl.append(model.render());
+    });
+  }
 });
 
-var uploadListView = new UploadListView();
+var uploadListView = new SlotListView();
+uploadListView.collection.reset(slotData);
 window.ulw = uploadListView;
-
-$(function() {
-  $('#image-list').sortable().bind('sortupdate', function() {
-     updateOrders();
-  });
-})

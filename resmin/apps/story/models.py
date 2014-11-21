@@ -1,4 +1,5 @@
 import hashlib
+from json import dumps
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
 
@@ -144,6 +145,17 @@ class Story(BaseModel):
         """
         self.like_count = self.get_like_count_from_redis()
 
+    def serialize_slots(self):
+        data = []
+        for slot in self.slot_set.all():  # TODO: Optimise that query.
+            data.append({'id': slot.id,
+                         'order': slot.order,
+                         'filePk': slot.image.pk,
+                         'thumbnailUrl': slot.image.thumbnail_url,
+                         'fileModel': 'image',
+                         'fileCompleted': True})
+        return dumps(data)
+
     def __unicode__(self):
         return self.title if self.title else u'Story by %s' % self.owner
 
@@ -155,10 +167,13 @@ class Image(UniqueFileModel):
     UNIQUE_FILE_FIELD = 'image'
     image = models.ImageField(upload_to=filename_for_image)
 
+    @property
+    def thumbnail_url(self):
+        return get_thumbnail(self.image, '100x100', crop='center').url
+
     def serialize(self):
         return {'pk': self.pk,
-                'thumbnail_url': get_thumbnail(self.image, '100x100',
-                                               crop='center').url,
+                'thumbnail_url': self.thumbnail_url,
                 'small_image_url': get_thumbnail(self.image, '220').url}
 
 

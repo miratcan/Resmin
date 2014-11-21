@@ -347,32 +347,36 @@ form#preferences {
 .question .inner a { color: #fff;}
 .question .inner p { color: #ccc;}
 
-.image-list-row {
-  .oa;
-  .db;
-  .pa;
-  .bb;
+#slot-list { .db; .oa; }
 
-  position: relative;
+.slot {
+
+  .ma;
+  .fl;
+
   background: #efefef;
   cursor: move;
 
   .remove {
     position: absolute;
-    top: 10px;
-    right: 5px}
+    top: 2px;
+    right: 2px}
 
   .thmbWrap {
     width: 100px;
     min-height: 100px;
     float: left;
     position: relative;
-    background: white;
+    background: url(../img/loading.gif) center center no-repeat #fff;
 
     .thmb {
-      width: 100px;
-      height: 100px;
+      width: 100%;
+      height: 100%;
       opacity: 0;
+    }
+
+    .thmb.visible {
+      opacity: 1;
     }
 
     .indicator {

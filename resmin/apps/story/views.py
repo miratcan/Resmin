@@ -1,14 +1,16 @@
 import re
 from datetime import datetime
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from apps.question.models import Question, QuestionMeta
-from apps.story.forms import CreateStoryForm, UpdateStoryForm
+from apps.story.forms import StoryForm
 from apps.story.models import Story, Upload
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
@@ -47,7 +49,8 @@ def story(request, base62_id):
                               status__in=statuses_in)
     story_is_visible = story.is_visible_for(request.user)
     return render(request, 'story/story_detail.html',
-                  {'story': story, 'story_is_visible': story_is_visible})
+                  {'story': story, 'current_site': Site.objects.get_current(),
+                   'story_is_visible': story_is_visible})
 
 
 @login_required
@@ -58,40 +61,32 @@ def create_story(request, base62_id):
         Question, id=qid, questionee=request.user) if qid else None
     meta = get_object_or_404(QuestionMeta, id=mid)
     if request.POST:
-        # Fill answer form with posted data and files
-        story_form = CreateStoryForm(request.POST,
-                                     request.FILES,
-                                     owner=request.user,
-                                     meta=meta,
-                                     question=question)
-
-        # If form is valid save answer and redirect
+        story_form = StoryForm(
+            request.POST, request.FILES, owner=request.user,
+            meta=meta, question=question, slot_data=request.POST)
         if story_form.is_valid():
-            story = story_form.save(slot_data=request.POST)
+            story = story_form.save()
             return HttpResponseRedirect(story.get_absolute_url())
-    else:
-        story_form = CreateStoryForm(owner=request.user, question=question,
-                                     meta=meta)
+    story_form = StoryForm(owner=request.user, question=question, meta=meta)
     return render(request,
                   'story/create_story.html',
                   {'story_form': story_form})
 
 
+@login_required
 def update_story(request, base62_id):
     story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                               owner=request.user)
-    update_story_form = UpdateStoryForm(instance=story,
-                                        requested_by=request.user)
     if request.method == "POST":
-        update_story_form = UpdateStoryForm(instance=story, data=request.POST,
-                                            requested_by=request.user)
-        if update_story_form.is_valid():
-            update_story_form.save()
+        story_form = StoryForm(instance=story, owner=request.user,
+                               data=request.POST)
+        if story_form.is_valid():
+            story_form.save(slot_data=request.POST)
             messages.success(request, _('Your story updated'))
             return HttpResponseRedirect(story.get_absolute_url())
-
-    return render(request, 'story/update_story.html',
-                  {'update_story_form': update_story_form})
+    story_form = StoryForm(instance=story, owner=request.user)
+    return render(request, 'story/create_story.html',
+                  {'story_form': story_form})
 
 
 def get_upload(request):
@@ -135,6 +130,10 @@ def upload(request, upload_id):
 
     IF file finished return obj.
     """
+    if settings.DEBUG:
+        import time
+        time.sleep(0.5)
+
     upload = get_object_or_404(Upload, upload_id=upload_id,
                                owner=request.user,
                                expires_at__gte=datetime.now())
