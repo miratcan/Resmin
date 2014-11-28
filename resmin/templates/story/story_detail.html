@@ -6,10 +6,13 @@
   <script>
   $(document).ready(function() {
     $("#fake_delete_button").click(function(){
-      $("#real_delete_button").toggle()
+      $("#delete_button").toggle();
       return false;
     });
-    $("#real_delete_button").click(function() {
+    $("#publish_button").click(function() {
+      $('#publish_submit').trigger('click');
+    })
+    $("#delete_button").click(function() {
       $("#delete_submit").trigger("click");
       return false;
     })

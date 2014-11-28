@@ -2,7 +2,7 @@
 
 *           { margin: 0; padding: 0;}
 
-.content    { min-height: 400px; background: #efefef; }
+.content    { min-height: 400px; background: #ddd; }
 
 .bg         { background   : @white }
 .bg-dark    { background   : #ddd; }
@@ -33,12 +33,12 @@ p           { .f_nrml; .c_nrml; .mb; }
 .c_stng     { color        : #222222; }
 
 .wrap       { max-width: 1200px;
-              .pl; .pr;
+              .pl; .pr; position: relative;
               margin: 0 auto;}
 
 .narrow     { max-width: 800px; }
 .shadowed   {
-    box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #ccc; 
 }
 
 .np         { padding: 0; }
@@ -204,7 +204,7 @@ form            { overflow: auto; margin-bottom: 10px;}
 input[type='text'],
 input[type='password'],
 input[type='file'],
-textarea         { border: none; .mb; }
+textarea         { border: none; .bb; .mb; }
 
 label            { display: block;
                    .f_nrml; .c_nrml; .mbh; .mr; }
@@ -275,7 +275,7 @@ form#preferences {
 #answer_form {
   input, inlineFieldWrapper { .fl; }
   label { .fl; .mr; }
-  input[type=checkbox] { margin-top: 3px; }
+  input[type=checkbox] { margin: 3px 10px 0 0; }
   #id_image { display: none; }
   #file-select-box {
     background-image: url(https://cdn3.iconfinder.com/data/icons/files/100/237034-file_document_add_plus-32.png);
@@ -318,9 +318,8 @@ form#preferences {
   box-shadow: 0 5px 5px #aaa inset;
 }
 
-.panel-left { width: 65%; .fl; }
-.panel-right { width: 32.5%;
- .pb; .fr; }
+.panel-left { .db; margin-right: 320px; }
+.panel-right { width: 300px; .pb; position: absolute; top: 0; right: 0}
 
 .question {
   height: 270px;
@@ -351,7 +350,7 @@ form#preferences {
 
 .slot {
 
-  .ma;
+  .mah;
   .fl;
 
   background: #efefef;
@@ -388,10 +387,6 @@ form#preferences {
        .bttn.green;
     }
   }
-
-  .filename {
-     margin-left: 110px }
-
 }
 
 @media only screen and (max-width:800px) {
@@ -416,11 +411,15 @@ form#preferences {
   .panel-right { .bb; .mb; }
 }
 
-.sortable-placeholder {
-  display: block;
-   height: 120px; width: 100%;
-   border: 1px dashed #666;
+.sortable-placeholder {   
+   height: 100px;
+   width: 100px;
+   float: left;
+   margin: 5px;
+   background: white;
 }
-.sortable-dragging {
-  background: white;
+
+#update-captions {
+  width: 100%;
+  td.thmbCell { width: 105px; }
 }

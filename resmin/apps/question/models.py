@@ -11,9 +11,13 @@ from libs.baseconv import base62
 
 class QuestionMeta(models.Model):
 
-    STATUSES = ((0, 'Published '),
-                (1, 'Deleted by Owner'),
-                (2, 'Deleted by Admins'))
+    PUBLISHED = 0
+    DELETED_BY_OWNER = 1
+    DELETED_BY_ADMINS = 2
+
+    STATUS_CHOICES = ((PUBLISHED, 'Published '),
+                      (DELETED_BY_OWNER, 'Deleted by Owner'),
+                      (DELETED_BY_ADMINS, 'Deleted by Admins'))
 
     owner = models.ForeignKey(User, null=True, blank=True)
     text = models.CharField(_('Question'), max_length=512)
@@ -22,7 +26,8 @@ class QuestionMeta(models.Model):
     is_featured = models.BooleanField(default=False)
     is_sponsored = models.BooleanField(default=False)
     answer_count = models.PositiveIntegerField(default=0)
-    status = models.PositiveSmallIntegerField(default=0, choices=STATUSES)
+    status = models.PositiveSmallIntegerField(default=0,
+                                              choices=STATUS_CHOICES)
     cover_answer = models.ForeignKey(
         'story.Story', related_name='cover_answer', null=True, blank=True)
     latest_answer = models.ForeignKey(
@@ -81,6 +86,11 @@ class QuestionMeta(models.Model):
 
 
 class Question(models.Model):
+
+    PENDING = 0
+    ANSWERED = 1
+    REJECTED = 2
+
     questioner = models.ForeignKey(User, null=True, blank=True,
                                    related_name='questioner')
     meta = models.ForeignKey(QuestionMeta)
@@ -89,7 +99,9 @@ class Question(models.Model):
     answer = models.ForeignKey('story.Story', related_name='answer',
                                null=True, blank=True)
     status = models.PositiveSmallIntegerField(
-        default=0, choices=((0, 'Pending'), (1, 'Answered'), (2, 'Rejected')))
+        default=0, choices=((PENDING, 'Pending'),
+                            (ANSWERED, 'Answered'),
+                            (REJECTED, 'Rejected')))
 
     def __unicode__(self):
         return '%s - %s -> %s' % (self.questioner, self.meta.text,

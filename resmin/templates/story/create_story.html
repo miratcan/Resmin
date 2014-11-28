@@ -11,13 +11,13 @@
 
 {% block content %}
 <div class="wrap narrow">
-  <form method="post" action="" id="answer_form">
+  <form method="post" id="answer_form">
     <div class="panel-left">
       {% csrf_token %}
       <input id="id_images" name="images" style="display: none;" type="file" multiple/>
-      <div class="oa db">{{ story_form.non_field_errors }}</div>
-      <div id="slot-list">
-      </div>
+      <div class="oa db">{{ story_form.non_field_errors }} -- {{ story_form.errors }}</div>
+
+      <div id="slot-list"></div>
       <div id="image-select-box" class="pl pr ptd pbd bb f_stng green tac mb" style="cursor: pointer;">{% trans "Add Images" %}</div>
       <input type="submit" id="submit" class="bttn pa green row db oa tac" value="{% trans 'Save' %}" />
     </div>
@@ -25,15 +25,14 @@
       <div class="db mb oa bb">
         <p>{{ story_form.title }}</p>
         <p>{{ story_form.description }}</p>
+        <p>{{ story_form.question }}</p>
         {% if story_form.is_anonymouse %}<p class="oa db mb">{{ story_form.is_anonymouse }} {{ story_form.is_anonymouse.label_tag }}</p>{% endif %}
         <p class="oa db">{{ story_form.is_nsfw }} {{ story_form.is_nsfw.label_tag }}</p>
         <p class="oa db">{{ story_form.visible_for }}</p>
       </div>
       {% if story_form.question %}<p class="f_weak"><a href="{{ story_form.question.get_absolute_url }}">{{ story_form.question.meta.text }}</a> sorusuna cevap olarak göndermektesin.</p>{% endif %}
-      <p class="f_weak">Etraftan bulunmuş fotoğraflar ya da ekran görüntüleri yerine kendi çektiğin fotoğraflardan koyarsan seviniriz.</p>
       <p class="f_weak">İstersen Adımı Gizle seçeneğini kullanarak anonim cevap verebilirsin.</p>
       <p class="f_weak">Açıklama kısmını kullanırsan dil kurallarına uyman gerektiğini söylememize gerek yok umuyoruz.</p>
-      <p class="f_weak">Kaynak URL kısmına fotoğrafınla ilgili bir URL yazabilirsin. Örneğin köpeğinin fotoğrafını paylaştıysan ondan bahsettiğin blog gönderine link verebilirsin.</p>
     </div>
   </form>
 </div>
@@ -43,7 +42,6 @@
 {% else %}
   <script>var slotData = [];</script>
 {% endif %}
-
-<script src="{{ STATIC_URL }}js/create_story.js"></script>
+  <script src="{{ STATIC_URL }}js/create_story.js"></script>
 
 {% endblock %}

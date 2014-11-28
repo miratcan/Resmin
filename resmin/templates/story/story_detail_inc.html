@@ -1,10 +1,9 @@
 {% load i18n thumbnail %}  {% if story.status == story.DRAFT %}
-    <p class="mbd imp tac pa">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
+<p class="mbd imp tac pa">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
 {% endif %}
-
-<div class="panel-left">
+  <div class="panel-left">
     {% for slot in story.slot_set.all %}
-      <div class="pa bg bb mb" style="border-bottom-width: 3px;">
+      <div class="pa bg bb mbd" style="border-bottom-width: 3px;">
         {% if slot.title %}<h3 class="mb">{{ slot.title }}</h3>{% endif %}
         {% thumbnail slot.image.image "900" as img %}
           <img src="{{ img.url }}" class="mb">
@@ -18,21 +17,14 @@
     </div>
   </div>
 
-  <form id="action_form" method="post" style="">
+  <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
     <input name="delete" id="delete_submit" type="submit" />
     <input name="publish" id="publish_submit" type="submit" />
     <input name="set_cover" type="submit" />
   </form>
 <div class="panel-right">
-  <ul>
-    {% if story.status == story.DRAFT %}<li><a href="#" onclick="$('publish_submit').trigger('clicked');">{% trans "Publish" %}</a></li>{% endif %}
-    {% if story.status == story.PUBLISHED %}<li><a href="#" onclick="$('delete_submit').trigger('click')">{% trans "Delete" %}</a></li>{% endif %}
-    <li>İmajları ve Sıralamaları Düzenle</li>
-    <li>Başlık ve Açıklamalar Ekle</li>
-    <li>Sorulara İliştir</li>
-    <li>Sil</li>
-  </ul>
+  
   {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
   {% if story.description %}{{ story.description|linebreaks }}{% endif %}
 
@@ -63,10 +55,20 @@
     {% endif %}
   {% endwith %}
 
-  <p class="wb">Bağlantılar</p>
+  <p class="wb">{% trans "Links" %}</p>
   <input type="text" value="http://{{ current_site.domain }}{{ story.get_absolute_url }}" />
-
-</div>
-
+  <p class="wb">{% trans "Mounted Questions" %}</p>
+  <ul class="mb">
+    {% for question_meta in story.mounted_question_metas.all %}
+      <li><a href="{{ question_meta.get_absolute_url }}">{{ question_meta }}</a></li>
+    {% endfor %}
+  </ul>
+  <p class="wb">Hareketler</p>
+  <ul>
+    {% if story.status == story.DRAFT %}<li><a href="#" id="publish_button">{% trans "Publish" %}</a></li>{% endif %}
+    <li><a href="{{ story.get_update_images_url }}">{% trans "Update Images" %}</a></li>
+    <li><a href="{{ story.get_update_details_url }}">{% trans "Update Title and Descriptions" %}</a></li>
+    {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}
+  </ul>
 </div>
 

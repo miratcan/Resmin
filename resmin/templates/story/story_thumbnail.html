@@ -19,9 +19,7 @@
     </div>
     {% include "story/like_button_inc.html" %}
   </div>
-  {% if show_question_info_below_answers %}
-    <div class="oa db pa f_tiny" >
-      <a href="{{ story.question.get_absolute_url }}">{{ story.question.text }}</a> sorusuna cevap olarak gönderildi.
-    </div>
+  {% if show_question_info_below_answers and story.title %}
+    <div class="oa pa db bt f_tiny">{{ story.title }}</div>
   {% endif %}
 </div>

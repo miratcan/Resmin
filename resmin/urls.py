@@ -117,9 +117,13 @@ urlpatterns = patterns(
         'apps.story.views.story',
         name='story'),
 
-    url(r'^s/(?P<base62_id>[-\w]+)/update/$',
+    url(r'^s/(?P<base62_id>[-\w]+)/ui/$',
         'apps.story.views.update_story',
-        name='update-story'),
+        name='update-images-of-story'),
+
+    url(r'^s/(?P<base62_id>[-\w]+)/ud/$',
+        'apps.story.views.update_details',
+        name='update-details-of-story'),
 
     url(r'^pq/',
         'apps.account.views.pending_questions',

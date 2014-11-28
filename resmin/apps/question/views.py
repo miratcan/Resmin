@@ -90,7 +90,6 @@ def build_story_queryset(request, **kwargs):
 
     stories = Story.objects\
         .filter(queryset)\
-        .prefetch_related('question__owner__userprofile')\
         .select_related('question__owner__userprofile', 'owner')
     return {
         'paginated_object_list': paginated(
@@ -104,7 +103,6 @@ def index(request):
     Register your email message'''
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
-
     stories = build_story_queryset(request, get_from='followings')
     latest_asked_questions = QuestionMeta.objects.order_by(
         '-created_at')[:10]

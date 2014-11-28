@@ -164,7 +164,8 @@ function getFile(file, options) {
 var SlotView = Backbone.View.extend({
   tagName: 'div',
   className: 'slot',
-  template: _.template('<div class="thmbWrap"><img src="<%= thumbnailUrl %>" class="thmb" style="opacity: <%= opacity %>"><div class="indicator" style="width: <%= indicatorPercent %>"></div><a href="#" class="remove">X</a></div><div class="filename"><%= filename %><input class="order" type="hidden" name="image_<%= filePk %>_order" value="<%= order %>" /></div>'),
+  attributes: {'draggable': true},
+  template: _.template('<div class="thmbWrap"><img src="<%= thumbnailUrl %>" class="thmb" style="opacity: <%= opacity %>"><div class="indicator" style="width: <%= indicatorPercent %>"></div><a href="#" cid="<%= cid %>" class="remove">X</a></div><div class="filename"><%= filename %><input class="order" type="hidden" name="image_<%= filePk %>_order" value="<%= order %>" /></div>'),
   initialize: function() {
     $('#slot-list').append(this.$el);
     this.render();
@@ -179,7 +180,6 @@ var SlotView = Backbone.View.extend({
   updateIndicator: function() {
     var indicatorEl = this.$el.find('.indicator');
     var percent = this.calculateOffsetPercent();
-    console.log(percent);
     indicatorEl.animate({'width': percent + '%'});
     if ((percent) === 100) {
       indicatorEl.slideUp();
@@ -190,6 +190,9 @@ var SlotView = Backbone.View.extend({
     imgEl.attr('src', this.model.get('thumbnailUrl'));
     imgEl.animate({opacity: 1});
   },
+  removeSlotFromDOM: function() {
+    this.$el.slideUp()
+  }
   render: function(){
     this.$el.html(this.template({
       'thumbnailUrl': this.model.get('thumbnailUrl') || '',
@@ -198,6 +201,7 @@ var SlotView = Backbone.View.extend({
       'fileModel': this.model.get('fileModel') || '',
       'indicatorPercent': this.calculateOffsetPercent() || 0,
       'order': this.model.get('order'),
+      'cid': this.model.cid,
       'opacity': this.model.get('fileCompleted') ? 1 : 0
     }));
   }
@@ -238,7 +242,6 @@ var SlotListView = Backbone.View.extend({
   events: {'click #image-select-box' : 'openFileSelect',
            'change #id_images'       : 'addFiles',
            'click .remove'           : 'removeFile'},
-
   el: 'form',
   initialize: function(){
     _.bindAll(this, 'render', 'addFile');
@@ -258,17 +261,16 @@ var SlotListView = Backbone.View.extend({
     $('#id_images').val('');
   },
   removeFile: function(ev) {
-    var cid = $(ev.currentTarget).parent()[0].getAttribute("id");
+    var cid = $(ev.currentTarget).getAttribute("cid");
     var slot = this.collection.find({'cid': cid});
     slot.view.removeSlotFromDOM(cid);
     this.collection.remove(upload);
     return false;
   },
   addFile: function(file){
-    this.counter++;
-
+    var order = $(".slot").length + 1;
     var upload = new Slot({file: file,
-                           order: this.counter,
+                           order: order,
                            fileOffset: 0,
                            fileSize: file.size,
                            fileCompleted: false});
@@ -278,11 +280,18 @@ var SlotListView = Backbone.View.extend({
     var slotListEl = this.$el.find('slot-list');
     slotListEl.empty();
     _.each(this.collection.models, function(model) {
-      slotListEl.append(model.render());
+      console.log(model);
+      slotListEl.append(model.view.render());
     });
   }
 });
 
+function setSortable() {
+  console.log($('#slot-list'));
+  $('#slot-list').sortable();
+}
+
 var uploadListView = new SlotListView();
 uploadListView.collection.reset(slotData);
+
 window.ulw = uploadListView;

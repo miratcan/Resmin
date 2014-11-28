@@ -10,8 +10,10 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from apps.question.models import Question, QuestionMeta
-from apps.story.forms import StoryForm
+from apps.story.forms import StoryForm, UpdateCaptionsForm
 from apps.story.models import Story, Upload
+from apps.notification.utils import notify
+
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
 
@@ -29,6 +31,13 @@ def _publish_story(request, story):
     if story.status == Story.DRAFT:
         story.status = Story.PUBLISHED
         story.save()
+        if story.question:
+            story.question.status = Question.ANSWERED
+            story.question.answer = story
+            story.question.save()
+            notify(story.question.questionee,
+                   'got_answer_to_question', story.question,
+                   story.question.questioner, story.get_absolute_url())
         messages.success(request, _('Your story published.'))
     return HttpResponseRedirect(story.get_absolute_url())
 
@@ -55,21 +64,22 @@ def story(request, base62_id):
 
 @login_required
 def create_story(request, base62_id):
-    qid = request.GET.get('qid')
     mid = base62.to_decimal(base62_id)
-    question = get_object_or_404(
-        Question, id=qid, questionee=request.user) if qid else None
     meta = get_object_or_404(QuestionMeta, id=mid)
     if request.POST:
         story_form = StoryForm(
-            request.POST, request.FILES, owner=request.user,
-            meta=meta, question=question, slot_data=request.POST)
+            request.POST, owner=request.user, meta=meta,
+            slot_data=request.POST)
         if story_form.is_valid():
             story = story_form.save()
             return HttpResponseRedirect(story.get_absolute_url())
+        else:
+            print story_form.errors
+    qid = request.GET.get('qid')
+    question = get_object_or_404(Question, id=int(qid),
+                                 questionee=request.user) if qid else None
     story_form = StoryForm(owner=request.user, question=question, meta=meta)
-    return render(request,
-                  'story/create_story.html',
+    return render(request, 'story/create_story.html',
                   {'story_form': story_form})
 
 
@@ -78,15 +88,33 @@ def update_story(request, base62_id):
     story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                               owner=request.user)
     if request.method == "POST":
-        story_form = StoryForm(instance=story, owner=request.user,
-                               data=request.POST)
+        story_form = StoryForm(request.POST, instance=story,
+                               owner=request.user, slot_data=request.POST)
         if story_form.is_valid():
             story_form.save(slot_data=request.POST)
             messages.success(request, _('Your story updated'))
             return HttpResponseRedirect(story.get_absolute_url())
+        else:
+            print story_form.errors
     story_form = StoryForm(instance=story, owner=request.user)
     return render(request, 'story/create_story.html',
                   {'story_form': story_form})
+
+
+@login_required
+def update_details(request, base62_id):
+    story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
+                              owner=request.user)
+    if request.method == "POST":
+        update_captions_form = UpdateCaptionsForm(request.POST, story=story)
+        if update_captions_form.is_valid():
+            update_captions_form.save(slot_data=request.POST)
+            return HttpResponseRedirect(story.get_absolute_url())
+        else:
+            print update_captions_form.errors
+    update_captions_form = UpdateCaptionsForm(story=story)
+    return render(request, 'story/update_captions.html',
+                  {'captions_form': update_captions_form})
 
 
 def get_upload(request):

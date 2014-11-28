@@ -38,14 +38,15 @@ class Story(BaseModel):
                            (VISIBLE_FOR_FOLLOWERS, _('My Followers')))
 
     LIKE_SET_PATTERN = 'answer:%s:likes'
-    question = models.ForeignKey(
+    mounted_question_metas = models.ManyToManyField(
         'question.QuestionMeta', null=True, blank=True)
+    question = models.ForeignKey('question.Question', null=True, blank=True)
     title = models.CharField(max_length=255, null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
     like_count = models.PositiveIntegerField(default=0)
-    status = models.PositiveSmallIntegerField(default=0,
+    status = models.PositiveSmallIntegerField(default=DRAFT,
                                               choices=STATUS_CHOICES)
     visible_for = models.PositiveSmallIntegerField(
         default=VISIBLE_FOR_EVERYONE, verbose_name=_('Visible For'),
@@ -131,6 +132,14 @@ class Story(BaseModel):
         return reverse('story', kwargs={
             'base62_id': self.base62_id})
 
+    def get_update_images_url(self):
+        return reverse('update-images-of-story', kwargs={
+            'base62_id': self.base62_id})
+
+    def get_update_details_url(self):
+        return reverse('update-details-of-story', kwargs={
+            'base62_id': self.base62_id})
+
     def get_likers_from_redis(self):
         return [User(username=username) for username in
                 redis.smembers(self._like_set_key())]
@@ -166,6 +175,8 @@ class Story(BaseModel):
 class Image(UniqueFileModel):
     UNIQUE_FILE_FIELD = 'image'
     image = models.ImageField(upload_to=filename_for_image)
+    taken_at = models.DateTimeField(null=True, blank=True)
+    """position = GeopositionField(null=True, blank=True)"""
 
     @property
     def thumbnail_url(self):
@@ -182,8 +193,8 @@ class Slot(models.Model):
     story = models.ForeignKey(Story, null=True, blank=True)
     title = models.CharField(max_length=144, null=True, blank=True)
     image = models.ForeignKey(Image)
+    created_at = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)
-    """position = GeopositionField(null=True, blank=True)"""
 
     def __unicode__(self):
         return u'%s of %s' % (self.order, self.story)
