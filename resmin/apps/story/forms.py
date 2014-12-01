@@ -36,16 +36,19 @@ class StoryForm(forms.ModelForm):
         CT_MAP = {'image': ContentType.objects.get(
                   app_label='story', model='image')}
 
+        # Save Story
         story = super(StoryForm, self).save(commit=False)
         story.owner = self.owner
         story.save()
 
+        # If there's a meta add as mounted question meta.
         if self.meta:
             story.mounted_question_metas.add(self.meta)
             self.save_m2m()
 
         slot_pks = []
 
+        # Create or update slots with given slot data.
         for sd in self.cleaned_data['slot_data']:
             if 'pk' in sd:
                 slot = Slot.objects.get(pk=sd['pk'])
@@ -60,10 +63,10 @@ class StoryForm(forms.ModelForm):
                     order=sd['order'],
                     cPk = sd['cPk'],
                     cTp = CT_MAP[sd['contentType']])
-                slot_pks.append(slot_pk)
+                slot_pks.append(slot.pk)
 
+        # Remove slots that's not necessary.
         Slot.objects.filter(story=story).exclude(pk__in=slot_pks).delete()
-
         user_created_story.send(sender=story)
         return story
 
