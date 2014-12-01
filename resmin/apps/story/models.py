@@ -159,11 +159,11 @@ class Story(BaseModel):
     def serialize_slots(self):
         data = []
         for slot in self.slot_set.all():  # TODO: Optimise that query.
-            data.append({'id': slot.id,
+            data.append({'pk': slot.pk,
                          'order': slot.order,
-                         'filePk': slot.image.pk,
-                         'thumbnailUrl': slot.image.thumbnail_url,
-                         'fileModel': 'image',
+                         'cPk': slot.cPk,
+                         'cTp': 'image',
+                         'thumbnailUrl': slot.content.thumbnail_url,
                          'fileCompleted': True})
         return dumps(data)
 
@@ -192,17 +192,15 @@ class Image(UniqueFileModel):
 
 class Slot(models.Model):
 
-    CONTENT_TYPE_MAP = {
-        'image': ContentType.objects.get_for_model(Image)}
-
     order = models.PositiveIntegerField()
     story = models.ForeignKey(Story, null=True, blank=True)
     title = models.CharField(max_length=144, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    contentPk = models.PositiveIntegerField()
-    contentType = models.ForeignKey(ContentType)
-    content = GenericForeignKey('content_type', 'object_id')
-    thumbnail_url = models.URLField()
+
+    cPk = models.PositiveIntegerField()
+    cTp = models.ForeignKey(ContentType)
+
+    content = GenericForeignKey('cTp', 'cPk')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

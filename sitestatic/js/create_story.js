@@ -20,8 +20,8 @@ function getCookie(name) {
             }
         }
     }
-    return cookieValue;
-};
+    return cookieValue
+}
 
 var csrftoken = getCookie('csrftoken');
 
@@ -43,7 +43,7 @@ function calculateMd5Sum(file, func, options) {
   var file = file;
   var offset = 0;
   var spark = new SparkMD5.ArrayBuffer();
-  var options = _.extend({chunkSize: 1024 * 100,}, options || {});
+  var options = _.extend({chunkSize: 1024 * 100}, options || {});
 
   function readerOnLoad(ev) {
     spark.append(ev.target.result);
@@ -53,10 +53,12 @@ function calculateMd5Sum(file, func, options) {
       offset += options.chunkSize;
       loadChunk();      
     }
-  };
+  }
+
   function readerOnError() {
     console.warn('something went wrong');
-  };
+  }
+
   function loadChunk() {
     var fileReader = new FileReader();
     var start = offset;
@@ -64,9 +66,11 @@ function calculateMd5Sum(file, func, options) {
     fileReader.onload = readerOnLoad.bind(this);
     fileReader.onerror = readerOnError.bind(this);
     fileReader.readAsArrayBuffer(sliceMethod.call(file, start, end));
-  };
+
+  }
+
   loadChunk();
-};
+}
 
 function fileNameExt(filename) {
   var a = filename.split(".");
@@ -74,7 +78,7 @@ function fileNameExt(filename) {
     return "";
   }
   return a.pop().toLowerCase();
-};
+}
 
 function trimFileName(filename, ml, pl) {
   var ml = ml || 20;
@@ -90,7 +94,7 @@ function trimFileName(filename, ml, pl) {
   } else {
     return filename;
   }
-};
+}
 
 function upload(file, upload_id, options) {
     var options = _.extend({
@@ -101,9 +105,11 @@ function upload(file, upload_id, options) {
     }, options || {});
     var fileSize = file.size;
     var uploadRequest = new XMLHttpRequest();
+
     function _contentRangeHeaderText(rangeStart, rangeEnd) {
         return 'bytes ' + rangeStart + '-' + rangeEnd + '/' + fileSize
-    };
+    }
+
     function _upload(rangeStart, rangeEnd) {
       if (rangeEnd > fileSize) { rangeEnd = fileSize; };
       var chunk = file.slice(rangeStart, rangeEnd);
@@ -112,7 +118,8 @@ function upload(file, upload_id, options) {
       uploadRequest.setRequestHeader('Content-Range', _contentRangeHeaderText(rangeStart, rangeEnd));
       uploadRequest.setRequestHeader("X-CSRFToken", csrftoken)
       uploadRequest.send(chunk);
-    };
+    }
+
     uploadRequest.onreadystatechange = function() {
       if (uploadRequest.readyState == 4 && uploadRequest.status == 200) {
         var result = JSON.parse(uploadRequest.responseText);
@@ -125,17 +132,19 @@ function upload(file, upload_id, options) {
           _upload(rangeStart, rangeEnd);
         }
       }
-    }
+    };
     _upload(0, Math.min(options['chunkSize'], fileSize));
 };
 
 function getFile(file, options) {
+
   var options = _.extend({
     uploadURL: '/upload/',
     chunkSize: 1024 * 100,
     onUploadComplete: function(result) {},
     onChunkSent: function(offset) {}
   }, options || {});
+
   calculateMd5Sum(file, function(hash) {
     var data = {'md5sum': hash, 'size': file.size, 'model': 'image'};
     var settings = {
@@ -155,7 +164,9 @@ function getFile(file, options) {
         }
       }
     };
+
     $.ajax(options.uploadURL, settings);
+
   })
 };
 
@@ -170,10 +181,13 @@ var SlotView = Backbone.View.extend({
   className: 'slot',
   attributes: {'draggable': true},
   template: _.template('<div class="thmbWrap"><img src="<%= thumbnailUrl %>" class="thmb" style="opacity: <%= opacity %>"><div class="indicator" style="width: <%= indicatorPercent %>"></div><a href="#" cid="<%= cid %>" class="remove">X</a></div>'),
+
   initialize: function() {
+    this.id = "s" + this.model.cid;
     $('#slot-list').append(this.$el);
     this.render();
   },
+
   calculateOffsetPercent: function() {
     if (!this.model.get('fileCompleted')) {
       return Math.round(this.model.get('fileOffset') / this.model.get('fileSize') * 100);
@@ -181,6 +195,7 @@ var SlotView = Backbone.View.extend({
       return 100
     }
   },
+
   updateIndicator: function() {
     var indicatorEl = this.$el.find('.indicator');
     var percent = this.calculateOffsetPercent();
@@ -189,34 +204,34 @@ var SlotView = Backbone.View.extend({
       indicatorEl.slideUp();
     }
   },
-  updateThumbnailImage: function() {
-    var imgEl = this.$el.find('img');
-    imgEl.attr('src', this.model.get('thumbnailUrl'));
-    imgEl.animate({opacity: 1});
-  },
+
   removeSlotFromDOM: function() {
     this.$el.remove();
     updateSorted();
   },
+
   render: function(){
     this.$el.html(this.template({
       'thumbnailUrl': this.model.get('thumbnailUrl') || '',
       'filename': this.model.get('filename') || '',
-      'filePk': this.model.get('filePk') || '',
-      'fileModel': this.model.get('fileModel') || '',
+      'cPk': this.model.get('cPk') || '',
+      'contentType': this.model.get('contentType') || '',
       'indicatorPercent': this.calculateOffsetPercent() || 0,
       'order': this.model.get('order'),
       'cid': this.model.cid,
       'opacity': this.model.get('fileCompleted') ? 1 : 0
     }));
   }
+
 });
 
 var Slot = Backbone.Model.extend({
+
   defaults: {
-    fileModel: 'image',
-    fileCompleted: false,
+    contentType: 'image',
+    fileCompleted: false
   },
+
   initialize: function() {
     var _this = this;
     var file = this.get('file');
@@ -225,7 +240,7 @@ var Slot = Backbone.Model.extend({
         onUploadComplete: function (result) {
           _this.set({
             'fileName': trimFileName(file.name, 30),
-            'filePk': result.object.pk,
+            'cPk': result.object.pk,
             'thumbnailUrl': result.object.thumbnail_url,
             'fileCompleted': true
           });
@@ -238,10 +253,12 @@ var Slot = Backbone.Model.extend({
       });
     };
     this.view = new SlotView({model: this});
-  },
+  }
+
 });
 
-var SlotList = Backbone.Collection.extend({model: Slot});
+var SlotList = Backbone.Collection.extend({
+  model: Slot });
 
 var SlotListView = Backbone.View.extend({
   events: {'click #image-select-box' : 'openFileSelect',
@@ -262,7 +279,7 @@ var SlotListView = Backbone.View.extend({
     var files = document.getElementById('id_images').files;
     for (var i = 0; i < files.length; i++) {
       this.addFile(files[i]);
-    };
+    }
     $('#id_images').val('');
   },
   removeFile: function(ev) {
@@ -292,14 +309,16 @@ var SlotListView = Backbone.View.extend({
     });
   }
 });
-
 var uploadListView = new SlotListView();
 uploadListView.collection.reset(slotData);
 window.ulw = uploadListView;
-
 $('#answer_form').submit(function() {
   $('.slot').each(function(idx, slotEl) {
-    console.log(slotEl, 'order fixed');
+    var cid = $(slotEl).find('.remove')[0].getAttribute('cid');
+    var model = uploadListView.collection.find(function(item){
+      return item.cid === cid;
+    });
+    model.set('order', idx);
   });
-  $('#id_slot_data').val(JSON.stringify(uploadListView.collection.toJSON()))
+  $('#id_slot_data').val(JSON.stringify(uploadListView.collection.toJSON()));
 });

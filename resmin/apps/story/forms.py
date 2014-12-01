@@ -2,6 +2,7 @@ import re
 
 from django import forms
 from django.db import transaction
+from django.contrib.contenttypes.models import ContentType
 from json_field.forms import JSONFormField as JSONField
 
 from apps.question.signals import user_created_story
@@ -31,6 +32,10 @@ class StoryForm(forms.ModelForm):
 
     @transaction.commit_on_success
     def save(self, *args, **kwargs):
+
+        CT_MAP = {'image': ContentType.objects.get(
+                  app_label='story', model='image')}
+
         story = super(StoryForm, self).save(commit=False)
         story.owner = self.owner
         story.save()
@@ -39,15 +44,26 @@ class StoryForm(forms.ModelForm):
             story.mounted_question_metas.add(self.meta)
             self.save_m2m()
 
-        for slot in self.cleaned_data['slot_data']:
-            if slot['pk']:
-                slot = Slot.objects.get(pk=slot['pk'])
-                slot.order = slot['order']
-                slot.contentPk = slot['contentPk']
-                slot.contentType = slot.CONTENT_TYPE_MAP[slot['contentType']]
+        slot_pks = []
+
+        for sd in self.cleaned_data['slot_data']:
+            if 'pk' in sd:
+                slot = Slot.objects.get(pk=sd['pk'])
+                slot.order = sd['order']
+                slot.cPk = sd['cPk']
+                slot.cTp = CT_MAP[sd['contentType']]
                 slot.save()
+                slot_pks.append(slot.pk)
             else:
-                slot = Slot.objects.create()
+                slot = Slot.objects.create(
+                    story=story,
+                    order=sd['order'],
+                    cPk = sd['cPk'],
+                    cTp = CT_MAP[sd['contentType']])
+                slot_pks.append(slot_pk)
+
+        Slot.objects.filter(story=story).exclude(pk__in=slot_pks).delete()
+
         user_created_story.send(sender=story)
         return story
 
