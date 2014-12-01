@@ -73,7 +73,7 @@ function fileNameExt(filename) {
   if( a.length === 1 || ( a[0] === "" && a.length === 2 ) ) {
     return "";
   }
-  return a.pop();  // feel free to tack .toLowerCase() here if you want};
+  return a.pop().toLowerCase();
 };
 
 function trimFileName(filename, ml, pl) {
@@ -159,13 +159,17 @@ function getFile(file, options) {
   })
 };
 
+function updateSorted() {
+  $('#slot-list').sortable('reload');
+}
+
 /* Backbone --------------------------------------------------------------- */
 
 var SlotView = Backbone.View.extend({
   tagName: 'div',
   className: 'slot',
   attributes: {'draggable': true},
-  template: _.template('<div class="thmbWrap"><img src="<%= thumbnailUrl %>" class="thmb" style="opacity: <%= opacity %>"><div class="indicator" style="width: <%= indicatorPercent %>"></div><a href="#" cid="<%= cid %>" class="remove">X</a></div><div class="filename"><%= filename %><input class="order" type="hidden" name="image_<%= filePk %>_order" value="<%= order %>" /></div>'),
+  template: _.template('<div class="thmbWrap"><img src="<%= thumbnailUrl %>" class="thmb" style="opacity: <%= opacity %>"><div class="indicator" style="width: <%= indicatorPercent %>"></div><a href="#" cid="<%= cid %>" class="remove">X</a></div>'),
   initialize: function() {
     $('#slot-list').append(this.$el);
     this.render();
@@ -191,8 +195,9 @@ var SlotView = Backbone.View.extend({
     imgEl.animate({opacity: 1});
   },
   removeSlotFromDOM: function() {
-    this.$el.slideUp()
-  }
+    this.$el.remove();
+    updateSorted();
+  },
   render: function(){
     this.$el.html(this.template({
       'thumbnailUrl': this.model.get('thumbnailUrl') || '',
@@ -210,7 +215,7 @@ var SlotView = Backbone.View.extend({
 var Slot = Backbone.Model.extend({
   defaults: {
     fileModel: 'image',
-    fileCompleted: true,
+    fileCompleted: false,
   },
   initialize: function() {
     var _this = this;
@@ -261,37 +266,40 @@ var SlotListView = Backbone.View.extend({
     $('#id_images').val('');
   },
   removeFile: function(ev) {
-    var cid = $(ev.currentTarget).getAttribute("cid");
+    var cid = $(ev.currentTarget)[0].getAttribute("cid");
     var slot = this.collection.find({'cid': cid});
     slot.view.removeSlotFromDOM(cid);
     this.collection.remove(upload);
     return false;
   },
   addFile: function(file){
-    var order = $(".slot").length + 1;
-    var upload = new Slot({file: file,
-                           order: order,
-                           fileOffset: 0,
-                           fileSize: file.size,
-                           fileCompleted: false});
+    var list_of_orders = $('.order').map(function(idx, el) {
+      return el.value
+    });
+    if (list_of_orders.length == 0) {
+      list_of_orders = [0]
+    };
+    var order = Math.max.apply(null, list_of_orders) + 1;
+    var upload = new Slot({file: file, order: order, fileOffset: 0,
+                           fileSize: file.size, fileCompleted: false});
     this.collection.add(upload);
   },
   render: function() {
     var slotListEl = this.$el.find('slot-list');
     slotListEl.empty();
     _.each(this.collection.models, function(model) {
-      console.log(model);
       slotListEl.append(model.view.render());
     });
   }
 });
 
-function setSortable() {
-  console.log($('#slot-list'));
-  $('#slot-list').sortable();
-}
-
 var uploadListView = new SlotListView();
 uploadListView.collection.reset(slotData);
-
 window.ulw = uploadListView;
+
+$('#answer_form').submit(function() {
+  $('.slot').each(function(idx, slotEl) {
+    console.log(slotEl, 'order fixed');
+  });
+  $('#id_slot_data').val(JSON.stringify(uploadListView.collection.toJSON()))
+});

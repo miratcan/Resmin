@@ -68,8 +68,7 @@ def create_story(request, base62_id):
     meta = get_object_or_404(QuestionMeta, id=mid)
     if request.POST:
         story_form = StoryForm(
-            request.POST, owner=request.user, meta=meta,
-            slot_data=request.POST)
+            request.POST, owner=request.user, meta=meta)
         if story_form.is_valid():
             story = story_form.save()
             return HttpResponseRedirect(story.get_absolute_url())
@@ -89,13 +88,14 @@ def update_story(request, base62_id):
                               owner=request.user)
     if request.method == "POST":
         story_form = StoryForm(request.POST, instance=story,
-                               owner=request.user, slot_data=request.POST)
+                               owner=request.user)
         if story_form.is_valid():
-            story_form.save(slot_data=request.POST)
+            story_form.save()
             messages.success(request, _('Your story updated'))
             return HttpResponseRedirect(story.get_absolute_url())
         else:
-            print story_form.errors
+            return render(request, 'story/create_story.html',
+                          {'story_form': story_form})
     story_form = StoryForm(instance=story, owner=request.user)
     return render(request, 'story/create_story.html',
                   {'story_form': story_form})

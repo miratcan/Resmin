@@ -2,6 +2,7 @@ import re
 
 from django import forms
 from django.db import transaction
+from json_field.forms import JSONFormField as JSONField
 
 from apps.question.signals import user_created_story
 from apps.question.models import Question
@@ -10,31 +11,23 @@ from apps.story.models import Story, Slot
 
 class StoryForm(forms.ModelForm):
 
-    SLOT_KEY_PATTERN = re.compile('image_(?P<image_id>\d+)_order')
+    slot_data = JSONField(widget=forms.Textarea)
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
         self.meta = kwargs.pop('meta', None)
         self.question = kwargs.pop('question', None)
-        self.slots = self.parse_slots(kwargs.pop('slot_data', None))
         super(StoryForm, self).__init__(*args, **kwargs)
         if self.question:
             self.fields['question'] = \
                 forms.ModelChoiceField(
                     required=False,
                     initial=self.question,
+                    widget=forms.HiddenInput,
                     queryset=Question.objects.filter(
                         questionee=self.question.questionee))
-
-    def parse_slots(self, data):
-        if not data:
-            return None
-        slot_data = {}
-        for key, val in data.iteritems():
-            match = self.SLOT_KEY_PATTERN.match(key)
-            if match:
-                slot_data[int(match.group('image_id'))] = int(val)
-        return slot_data
+        else:
+            self.fields.pop('question')
 
     @transaction.commit_on_success
     def save(self, *args, **kwargs):
@@ -46,18 +39,21 @@ class StoryForm(forms.ModelForm):
             story.mounted_question_metas.add(self.meta)
             self.save_m2m()
 
-        for image, order in self.slots.iteritems():
-            updated = Slot.objects.filter(
-                story=story, order=order).update(image=image)
-            if not updated:
-                Slot.objects.create(
-                    story=story, order=order, image_id=image)
+        for slot in self.cleaned_data['slot_data']:
+            if slot['pk']:
+                slot = Slot.objects.get(pk=slot['pk'])
+                slot.order = slot['order']
+                slot.contentPk = slot['contentPk']
+                slot.contentType = slot.CONTENT_TYPE_MAP[slot['contentType']]
+                slot.save()
+            else:
+                slot = Slot.objects.create()
         user_created_story.send(sender=story)
         return story
 
     def clean(self):
-        if not self.slots:
-            raise forms.ValidationError("A story must have at least one image")
+        if not self.cleaned_data['slot_data']:
+            raise forms.ValidationError("A story must have at least 1 image.")
 
         if not self.owner.is_authenticated():
             raise forms.ValidationError("You have to login to answer "
@@ -67,7 +63,7 @@ class StoryForm(forms.ModelForm):
     class Meta:
         model = Story
         fields = ['title', 'visible_for', 'is_anonymouse', 'is_nsfw',
-                  'description', 'question']
+                  'description', 'question', 'slot_data']
 
 
 class UpdateCaptionsForm(forms.Form):

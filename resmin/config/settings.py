@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'pipeline',
     'tastypie',
+    'json_field',
     'geoposition',
     'chunked_uploads'
 )

@@ -32,11 +32,11 @@ p           { .f_nrml; .c_nrml; .mb; }
 .c_nrml     { color        : #525B64; }
 .c_stng     { color        : #222222; }
 
-.wrap       { max-width: 1200px;
+.wrap       { max-width: 1600px;
               .pl; .pr; position: relative;
               margin: 0 auto;}
 
-.narrow     { max-width: 800px; }
+.narrow     { max-width: 1000px; }
 .shadowed   {
     box-shadow: 0 0 10px #ccc; 
 }
@@ -319,7 +319,10 @@ form#preferences {
 }
 
 .panel-left { .db; margin-right: 320px; }
-.panel-right { width: 300px; .pb; position: absolute; top: 0; right: 0}
+.panel-right {
+  width: 300px; .pb; position: absolute; top: 0; right: 0;
+  .section { .db; .bb; .mb; }
+}
 
 .question {
   height: 270px;

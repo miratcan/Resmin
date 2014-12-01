@@ -4,6 +4,8 @@ from datetime import datetime
 from sorl.thumbnail import get_thumbnail
 
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.core.files import File
 from django.core.files.base import ContentFile
@@ -189,12 +191,19 @@ class Image(UniqueFileModel):
 
 
 class Slot(models.Model):
+
+    CONTENT_TYPE_MAP = {
+        'image': ContentType.objects.get_for_model(Image)}
+
     order = models.PositiveIntegerField()
     story = models.ForeignKey(Story, null=True, blank=True)
     title = models.CharField(max_length=144, null=True, blank=True)
-    image = models.ForeignKey(Image)
-    created_at = models.DateTimeField(auto_now_add=True)
     description = models.TextField(null=True, blank=True)
+    contentPk = models.PositiveIntegerField()
+    contentType = models.ForeignKey(ContentType)
+    content = GenericForeignKey('content_type', 'object_id')
+    thumbnail_url = models.URLField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
         return u'%s of %s' % (self.order, self.story)
