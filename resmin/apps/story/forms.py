@@ -1,3 +1,4 @@
+from copy import copy
 import re
 
 from django import forms
@@ -8,6 +9,15 @@ from json_field.forms import JSONFormField as JSONField
 from apps.question.signals import user_created_story
 from apps.question.models import Question
 from apps.story.models import Story, Slot
+
+
+def find_in_dictlist(k, v, dl):
+    # Finds matching key value in list of dicts.
+    return (i for i in dl if i[k] == v).next()
+
+def rm_key_in_dictlist(k, dl):
+    # Clean ids from extising_slots_as_new.
+    [setattr(s, 'id', None) for s in extising_slots_as_new]
 
 
 class StoryForm(forms.ModelForm):
@@ -30,9 +40,37 @@ class StoryForm(forms.ModelForm):
         else:
             self.fields.pop('question')
 
+    def save_slots(self, story, slot_data):
+        extising_slots = story.slot_set.all()
+
+        if extising_slots:
+            extising_slots_as_new = copy(list(extising_slots))
+
+            # Take new orderings from form data
+            for slot in extising_slots_as_new:
+                slot.order = find_in_dictlist(
+                    'pk', slot.pk, slot_data)['order']
+            Slot.objects.bulk_create(extising_slots_as_new)
+
+        extising_slot_pks = [slot.pk for slot in extising_slots]
+
+        # Create or update slots with given slot data.
+        for sd in slot_data:
+            if sd['id'] in extising_slot_pks:
+                slot = Slot.objects.create(
+                    story=story,
+                    order=sd['order'],
+                    cPk = sd['cPk'],
+                    cTp = CT_MAP[sd['cTp']])
+            slot_pks.append(slot.pk)
+
+        extising_slots.delete()
+
+        # Remove slots that's not necessary.
+        Slot.objects.filter(story=story).exclude(pk__in=slot_pks).delete()
+
     @transaction.commit_on_success
     def save(self, *args, **kwargs):
-
         CT_MAP = {'image': ContentType.objects.get(
                   app_label='story', model='image')}
 
@@ -46,27 +84,10 @@ class StoryForm(forms.ModelForm):
             story.mounted_question_metas.add(self.meta)
             self.save_m2m()
 
-        slot_pks = []
+        # Save slots of story.
+        self.save_slots(story, self.cleaned_data['slot_data'])
 
-        # Create or update slots with given slot data.
-        for sd in self.cleaned_data['slot_data']:
-            if 'pk' in sd:
-                slot = Slot.objects.get(pk=sd['pk'])
-                slot.order = sd['order']
-                slot.cPk = sd['cPk']
-                slot.cTp = CT_MAP[sd['contentType']]
-                slot.save()
-                slot_pks.append(slot.pk)
-            else:
-                slot = Slot.objects.create(
-                    story=story,
-                    order=sd['order'],
-                    cPk = sd['cPk'],
-                    cTp = CT_MAP[sd['contentType']])
-                slot_pks.append(slot.pk)
-
-        # Remove slots that's not necessary.
-        Slot.objects.filter(story=story).exclude(pk__in=slot_pks).delete()
+        # Send user created story signal
         user_created_story.send(sender=story)
         return story
 
