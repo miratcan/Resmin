@@ -1,3 +1,4 @@
+from copy import copy
 import re
 
 from django import forms
@@ -8,6 +9,16 @@ from json_field.forms import JSONFormField as JSONField
 from apps.question.signals import user_created_story
 from apps.question.models import Question
 from apps.story.models import Story, Slot
+
+
+def find_in_dictlist(k, v, dl):
+    # Finds matching key value in list of dicts.
+    return (i for i in dl if i[k] == v).next()
+
+
+def rm_key_in_dictlist(k, dl):
+    # Clean ids from extising_slots_as_new.
+    [setattr(s, 'id', None) for s in dl]
 
 
 class StoryForm(forms.ModelForm):
@@ -30,57 +41,45 @@ class StoryForm(forms.ModelForm):
         else:
             self.fields.pop('question')
 
-    def save(self, *args, **kwargs):
+    def save_slots(self, story, slot_data):
 
         CT_MAP = {'image': ContentType.objects.get(
             app_label='story', model='image')}
 
-        def _update_slot(pk, data):
-            slot = Slot.objects.get(pk=pk)
-            slot.order = data['order']
-            slot.cPk = data['cPk']
-            slot.cTp = CT_MAP[data['cTp']]
-            return slot
+        slots = story.slot_set.all()
+        old_slot_pks = [s.pop('pk') for s in slots]
 
-        def _create_slot(data):
-            Slot.objects.filter(story=story, order=data['order']).delete()
-            return Slot(story=story, order=data['order'], cPk=data['cPk'],
-                        cTp=CT_MAP[data['cTp']])
+        if slots:
+            # Take new orderings from form data
+            for slot in slots:
+                slot.order = find_in_dictlist(
+                    'pk', slot.pk, slot_data)['order']
+            Story.objects.filter(pk__in=old_slot_pks).delete()
+            Slot.objects.bulk_create(slots)
 
+        # Create or update slots with given slot data.
+        for sd in slot_data:
+            if sd['id'] not in old_slot_pks:
+                Slot.objects.create(story=story,
+                                    order=sd['order'],
+                                    cPk=sd['cPk'],
+                                    cTp=CT_MAP[sd['cTp']])
+
+    @transaction.commit_on_success
+    def save(self, *args, **kwargs):
+
+        # Save Story
         story = super(StoryForm, self).save(commit=False)
         story.owner = self.owner
         story.save()
 
+        # If there's a meta add as mounted question meta.
         if self.meta:
             story.mounted_question_metas.add(self.meta)
             self.save_m2m()
 
-        extising_slots = list(story.slot_set.all())
-        extising_slot_pks = [slot.pk for slot in extising_slots]
-
-        """
-        Delete unused slots.
-        """
-        form_slot_pks = filter(
-            lambda i: i is not None,
-            [data.get('pk') for data in self.cleaned_data['slot_data']])
-        differing_slot_pks = set(extising_slot_pks) - set(form_slot_pks)
-        if differing_slot_pks:
-            story.slot_set.exclude(id__in=form_slot_pks).delete()
-            extising_slot_pks = filter(lambda s: s.pk in differing_slot_pks,
-                                       extising_slot_pks)
-
-        """
-        Reorder extising slots.
-        """
-
-        for data in self.cleaned_data['slot_data']:
-            if 'pk' in data:
-                slots.append(_update_slot(data['pk'], data))
-            else:
-                slots.append(_create_slot(data))
-
-        map(lambda slot: slot.save(), slots)
+        # Save slots of story.
+        self.save_slots(story, self.cleaned_data['slot_data'])
         user_created_story.send(sender=story)
         return story
 
