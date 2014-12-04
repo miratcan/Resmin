@@ -215,7 +215,7 @@ var SlotView = Backbone.View.extend({
       'thumbnailUrl': this.model.get('thumbnailUrl') || '',
       'filename': this.model.get('filename') || '',
       'cPk': this.model.get('cPk') || '',
-      'contentType': this.model.get('contentType') || '',
+      'cTp': this.model.get('cTp') || '',
       'indicatorPercent': this.calculateOffsetPercent() || 0,
       'order': this.model.get('order'),
       'cid': this.model.cid,
@@ -228,7 +228,7 @@ var SlotView = Backbone.View.extend({
 var Slot = Backbone.Model.extend({
 
   defaults: {
-    contentType: 'image',
+    cTp: 'image',
     fileCompleted: false
   },
 
@@ -286,7 +286,7 @@ var SlotListView = Backbone.View.extend({
     var cid = $(ev.currentTarget)[0].getAttribute("cid");
     var slot = this.collection.find({'cid': cid});
     slot.view.removeSlotFromDOM(cid);
-    this.collection.remove(upload);
+    this.collection.remove(slot);
     return false;
   },
   addFile: function(file){

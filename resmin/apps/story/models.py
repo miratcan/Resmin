@@ -192,7 +192,7 @@ class Image(UniqueFileModel):
 
 class Slot(models.Model):
 
-    order = models.PositiveIntegerField()
+    order = models.PositiveIntegerField(null=True)
     story = models.ForeignKey(Story, null=True, blank=True)
     title = models.CharField(max_length=144, null=True, blank=True)
     description = models.TextField(null=True, blank=True)

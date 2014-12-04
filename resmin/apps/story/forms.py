@@ -12,11 +12,11 @@ from apps.story.models import Story, Slot
 
 class StoryForm(forms.ModelForm):
 
-    slot_data = JSONField(widget=forms.Textarea)
+    slot_data = JSONField(widget=forms.HiddenInput)
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
-        self.meta = kwargs.pop('meta', None)
+        self.meta = kwargs.pop('    meta', None)
         self.question = kwargs.pop('question', None)
         super(StoryForm, self).__init__(*args, **kwargs)
         if self.question:
@@ -30,11 +30,22 @@ class StoryForm(forms.ModelForm):
         else:
             self.fields.pop('question')
 
-    @transaction.commit_on_success
     def save(self, *args, **kwargs):
 
         CT_MAP = {'image': ContentType.objects.get(
-                  app_label='story', model='image')}
+            app_label='story', model='image')}
+
+        def _update_slot(pk, data):
+            slot = Slot.objects.get(pk=pk)
+            slot.order = data['order']
+            slot.cPk = data['cPk']
+            slot.cTp = CT_MAP[data['cTp']]
+            return slot
+
+        def _create_slot(data):
+            Slot.objects.filter(story=story, order=data['order']).delete()
+            return Slot(story=story, order=data['order'], cPk=data['cPk'],
+                        cTp=CT_MAP[data['cTp']])
 
         story = super(StoryForm, self).save(commit=False)
         story.owner = self.owner
@@ -44,26 +55,32 @@ class StoryForm(forms.ModelForm):
             story.mounted_question_metas.add(self.meta)
             self.save_m2m()
 
-        slot_pks = []
+        extising_slots = list(story.slot_set.all())
+        extising_slot_pks = [slot.pk for slot in extising_slots]
 
-        for sd in self.cleaned_data['slot_data']:
-            if 'pk' in sd:
-                slot = Slot.objects.get(pk=sd['pk'])
-                slot.order = sd['order']
-                slot.cPk = sd['cPk']
-                slot.cTp = CT_MAP[sd['contentType']]
-                slot.save()
-                slot_pks.append(slot.pk)
+        """
+        Delete unused slots.
+        """
+        form_slot_pks = filter(
+            lambda i: i is not None,
+            [data.get('pk') for data in self.cleaned_data['slot_data']])
+        differing_slot_pks = set(extising_slot_pks) - set(form_slot_pks)
+        if differing_slot_pks:
+            story.slot_set.exclude(id__in=form_slot_pks).delete()
+            extising_slot_pks = filter(lambda s: s.pk in differing_slot_pks,
+                                       extising_slot_pks)
+
+        """
+        Reorder extising slots.
+        """
+
+        for data in self.cleaned_data['slot_data']:
+            if 'pk' in data:
+                slots.append(_update_slot(data['pk'], data))
             else:
-                slot = Slot.objects.create(
-                    story=story,
-                    order=sd['order'],
-                    cPk = sd['cPk'],
-                    cTp = CT_MAP[sd['contentType']])
-                slot_pks.append(slot_pk)
+                slots.append(_create_slot(data))
 
-        Slot.objects.filter(story=story).exclude(pk__in=slot_pks).delete()
-
+        map(lambda slot: slot.save(), slots)
         user_created_story.send(sender=story)
         return story
 

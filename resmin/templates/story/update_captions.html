@@ -10,7 +10,7 @@
         {% for stack in captions_form.stacks %}
           <tr>
             <td>
-              <div class="thmbWrap"><img src="{% with slot=stack|keyvalue:'slot' %}{{ slot.image.thumbnail_url }}{% endwith %}" class="thmb" style="opacity: 1"></div>
+              <div class="thmbWrap"><img src="{% with slot=stack|keyvalue:'slot' %}{{ slot.content.thumbnail_url }}{% endwith %}" class="thmb" style="opacity: 1"></div>
             </td>
             <td>
               {{ stack|keyvalue:"title" }}
