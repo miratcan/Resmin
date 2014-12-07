@@ -19,13 +19,15 @@
       <div id="slot-list"></div>
       <div id="image-select-box" class="pl pr ptd pbd bb f_stng green tac mb" style="cursor: pointer;">{% trans "Add Images" %}</div>
       {{ story_form.slot_data }}
+      {{ story_form.question }}
       <input type="submit" id="submit" class="bttn pa green row db oa tac" value="{% trans 'Save' %}" />
     </div>
     <div class="panel-right">
       <div class="db mb oa bb">
+
         <p>{{ story_form.title }}</p>
         <p>{{ story_form.description }}</p>
-        <p>{{ story_form.question }}</p>
+        
         {% if story_form.is_anonymouse %}<p class="oa db mb">{{ story_form.is_anonymouse }} {{ story_form.is_anonymouse.label_tag }}</p>{% endif %}
         <p class="oa db">{{ story_form.is_nsfw }} {{ story_form.is_nsfw.label_tag }}</p>
         <p class="oa db">{{ story_form.visible_for }}</p>

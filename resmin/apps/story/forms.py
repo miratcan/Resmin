@@ -27,43 +27,36 @@ class StoryForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
-        self.meta = kwargs.pop('    meta', None)
+        self.meta = kwargs.pop('meta', None)
         self.question = kwargs.pop('question', None)
         super(StoryForm, self).__init__(*args, **kwargs)
-        if self.question:
+        if self.owner:
             self.fields['question'] = \
                 forms.ModelChoiceField(
                     required=False,
                     initial=self.question,
                     widget=forms.HiddenInput,
                     queryset=Question.objects.filter(
-                        questionee=self.question.questionee))
-        else:
-            self.fields.pop('question')
+                        questionee=self.owner))
 
     def save_slots(self, story, slot_data):
-
         CT_MAP = {'image': ContentType.objects.get(
             app_label='story', model='image')}
-
         slots = story.slot_set.all()
-        old_slot_pks = [s.pop('pk') for s in slots]
-
-        if slots:
-            # Take new orderings from form data
-            for slot in slots:
-                slot.order = find_in_dictlist(
-                    'pk', slot.pk, slot_data)['order']
-            Story.objects.filter(pk__in=old_slot_pks).delete()
-            Slot.objects.bulk_create(slots)
-
-        # Create or update slots with given slot data.
+        slot_pks = [s.pk for s in slots]
+        form_pks = [i['pk'] for i in slot_data if 'pk' in i]
+        deleted_pks = set(slot_pks) - set(form_pks)
+        story.slot_set.filter(id__in=deleted_pks).delete()
+        slots = filter(lambda s: s.pk in form_pks, slots)
+        for slot in slots:
+            slot.order = find_in_dictlist(
+                'pk', slot.pk, slot_data)['order']
+            slot.save()
         for sd in slot_data:
-            if sd['id'] not in old_slot_pks:
-                Slot.objects.create(story=story,
-                                    order=sd['order'],
-                                    cPk=sd['cPk'],
-                                    cTp=CT_MAP[sd['cTp']])
+            if 'pk' not in sd:
+                Slot.objects.create(
+                    story=story, order=sd['order'], cPk=sd['cPk'],
+                    cTp=CT_MAP[sd['cTp']])
 
     @transaction.commit_on_success
     def save(self, *args, **kwargs):
@@ -77,6 +70,10 @@ class StoryForm(forms.ModelForm):
         if self.meta:
             story.mounted_question_metas.add(self.meta)
             self.save_m2m()
+
+        if self.question:
+            self.question.status = Question.ANSWERED
+            self.question.save()
 
         # Save slots of story.
         self.save_slots(story, self.cleaned_data['slot_data'])

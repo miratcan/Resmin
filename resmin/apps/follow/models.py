@@ -13,11 +13,17 @@ class FollowBase(models.Model):
 
 
 class QuestionFollow(FollowBase):
-    STATUS_CHOICES = ((0, 'Following'),
-                      (1, 'Unfollowed'))
+    FOLLOWING = 0
+    UNFOLLOWED = 1
 
-    REASON_CHOICES = ((0, 'Asked'),
-                      (1, 'Answered'))
+    ASKED = 0
+    ANSWERED = 1
+
+    STATUS_CHOICES = ((FOLLOWING, 'Following'),
+                      (UNFOLLOWED, 'Unfollowed'))
+
+    REASON_CHOICES = ((ASKED, 'Asked'),
+                      (ANSWERED, 'Answered'))
 
     target = models.ForeignKey('question.Question', related_name='target')
     status = models.PositiveSmallIntegerField(default=0,
@@ -48,18 +54,23 @@ class StoryFollow(FollowBase):
 
 
 class UserFollow(FollowBase):
+
+    PENDING = 0
+    FOLLOWING = 1
+    BLOCKED = 2
+
     target = models.ForeignKey(User, related_name='user')
     status = models.PositiveSmallIntegerField(
-        default=0, choices=((0, 'Pending'),
-                            (1, 'Following'),
-                            (2, 'Blocked')))
+        default=0, choices=((PENDING, 'Pending'),
+                            (FOLLOWING, 'Following'),
+                            (BLOCKED, 'Blocked')))
 
 
 User.is_blocked = lambda u, t: bool(
     UserFollow.objects.filter(follower=u, target=t, status=2).exists())
 
 User.is_blocked_by = lambda u, t: bool(
-        UserFollow.objects.filter(follower=t, target=u, status=2).exists())
+    UserFollow.objects.filter(follower=t, target=u, status=2).exists())
 
 User.is_following = lambda u, t: UserFollow.objects.filter(
     follower=u, target=t, status=1).exists()

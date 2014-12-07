@@ -207,7 +207,6 @@ class Slot(models.Model):
         return u'%s of %s' % (self.order, self.story)
 
     class Meta:
-        unique_together = ('order', 'story')
         ordering = ['story', 'order']
 
 

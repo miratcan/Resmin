@@ -13,7 +13,7 @@ from apps.question.models import Question, QuestionMeta
 from apps.story.forms import StoryForm, UpdateCaptionsForm
 from apps.story.models import Story, Upload
 from apps.notification.utils import notify
-
+from apps.notification.decorators import delete_notification
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
 
@@ -42,6 +42,7 @@ def _publish_story(request, story):
     return HttpResponseRedirect(story.get_absolute_url())
 
 
+@delete_notification
 def story(request, base62_id):
     action_keys = filter(lambda i: i in ['delete', 'publish'], request.POST)
     action_key = action_keys[0] if action_keys else None
@@ -67,17 +68,14 @@ def create_story(request, base62_id):
     mid = base62.to_decimal(base62_id)
     meta = get_object_or_404(QuestionMeta, id=mid)
     if request.POST:
-        story_form = StoryForm(
-            request.POST, owner=request.user, meta=meta)
+        story_form = StoryForm(request.POST, owner=request.user, meta=meta)
         if story_form.is_valid():
             story = story_form.save()
             return HttpResponseRedirect(story.get_absolute_url())
         else:
             print story_form.errors
-    qid = request.GET.get('qid')
-    question = get_object_or_404(Question, id=int(qid),
-                                 questionee=request.user) if qid else None
-    story_form = StoryForm(owner=request.user, question=question, meta=meta)
+    story_form = StoryForm(owner=request.user, meta=meta, initial={
+        'question': request.GET.get('qid')})
     return render(request, 'story/create_story.html',
                   {'story_form': story_form})
 

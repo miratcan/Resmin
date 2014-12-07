@@ -5,7 +5,7 @@ from django.contrib.contenttypes.generic import GenericForeignKey
 
 
 class NotificationType(models.Model):
-    slug = models.SlugField(max_length=32)
+    slug = models.SlugField(max_length=255)
     name = models.CharField(max_length=255)
 
     def __unicode__(self):
@@ -13,11 +13,15 @@ class NotificationType(models.Model):
 
 
 class NotificationPreference(models.Model):
+
+    SHOW_ON_SITE = 0
+    SENT_ME_EMAIL = 1
+
     user = models.ForeignKey(User)
     ntype = models.ForeignKey(NotificationType)
     subscription_status = models.PositiveIntegerField(choices=(
-        (0, "Only show on site"),
-        (1, "Send me email")), default=0)
+        (SHOW_ON_SITE, "Only show on site"),
+        (SENT_ME_EMAIL, "Send me email")), default=0)
 
     def __unicode__(self):
         return '%s\'s setting on %s notifications' % (

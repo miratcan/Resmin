@@ -20,6 +20,8 @@ from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
 from apps.question.models import (QuestionMeta, Question)
 from apps.question.views import build_story_queryset
 from apps.follow.models import UserFollow
+from apps.notification.utils import notify
+from apps.notification.decorators import delete_notification
 from apps.account.signals import follower_count_changed
 from utils import paginated, send_email_from_template
 from libs.shortcuts import render_to_json
@@ -27,6 +29,7 @@ from libs.shortcuts import render_to_json
 redis = get_redis_connection('default')
 
 
+@delete_notification
 def profile(request, username=None, action=None):
 
     user = get_object_or_404(User, username=username) if username \
@@ -134,6 +137,11 @@ def update_pending_follow_request(request):
             follow_request.status = 1
             follow_request.save()
             follower_count_changed.send(sender=request.user)
+            notify(follow_request.target,
+                   'user_follow_accepted',
+                   follow_request.target,
+                   follow_request.follower,
+                   follow_request.target.get_absolute_url())
             return render_to_json({'success': True})
 
         if action == 'decline':
