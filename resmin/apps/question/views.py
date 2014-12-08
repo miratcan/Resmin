@@ -2,12 +2,9 @@ import json
 
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
 from django.db.models import Q
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import (HttpResponseRedirect, HttpResponse)
-from django.utils.translation import ugettext as _
+from django.http import HttpResponse
 from django.utils import simplejson
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -18,7 +15,6 @@ from apps.question.models import Question, QuestionMeta
 from apps.story.models import Story
 from apps.follow.models import QuestionFollow
 from apps.follow.models import compute_blocked_user_ids_for
-from apps.question.forms import (DeleteQuestionForm)
 from utils import paginated
 
 
@@ -41,7 +37,6 @@ def build_story_queryset(request, **kwargs):
     build_answer_queryset(request, get_from='user', user=request.user)
     Returns public answers from user
     """
-    import ipdb; ipdb.set_trace()
     user = request.user
 
     # Get queryset if exits
@@ -112,7 +107,7 @@ def index(request):
     return render(request,
                   "index2.html",
                   {'page_name': 'index',
-                   'stories': stories,
+                   'stories': paginated(request, stories, settings.STORIES_PER_PAGE),
                    'latest_asked_questions': latest_asked_questions,
                    'latest_answered_questions': latest_answered_questions,
                    'trimmed': True,
@@ -120,40 +115,12 @@ def index(request):
 
 
 def question(request, base62_id, show_delete=False, **kwargs):
-    question = get_object_or_404(QuestionMeta, id=base62.to_decimal(base62_id))
-
-    answers = build_story_queryset(
-        request, get_from='question', question=question, **kwargs)
-
-    show_delete_action = question.is_deletable_by(
-        request.user, answers=answers)
-
-    delete_form = DeleteQuestionForm(
-        requested_by=request.user, question=question) if show_delete_action \
-        and show_delete else None
-
-    # If request method is not post directly jump over render
-    if request.method == 'POST' and request.user.is_authenticated():
-
-        # If deletion requested by page
-        if request.POST.get('delete'):
-
-            # Fill delete form with Post data.
-            delete_form = DeleteQuestionForm(
-                request.POST, requested_by=request.user, question=question)
-
-            # If form is valid save and redirect
-            if delete_form.is_valid():
-                delete_form.save()
-                messages.success(request, _('Your question is deleted'))
-                return HttpResponseRedirect(reverse('index'))
-
+    question = get_object_or_404(QuestionMeta,
+                                 id=base62.to_decimal(base62_id))
+    stories = Story.objects.from_question_meta(question)
     return render(request, "question/question_detail.html", {
         'question': question,
-        'answers': answers,
-        'show_delete_action': show_delete_action,
-        'delete_form': delete_form})
-
+        'stories': paginated(request, stories, settings.STORIES_PER_PAGE)})
 
 @login_required
 def cancel_follow(request, key):

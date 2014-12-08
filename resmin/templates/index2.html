@@ -13,19 +13,18 @@
 {% endblock %}
 
 {% block content %}
-  {% with stories=stories.paginated_object_list %}
   {% if stories %}
     <div id="thumbnails">
       <div class="thmb-wrap pa" style="box-sizing: border-box">
         <h4 class="mb bb pbh">{% trans "Latest Asked Questions" %}</h4>
         {% for question in latest_asked_questions %}
-          <p class="f_tiny wb mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
+          <p class="f_tiny mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
         {% endfor %}
       </div>
       <div class="thmb-wrap pa" style="box-sizing: border-box">
         <h4 class="mb bb pbh">{% trans "Latest Answered Questions" %}</h4>
         {% for question in latest_answered_questions %}
-          <p class="f_tiny wb mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
+          <p class="f_tiny mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
         {% endfor %}
       </div>
       {% for story in stories %}
@@ -35,5 +34,4 @@
     {% include "includes/pagination_links_for_answers.html" %}
   {% else %}
   {% endif %}
-  {% endwith %}
 {% endblock %}

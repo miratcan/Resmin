@@ -58,7 +58,6 @@ class StoryForm(forms.ModelForm):
                     story=story, order=sd['order'], cPk=sd['cPk'],
                     cTp=CT_MAP[sd['cTp']])
 
-    @transaction.commit_on_success
     def save(self, *args, **kwargs):
 
         # Save Story

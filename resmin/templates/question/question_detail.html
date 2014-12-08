@@ -2,11 +2,8 @@
 
 {% block content %}
   {% include "question/question_sentence.html" %}
-  {% with stories=answers.paginated_object_list %}
-    {% include "story/story_thumbnails.html" %}
-    {% include "includes/pagination_links_for_answers.html" %}
-  {% endwith %}
-
+  {% include "story/story_thumbnails.html" %}
+  {% include "includes/pagination_links_for_answers.html" %}
   <script>
   $(".follow_action").click(function(ev) {
     var q_el = $(ev.target).parent().parent();
