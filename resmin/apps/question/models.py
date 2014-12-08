@@ -8,6 +8,8 @@ from datetime import datetime
 
 from libs.baseconv import base62
 
+from apps.story.models import Story
+
 
 class QuestionMeta(models.Model):
 
@@ -79,7 +81,8 @@ class QuestionMeta(models.Model):
     def update_answer_count(self):
         """Updates answer_count but does not saves question
         instance, it have to be saved later."""
-        self.answer_count = self.answer_set.filter(status=0).count()
+        self.answer_count = self.story_set.filter(
+            status=Story.PUBLISHED).count()
 
     def update_updated_at(self):
         self.updated_at = datetime.now()

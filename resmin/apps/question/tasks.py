@@ -6,14 +6,13 @@ from redis_cache import get_redis_connection
 
 from utils import (_send_notification_emails_to_followers_of_question,
                    _set_avatar_to_answer)
-    
+
 
 redis = get_redis_connection('default')
 
 
 @app.task
 def user_created_question_callback_task(question):
-
     # Make user follower of question.
     if question.owner.email and not \
        QuestionFollow.objects.filter(
@@ -27,9 +26,9 @@ def user_created_story_callback_task(story):
 
     # Update related question.
     if story.question:
-        story.question.update_answer_count()
-        story.question.update_updated_at()
-        story.question.latest_answer = answer
+        story.question.meta.update_answer_count()
+        story.question.meta.update_updated_at()
+        story.question.meta.latest_answer = story
         story.question.save(update_fields=['answer_count',
                                            'updated_at',
                                            'latest_answer'])
@@ -41,7 +40,6 @@ def user_created_story_callback_task(story):
                                           target=story.question,
                                           reason='answered')
 
-
     # Update related profile.
     profile = story.owner.profile
     profile.update_story_count()
@@ -49,7 +47,7 @@ def user_created_story_callback_task(story):
 
     # Send emails to question followers if necessary.
     if settings.SEND_NOTIFICATION_EMAILS:
-        _send_notification_emails_to_followers_of_question(answer)
+        _send_notification_emails_to_followers_of_question(story)
 
     # Set avatar for user if necessary.
     if story.question.id == settings.AVATAR_QUESTION_ID:

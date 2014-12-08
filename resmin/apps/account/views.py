@@ -138,7 +138,7 @@ def update_pending_follow_request(request):
             follow_request.save()
             follower_count_changed.send(sender=request.user)
             notify(follow_request.target,
-                   'user_follow_accepted',
+                   'user_accepted_your_follow_request',
                    follow_request.target,
                    follow_request.follower,
                    follow_request.target.get_absolute_url())

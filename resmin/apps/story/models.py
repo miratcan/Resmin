@@ -16,8 +16,10 @@ from redis_cache import get_redis_connection
 
 from utils import (filename_for_image, filename_for_upload, generate_upload_id)
 from utils.models import BaseModel, UniqueFileModel
-
 from geoposition.fields import GeopositionField
+
+from apps.story.managers import StoryManager
+
 redis = get_redis_connection('default')
 
 
@@ -37,7 +39,7 @@ class Story(BaseModel):
                       (DELETED_BY_ADMINS, _('Deleted by Admins')))
 
     VISIBLE_FOR_CHOICES = ((VISIBLE_FOR_EVERYONE, _('Everyone')),
-                           (VISIBLE_FOR_FOLLOWERS, _('My Followers')))
+                           (VISIBLE_FOR_FOLLOWERS, _('Followers')))
 
     LIKE_SET_PATTERN = 'answer:%s:likes'
     mounted_question_metas = models.ManyToManyField(
@@ -48,6 +50,7 @@ class Story(BaseModel):
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
     like_count = models.PositiveIntegerField(default=0)
+    slot_count = models.PositiveIntegerField(null=True, blank=True)
     status = models.PositiveSmallIntegerField(default=DRAFT,
                                               choices=STATUS_CHOICES)
     visible_for = models.PositiveSmallIntegerField(
@@ -55,6 +58,8 @@ class Story(BaseModel):
         choices=VISIBLE_FOR_CHOICES)
     visible_for_users = models.ManyToManyField(
         User, related_name='visible_for_users', null=True, blank=True)
+
+    objects = StoryManager()
 
     @property
     def is_deleted(self):
@@ -155,6 +160,9 @@ class Story(BaseModel):
         be saved manually.
         """
         self.like_count = self.get_like_count_from_redis()
+
+    def update_slot_count(self):
+        self.slot_count = self.slot_set.count()
 
     def serialize_slots(self):
         data = []

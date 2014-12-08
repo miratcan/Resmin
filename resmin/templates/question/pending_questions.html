@@ -1,17 +1,13 @@
-{% extends "base.html" %}{% load i18n %}
+3{% extends "base.html" %}{% load i18n %}
 {% block content %}
 <ul>
 {% for question in pending_questions %}
   <li>
     <p>
       {% if question.is_anonymouse %}
-        {% blocktrans with question_text=question.question.text question_url=question.question.get_absolute_url %}
-          Anonymouse user wants you to answer "<a href="{{ question_url }}">{{ question_text }}</a>"
-        {% endblocktrans %}
+        {% blocktrans with question_text=question.question.text question_url=question.question.get_absolute_url %}Anonymouse user wants you to answer "<a href="{{ question_url }}">{{ question_text }}</a>"{% endblocktrans %}
       {% else %}
-        {% blocktrans with questioner_username=question.questioner.username questioner_url=question.questioner.get_absolute_url question_text=question.question.text question_url=question.question.get_absolute_url %}
-          <a href="{{ questioner_url }}">{{ questioner_username }}</a> wants you to answer <a href="{{ question_url }}">{{ question_text }}</a>
-        {% endblocktrans %}
+        {% blocktrans with questioner_username=question.questioner.username questioner_url=question.questioner.get_absolute_url question_text=question.question.text question_url=question.question.get_absolute_url %}<a href="{{ questioner_url }}">{{ questioner_username }}</a> wants you to answer <a href="{{ question_url }}">{{ question_text }}</a>{% endblocktrans %}
       {% endif %}
     </p>
     <p>

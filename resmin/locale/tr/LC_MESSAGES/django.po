@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-30 10:45+0300\n"
+"POT-Creation-Date: 2014-12-08 07:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,55 +54,55 @@ msgstr "Geçersiz davet kodu"
 msgid "You can not do that action on yourself."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin."
 
-#: apps/account/models.py:20
+#: apps/account/models.py:19
 msgid "bio"
 msgstr "kişisel bilgiler"
 
-#: apps/account/models.py:21
+#: apps/account/models.py:20
 msgid "website"
 msgstr "internet sitesi"
 
-#: apps/account/models.py:26
+#: apps/account/models.py:25
 msgid "location"
 msgstr "konum"
 
-#: apps/account/models.py:80
+#: apps/account/models.py:79
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:77
+#: apps/account/views.py:66
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:97
+#: apps/account/views.py:86
 msgid "Follow request sent to user"
 msgstr "Mürit olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:100
+#: apps/account/views.py:89
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının müridi değilsin"
 
-#: apps/account/views.py:103
+#: apps/account/views.py:92
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:106
+#: apps/account/views.py:95
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:175
+#: apps/account/views.py:168
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:198
+#: apps/account/views.py:192
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:259
+#: apps/account/views.py:253
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:280
+#: apps/account/views.py:274
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -110,115 +110,139 @@ msgstr "E-posta adresin onaylandı :)"
 msgid "Your preferences updated"
 msgstr "Tercihlerin güncellendi"
 
-#: apps/question/forms.py:17 apps/question/models.py:109
+#: apps/question/forms.py:15 apps/story/models.py:49
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
-#: apps/question/forms.py:37
-msgid "Select an image to submit an answer"
-msgstr "Cevap olarak göndereceğin resmi seç"
-
-#: apps/question/forms.py:85
-msgid "You can not update an answer that is not yours."
-msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
-
-#: apps/question/forms.py:101
+#: apps/question/forms.py:34
 msgid "Understood"
 msgstr "Anladım"
 
-#: apps/question/models.py:35
+#: apps/question/models.py:23
 msgid "Question"
 msgstr "Soru"
 
-#: apps/question/models.py:105 templates/question/answer_detail_inc.html:37
-msgid "Description"
-msgstr "Açıklama"
-
-#: apps/question/models.py:106 templates/question/answer_detail_inc.html:42
-msgid "Source URL"
-msgstr "Kaynak URL"
-
-#: apps/question/models.py:108
-msgid "NSFW"
-msgstr "AYIP"
-
-#: apps/question/models.py:116
-msgid "Visible For"
-msgstr "Şuna Görünür"
-
-#: apps/question/models.py:117
-msgid "Everyone"
-msgstr "Herkese"
-
-#: apps/question/models.py:118
-msgid "My Followers"
-msgstr "Takipçilerime"
-
-#: apps/question/views.py:161
+#: apps/question/views.py:148
 msgid "Your question is deleted"
 msgstr "Sorun silindi"
 
-#: apps/question/views.py:183
-msgid "Your answer deleted"
-msgstr "Cevabın silindi"
+#: apps/story/models.py:34
+msgid "Draft"
+msgstr "Müsvette"
 
-#: apps/question/views.py:191
-msgid "Updated Cover Image"
-msgstr "Kapak Fotoğrafı Güncellendi"
+#: apps/story/models.py:35
+msgid "Published"
+msgstr "Yayında"
 
-#: apps/question/views.py:248
-msgid "Your answer updated"
-msgstr "Cevabın güncellendi"
+#: apps/story/models.py:36
+msgid "Deleted by Owner"
+msgstr "Sahibi Tarafından Silinmiş"
+
+#: apps/story/models.py:37
+msgid "Deleted by Admins"
+msgstr "Adminler Tarafından Silinmiş"
+
+#: apps/story/models.py:39
+msgid "Everyone"
+msgstr "Herkese"
+
+#: apps/story/models.py:40
+msgid "My Followers"
+msgstr "Takipçilerime"
+
+#: apps/story/models.py:47
+msgid "Description"
+msgstr "Açıklama"
+
+#: apps/story/models.py:48
+msgid "NSFW"
+msgstr "AYIP"
+
+#: apps/story/models.py:54
+msgid "Visible For"
+msgstr "Şuna Görünür"
+
+#: apps/story/models.py:225
+msgid "Uploading"
+msgstr "Gönderiliyor"
+
+#: apps/story/models.py:226
+msgid "Complete"
+msgstr "Tamamlandı"
+
+#: apps/story/models.py:227
+msgid "Failed"
+msgstr "Bitirilemedi"
+
+#: apps/story/views.py:26
+msgid "Your story deleted."
+msgstr "Hikayen silindi"
+
+#: apps/story/views.py:41
+msgid "Your story published."
+msgstr "Hikayen yayınlandı."
+
+#: apps/story/views.py:92
+msgid "Your story updated"
+msgstr "Hikayen güncellendi"
+
+#: apps/story/views.py:124
+msgid "md5sum and size required."
+msgstr "md5sum ve size gerekli."
+
+#: apps/story/views.py:141
+msgid "post method required."
+msgstr "post metodu gerekli."
 
 #: templates/base.html:16
-msgid "Answer questions with pics."
-msgstr "Sorulara fotoğraflarla cevap ver"
+msgid "Story questions with pics."
+msgstr "Sorulara görsellerle cevap ver"
 
-#: templates/base.html:31
+#: templates/base.html:30
 msgid "Wall"
 msgstr "Duvar"
 
-#: templates/base.html:33
-msgid "Answer Requests"
-msgstr "Cevap Talepleri"
+#: templates/base.html:31
+msgid "Pending Questions"
+msgstr "Bekleyen Sorular"
 
-#: templates/base.html:35
+#: templates/base.html:32
 msgid "Follow Requests"
 msgstr "Mürit Olma Talepleri"
 
-#: templates/base.html:37
+#: templates/base.html:33
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: templates/base.html:40
+#: templates/base.html:34
 msgid "Top Users"
 msgstr "Sevdicekler"
 
-#: templates/base.html:46 templates/auth/login.html:15
+#: templates/base.html:38 templates/auth/login.html:15
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/base.html:57
+#: templates/base.html:49
 msgid "twitter"
 msgstr ""
 
-#: templates/base.html:58
+#: templates/base.html:50
 msgid "facebook"
 msgstr ""
 
-#: templates/base.html:59
+#: templates/base.html:51
 msgid "blog"
 msgstr ""
 
-#: templates/base.html:60 templates/base.html.py:80
+#: templates/base.html:52 templates/base.html.py:72
 msgid "suggestions"
 msgstr "istek & öneri"
 
-#: templates/base.html:61
+#: templates/base.html:53
 msgid "api"
 msgstr ""
 
-#: templates/base.html:65
+#: templates/base.html:57
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -254,7 +278,7 @@ msgstr ""
 "kullanamayacaksın. Lütfen <a href=\"%(the_emailform_url)s\" title=\"Buraya "
 "tıkla!\">buraya tıklayarak</a> e-posta adresini kaydet."
 
-#: templates/index.html:26 templates/index2.html:16
+#: templates/index.html:26
 #, python-format
 msgid ""
 "Some of your answers lack the visibility information. Please <a href="
@@ -263,6 +287,14 @@ msgid ""
 msgstr ""
 "Görünürlüğü belirsiz cevapların var. Lütfen <a href=\"%(the_fixanswers_url)s"
 "\">buraya tıklayarak</a> cevaplarını düzenle."
+
+#: templates/index2.html:20
+msgid "Latest Asked Questions"
+msgstr "Son Sorulan Sorular"
+
+#: templates/index2.html:26
+msgid "Latest Answered Questions"
+msgstr "Son Cevaplanan Sorular"
 
 #: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:48
 msgid "Update Email"
@@ -364,14 +396,15 @@ msgid ""
 "Share your resm.in profile on your social media accounts to get more "
 "followers."
 msgstr ""
-"Daha fazla müridin olması için resm.in profilini sosyal medya "
-"hesaplarında paylaş."
+"Daha fazla müridin olması için resm.in profilini sosyal medya hesaplarında "
+"paylaş."
 
 #: templates/auth/preferences.html:2
 msgid "Update Preferences"
 msgstr "Tercihleri Güncelle"
 
-#: templates/auth/preferences.html:9
+#: templates/auth/preferences.html:9 templates/story/create_story.html:23
+#: templates/story/update_captions.html:21
 msgid "Save"
 msgstr "Kaydet"
 
@@ -416,8 +449,8 @@ msgid "Like"
 msgstr "Kalp"
 
 #: templates/auth/user_detail_inc.html:7
-msgid "Answer"
-msgstr "Cevap"
+msgid "Story"
+msgstr ""
 
 #: templates/auth/user_detail_inc.html:9
 msgid "Follower"
@@ -484,8 +517,8 @@ msgid "Nothing to show here"
 msgstr "Burada gösterecek bir şey yok"
 
 #: templates/auth/username_inc.html:1
-msgid "Anonymouse user"
-msgstr "Gizli kullanıcı"
+msgid "Anonymouse"
+msgstr "Gizli Kullanıcı"
 
 #: templates/emails/confirmation_body.txt:1
 msgid "To confirm email address click the link below"
@@ -543,60 +576,21 @@ msgstr "Sonraki Kullanıcılar"
 msgid "No new notifications."
 msgstr "Yeni bildirim yok."
 
-#: templates/notification/got_answer_to_answer_request/sentence.txt:1
+#: templates/notification/got_answer_to_question/sentence.txt:1
 #, python-format
 msgid ""
 "<strong>%(username)s</strong> answered <strong>%(question)s</strong> by your "
 "request."
-msgstr "<strong>%(username)s</stong> senin isteğin üzerine <strong>%(question)s</strong> "
-"sorusuna cevap verdi."
-
-#: templates/question/answer_detail.html:26
-msgid "Answer is deleted by it's owner"
-msgstr "Bu cevap sahibi tarafından silinmiş"
-
-#: templates/question/answer_detail.html:28
-msgid "Answer is deleted by admins"
-msgstr "Bu cevap adminler tarafından silinmiş"
-
-#: templates/question/answer_detail.html:30
-msgid "This answer is not visible for you"
-msgstr "Bu cevabı görmeye hakkın yok"
-
-#: templates/question/answer_detail_inc.html:24
-msgid "Update"
-msgstr "Güncelle"
-
-#: templates/question/answer_detail_inc.html:27
-#: templates/question/question_sentence.html:34
-msgid "Delete"
-msgstr "Sil"
-
-#: templates/question/answer_detail_inc.html:28
-msgid ""
-"If you want to really delete this answer, <a id=\"real_delete_button\" class="
-"\"nm np f_tiny\" href=\"#\">click here</a>."
 msgstr ""
+"<strong>%(username)s</stong> senin isteğin üzerine <strong>%(question)s</"
+"strong> sorusuna cevap verdi."
 
-#: templates/question/answer_form_inc.html:11
-msgid "Click and choose the image that you want to send"
-msgstr "Göndermek istediğin resmi seçmek için tıkla"
+#: templates/notification/user_accepted_your_follow_request/sentence.txt:1
+#, python-format
+msgid "<strong>%(username)s</strong> accepted your follow request."
+msgstr "<strong>%(username)s</strong> müridi olma talebini kabul etti"
 
-#: templates/question/answer_form_inc.html:41
-#: templates/question/question_list.html:45
-#: templates/question/update_answer.html:34
-msgid "Submit"
-msgstr "Gönder"
-
-#: templates/question/answer_thumbnail.html:16
-msgid "This question is visible for followers."
-msgstr "Bu cevap sadece takipçilere açık"
-
-#: templates/question/answer_thumbnails.html:9
-msgid "No Answers Found Here"
-msgstr "Burada Hiç Cevap Yok"
-
-#: templates/question/pending_answer_requests.html:8
+#: templates/question/pending_questions.html:8
 #, python-format
 msgid ""
 "\n"
@@ -605,7 +599,7 @@ msgid ""
 "        "
 msgstr ""
 
-#: templates/question/pending_answer_requests.html:12
+#: templates/question/pending_questions.html:12
 #, python-format
 msgid ""
 "\n"
@@ -614,11 +608,11 @@ msgid ""
 "        "
 msgstr ""
 
-#: templates/question/pending_answer_requests.html:24
+#: templates/question/pending_questions.html:24
 msgid "There are no pending answer requests."
 msgstr "Bekleyen cevap talebin yok."
 
-#: templates/question/pending_answer_requests.html:25
+#: templates/question/pending_questions.html:25
 msgid ""
 "Share your resm.in profile on your social media accounts to get more answer "
 "requests."
@@ -637,6 +631,11 @@ msgstr ""
 #: templates/question/question_list.html:34
 msgid "Search"
 msgstr "Ara"
+
+#: templates/question/question_list.html:45
+#: templates/question/update_answer.html:34
+msgid "Submit"
+msgstr "Gönder"
 
 #: templates/question/question_sentence.html:5
 msgid "asked by"
@@ -662,6 +661,98 @@ msgid "<a class=\"imp\" href=\"%(login_url)s\">Login</a> to post an answer."
 msgstr ""
 "Cevaplayabilmek için <a class=\"imp\" href=\"%(login_url)s\">giriş yap</a>."
 
+#: templates/question/question_sentence.html:34
+#: templates/story/story_detail_inc.html:68
+msgid "Delete"
+msgstr "Sil"
+
+#: templates/story/create_story.html:20
+msgid "Add Images"
+msgstr "Görsel Ekle"
+
+#: templates/story/story_detail.html:31
+msgid "Story is deleted by it's owner"
+msgstr "Bu cevap sahibi tarafından silinmiş"
+
+#: templates/story/story_detail.html:33
+msgid "Story is deleted by admins"
+msgstr "Bu cevap adminler tarafından silinmiş"
+
+#: templates/story/story_detail.html:35
+msgid "This story is not visible for you"
+msgstr "Bu cevabı görmeye hakkın yok"
+
+#: templates/story/story_detail_inc.html:4
+msgid ""
+"This story is currently in draft status, click publish to make it visible "
+"for others."
+msgstr ""
+"Bu hikaye şu anda müsvette durumunda, yayınla butonuna basarak başkaları "
+"için görünür hale getir."
+
+#: templates/story/story_detail_inc.html:32
+msgid "Posted by an anonymouse user."
+msgstr "Gizli kullanıcı tarafından paylaşıldı."
+
+#: templates/story/story_detail_inc.html:34
+#, python-format
+msgid "Posted by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>."
+msgstr "<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı."
+
+#: templates/story/story_detail_inc.html:51
+msgid "Links"
+msgstr "Bağlantılar"
+
+#: templates/story/story_detail_inc.html:55
+msgid "Mounted Questions"
+msgstr "Bağlı Sorular"
+
+#: templates/story/story_detail_inc.html:65
+msgid "Publish"
+msgstr "Yayınla"
+
+#: templates/story/story_detail_inc.html:66
+msgid "Update"
+msgstr "Güncelle"
+
+#: templates/story/story_detail_inc.html:67
+msgid "Edit"
+msgstr "Düzenle"
+
+#: templates/story/story_detail_inc.html:68
+msgid "Click here if you're sure to delete."
+msgstr "Silmeye eminsen buraya tıkla."
+
+#: templates/story/story_thumbnail.html:16
+#, fuzzy
+msgid "This story is visible for followers."
+msgstr "Bu cevap sadece takipçilere açık"
+
+#: templates/story/story_thumbnails.html:9
+msgid "No Answers Found Here"
+msgstr "Burada Hiç Cevap Yok"
+
+#~ msgid "Select an image to submit an answer"
+#~ msgstr "Cevap olarak göndereceğin resmi seç"
+
+#~ msgid "You can not update an answer that is not yours."
+#~ msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
+
+#~ msgid "Source URL"
+#~ msgstr "Kaynak URL"
+
+#~ msgid "Updated Cover Image"
+#~ msgstr "Kapak Fotoğrafı Güncellendi"
+
+#~ msgid "Answer Requests"
+#~ msgstr "Cevap Talepleri"
+
+#~ msgid "Answer"
+#~ msgstr "Cevap"
+
+#~ msgid "Click and choose the image that you want to send"
+#~ msgstr "Göndermek istediğin resmi seçmek için tıkla"
+
 #~ msgid "Updated at %(updated_timesince)s ago."
 #~ msgstr "%(updated_timesince)s önce güncellendi"
 
@@ -670,12 +761,6 @@ msgstr ""
 
 #~ msgid "Submit a question"
 #~ msgstr "Bir soru gönder"
-
-#~ msgid "Latest Questions"
-#~ msgstr "Son Sorular"
-
-#~ msgid "Random Question"
-#~ msgstr "Rasgtele Soru"
 
 #~ msgid "Random Unanswered Question"
 #~ msgstr "Rasgtele Cevaplanmamış Soru"
@@ -724,9 +809,6 @@ msgstr ""
 #~ msgid "Update Answer"
 #~ msgstr "Cevap Güncelle"
 
-#~ msgid "Delete Answer"
-#~ msgstr "Cevabı Sil"
-
 #~ msgctxt "question follow"
 #~ msgid "Unfollow"
 #~ msgstr "Takipten Çık"
@@ -740,9 +822,6 @@ msgstr ""
 
 #~ msgid "You updated your preferences"
 #~ msgstr "Seçeneklerin güncellendi"
-
-#~ msgid "Public Answers"
-#~ msgstr "Umumi Cevaplar"
 
 #~ msgid "Answers From Followings"
 #~ msgstr "Müridi Olduklarımdan Cevaplar"

@@ -19,7 +19,9 @@
     </div>
     {% include "story/like_button_inc.html" %}
   </div>
-  {% if show_question_info_below_answers and story.title %}
-    <div class="oa pa db bt f_tiny">{{ story.title }}</div>
+  {% if show_question_info_below_answers %}
+    {% for meta in story.mounted_question_metas.all %}
+      <div class="oa pa db bt f_tiny"><a href="{{ meta.get_absolute_url }}">{{ meta.text }}</a></div>
+    {% endfor %}
   {% endif %}
 </div>

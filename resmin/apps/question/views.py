@@ -41,6 +41,7 @@ def build_story_queryset(request, **kwargs):
     build_answer_queryset(request, get_from='user', user=request.user)
     Returns public answers from user
     """
+    import ipdb; ipdb.set_trace()
     user = request.user
 
     # Get queryset if exits
@@ -76,8 +77,7 @@ def build_story_queryset(request, **kwargs):
                 visible_for__in=[1, 2])
         elif get_from == 'followings':
             queryset = Q(
-                owner_id__in=following_user_ids,
-                visible_for__in=[0, 1])
+                owner_id__in=following_user_ids)
         else:
             queryset = queryset & Q(
                 owner_id__in=following_user_ids,
@@ -103,7 +103,7 @@ def index(request):
     Register your email message'''
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
-    stories = build_story_queryset(request, get_from='followings')
+    stories = Story.objects.from_followings(request.user)
     latest_asked_questions = QuestionMeta.objects.order_by(
         '-created_at')[:10]
     latest_answered_questions = QuestionMeta.objects.order_by(

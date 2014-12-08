@@ -36,7 +36,7 @@ def _publish_story(request, story):
             story.question.answer = story
             story.question.save()
             notify(story.question.questionee,
-                   'got_answer_to_question', story.question,
+                   'got_answer_to_asked_question', story.question,
                    story.question.questioner, story.get_absolute_url())
         messages.success(request, _('Your story published.'))
     return HttpResponseRedirect(story.get_absolute_url())
