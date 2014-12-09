@@ -28,6 +28,7 @@ class QuestionMeta(models.Model):
     is_featured = models.BooleanField(default=False)
     is_sponsored = models.BooleanField(default=False)
     answer_count = models.PositiveIntegerField(default=0)
+    follower_count = models.PositiveIntegerField(default=0)
     status = models.PositiveSmallIntegerField(default=0,
                                               choices=STATUS_CHOICES)
     cover_answer = models.ForeignKey(
@@ -83,6 +84,12 @@ class QuestionMeta(models.Model):
         instance, it have to be saved later."""
         self.answer_count = self.story_set.filter(
             status=Story.PUBLISHED).count()
+
+    def update_answer_count(self):
+        """Updates follower_count but does not saves question
+        instance, it have to be saved later."""
+        self.follower_count = self.follow_set.filter(
+            status=QuestionFollow.FOLLOWING).count()
 
     def update_updated_at(self):
         self.updated_at = datetime.now()

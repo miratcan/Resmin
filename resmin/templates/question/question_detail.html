@@ -1,7 +1,10 @@
 {% extends "answers_base.html" %}{% load i18n %}
 
-{% block content %}
+{% block before_content %}
   {% include "question/question_sentence.html" %}
+{% endblock %}
+
+{% block content %}
   {% include "story/story_thumbnails.html" %}
   {% include "includes/pagination_links_for_answers.html" %}
   <script>

@@ -10,6 +10,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from apps.question.models import Question, QuestionMeta
+from apps.question.signals import user_created_story
 from apps.story.forms import StoryForm, UpdateCaptionsForm
 from apps.story.models import Story, Upload
 from apps.notification.utils import notify
@@ -39,6 +40,7 @@ def _publish_story(request, story):
                    'got_answer_to_asked_question', story.question,
                    story.question.questioner, story.get_absolute_url())
         messages.success(request, _('Your story published.'))
+        user_created_story.send(sender=story)
     return HttpResponseRedirect(story.get_absolute_url())
 
 

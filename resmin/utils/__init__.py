@@ -1,13 +1,13 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-from django.contrib.sites.models import Site
-from django.conf import settings
-
 import os
 import uuid
 import datetime
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.sites.models import Site
+from django.conf import settings
 
 def unique_filename(instance, filename, prefix):
     f, ext = os.path.splitext(filename)
@@ -78,7 +78,12 @@ def _send_notification_emails_to_followers_of_question(new_answer):
              'follow': follow})
 
 
-def _set_avatar_to_answer(answer):
-    answer.owner.userprofile.avatar = answer.image
-    answer.owner.userprofile.save(update_fields=['avatar'])
+def _set_avatar_to_answer(story):
+
+    from apps.story.models import Image
+
+    cTp = ContentType.objects.get_for_model(Image)
+    slot = story.slot_set.filter(cTp=cTp).reverse().first()
+    story.owner.userprofile.avatar = slot.content.image
+    story.owner.userprofile.save(update_fields=['avatar'])
 

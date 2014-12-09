@@ -29,16 +29,19 @@ def user_created_story_callback_task(story):
         story.question.meta.update_answer_count()
         story.question.meta.update_updated_at()
         story.question.meta.latest_answer = story
-        story.question.save(update_fields=['answer_count',
-                                           'updated_at',
-                                           'latest_answer'])
 
         # Make user follow to that question if necessary.
-        if story.owner.email and not QuestionFollow.objects.filter(
+        if not QuestionFollow.objects.filter(
            follower=story.owner, target=story.question).exists():
             QuestionFollow.objects.create(follower=story.owner,
                                           target=story.question,
-                                          reason='answered')
+                                          reason=QuestionFollow.ANSWERED)
+            story.question.meta.update_follower_count()
+
+        story.question.save(update_fields=['answer_count',
+                                           'follower_count'
+                                           'updated_at',
+                                           'latest_answer'])
 
     # Update related profile.
     profile = story.owner.profile
@@ -50,7 +53,8 @@ def user_created_story_callback_task(story):
         _send_notification_emails_to_followers_of_question(story)
 
     # Set avatar for user if necessary.
-    if story.question.id == settings.AVATAR_QUESTION_ID:
+    qm_pks = (d['pk'] for d in story.mounted_question_metas.values('pk'))
+    if settings.AVATAR_QUESTIONMETA_ID in qm_pks:
         _set_avatar_to_answer(story)
 
 

@@ -14,3 +14,8 @@ class StoryManager(models.Manager):
         return super(StoryManager, self)\
             .get_queryset()\
             .filter(owner=user)
+
+    def from_question_meta(self, qm):
+        return super(StoryManager, self)\
+            .get_queryset()\
+            .filter(mounted_question_metas=qm)

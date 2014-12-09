@@ -6,7 +6,6 @@ from django.db import transaction
 from django.contrib.contenttypes.models import ContentType
 from json_field.forms import JSONFormField as JSONField
 
-from apps.question.signals import user_created_story
 from apps.question.models import Question
 from apps.story.models import Story, Slot
 
@@ -76,7 +75,6 @@ class StoryForm(forms.ModelForm):
 
         # Save slots of story.
         self.save_slots(story, self.cleaned_data['slot_data'])
-        user_created_story.send(sender=story)
         return story
 
     def clean(self):

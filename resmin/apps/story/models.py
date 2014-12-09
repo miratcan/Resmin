@@ -155,10 +155,8 @@ class Story(BaseModel):
         return redis.scard(self._like_set_key())
 
     def update_like_count(self):
-        """
-        Update self.likes count from redis db, it does not save, must
-        be saved manually.
-        """
+        """Update self.likes count from redis db, it does not save, must
+        be saved manually."""
         self.like_count = self.get_like_count_from_redis()
 
     def update_slot_count(self):

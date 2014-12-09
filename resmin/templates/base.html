@@ -23,7 +23,7 @@
     {% endif %}
     {% block extra_messages %}
     {% endblock %}
-    <header id="header" class="wrap bg">
+    <header id="header" class="wrap bg bb">
       <div class="oa na wrap">
         <img src="{{ STATIC_URL }}logo-small.png" class="fl mr">
         <a href="/" class="fl f_weak mr pa {% if page_name == 'index' %}imp{% endif %}">{% trans "Wall" %}</a>
@@ -38,6 +38,7 @@
         {% endif %}
       </div>
     </header>
+    {% block before_content %}{% endblock %}
     <div class="content pbd ptd oa">
       <div class="wrap {% block wrap_class %}{% endblock %}">
         {% block content %}{% endblock content %}
