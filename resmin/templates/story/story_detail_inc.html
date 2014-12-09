@@ -1,4 +1,5 @@
-{% load i18n thumbnail %}  
+{% load i18n thumbnail liked_by %}
+
   <div class="panel-left">
     {% if story.status == story.DRAFT %}
       <p class="mbd imp tac pa">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
@@ -17,7 +18,6 @@
       <div class="f_weak fl mth">{% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse %}</div>
     </div>
   </div>
-
   <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
     <input name="delete" id="delete_submit" type="submit" />
@@ -36,14 +36,17 @@
       {% endif %} Visible to {{ story.get_visible_for_display|lower }}.
     </p>
   </div>
-  {% with likers=answer.get_likers_from_redis %}
+  <div class="section">
+  <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
+  </div>
+  {% with likers=story.get_likers_from_redis %}
     {% if likers %}
       <div class="section">
-        <p class="wb">Kalpleyenler</p>
-        {% if answer.owner == user %}
+        <p class="wb">{% trans "Lovers" %}</p>
+        {% if story.owner == user %}
           <p>{% for liker in likers %} {% include "auth/username_inc.html" with user=liker %}, {% endfor %}</p>
         {% else %}
-          <p>Kalpleyenler cevap sahibi tarafından görüntülenebilir.</p>
+          <p>{% trans 'Lovers can be seen by owner of story.' %}</p>
         {% endif %}
       </div>
     {% endif %}
@@ -63,7 +66,7 @@
   {% if story.owner == request.user %}
   <div class="section">
     <p class="wb">{% trans 'Actions' %}</p>
-    <ul>
+    <ul class="mb">
       {% if story.status == story.DRAFT %}<li><a href="#" id="publish_button">{% trans "Publish" %}</a></li>{% endif %}
       <li><a href="{{ story.get_update_images_url }}">{% trans "Update" %}</a></li>
       <li><a href="{{ story.get_update_details_url }}">{% trans "Edit" %}</a></li>

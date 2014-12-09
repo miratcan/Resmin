@@ -5,7 +5,7 @@ $(document).ready(function() {
       type: "POST",
       url: "/l/",
       data: {
-        "aid" : target.attr('data-answer-id'),
+        "aid" : target.attr('data-story-id'),
         "v"   : target.find(".heart").hasClass("pink") ? 0 : 1
       },
       dataType: "json",

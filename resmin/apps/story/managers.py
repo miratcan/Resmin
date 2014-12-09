@@ -4,13 +4,13 @@ from django.db import models
 class StoryManager(models.Manager):
 
     def from_followings(self, user):
-        user_ids = user.following_user_ids
-        user_ids.append(user.id)
+        uids = user.following_user_ids
+        uids.append(user.id)
         return super(StoryManager, self)\
             .get_queryset()\
-            .filter(owner_id__in=user_ids)
+            .filter(owner_id__in=uids)
 
-    def from_question_meta(self, question_meta):
+    def from_user(self, user):
         return super(StoryManager, self)\
             .get_queryset()\
-            .filter(mounted_question_metas=question_meta)
+            .filter(owner=user)

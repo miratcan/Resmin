@@ -18,10 +18,10 @@ from apps.account.models import (Invitation, UserProfile,
 from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
                                 EmailCandidateForm, QuestionForm)
 from apps.question.models import (QuestionMeta, Question)
-from apps.question.views import build_story_queryset
 from apps.follow.models import UserFollow
 from apps.notification.utils import notify
 from apps.notification.decorators import delete_notification
+from apps.story.models import Story
 from apps.account.signals import follower_count_changed
 from utils import paginated, send_email_from_template
 from libs.shortcuts import render_to_json
@@ -54,8 +54,7 @@ def profile(request, username=None, action=None):
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        ctx['answers'] = build_story_queryset(
-            request, get_from='user', user=user)
+        ctx['answers'] = Story.objects.from_user(request.user)
 
     if request.POST:
         questioner = request.user if request.user.is_authenticated() else None

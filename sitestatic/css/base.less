@@ -32,11 +32,11 @@ p           { .f_nrml; .c_nrml; .mb; }
 .c_nrml     { color        : #525B64; }
 .c_stng     { color        : #222222; }
 
-.wrap       { max-width: 1600px;
+.wrap       { max-width: 1200px;
               .pl; .pr; position: relative;
               margin: 0 auto;}
 
-.narrow     { max-width: 1000px; }
+.narrow     { max-width: 800px; }
 .shadowed   {
     box-shadow: 0 0 10px #ccc; 
 }
@@ -311,6 +311,26 @@ form#preferences {
     .fr; .f_stng;
   }
 }
+
+.like-big {
+  .pa; .ra; .db; .tac; .f_stng;
+  color: white; border-bottom: 3px solid #C15D63; background: #E17D83;
+  cursor: pointer;
+  .active { display: none; }
+  .passive { display: initial; }
+}
+
+.like-big:active, .like-big.active {
+  padding-top: 13px;
+  border-bottom: none;
+  background: #C15D63;
+}
+
+.like-big.active {
+  .active { display: initial; }
+  .passive { display: none; };
+}
+
 
 #hidden_part { display: none; }
 

@@ -1,6 +1,5 @@
 {% extends "base.html" %}{% load thumbnail i18n %}
 
-{% block wrap_class %}narrow{% endblock %}
 
 {% block extra_head %}
   <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
@@ -17,6 +16,28 @@
     $("#delete_button").click(function() {
       $("#delete_submit").trigger("click");
       return false;
+    })
+    $(".like-big").click(function(ev) {
+      var target = $(ev.target);
+      $.ajax({
+        type: "POST",
+        url: "/l/",
+        data: {
+          "aid" : target.attr('data-story-id'),
+          "v"   : target.hasClass("active") ? 0 : 1
+        },
+        dataType: "json",
+        success: function(data) {
+          if (data['status']===true) {
+            target.toggleClass("active");
+          }
+        },
+        statusCode: {
+          401: function() {
+            alert("Yu hev tu login tu kompiliyt dis ekşın.");
+          }
+        }
+      });
     })
   });
   </script>

@@ -2,7 +2,6 @@ import json
 
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.utils import simplejson
@@ -14,82 +13,10 @@ from libs.baseconv import base62
 from apps.question.models import Question, QuestionMeta
 from apps.story.models import Story
 from apps.follow.models import QuestionFollow
-from apps.follow.models import compute_blocked_user_ids_for
 from utils import paginated
 
 
 redis = get_redis_connection('default')
-
-
-def build_story_queryset(request, **kwargs):
-    """
-    Every build has:
-        Public answers,
-        Answers from followings which is marked as for following_user_ids
-        Answers from request.user
-
-    build_answer_queryset(request)
-    Returns public answers
-
-    build_answer_queryset(request, get_from='question', question=...)
-    Returns public answers from question
-
-    build_answer_queryset(request, get_from='user', user=request.user)
-    Returns public answers from user
-    """
-    user = request.user
-
-    # Get queryset if exits
-    queryset = kwargs.get(
-        'queryset',
-        Q(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE))
-
-    # Get from can be user, question, and public.
-    get_from = kwargs.get('get_from', None)
-
-    # Build queryset via get_from.
-    if get_from == 'user':
-        queryset = queryset & \
-            Q(owner=kwargs.get('user'), is_anonymouse=False)
-    elif get_from == 'question':
-        queryset = queryset & \
-            Q(question=kwargs.get('question'))
-
-    if user.is_authenticated():
-
-        following_user_ids = user.following_user_ids
-        following_user_ids.append(user.id)
-
-        if get_from == 'user':
-            queryset = queryset | Q(
-                owner=kwargs.get('user'),
-                owner_id__in=following_user_ids,
-                visible_for__in=[1, 2])
-        elif get_from == 'question':
-            queryset = queryset | Q(
-                question=kwargs.get('question'),
-                owner_id__in=following_user_ids,
-                visible_for__in=[1, 2])
-        elif get_from == 'followings':
-            queryset = Q(
-                owner_id__in=following_user_ids)
-        else:
-            queryset = queryset & Q(
-                owner_id__in=following_user_ids,
-                visible_for__in=[1, 2])
-
-        blocked_user_ids = compute_blocked_user_ids_for(user)
-
-        if blocked_user_ids:
-            queryset = queryset & ~Q(owner_id__in=blocked_user_ids)
-
-    stories = Story.objects\
-        .filter(queryset)\
-        .select_related('question__owner__userprofile', 'owner')
-    return {
-        'paginated_object_list': paginated(
-            request, stories, settings.STORIES_PER_PAGE),
-        'from': get_from}
 
 
 @login_required
@@ -107,10 +34,10 @@ def index(request):
     return render(request,
                   "index2.html",
                   {'page_name': 'index',
-                   'stories': paginated(request, stories, settings.STORIES_PER_PAGE),
+                   'stories': paginated(request, stories,
+                                        settings.STORIES_PER_PAGE),
                    'latest_asked_questions': latest_asked_questions,
                    'latest_answered_questions': latest_answered_questions,
-                   'trimmed': True,
                    'show_email_message': show_email_message})
 
 
@@ -121,6 +48,7 @@ def question(request, base62_id, show_delete=False, **kwargs):
     return render(request, "question/question_detail.html", {
         'question': question,
         'stories': paginated(request, stories, settings.STORIES_PER_PAGE)})
+
 
 @login_required
 def cancel_follow(request, key):

@@ -1,6 +1,6 @@
 {% load thumbnail liked_by %}{% load i18n %}
 <div class="thmb-wrap shadowed" style="position: relative">
-  {% if answer.is_nsfw %}
+  {% if story.is_nsfw %}
     <div class="nsfw_block">
       <a href="{{ story.get_absolute_url }}">AYIPÇI</a>
     </div>
