@@ -29,10 +29,13 @@ def index(request):
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
 
-    if request.GET.get('filter') == 'public':
-        stories = Story.objects\
-            .filter(status=Story.PUBLISHED)
-    else:
+    stories = Story.objects\
+        .filter(status=Story.PUBLISHED)
+
+    show_public_stories = True
+
+    if request.GET.get('filter') != u'public':
+        show_public_stories = False
         stories = Story.objects\
             .from_followings(request.user)\
             .filter(status=Story.PUBLISHED)
@@ -45,6 +48,7 @@ def index(request):
                   {'page_name': 'index',
                    'stories': paginated(request, stories,
                                         settings.STORIES_PER_PAGE),
+                   'show_public_stories': show_public_stories,
                    'recommened_questions': recommened_questions,
                    'show_email_message': show_email_message})
 

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 16:46+0200\n"
+"POT-Creation-Date: 2014-12-11 21:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,39 +78,39 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:66
+#: apps/account/views.py:67
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:86
+#: apps/account/views.py:87
 msgid "Follow request sent to user"
 msgstr "Mürit olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:89
+#: apps/account/views.py:90
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının müridi değilsin"
 
-#: apps/account/views.py:92
+#: apps/account/views.py:93
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:95
+#: apps/account/views.py:96
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:168
+#: apps/account/views.py:169
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:197
+#: apps/account/views.py:198
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:258
+#: apps/account/views.py:259
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:279
+#: apps/account/views.py:280
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -296,15 +296,12 @@ msgstr "Takip Ettiğim Kişilerden"
 msgid "Public"
 msgstr "Umumi"
 
-#: templates/index2.html:20
-msgid "Latest Asked Questions"
-msgstr "Son Sorulan Sorular"
+#: templates/index2.html:21
+#, fuzzy
+msgid "Recommened Questions"
+msgstr "Bağlı Sorular"
 
-#: templates/index2.html:26
-msgid "Latest Answered Questions"
-msgstr "Son Cevaplanan Sorular"
-
-#: templates/index2.html:34
+#: templates/index2.html:30
 #, fuzzy
 msgid "Foo"
 msgstr "Müridi Ol"
@@ -412,7 +409,7 @@ msgstr ""
 msgid "Update Preferences"
 msgstr "Tercihleri Güncelle"
 
-#: templates/auth/preferences.html:9 templates/story/create_story.html:23
+#: templates/auth/preferences.html:9 templates/story/create_story.html:24
 #: templates/story/update_captions.html:21
 msgid "Save"
 msgstr "Kaydet"
@@ -681,7 +678,7 @@ msgid "<a class=\"imp\" href=\"%(login_url)s\">Login</a> to post an answer."
 msgstr ""
 "Cevaplayabilmek için <a class=\"imp\" href=\"%(login_url)s\">giriş yap</a>."
 
-#: templates/story/create_story.html:20
+#: templates/story/create_story.html:21
 msgid "Add Images"
 msgstr "Görsel Ekle"
 
@@ -758,6 +755,12 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#~ msgid "Latest Asked Questions"
+#~ msgstr "Son Sorulan Sorular"
+
+#~ msgid "Latest Answered Questions"
+#~ msgstr "Son Cevaplanan Sorular"
 
 #~ msgid "asked by"
 #~ msgstr "diye sordu"
