@@ -98,7 +98,6 @@ INSTALLED_APPS = (
     'tastypie',
     'json_field',
     'geoposition',
-    'chunked_uploads'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
