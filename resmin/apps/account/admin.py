@@ -3,7 +3,9 @@ from apps.account.models import Invitation, UserProfile, EmailCandidate
 
 
 class InvitationAdmin(admin.ModelAdmin):
-    list_display = ('key', 'owner', 'used_by')
+    list_display = ('key', 'owner', 'used_count')
+    readonly_fields = ('is_usable',)
+
 
 
 class ProfileAdmin(admin.ModelAdmin):

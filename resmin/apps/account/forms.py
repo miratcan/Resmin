@@ -49,9 +49,10 @@ class RegisterForm(forms.Form):
             invitation = None
 
         if invitation:
-            if invitation.used_by:
-                raise forms.ValidationError(_("This key is used by someone "
-                                              "else before"))
+            if not invitation.is_usable:
+                raise forms.ValidationError(_("This key reached it's maximum "
+                                              "use limit. It cant be used "
+                                              "anymore."))
             else:
                 return key
         else:
@@ -71,8 +72,7 @@ class RegisterForm(forms.Form):
         # Else use existing one.
         else:
             invitation = Invitation.objects.get(key=key)
-
-        invitation.used_by = user
+        invitation.registered_users.add(user)
         invitation.save()
         return user
 

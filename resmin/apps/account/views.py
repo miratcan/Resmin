@@ -191,7 +191,9 @@ def register(request):
             user = form.save()
             user = authenticate(username=form.cleaned_data['username'],
                                 password=form.cleaned_data['pass_1'])
+
             login(request, user)
+            Invitation.objects.create(owner=user)
             messages.success(request, _('Registration complete, wellcome :)'))
             return HttpResponseRedirect("/")
     return render(request, 'auth/register.html', {'form': form})
@@ -205,7 +207,7 @@ def invitations(request):
         {'site': get_current_site(request),
          'profile_user': request.user,
          'invs': Invitation.objects.filter(
-             owner=request.user).order_by("used_by")})
+             owner=request.user).order_by("used_count")})
 
 
 @login_required
