@@ -297,9 +297,8 @@ msgid "Public"
 msgstr "Umumi"
 
 #: templates/index2.html:21
-#, fuzzy
 msgid "Recommened Questions"
-msgstr "Bağlı Sorular"
+msgstr "Önerilen Sorular"
 
 #: templates/index2.html:30
 #, fuzzy
@@ -601,9 +600,8 @@ msgid "New story on \"%(question_text)s\""
 msgstr "\"%(question_text)s\" için yeni bir gönderi var."
 
 #: templates/notification/user_accepted_your_follow_request/option.txt:1
-#, fuzzy
 msgid "When an user accepted my follow request."
-msgstr "%(target_username)s müridi olma talebini kabul etti"
+msgstr "Biri ona yaptığım müritlik isteğini kabul ettiğinde."
 
 #: templates/notification/user_accepted_your_follow_request/sentence.txt:1
 #, python-format
@@ -660,7 +658,7 @@ msgstr ""
 
 #: templates/question/question_sentence.html:12
 msgid "Answer"
-msgstr "Cevap"
+msgstr "Cevapla"
 
 #: templates/question/question_sentence.html:12
 msgctxt "follow"

@@ -33,7 +33,7 @@
         <p class="oa db">{{ story_form.is_nsfw }} {{ story_form.is_nsfw.label_tag }}</p>
         <p class="oa db">{{ story_form.visible_for }}</p>
       </div>
-      {% if story_form.question %}<p class="f_weak"><a href="{{ story_form.question.get_absolute_url }}">{{ story_form.meta.text }}</a> sorusuna cevap olarak göndermektesin.</p>{% endif %}
+      {% if story_form.meta %}<p class="f_weak"><a href="{{ story_form.meta.get_absolute_url }}">{{ story_form.meta.text }}</a> sorusuna cevap olarak göndermektesin.</p>{% endif %}
       <p class="f_weak">İstersen Adımı Gizle seçeneğini kullanarak anonim cevap verebilirsin.</p>
       <p class="f_weak">Açıklama kısmını kullanırsan dil kurallarına uyman gerektiğini söylememize gerek yok umuyoruz.</p>
     </div>

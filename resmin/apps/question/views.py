@@ -40,14 +40,14 @@ def index(request):
             .from_followings(request.user)\
             .filter(status=Story.PUBLISHED)
 
+    stories = paginated(request, stories, settings.STORIES_PER_PAGE)
     recommened_questions = QuestionMeta.objects.\
         filter(is_featured=True).order_by('?')[:10]
 
     return render(request,
                   "index2.html",
                   {'page_name': 'index',
-                   'stories': paginated(request, stories,
-                                        settings.STORIES_PER_PAGE),
+                   'stories': stories,
                    'show_public_stories': show_public_stories,
                    'recommened_questions': recommened_questions,
                    'show_email_message': show_email_message})
