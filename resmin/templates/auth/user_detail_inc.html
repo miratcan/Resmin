@@ -17,7 +17,7 @@
           <img class="fl mr" src="{{ im.url }}" style="position: absolute">
         {% endthumbnail %}
       {% else %}
-        <img class="fl mr" src="http://chatwing.com/images/no-avatar.gif" style="position: absolute; width: 100px; height: 100px;">
+        <img class="fl mr" src="no-avatar.gif" style="position: absolute; width: 100px; height: 100px;">
       {% endif %}
       <p class="mb f_weak" style="margin-left: 110px;"><a class="username f_stng wb" href="/u/{{profile_user.username}}">{{ profile_user }}</a></p>
       {% if profile.bio %}<p style="margin-left: 110px;">{{ profile.bio }}{% if profile.location %} <span class="f_weak c_weak"> / {{ profile.location }}</span>{% endif %}
