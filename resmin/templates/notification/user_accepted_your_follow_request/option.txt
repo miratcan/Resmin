@@ -1,0 +1,1 @@
+{% load i18n %}{% trans 'When an user accepted my follow request.' %}

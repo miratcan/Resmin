@@ -1,0 +1,1 @@
+{% load i18n %}{% blocktrans %}New story on "{{ question_text }}"{% endblocktrans %}
