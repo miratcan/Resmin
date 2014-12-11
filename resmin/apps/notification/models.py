@@ -2,11 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes.generic import GenericForeignKey
+from django.shortcuts import render
 
 
 class NotificationType(models.Model):
     slug = models.SlugField(max_length=255)
     name = models.CharField(max_length=255)
+
+    def get_option_name(self):
+        return render('notification/%s/option.txt')
 
     def __unicode__(self):
         return self.name

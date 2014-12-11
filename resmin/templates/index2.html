@@ -13,6 +13,7 @@
 {% endblock %}
 
 {% block content %}
+  <p class="mbd"><a href="">{% trans 'From Followings' %}</a> / <a href="">{% trans 'Public' %}</a></p>
   {% if stories %}
     <div id="thumbnails">
       <div class="thmb-wrap pa" style="box-sizing: border-box">
@@ -29,6 +30,8 @@
       </div>
       {% for story in stories %}
         {% include "story/story_thumbnail.html" with show_question_info_below_answers=True %}
+      {% empty %}
+        {% trans 'Foo' %}
       {% endfor %}
     </div>
     {% include "includes/pagination_links_for_answers.html" %}

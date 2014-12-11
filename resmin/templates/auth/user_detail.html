@@ -1,13 +1,13 @@
 {% extends "answers_base.html" %}{% load i18n %}
 
-{% block extra_messages %}<p class="yellow-stripe">Selam, bu sayfa için doğru düzgün bir tasarıma ihtiyacım var. Grafik işlerinden anlıyorsan muduriyet@resm.in adresine tasarım at konuşalım ne dersin?</p>{% endblock %}
 
 {% block before_content %}
   {% include "auth/user_detail_inc.html" %}
 {% endblock %}
 
 {% block content %}
-  <form class="narrow wrap mbd">
+  <form class="narrow wrap mbd" method="post">
+    {% csrf_token %}
     {{ question_form }}
     <input class="bttn fr green ra" type="submit">
   </form>

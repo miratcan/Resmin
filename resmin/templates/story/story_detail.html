@@ -1,9 +1,11 @@
 {% extends "base.html" %}{% load thumbnail i18n %}
-
+{% block wrap_class %}narrow{% endblock %}
 
 {% block extra_head %}
   <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
   <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
+  <script src="{{ STATIC_URL }}js/jquery.keynav.js"></script>
+
   <script>
   $(document).ready(function() {
     $("#fake_delete_button").click(function(){
@@ -32,6 +34,7 @@
 
       setLike(sid, val, onLike, onRmve);
     })
+    $('.slot').keynav()
   });
   </script>
 {% endblock %}

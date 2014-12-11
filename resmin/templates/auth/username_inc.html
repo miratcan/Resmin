@@ -1,1 +1,1 @@
-{% load i18n %}{% if anonymouse and not request.user.is_staff %}{% trans "Anonymouse" %}{% else %}<a href="{{ user.get_absolute_url }}">{% if narrow %}{{user.username|truncatechars:10}}{% else %}{{ user.username }}{% endif %}</a>{% endif %}
+{% load i18n %}{% if anonymouse and not request.user.is_staff %}{% trans "anonymouse" %}{% else %}<a href="{{ user.get_absolute_url }}">{% if narrow %}{{user.username|truncatechars:10}}{% else %}{{ user.username }}{% endif %}</a>{% endif %}

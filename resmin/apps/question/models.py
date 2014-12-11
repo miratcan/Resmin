@@ -9,6 +9,7 @@ from datetime import datetime
 from libs.baseconv import base62
 
 from apps.story.models import Story
+from apps.follow.models import QuestionFollow
 
 
 class QuestionMeta(models.Model):
@@ -68,6 +69,7 @@ class QuestionMeta(models.Model):
         return True if user.is_authenticated() and not self.is_deleted \
                        and answer_count == 0 else False
 
+    @property
     def base62_id(self):
         return base62.from_decimal(self.id)
 
@@ -85,9 +87,10 @@ class QuestionMeta(models.Model):
         self.answer_count = self.story_set.filter(
             status=Story.PUBLISHED).count()
 
-    def update_answer_count(self):
-        """Updates follower_count but does not saves question
-        instance, it have to be saved later."""
+    def update_follower_count(self):
+        """
+        Update follower_count but does not saves question.
+        """
         self.follower_count = self.follow_set.filter(
             status=QuestionFollow.FOLLOWING).count()
 
@@ -108,6 +111,7 @@ class Question(models.Model):
     is_anonymouse = models.BooleanField(default=False)
     answer = models.ForeignKey('story.Story', related_name='answer',
                                null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     status = models.PositiveSmallIntegerField(
         default=0, choices=((PENDING, 'Pending'),
                             (ANSWERED, 'Answered'),
@@ -116,3 +120,8 @@ class Question(models.Model):
     def __unicode__(self):
         return '%s - %s -> %s' % (self.questioner, self.meta.text,
                                   self.questionee)
+
+    def post_answer_url(self):
+        return '%s?qid=%s' % (
+            reverse('create-story', kwargs={
+                'base62_id': self.meta.base62_id}), self.id)

@@ -164,8 +164,9 @@ class FollowForm(forms.Form):
 
 
 class QuestionForm(forms.Form):
-    question = forms.CharField(max_length=512)
-    is_anonymouse = forms.BooleanField(required=False)
+    question = forms.CharField(label=_('Ask me a question:'), max_length=512)
+    is_anonymouse = forms.BooleanField(label=_('Ask as anonymouse'),
+                                       required=False, initial=True)
 
     def __init__(self, *args, **kwargs):
         self.questioner = kwargs.pop('questioner', None)

@@ -20,9 +20,12 @@ redis = get_redis_connection('default')
 
 
 @login_required
-def index(request):
-    '''If user is authenticated and not registered email we will show
-    Register your email message'''
+def index(request, sub='public'):
+    """
+
+    If user is authenticated and not registered email we will show
+    Register your email message
+    """
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
     stories = Story.objects.from_followings(request.user)
@@ -105,15 +108,16 @@ def follow_question(request):
     if act not in ['follow', 'unfollow']:
         return HttpResponse(status=400)
 
-    question = get_object_or_404(Question, id=int(qid))
+    meta = get_object_or_404(QuestionMeta, id=int(qid))
 
     if act == 'follow':
-        qf = QuestionFollow.objects.get_or_create(follower=request.user,
-                                                  target=question)[0]
+        qf = QuestionFollow.objects.get_or_create(
+            follower=request.user, target=meta, defaults={
+                'reason': QuestionFollow.FOLLOWED})[0]
 
-        if not qf.status == 0:
-            qf.reason = 'followed'
-            qf.status = 0
+        if not qf.status == QuestionFollow.FOLLOWING:
+            qf.reason = QuestionFollow.FOLLOWED
+            qf.status = QuestionFollow.FOLLOWING
             qf.save(update_fields=['reason', 'status'])
 
         is_following = True
@@ -126,7 +130,7 @@ def follow_question(request):
             qf = None
 
         if qf:
-            qf.status = 1
+            qf.status = QuestionFollow.UNFOLLOWED
             qf.save(update_fields=['status'])
 
         is_following = False

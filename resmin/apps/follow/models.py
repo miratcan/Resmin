@@ -19,14 +19,17 @@ class QuestionFollow(FollowBase):
 
     ASKED = 0
     ANSWERED = 1
+    FOLLOWED = 2
 
     STATUS_CHOICES = ((FOLLOWING, 'Following'),
                       (UNFOLLOWED, 'Unfollowed'))
 
     REASON_CHOICES = ((ASKED, 'Asked'),
-                      (ANSWERED, 'Answered'))
+                      (ANSWERED, 'Answered'),
+                      (FOLLOWED, 'Followed'))
 
-    target = models.ForeignKey('question.QuestionMeta', related_name='follow_set')
+    target = models.ForeignKey('question.QuestionMeta',
+                               related_name='follow_set')
     status = models.PositiveSmallIntegerField(default=0,
                                               choices=STATUS_CHOICES)
     key = models.CharField(max_length=255, blank=True)
