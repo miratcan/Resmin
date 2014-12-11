@@ -70,7 +70,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.gzip.GZipMiddleware',
     'pipeline.middleware.MinifyHTMLMiddleware',
-    'apps.notification.middleware.NotificationMiddleware'
 )
 
 ROOT_URLCONF = 'urls'
