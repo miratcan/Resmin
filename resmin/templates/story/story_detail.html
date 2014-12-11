@@ -18,18 +18,20 @@
       return false;
     })
     $(".like-big").click(function(ev) {
+
       var target = $(ev.target);
-      $.ajax({
-        type: "POST",
-        url: "/l/",
-        data: {
-          "aid" : target.attr('data-story-id'),
-          "v"   : target.hasClass("active") ? 0 : 1
-        },
-        dataType: "json",
+          sid = target.attr('data-story-id'),
+          val = target.hasClass("active") ? 0 : 1,
+          cEl = target.find(".count"),
+          hEl = target.find(".heart");
+
+      var onLike = function(data) { cEl.html(data['like_count']);
+                                    hEl.addClass("pink"); };
+      var onRmve = function(data) { cEl.html(data['like_count']);
+                                    hEl.removeClass("pink"); };
+      setLike(sid, val, onLike, onRmve);
         success: function(data) {
           if (data['status']===true) {
-            target.toggleClass("active");
           }
         },
         statusCode: {

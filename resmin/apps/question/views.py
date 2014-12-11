@@ -75,17 +75,17 @@ def like(request):
     if not request.POST:
         return HttpResponse(status=400)
 
-    aid, v = request.POST.get('aid'), request.POST.get('v')
+    sid, val = request.POST.get('sid'), request.POST.get('val')
 
-    if not aid:
+    if not sid:
         return HttpResponse(status=400)
 
-    answer = get_object_or_404(Story, id=int(aid))
-    created = answer.set_like(request.user, liked=bool(int(v)))
-
+    story = get_object_or_404(Story, id=int(sid))
+    is_liked = story.set_like(request.user, liked=bool(int(val)))
+    like_count = story.get_like_count_from_redis()
     return HttpResponse(simplejson.dumps(
-        {'like_count': answer.get_like_count_from_redis(),
-         'status': bool(created)}))
+        {'like_count': like_count,
+         'is_liked': is_liked}))
 
 
 @csrf_exempt

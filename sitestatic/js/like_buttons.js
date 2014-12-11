@@ -1,18 +1,17 @@
 $(document).ready(function() {
-  $(".like-button").click(function(ev) {
-    var target = $(ev.target).parent();
+
+  function setLike(sid, val, onLike, onRemove) {
     $.ajax({
       type: "POST",
       url: "/l/",
-      data: {
-        "aid" : target.attr('data-story-id'),
-        "v"   : target.find(".heart").hasClass("pink") ? 0 : 1
-      },
+      data: {"sid" : sid, "val": val},
       dataType: "json",
       success: function(data) {
-        target.find(".count").html(data['like_count']);
-        if (data['status']===true) {
-          target.find(".heart").toggleClass("pink");
+        console.log(data);
+        if (data['is_liked']===true) {
+          onLike(data);
+        } else {
+          onRemove(data)
         }
       },
       statusCode: {
@@ -21,5 +20,17 @@ $(document).ready(function() {
         }
       }
     });
+  };
+  $(".like-button").click(function(ev) {
+    var target = $(ev.target).parent(),
+        sid = target.attr('data-story-id'),
+        val = target.find(".heart").hasClass("pink") ? 0 : 1,
+        cEl = target.find(".count"),
+        hEl = target.find(".heart");
+    var onLike = function(data) { cEl.html(data['like_count']);
+                                  hEl.addClass("pink"); };
+    var onRmve = function(data) { cEl.html(data['like_count']);
+                                  hEl.removeClass("pink"); };
+    setLike(sid, val, onLike, onRmve);
   });
 });

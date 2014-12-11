@@ -115,11 +115,12 @@ class Story(BaseModel):
 
     def set_like(self, user, liked=True):
         """
-
         @type liked: object
         """
         from apps.account.models import UserProfile
         from apps.question.signals import story_like_changed
+
+        is_liked = False
 
         if liked:
             result = redis.sadd(self._like_set_key(), user.username)
@@ -127,13 +128,16 @@ class Story(BaseModel):
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, 1)
                 story_like_changed.send(sender=self)
+                is_liked = True
         else:
             result = redis.srem(self._like_set_key(), user.username)
             if result:
                 redis.zincrby(
                     UserProfile.scoreboard_key(), self.owner.username, -1)
                 story_like_changed.send(sender=self)
-        return result
+            else:
+                is_liked = True
+        return is_liked
 
     def get_absolute_url(self):
         return reverse('story', kwargs={

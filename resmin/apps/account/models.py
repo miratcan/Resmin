@@ -33,7 +33,7 @@ class UserProfile(models.Model):
         return 'like_scoreboard'
 
     def update_like_count(self):
-        self.like_count = self.user.answer_set.filter(status=0)\
+        self.like_count = self.user.story_set.filter(status=Story.PUBLISHED)\
             .aggregate(like_count_total=Sum('like_count'))['like_count_total']\
             or 0
 
