@@ -1,7 +1,17 @@
 {% extends "answers_base.html" %}{% load i18n %}
+
+{% block extra_messages %}<p class="yellow-stripe">Selam, bu sayfa için doğru düzgün bir tasarıma ihtiyacım var. Grafik işlerinden anlıyorsan muduriyet@resm.in adresine tasarım at konuşalım ne dersin?</p>{% endblock %}
+
+{% block before_content %}
+  {% include "auth/user_detail_inc.html" %}
+{% endblock %}
+
 {% block content %}
+  <form class="narrow wrap mbd">
+    {{ question_form }}
+    <input class="bttn fr green ra" type="submit">
+  </form>
   {% with answers=answers.paginated_object_list %}
-    {% include "auth/user_detail_inc.html" %}
     {% include "story/story_thumbnails.html" with show_question_info_below_answers=True %}
     {% include "includes/pagination_links_for_answers.html" %}
   {% endwith %}

@@ -54,7 +54,8 @@ def profile(request, username=None, action=None):
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        ctx['answers'] = Story.objects.from_user(request.user)
+        ctx['stories'] = Story.objects.from_user(request.user)\
+                                      .filter(is_anonymouse=False)
 
     if request.POST:
         questioner = request.user if request.user.is_authenticated() else None
@@ -168,8 +169,11 @@ def update_profile(request):
             return HttpResponseRedirect(
                 reverse('profile',
                         kwargs={'username': request.user.username}))
-    avatar_questionmeta = QuestionMeta.objects.get(
-        id=settings.AVATAR_QUESTIONMETA_ID)
+    try:
+        avatar_questionmeta = QuestionMeta.objects.get(
+            id=settings.AVATAR_QUESTIONMETA_ID)
+    except QuestionMeta.DoesNotExist:
+        avatar_questionmeta = None
     return render(
         request,
         "auth/update_profile.html",

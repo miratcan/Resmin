@@ -94,7 +94,7 @@ p           { .f_nrml; .c_nrml; .mb; }
 .nb         { border: none; }
 .lt         { text-decoration: line-through; }
 
-.imp        { background: #ffcb05; }
+.imp        { background: #FCF99C; }
 
 .rt         { border-top-right-radius: 5px;
               border-top-left-radius: 5px}
@@ -204,12 +204,19 @@ form            { overflow: auto; margin-bottom: 10px;}
 input[type='text'],
 input[type='password'],
 input[type='file'],
+input[type='url'],
+input[type='email'],
 textarea         { border: none; .bb; .mb; }
 
 label            { display: block;
                    .f_nrml; .c_nrml; .mbh; .mr; }
+label[for='id_is_anonymouse'] {
+  display: inline; .fl;
+}
 input[type=text],
 input[type=password],
+input[type='url'],
+input[type='email'],
 textarea
                  { box-sizing: border-box; /* css3 rec */
                    -moz-box-sizing: border-box; /* ff2 */

@@ -1,7 +1,13 @@
 {% extends "auth/dashboard_base.html" %}{% load i18n %}
+
 {% block page_title %}{% trans "Update Profile" %}{% endblock %}
+
+{% block wrap_class %}narrow{% endblock %}
+
 {% block content_inner %}
-  <p class="mb imp">Avatarını "<a href="{{ avatar_question.get_absolute_url }}">{{ avatar_question }}</a>" sorusuna cevap vererek değiştirebilirsin. Son gönderdiğin cevap avatarın olarak kabul edilir.</p>
+  {% if avatar_questionmeta %}
+  	<p class="mb imp">Avatarını "<a href="{{ avatar_question.get_absolute_url }}">{{ avatar_question }}</a>" sorusuna cevap vererek değiştirebilirsin. Son gönderdiğin cevap avatarın olarak kabul edilir.</p>
+  {% endif %}
   <form class="mtd" method="post" enctype="multipart/form-data">
 	  {% csrf_token %}
 	  {{ form }}

@@ -29,17 +29,8 @@
                                     hEl.addClass("pink"); };
       var onRmve = function(data) { cEl.html(data['like_count']);
                                     hEl.removeClass("pink"); };
+
       setLike(sid, val, onLike, onRmve);
-        success: function(data) {
-          if (data['status']===true) {
-          }
-        },
-        statusCode: {
-          401: function() {
-            alert("Yu hev tu login tu kompiliyt dis ekşın.");
-          }
-        }
-      });
     })
   });
   </script>
