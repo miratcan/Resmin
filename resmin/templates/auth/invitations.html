@@ -3,15 +3,13 @@
 
 {% block content_inner %}
   {% if invs %}
-    <h2 class="f_stng  mb">{% trans 'Tebrikler, davetiyeniz var :)' %}</h2>
-    <p class="  mbd">{% trans 'Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin kişiye kutucuklardaki linklerden birini vermek. Aktif olacağını, güzel paylaşımlarda bulunacağını düşündüğün kişileri çağırırmalısın. Uzaktan izleyenleri sevmiyoruz. :)' %}</p>
-
-    <div class="db">
-      {% for i in invs %}
-        <p><input style="width: 330px" value="http://{{ site }}{{ i.get_absolute_url }}">{% blocktrans with remaining_use=i.remaining_use used_count=i.used_count %}Used by {{ used_count }} people. Can be used for {{ remaining_use }} times more.{% endblocktrans %}</p>
-      {% endfor %}
-    </div>
+    <h2 class="f_stng  mb">{% trans 'Congrats :) You have invitations.' %}</h2>
+    <p class="  mbd">
+    {% trans 'Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin kişiye kutucuklardaki linklerden birini vermek. Aktif olacağını, güzel paylaşımlarda bulunacağını düşündüğün kişileri çağırırmalısın. Uzaktan izleyenleri sevmiyoruz. :)' %}</p>
+    {% for i in invs %}
+      <p><input style="width: 330px" value="http://{{ site }}{{ i.get_absolute_url }}"> {% if i.used_by %}{% include "auth/username_inc.html" with user=i.used_by %} kullanmış.{% endif %}</p>
+    {% endfor %}
   {% else %}
-    <p class="f_stng c_ntml">{% trans 'Hiç davetiyeniz yok :(' %}</p>
+    <p class="f_stng c_ntml">{% trans "You don't have any invitations :(" %}</p>
   {% endif %}
 {% endblock %}

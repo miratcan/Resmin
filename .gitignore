@@ -1,4 +1,5 @@
 *.pyc
+.idea/
 sqlite3.db
 media/
 resmin/config/local_settings.py

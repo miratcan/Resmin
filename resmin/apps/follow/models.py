@@ -13,14 +13,24 @@ class FollowBase(models.Model):
 
 
 class QuestionFollow(FollowBase):
-    target = models.ForeignKey('question.Question', related_name='question')
-    status = models.PositiveSmallIntegerField(
-        default=0, choices=((0, 'Following'),
-                            (1, 'Unfollowed')))
+
+    FOLLOWING = 0
+    UNFOLLOWED = 1
+
+    ASKED = 0
+    ANSWERED = 1
+
+    STATUS_CHOICES = ((FOLLOWING, 'Following'),
+                      (UNFOLLOWED, 'Unfollowed'))
+
+    REASON_CHOICES = ((ASKED, 'Asked'),
+                      (ANSWERED, 'Answered'))
+
+    target = models.ForeignKey('question.QuestionMeta', related_name='follow_set')
+    status = models.PositiveSmallIntegerField(default=0,
+                                              choices=STATUS_CHOICES)
     key = models.CharField(max_length=255, blank=True)
-    reason = models.CharField(max_length=16,
-                              choices=(('asked', 'Asked'),
-                                       ('answered', 'Answered')))
+    reason = models.PositiveIntegerField(max_length=16, choices=REASON_CHOICES)
 
     def __unicode__(self):
         return '%s %s %s' % (self.follower, self.reason, self.target)
@@ -33,8 +43,8 @@ class QuestionFollow(FollowBase):
         return reverse('cancel_follow', kwargs={'key': self.key})
 
 
-class AnswerFollow(FollowBase):
-    target = models.ForeignKey('question.Answer', related_name='answer')
+class StoryFollow(FollowBase):
+    target = models.ForeignKey('story.Story', related_name='target')
     status = models.PositiveSmallIntegerField(
         default=0, choices=((0, 'Following'),
                             (1, 'Unfollowed')))
@@ -45,11 +55,16 @@ class AnswerFollow(FollowBase):
 
 
 class UserFollow(FollowBase):
+
+    PENDING = 0
+    FOLLOWING = 1
+    BLOCKED = 2
+
     target = models.ForeignKey(User, related_name='user')
     status = models.PositiveSmallIntegerField(
-        default=0, choices=((0, 'Pending'),
-                            (1, 'Following'),
-                            (2, 'Blocked')))
+        default=0, choices=((PENDING, 'Pending'),
+                            (FOLLOWING, 'Following'),
+                            (BLOCKED, 'Blocked')))
 
 
 User.is_blocked = lambda u, t: bool(

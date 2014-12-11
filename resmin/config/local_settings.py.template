@@ -35,6 +35,8 @@ INSTALLED_APPS = (
     'apps.question',
     'apps.account',
     'apps.follow',
+    'apps.story',
+    'apps.notification',
     'seo_cascade',
     'sorl.thumbnail',
     'pipeline',

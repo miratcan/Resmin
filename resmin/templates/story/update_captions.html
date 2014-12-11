@@ -1,0 +1,25 @@
+{% extends "base.html" %}{% load i18n keyvalue %}
+
+{% block content %}
+<div class="wrap narrow">
+  <form method="post" action="">
+      {% csrf_token %}
+      <input id="id_images" name="images" style="display: none;" type="file" multiple/>
+      <div class="oa db">{{ captions_form.non_field_errors }}</div>
+      <table id="update-captions">
+        {% for stack in captions_form.stacks %}
+          <tr>
+            <td>
+              <div class="thmbWrap"><img src="{% with slot=stack|keyvalue:'slot' %}{{ slot.content.thumbnail_url }}{% endwith %}" class="thmb" style="opacity: 1"></div>
+            </td>
+            <td>
+              {{ stack|keyvalue:"title" }}
+              {{ stack|keyvalue:"descr" }}
+            </td>
+        {% endfor %}
+      </table>
+      <input type="submit" id="submit" class="bttn pa green row db oa tac" value="{% trans 'Save' %}" />
+  </form>
+</div>
+
+{% endblock %}

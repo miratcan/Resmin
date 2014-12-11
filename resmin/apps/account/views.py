@@ -1,46 +1,35 @@
 from django.utils.translation import ugettext as _
-
 from django.shortcuts import get_object_or_404, render
-
 from django.http import HttpResponseRedirect
-
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.contrib.sites.models import Site
 from django.contrib import messages
-
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import get_current_site
-
 from django.views.decorators.csrf import csrf_exempt
-
 from django.conf import settings
+from datetime import datetime, timedelta
+from redis_cache import get_redis_connection
+from tastypie.models import ApiKey
 
 from apps.account.models import (Invitation, UserProfile,
                                  EmailCandidate)
-
 from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
                                 EmailCandidateForm, QuestionForm)
-
-from apps.question.models import (Question, AnswerRequest)
-from apps.question.views import build_answer_queryset
-
+from apps.question.models import (QuestionMeta, Question)
 from apps.follow.models import UserFollow
-
-from datetime import datetime, timedelta
-
-
+from apps.notification.utils import notify
+from apps.notification.decorators import delete_notification
+from apps.story.models import Story
 from apps.account.signals import follower_count_changed
-
-from redis_cache import get_redis_connection
-from tastypie.models import ApiKey
 from utils import paginated, send_email_from_template
-from utils import render_to_json
+from libs.shortcuts import render_to_json
 
 redis = get_redis_connection('default')
 
 
+@delete_notification
 def profile(request, username=None, action=None):
 
     user = get_object_or_404(User, username=username) if username \
@@ -65,12 +54,12 @@ def profile(request, username=None, action=None):
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        ctx['answers'] = build_answer_queryset(
-            request, get_from='user', user=user)
+        ctx['stories'] = Story.objects.from_user(request.user)\
+                                      .filter(is_anonymouse=False)
 
     if request.POST:
-        question_form = QuestionForm(request.POST,
-                                     questioner=request.user,
+        questioner = request.user if request.user.is_authenticated() else None
+        question_form = QuestionForm(request.POST, questioner=questioner,
                                      questionee=user)
         if question_form.is_valid():
             question_form.save()
@@ -125,14 +114,13 @@ def pending_follow_requests(request):
 
 
 @login_required
-def pending_answer_requests(request):
-    ar = AnswerRequest.objects.filter(questionee=request.user, status=0)
-    site = get_current_site(request) if not ar else None
+def pending_questions(request):
+    qs = Question.objects.filter(questionee=request.user, status=0)
+    site = get_current_site(request) if not qs else None
     return render(
         request,
-        'question/pending_answer_requests.html',
-        {'answer_requests': ar,
-         'site': site})
+        'question/pending_questions.html',
+        {'pending_questions': qs, 'site': site})
 
 
 @csrf_exempt
@@ -149,6 +137,11 @@ def update_pending_follow_request(request):
             follow_request.status = 1
             follow_request.save()
             follower_count_changed.send(sender=request.user)
+            notify(follow_request.target,
+                   'user_accepted_your_follow_request',
+                   follow_request.target,
+                   follow_request.follower,
+                   follow_request.target.get_absolute_url())
             return render_to_json({'success': True})
 
         if action == 'decline':
@@ -176,13 +169,17 @@ def update_profile(request):
             return HttpResponseRedirect(
                 reverse('profile',
                         kwargs={'username': request.user.username}))
-    avatar_question = Question.objects.get(id=settings.AVATAR_QUESTION_ID)
+    try:
+        avatar_questionmeta = QuestionMeta.objects.get(
+            id=settings.AVATAR_QUESTIONMETA_ID)
+    except QuestionMeta.DoesNotExist:
+        avatar_questionmeta = None
     return render(
         request,
         "auth/update_profile.html",
         {'form': form,
          'profile_user': request.user,
-         'avatar_question': avatar_question})
+         'avatar_questionmeta': avatar_questionmeta})
 
 
 def register(request):

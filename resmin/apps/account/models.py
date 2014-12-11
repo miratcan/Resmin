@@ -1,3 +1,4 @@
+
 from django.db import models
 from django.db.models import Sum
 from django.db.models.signals import post_save
@@ -6,15 +7,13 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
-from apps.question.models import BaseModel
+from utils.models import BaseModel
 from apps.follow.models import UserFollow
+from apps.story.models import Story
 
 
 from libs import key_generator
-from utils import unique_filename_for_avatar
-from redis_cache import get_redis_connection
-
-redis = get_redis_connection('default')
+from utils import filename_for_avatar
 
 
 class UserProfile(models.Model):
@@ -24,12 +23,11 @@ class UserProfile(models.Model):
     like_count = models.PositiveIntegerField(default=0)
     follower_count = models.PositiveIntegerField(default=0)
     following_count = models.PositiveIntegerField(default=0)
-    answer_count = models.PositiveIntegerField(default=0)
+    story_count = models.PositiveIntegerField(default=0)
     location = models.CharField(_('location'), max_length=64,
                                 null=True, blank=True)
 
-    avatar = models.ImageField(upload_to=unique_filename_for_avatar,
-                               null=True,
+    avatar = models.ImageField(upload_to=filename_for_avatar, null=True,
                                blank=True)
 
     @staticmethod
@@ -37,7 +35,7 @@ class UserProfile(models.Model):
         return 'like_scoreboard'
 
     def update_like_count(self):
-        self.like_count = self.user.answer_set.filter(status=0)\
+        self.like_count = self.user.story_set.filter(status=Story.PUBLISHED)\
             .aggregate(like_count_total=Sum('like_count'))['like_count_total']\
             or 0
 
@@ -49,8 +47,9 @@ class UserProfile(models.Model):
         self.following_count = UserFollow.objects.filter(
             follower=self.user, status=1).count()
 
-    def update_answer_count(self):
-        self.answer_count = self.user.answer_set.filter(status=0).count()
+    def update_story_count(self):
+        self.story_count = self.user.story_set.filter(
+            status=Story.PUBLISHED).count()
 
     def __unicode__(self):
         return "%s's profile" % self.user

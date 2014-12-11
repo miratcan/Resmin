@@ -1,0 +1,49 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block extra_head %}
+  <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+  <script src="{{ STATIC_URL }}js/html.sortable.js"></script>  
+  <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
+  <script src="{{ STATIC_URL }}js/backbone-min.js"></script>
+  <script src="{{ STATIC_URL }}js/spark-md5.min.js"></script>
+  <script>$(function () {});</script>
+{% endblock %}
+
+{% block content %}
+<div class="wrap narrow">
+  <form method="post" id="answer_form">
+    <div class="panel-left">
+      {% csrf_token %}
+      <input id="id_images" name="images" style="display: none;" type="file" multiple/>
+      <div class="oa db">{{ story_form.non_field_errors }}</div>
+      <div id="slot-list"></div>
+      <div id="image-select-box" class="pl pr ptd pbd bb f_stng green tac mb" style="cursor: pointer;">{% trans "Add Images" %}</div>
+      {{ story_form.slot_data }}
+      {{ story_form.question }}
+      <input type="submit" id="submit" class="bttn pa green row db oa tac" value="{% trans 'Save' %}" />
+    </div>
+    <div class="panel-right">
+      <div class="db mb oa bb">
+
+        <p>{{ story_form.title }}</p>
+        <p>{{ story_form.description }}</p>
+        
+        {% if story_form.is_anonymouse %}<p class="oa db mb">{{ story_form.is_anonymouse }} {{ story_form.is_anonymouse.label_tag }}</p>{% endif %}
+        <p class="oa db">{{ story_form.is_nsfw }} {{ story_form.is_nsfw.label_tag }}</p>
+        <p class="oa db">{{ story_form.visible_for }}</p>
+      </div>
+      {% if story_form.question %}<p class="f_weak"><a href="{{ story_form.question.get_absolute_url }}">{{ story_form.question.meta.text }}</a> sorusuna cevap olarak göndermektesin.</p>{% endif %}
+      <p class="f_weak">İstersen Adımı Gizle seçeneğini kullanarak anonim cevap verebilirsin.</p>
+      <p class="f_weak">Açıklama kısmını kullanırsan dil kurallarına uyman gerektiğini söylememize gerek yok umuyoruz.</p>
+    </div>
+  </form>
+</div>
+
+{% if story_form.instance %}
+  <script>var slotData = {{ story_form.instance.serialize_slots|safe }};</script>
+{% else %}
+  <script>var slotData = [];</script>
+{% endif %}
+  <script src="{{ STATIC_URL }}js/create_story.js"></script>
+
+{% endblock %}

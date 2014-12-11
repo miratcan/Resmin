@@ -2,7 +2,7 @@
 
 *           { margin: 0; padding: 0;}
 
-.content    { min-height: 400px; background   : #efefef url(http://ivorycity.com/global/images/background.png); }
+.content    { min-height: 400px; background: #ddd; }
 
 .bg         { background   : @white }
 .bg-dark    { background   : #ddd; }
@@ -33,12 +33,12 @@ p           { .f_nrml; .c_nrml; .mb; }
 .c_stng     { color        : #222222; }
 
 .wrap       { max-width: 1200px;
-              .pl; .pr;
+              .pl; .pr; position: relative;
               margin: 0 auto;}
 
 .narrow     { max-width: 800px; }
 .shadowed   {
-    box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #ccc; 
 }
 
 .np         { padding: 0; }
@@ -183,9 +183,9 @@ img.db      { width: 100%; }
 
 .u_info     { }
 .p_pic      { width: 72px; float: left; margin: 0 10px 0 0;}
-.q_s        { .f_stng; .c_weak; .wb; .mtd; .mbd; .oa; }
-p.actions { .f_weak; .wn; }
-p.actions > a { .mr;}
+.q_s        { .f_stng; .c_weak; .wb; }
+ul.actions { .f_weak; .wn; }
+ul.actions > a { .mr;}
 
 /*.answer_actions a 
               { .db; }*/
@@ -204,12 +204,19 @@ form            { overflow: auto; margin-bottom: 10px;}
 input[type='text'],
 input[type='password'],
 input[type='file'],
-textarea         { border: none; .mb; }
+input[type='url'],
+input[type='email'],
+textarea         { border: none; .bb; .mb; }
 
 label            { display: block;
                    .f_nrml; .c_nrml; .mbh; .mr; }
+label[for='id_is_anonymouse'] {
+  display: inline; .fl;
+}
 input[type=text],
 input[type=password],
+input[type='url'],
+input[type='email'],
 textarea
                  { box-sizing: border-box; /* css3 rec */
                    -moz-box-sizing: border-box; /* ff2 */
@@ -275,7 +282,7 @@ form#preferences {
 #answer_form {
   input, inlineFieldWrapper { .fl; }
   label { .fl; .mr; }
-  input[type=checkbox] { margin-top: 3px; }
+  input[type=checkbox] { margin: 3px 10px 0 0; }
   #id_image { display: none; }
   #file-select-box {
     background-image: url(https://cdn3.iconfinder.com/data/icons/files/100/237034-file_document_add_plus-32.png);
@@ -312,14 +319,37 @@ form#preferences {
   }
 }
 
+.like-big {
+  .pa; .ra; .db; .tac; .f_stng;
+  color: white; border-bottom: 3px solid #C15D63; background: #E17D83;
+  cursor: pointer;
+  .active { display: none; }
+  .passive { display: initial; }
+}
+
+.like-big:active, .like-big.active {
+  padding-top: 13px;
+  border-bottom: none;
+  background: #C15D63;
+}
+
+.like-big.active {
+  .active { display: initial; }
+  .passive { display: none; };
+}
+
+
 #hidden_part { display: none; }
 
 .ishadow {
   box-shadow: 0 5px 5px #aaa inset;
 }
 
-.panel-left { width: 65%; .fl; }
-.panel-right { width: 32.5%; .mt; .pb; .fr; }
+.panel-left { .db; margin-right: 320px; }
+.panel-right {
+  width: 300px; .pb; position: absolute; top: 0; right: 0;
+  .section { .db; .bb; .mb; }
+}
 
 .question {
   height: 270px;
@@ -346,6 +376,49 @@ form#preferences {
 .question .inner a { color: #fff;}
 .question .inner p { color: #ccc;}
 
+#slot-list { .db; .oa; }
+
+.slot {
+
+  .mah;
+  .fl;
+
+  background: #efefef;
+  cursor: move;
+
+  .remove {
+    position: absolute;
+    top: 2px;
+    right: 2px}
+
+  .thmbWrap {
+    width: 100px;
+    min-height: 100px;
+    float: left;
+    position: relative;
+    background: url(../img/loading.gif) center center no-repeat #fff;
+
+    .thmb {
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
+
+    .thmb.visible {
+      opacity: 1;
+    }
+
+    .indicator {
+       position: absolute;
+       top: 0;
+       left: 0;
+       height: 10px;
+       width: 0%;
+       .bttn.green;
+    }
+  }
+}
+
 @media only screen and (max-width:800px) {
   .thmb-row {
     white-space:nowrap;
@@ -366,4 +439,17 @@ form#preferences {
     .np;
   }
   .panel-right { .bb; .mb; }
+}
+
+.sortable-placeholder {   
+   height: 100px;
+   width: 100px;
+   float: left;
+   margin: 5px;
+   background: white;
+}
+
+#update-captions {
+  width: 100%;
+  td.thmbCell { width: 105px; }
 }

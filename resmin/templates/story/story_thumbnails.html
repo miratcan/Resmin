@@ -1,0 +1,10 @@
+{% load i18n %}
+{% if stories %}
+  <div id="thumbnails">
+    {% for story in stories %}
+      {% include "story/story_thumbnail.html" %}
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="imp pa f_stng tac">{% trans "No Answers Found Here" %}</p>
+{% endif %}

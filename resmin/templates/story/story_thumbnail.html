@@ -1,0 +1,27 @@
+{% load thumbnail liked_by %}{% load i18n %}
+<div class="thmb-wrap shadowed" style="position: relative">
+  {% if story.is_nsfw %}
+    <div class="nsfw_block">
+      <a href="{{ story.get_absolute_url }}">AYIPÇI</a>
+    </div>
+  {% else %}
+    {% thumbnail story.slot_set.all.0.content.image "220" as thmb %}
+      <a class="thmb" style="height: {{ thmb.height }}px; width: {{ thmb.width }}px; background-image: url({{ thmb.url }});" href="{{ story.get_absolute_url }}">
+      </a>
+    {% endthumbnail %}
+  {% endif %}
+  <div class="footer oa db pl pr">
+    <div class="username">
+      {% if story.visible_for == 1 %}
+        <a href="#" title='{% trans "This story is visible for followers." %}' class="private_answer_indicator"></a>
+      {% endif %}
+      {% include "auth/username_inc.html" with user=story.owner anonymouse=story.is_anonymouse narrow=True %}
+    </div>
+    {% include "story/like_button_inc.html" %}
+  </div>
+  {% if show_question_info_below_answers %}
+    {% for meta in story.mounted_question_metas.all %}
+      <div class="oa pa db bt f_tiny"><a href="{{ meta.get_absolute_url }}">{{ meta.text }}</a></div>
+    {% endfor %}
+  {% endif %}
+</div>

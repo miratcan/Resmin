@@ -1,10 +1,10 @@
 {% load thumbnail i18n %}
 {% with profile=profile_user.userprofile %}
-  <div class="narrow fc mbd bg pa ra">
+  <div class="bg pa narrow" style="margin: 0 auto;">
     <div class="mb oa pt" style="position: relative;">
       <div class="fr pa" >
       	<p class="f_weak nm">{{ profile.like_count }} {% trans "Like" %}</p>
-        <p class="f_weak nm">{{ profile.answer_count }} {% trans "Answer" %}</p>
+        <p class="f_weak nm">{{ profile.story_count }} {% trans "Story" %}</p>
         <p class="f_weak nm">
           <a href="{% url 'followers' profile_user.username %}">{{ profile.follower_count }} {% trans "Follower" %}</a>
         </p>
@@ -12,14 +12,16 @@
           <a href="{% url 'followings' profile_user.username %}">{{ profile.following_count }} {% trans "Following" %}</a>
         </p>
       </div>
-      {% thumbnail profile.avatar "100x100" crop="center" as im %}
-        <img class="fl mr" src="{{ im.url }}" style="position: absolute">
-      {% endthumbnail %}
+      {% if profile.avatar %}
+        {% thumbnail profile.avatar "100x100" crop="center" as im %}
+          <img class="fl mr" src="{{ im.url }}" style="position: absolute">
+        {% endthumbnail %}
+      {% else %}
+        <img class="fl mr" src="http://chatwing.com/images/no-avatar.gif" style="position: absolute; width: 100px; height: 100px;">
+      {% endif %}
       <p class="mb f_weak" style="margin-left: 110px;"><a class="username f_stng wb" href="/u/{{profile_user.username}}">{{ profile_user }}</a></p>
       {% if profile.bio %}<p style="margin-left: 110px;">{{ profile.bio }}{% if profile.location %} <span class="f_weak c_weak"> / {{ profile.location }}</span>{% endif %}
-      {% if profile.website %}<span class="f_weak"> / <a href="{{ profile.website }}">{{ profile.website }}</a></span>{% endif %}
-</p>{% endif %}
-
+      {% if profile.website %}<span class="f_weak"> / <a href="{{ profile.website }}">{{ profile.website }}</a></span>{% endif %}</p>{% endif %}
       </ul>
     </div>
     {% if follow_form %}
@@ -70,11 +72,5 @@
       {% endif %}
     {% endif %}
   </div>
-  <form method="post" class="narrow pa ra fc mbd">
-      {% csrf_token %}
-      {{ question_form }}
-      <input type="submit" class="fr bttn green"/>
-  </form>
-
 {% endwith %}
 

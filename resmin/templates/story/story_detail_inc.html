@@ -1,0 +1,78 @@
+{% load i18n thumbnail liked_by %}
+
+  <div class="panel-left">
+    {% if story.status == story.DRAFT %}
+      <p class="mbd imp tac pa">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
+    {% endif %}
+    {% for slot in story.slot_set.all %}
+      <div id="slot{{ slot.order }}" class="pa bg bb mbd" style="border-bottom-width: 3px; position: relative;">
+        {% if slot.title %}<h3 class="mb">{{ slot.title }}</h3>{% endif %}
+        {% thumbnail slot.content.image "900" as img %}
+          <img src="{{ img.url }}" class="mb">
+        {% endthumbnail %}
+        {% if slot.description %}{{ slot.description|linebreaks }}{% endif %}
+        <p class="nm tar f_weak"><a href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></p>
+      </div>
+    {% endfor %}
+    <div class="db pl pr oa">
+      <div class="f_weak fl mth">{% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse %}</div>
+    </div>
+  </div>
+  <form id="action_form" method="post" style="display: none;">
+    {% csrf_token %}
+    <input name="delete" id="delete_submit" type="submit" />
+    <input name="publish" id="publish_submit" type="submit" />
+    <input name="set_cover" type="submit" />
+  </form>
+<div class="panel-right">
+  <div class="section">
+    {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
+    {% if story.description %}{{ story.description|linebreaks }}{% endif %}
+    <p class="f_weak c_weak">
+      {% if story.is_anonymouse %}
+        {% blocktrans %}Posted by an anonymouse user.{% endblocktrans %}
+      {% else %}
+        {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url %}Posted by <a href="{{ story_owner_url }}">{{ story_owner }}</a>.{% endblocktrans %}
+      {% endif %} Visible to {{ story.get_visible_for_display|lower }}.
+    </p>
+  </div>
+  <div class="section">
+  <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
+  </div>
+  {% with likers=story.get_likers_from_redis %}
+    {% if likers %}
+      <div class="section">
+        <p class="wb">{% trans "Likers" %}</p>
+        {% if story.owner == user %}
+          <p>{% for liker in likers %} {% include "auth/username_inc.html" with user=liker %}, {% endfor %}</p>
+        {% else %}
+          <p>{% trans 'Likers can be seen by owner of story.' %}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  <div class="section">
+    <p class="wb">{% trans "Links" %}</p>
+    <input type="text" value="http://{{ current_site.domain }}{{ story.get_absolute_url }}" />
+  </div>
+  <div class="section">
+    <p class="wb">{% trans "Mounted Questions" %}</p>
+    <ul class="mb">
+      {% for question_meta in story.mounted_question_metas.all %}
+        <li><a href="{{ question_meta.get_absolute_url }}">{{ question_meta }}</a></li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% if story.owner == request.user %}
+  <div class="section">
+    <p class="wb">{% trans 'Actions' %}</p>
+    <ul class="mb">
+      {% if story.status == story.DRAFT %}<li><a href="#" id="publish_button">{% trans "Publish" %}</a></li>{% endif %}
+      <li><a href="{{ story.get_update_images_url }}">{% trans "Update" %}</a></li>
+      <li><a href="{{ story.get_update_details_url }}">{% trans "Edit" %}</a></li>
+      {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+

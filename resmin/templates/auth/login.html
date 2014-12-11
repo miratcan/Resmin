@@ -1,19 +1,18 @@
 {% extends "base.html" %}{% load i18n %}
+{% block wrap_class %}narrow{% endblock %}
 {% block content %}
-  <div class="narrow fc">
-    <div class="panel-right">
-      {% url 'password_reset' as password_reset_url %}
-      <p class="mb">{% blocktrans %}<a href="/">Resm.in</a> is a question/answer platform where you can only answer sharing pictures.{% endblocktrans %}</p>
-      <p class="mb">{% blocktrans %}<a href="{{ password_reset_url }}">Forgotten password?</a>{% endblocktrans %}</p>
-    </div>
-    <div class="panel-left">
-      {% url 'register' as register_url %}
-      <h2 class="f_stng mbd" style="clear: both;">{% blocktrans %}Sign in <span class="f_weak c_weak wn">or <a href="{{ register_url }}">get registered</a>?</span>{% endblocktrans %}</h2>
-      <form method="post">
-        {% csrf_token %}
-        {{ form }}
-        <input class="fr bttn green ra" type="submit" value="{% trans 'Login' %}">
-      </form>
-    </div>
+  <div class="panel-right">
+    {% url 'password_reset' as password_reset_url %}
+    <p class="mb">{% blocktrans %}<a href="/">Resm.in</a> is a question/answer platform where you can only answer sharing pictures.{% endblocktrans %}</p>
+    <p class="mb">{% blocktrans %}<a href="{{ password_reset_url }}">Forgotten password?</a>{% endblocktrans %}</p>
+  </div>
+  <div class="panel-left">
+    {% url 'register' as register_url %}
+    <h2 class="f_stng mbd" style="clear: both;">{% blocktrans %}Sign in <span class="f_weak c_weak wn">or <a href="{{ register_url }}">get registered</a>?</span>{% endblocktrans %}</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form }}
+      <input class="fr bttn green ra" type="submit" value="{% trans 'Login' %}">
+    </form>
   </div>
 {% endblock content %}

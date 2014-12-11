@@ -1,0 +1,27 @@
+{% extends "base.html" %}{% load i18n %}
+
+{% block content %}
+<ul>
+{% for question in pending_questions %}
+  <li>
+    <p>
+      {% if question.is_anonymouse %}
+        {% blocktrans with question_text=question.question.text question_url=question.question.get_absolute_url %}Anonymouse user wants you to answer "<a href="{{ question_url }}">{{ question_text }}</a>"{% endblocktrans %}
+      {% else %}
+        {% blocktrans with questioner_username=question.questioner.username questioner_url=question.questioner.get_absolute_url question_text=question.question.text question_url=question.question.get_absolute_url %}<a href="{{ questioner_url }}">{{ questioner_username }}</a> wants you to answer <a href="{{ question_url }}">{{ question_text }}</a>{% endblocktrans %}
+      {% endif %}
+    </p>
+    <p>
+      <a href="{% url 'create-story' base62_id=question.meta.base62_id %}?qid={{ question.id }}">{{ question.meta.text }}</a>
+    </p>
+  </li>
+{% empty %}
+  </ul>
+  <div class="narrow fc bg ra pa">
+    <p class="f_stng">{% trans "There are no pending answer requests." %}</p>
+    <p>{% trans "Share your resm.in profile on your social media accounts to get more answer requests." %}</p>
+    <p><span class="imp">{{ site.domain }}{{ user.get_absolute_url }}</span></p>
+  </div>
+{% endfor %}
+</ul>
+{% endblock content %}

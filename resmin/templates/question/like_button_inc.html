@@ -1,5 +1,0 @@
-{% load liked_by %}
-<div class="like-wrap like-button" data-answer-id="{{answer.id}}">
-  <div class="count">{{ answer.like_count }}</div>
-  <div class="heart{% if answer|is_liked_by:user %} pink{% endif %}">&#10084;</div>
-</div>

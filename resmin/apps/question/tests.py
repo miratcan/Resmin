@@ -210,7 +210,7 @@ class QuestionAnswerTest(TestCase):
         # Get answer at database
         answer = Answer.objects.all()[0]
 
-        # Answer should have 1 visible_for_user
+        # Story should have 1 visible_for_user
         self.assertEqual(len(answer.visible_for_users.all()), 1)
 
         # There must be no answers at homepage
