@@ -20,7 +20,7 @@ redis = get_redis_connection('default')
 
 
 @login_required
-def index(request, sub='public'):
+def index(request):
     """
 
     If user is authenticated and not registered email we will show
@@ -28,21 +28,24 @@ def index(request, sub='public'):
     """
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
-    stories = Story.objects\
-        .from_followings(request.user)\
-        .filter(status=Story.PUBLISHED)
-    latest_asked_questions = QuestionMeta.objects.order_by(
-        '-created_at')[:10]
-    latest_answered_questions = QuestionMeta.objects.order_by(
-        '-updated_at')[:10]
+
+    if request.GET.get('filter') == 'public':
+        stories = Story.objects\
+            .filter(status=Story.PUBLISHED)
+    else:
+        stories = Story.objects\
+            .from_followings(request.user)\
+            .filter(status=Story.PUBLISHED)
+
+    recommened_questions = QuestionMeta.objects.\
+        filter(is_featured=True).order_by('?')[:10]
 
     return render(request,
                   "index2.html",
                   {'page_name': 'index',
                    'stories': paginated(request, stories,
                                         settings.STORIES_PER_PAGE),
-                   'latest_asked_questions': latest_asked_questions,
-                   'latest_answered_questions': latest_answered_questions,
+                   'recommened_questions': recommened_questions,
                    'show_email_message': show_email_message})
 
 

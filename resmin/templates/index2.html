@@ -13,20 +13,16 @@
 {% endblock %}
 
 {% block content %}
-  <p class="mbd"><a href="">{% trans 'From Followings' %}</a> / <a href="">{% trans 'Public' %}</a></p>
+  <p class="mbd wrap"><a href="">{% trans 'From Followings' %}</a> / <a href="">{% trans 'Public' %}</a></p>
   {% if stories %}
     <div id="thumbnails">
+      {% if recommened_questions %}
       <div class="thmb-wrap pa" style="box-sizing: border-box">
-        <h4 class="mb bb pbh">{% trans "Latest Asked Questions" %}</h4>
-        {% for question in latest_asked_questions %}
+        <h4 class="mb bb pbh">{% trans "Recommened Questions" %}</h4>
+        {% for question in recommened_questions %}
           <p class="f_tiny mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
         {% endfor %}
-      </div>
-      <div class="thmb-wrap pa" style="box-sizing: border-box">
-        <h4 class="mb bb pbh">{% trans "Latest Answered Questions" %}</h4>
-        {% for question in latest_answered_questions %}
-          <p class="f_tiny mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
-        {% endfor %}
+      {% endif %}
       </div>
       {% for story in stories %}
         {% include "story/story_thumbnail.html" with show_question_info_below_answers=True %}
