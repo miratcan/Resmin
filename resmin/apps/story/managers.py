@@ -19,3 +19,4 @@ class StoryManager(models.Manager):
         return super(StoryManager, self)\
             .get_query_set()\
             .filter(mounted_question_metas=qm)
+

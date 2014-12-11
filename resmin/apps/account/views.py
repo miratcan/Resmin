@@ -54,8 +54,9 @@ def profile(request, username=None, action=None):
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        ctx['stories'] = Story.objects.from_user(user)\
-                                      .filter(is_anonymouse=False)
+        ctx['stories'] = Story.objects\
+            .from_user(user)\
+            .filter(is_anonymouse=False, status=Story.PUBLISHED)
 
     if request.POST:
         questioner = request.user if request.user.is_authenticated() else None

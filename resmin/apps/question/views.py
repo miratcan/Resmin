@@ -28,7 +28,9 @@ def index(request, sub='public'):
     """
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
-    stories = Story.objects.from_followings(request.user)
+    stories = Story.objects\
+        .from_followings(request.user)\
+        .filter(status=Story.PUBLISHED)
     latest_asked_questions = QuestionMeta.objects.order_by(
         '-created_at')[:10]
     latest_answered_questions = QuestionMeta.objects.order_by(
@@ -47,7 +49,10 @@ def index(request, sub='public'):
 def question(request, base62_id, show_delete=False, **kwargs):
     question = get_object_or_404(QuestionMeta,
                                  id=base62.to_decimal(base62_id))
-    stories = Story.objects.from_question_meta(question)
+    stories = Story.objects\
+        .from_question_meta(question)\
+        .filter(status=Story.PUBLISHED)
+
     return render(request, "question/question_detail.html", {
         'question': question,
         'stories': paginated(request, stories, settings.STORIES_PER_PAGE)})
