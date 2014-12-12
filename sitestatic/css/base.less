@@ -144,7 +144,7 @@ p           { .f_nrml; .c_nrml; .mb; }
 
 body        { font-family: sans-serif; .f_nrml; .c_nrml; background: #fff; }
 .subnav     { .pa; .bg-dark; .bb; }
-
+.navitem    { display: block; }
 #logo, a    { text-decoration: none; }
 
 a:hover     { text-decoration: underline; }
@@ -434,7 +434,10 @@ form#preferences {
 
 @media only screen and (max-width:400px) {
   .panel-left, .panel-right {
-    width: 100%;
+    position: initial;
+    display: block;
+    margin: 0;
+    padding: 0;
     float: both;
     border-left: none;
     .np;
