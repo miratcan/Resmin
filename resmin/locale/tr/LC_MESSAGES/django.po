@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-11 21:07+0200\n"
+"POT-Creation-Date: 2014-12-13 16:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -198,51 +198,55 @@ msgstr "post metodu gerekli."
 msgid "Story questions with pics."
 msgstr "Sorulara görsellerle cevap ver"
 
-#: templates/base.html:30
+#: templates/base.html:31
 msgid "Wall"
 msgstr "Duvar"
 
-#: templates/base.html:31
+#: templates/base.html:32
 msgid "Pending Questions"
 msgstr "Bekleyen Sorular"
 
-#: templates/base.html:32
+#: templates/base.html:33
 msgid "Follow Requests"
 msgstr "Mürit Olma Talepleri"
 
-#: templates/base.html:33
+#: templates/base.html:34
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: templates/base.html:34
+#: templates/base.html:35
 msgid "Top Users"
 msgstr "Sevdicekler"
 
-#: templates/base.html:38 templates/auth/login.html:15
+#: templates/base.html:36 templates/auth/login.html:15
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/base.html:50
+#: templates/base.html:38
+msgid "Menu"
+msgstr "Menü"
+
+#: templates/base.html:56
 msgid "twitter"
 msgstr ""
 
-#: templates/base.html:51
+#: templates/base.html:57
 msgid "facebook"
 msgstr ""
 
-#: templates/base.html:52
+#: templates/base.html:58
 msgid "blog"
 msgstr ""
 
-#: templates/base.html:53 templates/base.html.py:73
+#: templates/base.html:59 templates/base.html.py:79
 msgid "suggestions"
 msgstr "istek & öneri"
 
-#: templates/base.html:54
+#: templates/base.html:60
 msgid "api"
 msgstr ""
 
-#: templates/base.html:58
+#: templates/base.html:64
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -305,7 +309,7 @@ msgstr "Önerilen Sorular"
 msgid "Foo"
 msgstr "Müridi Ol"
 
-#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:50
+#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:51
 msgid "Update Email"
 msgstr "E-Posta Güncelle"
 
@@ -413,7 +417,7 @@ msgstr "Tercihleri Güncelle"
 msgid "Save"
 msgstr "Kaydet"
 
-#: templates/auth/register.html:5
+#: templates/auth/register.html:7
 msgid ""
 "In order to get signed up at <a href=\"/\">Resm.in</a> you need an "
 "invitation code."
@@ -421,7 +425,7 @@ msgstr ""
 "<a href=\"/\">Resm.in</a>'e kayıt olabilmek için bir davetiye koduna "
 "ihtiyacın var."
 
-#: templates/auth/register.html:6
+#: templates/auth/register.html:8
 msgid ""
 "You can ask for an invitation code from a friend who has a resm.in account, "
 "or you can ask for an invitation sending a picture of yours where your face "
@@ -433,39 +437,39 @@ msgstr ""
 "gözükecek şekilde ve elinde \"merhaba\" yazan bir karton ile fotoğraf "
 "göndererek davetiye isteyebilirsin."
 
-#: templates/auth/register.html:11 templates/auth/register.html.py:15
+#: templates/auth/register.html:13 templates/auth/register.html.py:17
 msgid "Register"
 msgstr "Kayıt Ol"
 
-#: templates/auth/register.html:11
+#: templates/auth/register.html:13
 msgid "or"
 msgstr "veya"
 
-#: templates/auth/register.html:11
+#: templates/auth/register.html:13
 msgid "Sign in"
 msgstr "Giriş yap"
 
-#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:49
+#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:50
 msgid "Update Profile"
 msgstr "Profili Güncelle"
 
-#: templates/auth/user_detail_inc.html:6
+#: templates/auth/user_detail_inc.html:7
 msgid "Like"
 msgstr "Kalp"
 
-#: templates/auth/user_detail_inc.html:7
+#: templates/auth/user_detail_inc.html:8
 msgid "Story"
 msgstr ""
 
-#: templates/auth/user_detail_inc.html:9
+#: templates/auth/user_detail_inc.html:10
 msgid "Follower"
 msgstr "Mürit"
 
-#: templates/auth/user_detail_inc.html:12
+#: templates/auth/user_detail_inc.html:13
 msgid "Following"
 msgstr "Mürşit"
 
-#: templates/auth/user_detail_inc.html:30
+#: templates/auth/user_detail_inc.html:31
 msgid ""
 "Blocking this user means that you wouldn't dispose any of your questions or "
 "answers while you wouldn't be to see any question or answer. Is this cool?"
@@ -473,7 +477,7 @@ msgstr ""
 "Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da "
 "senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?"
 
-#: templates/auth/user_detail_inc.html:33
+#: templates/auth/user_detail_inc.html:34
 msgid ""
 "As you unblock you'd be able to see questions & answers by this user who "
 "would also be able to access your contributions. Am I magnificient?"
@@ -481,39 +485,39 @@ msgstr ""
 "Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını "
 "görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?"
 
-#: templates/auth/user_detail_inc.html:36
+#: templates/auth/user_detail_inc.html:37
 msgid "You want to be a disciple of this user. You're nuts..."
 msgstr "Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?"
 
-#: templates/auth/user_detail_inc.html:39
+#: templates/auth/user_detail_inc.html:40
 msgid "Me don't want no more contact with this user. Ummmm are you bored?"
 msgstr "Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?"
 
-#: templates/auth/user_detail_inc.html:51
+#: templates/auth/user_detail_inc.html:52
 msgid "Invitations"
 msgstr "Davetiyeler"
 
-#: templates/auth/user_detail_inc.html:52
+#: templates/auth/user_detail_inc.html:53
 msgid "Log Out"
 msgstr "Çıkış Yap"
 
-#: templates/auth/user_detail_inc.html:56
+#: templates/auth/user_detail_inc.html:57
 msgid "Unblock"
 msgstr "Engeli Kaldır"
 
-#: templates/auth/user_detail_inc.html:59
+#: templates/auth/user_detail_inc.html:60
 msgid "Unfollow"
 msgstr "Müritlikten Çık"
 
-#: templates/auth/user_detail_inc.html:62
+#: templates/auth/user_detail_inc.html:63
 msgid "Your follow request sent"
 msgstr "Mürit Olma İsteği Gönderilmiş"
 
-#: templates/auth/user_detail_inc.html:64
+#: templates/auth/user_detail_inc.html:65
 msgid "Follow"
 msgstr "Müridi Ol"
 
-#: templates/auth/user_detail_inc.html:67
+#: templates/auth/user_detail_inc.html:68
 msgid "Block"
 msgstr "Engelle"
 
@@ -700,49 +704,49 @@ msgstr ""
 "Bu hikaye şu anda müsvette durumunda, yayınla butonuna basarak başkaları "
 "için görünür hale getir."
 
-#: templates/story/story_detail_inc.html:33
+#: templates/story/story_detail_inc.html:36
 msgid "Posted by an anonymouse user."
 msgstr "Gizli kullanıcı tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:35
+#: templates/story/story_detail_inc.html:38
 #, python-format
 msgid "Posted by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>."
 msgstr ""
 "<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:45
+#: templates/story/story_detail_inc.html:48
 msgid "Likers"
 msgstr "Kalpleyenler"
 
-#: templates/story/story_detail_inc.html:49
+#: templates/story/story_detail_inc.html:52
 msgid "Likers can be seen by owner of story."
 msgstr "Kalpleyenler hikaye sahibi tarafından görüntülenebilir."
 
-#: templates/story/story_detail_inc.html:64
+#: templates/story/story_detail_inc.html:67
 msgid "Mounted Questions"
 msgstr "Bağlı Sorular"
 
-#: templates/story/story_detail_inc.html:73
+#: templates/story/story_detail_inc.html:76
 msgid "Actions"
 msgstr "Hareketler"
 
-#: templates/story/story_detail_inc.html:75
+#: templates/story/story_detail_inc.html:78
 msgid "Publish"
 msgstr "Yayınla"
 
-#: templates/story/story_detail_inc.html:76
+#: templates/story/story_detail_inc.html:79
 msgid "Update"
 msgstr "Güncelle"
 
-#: templates/story/story_detail_inc.html:77
+#: templates/story/story_detail_inc.html:80
 msgid "Edit"
 msgstr "Düzenle"
 
-#: templates/story/story_detail_inc.html:78
+#: templates/story/story_detail_inc.html:81
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/story/story_detail_inc.html:78
+#: templates/story/story_detail_inc.html:81
 msgid "Click here if you're sure to delete."
 msgstr "Silmeye eminsen buraya tıkla."
 
