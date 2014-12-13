@@ -294,7 +294,7 @@ msgstr "Takip Ettiğim Kişilerden"
 
 #: templates/index2.html:16
 msgid "Public"
-msgstr "Umumi"
+msgstr "Herkesten"
 
 #: templates/index2.html:21
 msgid "Recommened Questions"

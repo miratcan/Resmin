@@ -1,6 +1,8 @@
 {% extends "base.html" %}{% load i18n %}
+
+{% block wrap_class %}narrow{% endblock %}
+
 {% block content %}
-  <div class="narrow fc">
     <div class="panel-right">
       <p class="mb">{% blocktrans %}In order to get signed up at <a href="/">Resm.in</a> you need an invitation code.{% endblocktrans %}</p>
       <p class="mb">{% blocktrans %}You can ask for an invitation code from a friend who has a resm.in account, or you can ask for an invitation sending a picture of yours where your face is visible and you holding a card written "hello!" on it to <a href="mailto:merhaba@resm.in">merhaba@resm.in</a> !{% endblocktrans %}</p>
@@ -14,5 +16,4 @@
         <input class="fr bttn green ra" type="submit" value="{% trans 'Register' %}">
       </form>
     </div>
-  </div>
 {% endblock content %}
