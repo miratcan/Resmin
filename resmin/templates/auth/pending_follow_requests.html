@@ -9,7 +9,7 @@
 <div class="narrow fc bg ra pad">
   <ul class="nostyle">
   {% for follow_request in pending_follow_requests %}
-    <li class="pa bb mb" data-frpk="{{ follow_request.pk }}">
+    <li class="bb pad" data-frpk="{{ follow_request.pk }}">
       <p>{% blocktrans with username=follow_request.follower.username url=follow_request.follower.get_absolute_url %}<a href="{{ url }}">{{ username }}</a> wants to be your follower.{% endblocktrans %}</p>
       <p><a class="action" data-action='accept' href="#">{% trans 'Accept' %}</a> / <a class="action" data-action='decline' href="#">{% trans 'Decline' %}</a></p>
     </li>
@@ -28,19 +28,15 @@
 $(document).ready(function() {
   $('.action').click(function(ev){
     var target = $(ev.target);
-    var id = target.parent().attr('id');
+    var frpk = target.parent().parent().attr('data-frpk');
     var action = target.attr('data-action');
     $.ajax({
       method: "post",
-      url: "/upfr/",
-      data: {'id': id, 'action': action}
+      url: "/pfra/",
+      data: {'pk': frpk, 'action': action}
     })
     .done(function(data) {
-      if (data['success'] === true) {
-        target.parent().slideUp('slow');
-      } else {
-        alert('Bir hata oluştu... Bize nazar deymiş olabilir.');
-      }
+      target.parent().parent().slideUp('slow');
     });
   })
 });

@@ -7,7 +7,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import get_current_site
-from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from datetime import datetime, timedelta
 from redis_cache import get_redis_connection
@@ -18,6 +17,7 @@ from apps.account.models import (Invitation, UserProfile,
 from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
                                 EmailCandidateForm, QuestionForm)
 from apps.question.models import (QuestionMeta, Question)
+from django.http import HttpResponseBadRequest
 from apps.follow.models import UserFollow
 from apps.notification.utils import notify
 from apps.notification.decorators import delete_notification
@@ -124,18 +124,24 @@ def pending_questions(request):
         {'pending_questions': qs, 'site': site})
 
 
-@csrf_exempt
 @login_required
-def update_pending_follow_request(request):
+def pending_follow_request_action(request):
     if request.method == 'POST':
-        fid = request.POST['id']
+
+        frpk = request.POST.get('pk')
+        try:
+            frpk = int(frpk)
+        except ValueError:
+            return render_to_json(
+                {'errMsg': 'Invalida data'}, HttpResponseBadRequest)
+
         action = request.POST['action']
 
         follow_request = get_object_or_404(
-            UserFollow, id=fid, target=request.user)
+            UserFollow, pk=frpk, target=request.user)
 
         if action == 'accept':
-            follow_request.status = 1
+            follow_request.status = UserFollow.FOLLOWING
             follow_request.save()
             follower_count_changed.send(sender=request.user)
             notify(follow_request.target,
@@ -144,7 +150,6 @@ def update_pending_follow_request(request):
                    follow_request.follower,
                    follow_request.target.get_absolute_url())
             return render_to_json({'success': True})
-
         if action == 'decline':
             follow_request.delete()
             return render_to_json({'success': True})

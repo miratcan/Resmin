@@ -18,8 +18,8 @@ urlpatterns = patterns(
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
 
-    url(r'^upfr/$', 'apps.account.views.update_pending_follow_request',
-        name='update-pending-follow-request'),
+    url(r'^pfra/$', 'apps.account.views.pending_follow_request_action',
+        name='pending-follow-request-action'),
 
     url(r'^u/(?P<username>[-\w]+)/(?P<action>(block|unblock|follow|unfollow))?/?$',
         'apps.account.views.profile',

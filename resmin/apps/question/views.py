@@ -108,7 +108,6 @@ def like(request):
 
 @login_required
 def pending_question_action(request):
-
     def _reject(question):
         question.status = Question.REJECTED
         question.save()
