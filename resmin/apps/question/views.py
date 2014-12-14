@@ -3,10 +3,7 @@ import json
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest
-
-from django.utils import simplejson
-from django.utils.translation import ugettext as _
+from django.http import HttpResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from redis_cache import get_redis_connection
@@ -101,7 +98,7 @@ def like(request):
     story = get_object_or_404(Story, id=int(sid))
     is_liked = story.set_like(request.user, liked=bool(int(val)))
     like_count = story.get_like_count_from_redis()
-    return HttpResponse(simplejson.dumps(
+    return HttpResponse(json.dumps(
         {'like_count': like_count,
          'is_liked': is_liked}))
 
