@@ -44,7 +44,7 @@ msgstr "Şifre alanları aynı olmalı"
 
 #: apps/account/forms.py:53
 msgid "This key reached it's maximum use limit. It cant be used anymore."
-msgstr ""
+msgstr "Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
 
 #: apps/account/forms.py:59
 msgid "Invalid invitation key"
@@ -390,7 +390,7 @@ msgstr ""
 
 #: templates/auth/pending_follow_requests.html:9
 msgid "Accept"
-msgstr "Kabul ediyorum"
+msgstr "Kabul et"
 
 #: templates/auth/pending_follow_requests.html:10
 msgid "Decline"

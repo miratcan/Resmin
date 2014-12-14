@@ -1,5 +1,17 @@
 /*
   Color names taken from colourlovers.com
+  Item's less than 2 definitions can be written as one line:
+
+  Items with one line can be grouped: 
+
+  a    { margin: 0; padding: 0; }
+  li   { margin: 15px; padding: 5px; }
+  p    { background: red; }
+       ^
+       |
+  When items grouped take bracelets on same column.
+  Leave 1 space between bracelets and content.
+  Leave 1 space after ;.
 */
 
 @White: #FFFFFF;
@@ -14,31 +26,13 @@
 @St2: #525B64;
 @Charcoal: #222222;
 
-*{
-  margin: 0;
-  padding: 0;
-}
-
-.content {
-  min-height: 400px;
-  background: #ddd;
-}
-
-.bg         {
-  background: @White
-}
-
-.bg-dark    {
-  background: @Darmstadtium;
-}
-
-a {
-  color: Darmstadtium;
-}
-
-.content a, .pink {
-  color: @PositivePink;
-}
+*           { margin: 0; padding: 0; }
+.content    { min-height: 400px; background: #ddd; }
+.bg         { background: @White }
+.bg-dark    { background: @Darmstadtium; }
+a           { color: Darmstadtium; }
+.content a,
+.pink       { color: @PositivePink; }
 
 .errorlist  {
   background: @Pink;

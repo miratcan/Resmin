@@ -62,11 +62,13 @@ class UserFollow(FollowBase):
     PENDING = 0
     FOLLOWING = 1
     BLOCKED = 2
+    FOLLOWING_RESTRICTED = 3
 
     target = models.ForeignKey(User, related_name='user')
     status = models.PositiveSmallIntegerField(
         default=0, choices=((PENDING, 'Pending'),
                             (FOLLOWING, 'Following'),
+                            (FOLLOWING_RESTRICTED, 'Following as Restricted'),
                             (BLOCKED, 'Blocked')))
 
 

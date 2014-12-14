@@ -1,45 +1,44 @@
 {% extends "base.html" %}{% load i18n %}
-{% block extra_head %}
 
+{% block extra_head %}
+  <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
+  <script src="{{ STATIC_URL }}js/csrf_token.js"></script>
 {% endblock %}
+
 {% block content %}
+<div class="narrow fc bg ra pad">
+  <ul class="nostyle">
   {% for follow_request in pending_follow_requests %}
-    <div class="pt pb bb mb" id="{{ follow_request.id }}">
-      <p>{% include 'auth/username_inc.html' with user=follow_request.follower %} takipçin olmak istiyor.</p>
-      <input type="button" class="bttn green pa ra accept" value="{% trans 'Accept' %}" data-action='accept'/>
-      <input type="button" class="bttn red pa ra decline" value="{% trans 'Decline' %}" data-action='decline'/>
-    </div>
+    <li class="bb pad" data-frpk="{{ follow_request.pk }}">
+      <p>{% blocktrans with username=follow_request.follower.username url=follow_request.follower.get_absolute_url %}<a href="{{ url }}">{{ username }}</a> wants to be your follower.{% endblocktrans %}</p>
+      <p><a class="action" data-action='accept' href="#">{% trans 'Accept' %}</a> / <a class="action" data-action='decline' href="#">{% trans 'Decline' %}</a></p>
+    </li>
+  </ul>
   {% empty %}
     <div class="narrow fc bg ra pa">
-      <p class="f_stng">{% trans "There are no pending follow requests." %}</p>
-      <p>{% trans "Share your resm.in profile on your social media accounts to get more followers." %}</p>
-      <p><span class="imp">{{ site.domain }}{{ user.get_absolute_url }}</span></p>
+      <div class="pad">
+        <p class="f_stng">{% trans "There are no pending follow requests." %}</p>
+        <p>{% trans "Share your resm.in profile on your social media accounts to get more followers." %}</p>
+        <p><span class="imp">{{ site.domain }}{{ user.get_absolute_url }}</span></p>
+      </div>
     </div>
-
   {% endfor %}
-  <script src="http://codeorigin.jquery.com/jquery-2.0.3.min.js" type="text/javascript"></script>
-
-  <script>
-  $(document).ready(function() {
-    $('.bttn').click(function(ev){
-      var target = $(ev.target);
-      var id = target.parent().attr('id');
-      var action = target.attr('data-action');
-      $.ajax({
-        method: "post",
-        url: "/upfr/",
-        data: {'id': id, 'action': action}
-      })
-      .done(function(data) {
-        if (data['success'] === true) {
-          target.parent().slideUp('slow');
-        } else {
-          alert('Bir hata oluştu... Bize nazar deymiş olabilir.');
-        }
-      });
-
+</div>
+<script>
+$(document).ready(function() {
+  $('.action').click(function(ev){
+    var target = $(ev.target);
+    var frpk = target.parent().parent().attr('data-frpk');
+    var action = target.attr('data-action');
+    $.ajax({
+      method: "post",
+      url: "/pfra/",
+      data: {'pk': frpk, 'action': action}
     })
-  }); 
-  </script>
-
+    .done(function(data) {
+      target.parent().parent().slideUp('slow');
+    });
+  })
+});
+</script>
 {% endblock content %}

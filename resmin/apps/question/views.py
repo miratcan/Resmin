@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from redis_cache import get_redis_connection
 
 from libs.baseconv import base62
+from libs.shortcuts import render_to_json
 from apps.question.models import Question, QuestionMeta
 from apps.story.models import Story
 from apps.follow.models import QuestionFollow
@@ -100,6 +101,24 @@ def like(request):
     return HttpResponse(json.dumps(
         {'like_count': like_count,
          'is_liked': is_liked}))
+
+
+@login_required
+def pending_question_action(request):
+    def _reject(question):
+        question.status = Question.REJECTED
+        question.save()
+        return render_to_json({'qpk': question.pk,
+                               'status': question.status})
+
+    qpk, action = request.POST.get('qpk'), request.POST.get('action')
+    question = get_object_or_404(Question, pk=qpk, questionee=request.user)
+    action_method = {'reject': _reject}.get(action)
+    if action_method:
+        return action_method(question)
+    else:
+        return render_to_json({'errMsg': _('Action not found')},
+                              HttpResponseBadRequest)
 
 
 @csrf_exempt
