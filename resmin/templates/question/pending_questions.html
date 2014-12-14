@@ -1,25 +1,48 @@
 {% extends "base.html" %}{% load i18n %}
 
+{% block extra_head %}
+  <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
+  <script src="{{ STATIC_URL }}js/csrf_token.js"></script>
+{% endblock %}
+
 {% block content %}
-<div class="narrow fc bg ra pa">
+<div class="narrow fc bg ra pad">
   {% if pending_questions %}
   <ul class="nostyle">
     {% for question in pending_questions %}
       <li class="bb pad">
         <p>
-          <span class="wb">{{ question.meta.text }}</span>
-          <span class="f_weak">{% include 'auth/username_inc.html' with user=question.questionee anonymouse=question.is_anonymouse %} {{ question.created_at|timesince }} {% trans 'ago' %} {% trans 'ago' %}.</span>
+          <span class="wb">{{ question.meta.text }}</span> 
+          <span class="f_weak">{% include 'auth/username_inc.html' with user=question.questionee anonymouse=question.is_anonymouse %} {{ question.created_at|timesince }} {% trans 'ago' %}.</span>
         </p>
         <p class="nm f_weak">
-          <a href="{{ question.post_answer_url }}">{% trans 'Answer' %}</a> / <a href="">{% trans 'Reject' %}</a>
+          <a href="{{ question.post_answer_url }}">{% trans 'Answer' %}</a> / <a class="reject" data-qpk='{{ question.pk }}' href="#">{% trans 'Reject' %}</a>
         </p>
       </li>
     {% endfor %}
   </ul>    
   {% else %}
-    <p class="f_stng">{% trans "There are no pending answer requests." %}</p>
-    <p>{% trans "Share your resm.in profile on your social media accounts to get more answer requests." %}</p>
-    <p><span class="imp">{{ site.domain }}{{ user.get_absolute_url }}</span></p>
+    <div class="pad">
+      <p class="f_stng">{% trans "There are no pending answer requests." %}</p>
+      <p>{% trans "Share your resm.in profile on your social media accounts to get more answer requests." %}</p>
+      <p><span class="imp">{{ site.domain }}{{ user.get_absolute_url }}</span></p>
+    </div>
   {% endif %}
 </div>
+<script>
+$(document).ready(function() {
+  $('.reject').click(function(ev){
+    var target = $(ev.target);
+    var qpk = target.attr('data-qpk');
+    $.ajax({
+      method: "post",
+      url: "/pqa/",
+      data: {'qpk': qpk, 'action': 'reject'}
+    })
+    .done(function(data) {
+      target.parent().parent().slideUp();
+    });s
+  })
+});
+</script>
 {% endblock content %}

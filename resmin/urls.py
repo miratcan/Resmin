@@ -21,10 +21,6 @@ urlpatterns = patterns(
     url(r'^upfr/$', 'apps.account.views.update_pending_follow_request',
         name='update-pending-follow-request'),
 
-    url(r'^d/$', 'apps.question.views.index',
-        name='index-from-direct',
-        kwargs={'get_filter': 'direct'}),
-
     url(r'^u/(?P<username>[-\w]+)/(?P<action>(block|unblock|follow|unfollow))?/?$',
         'apps.account.views.profile',
         name='profile'),
@@ -128,6 +124,10 @@ urlpatterns = patterns(
     url(r'^pq/',
         'apps.account.views.pending_questions',
         name='pending-questions'),
+
+    url(r'^pqa/',
+        'apps.question.views.pending_question_action',
+        name='pending-question-action'),
 
     url(r'^n/',
         'apps.notification.views.notifications',
