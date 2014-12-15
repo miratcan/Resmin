@@ -27,7 +27,7 @@
       {% for story in stories %}
         {% include "story/story_thumbnail.html" with show_question_info_below_answers=True %}
       {% empty %}
-        {% trans 'Foo' %}
+        {% trans "Seems like you're not following anyone so there's nothing to display from your followings. Use your imagination to find some people to follow." %}
       {% endfor %}
     </div>
     {% include "includes/pagination_links_for_answers.html" %}

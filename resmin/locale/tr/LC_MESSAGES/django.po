@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-13 16:35+0200\n"
+"POT-Creation-Date: 2014-12-15 20:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,8 @@ msgstr "Şifre alanları aynı olmalı"
 
 #: apps/account/forms.py:53
 msgid "This key reached it's maximum use limit. It cant be used anymore."
-msgstr "Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
+msgstr ""
+"Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
 
 #: apps/account/forms.py:59
 msgid "Invalid invitation key"
@@ -98,19 +99,19 @@ msgstr "Bu kullanıcıyı engelledin"
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:169
+#: apps/account/views.py:174
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:198
+#: apps/account/views.py:203
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:259
+#: apps/account/views.py:264
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:280
+#: apps/account/views.py:285
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -125,6 +126,10 @@ msgstr "Adımı Gizle"
 #: apps/question/models.py:26
 msgid "Question"
 msgstr "Soru"
+
+#: apps/question/views.py:119
+msgid "Action not found"
+msgstr ""
 
 #: apps/story/models.py:36
 msgid "Draft"
@@ -226,27 +231,27 @@ msgstr "Giriş Yap"
 msgid "Menu"
 msgstr "Menü"
 
-#: templates/base.html:56
+#: templates/base.html:50
 msgid "twitter"
 msgstr ""
 
-#: templates/base.html:57
+#: templates/base.html:51
 msgid "facebook"
 msgstr ""
 
-#: templates/base.html:58
+#: templates/base.html:52
 msgid "blog"
 msgstr ""
 
-#: templates/base.html:59 templates/base.html.py:79
+#: templates/base.html:53 templates/base.html.py:73
 msgid "suggestions"
 msgstr "istek & öneri"
 
-#: templates/base.html:60
+#: templates/base.html:54
 msgid "api"
 msgstr ""
 
-#: templates/base.html:64
+#: templates/base.html:58
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -305,11 +310,14 @@ msgid "Recommened Questions"
 msgstr "Önerilen Sorular"
 
 #: templates/index2.html:30
-#, fuzzy
-msgid "Foo"
-msgstr "Müridi Ol"
+msgid ""
+"Seems like you're not following anyone so there's nothing to display from "
+"your followings. Use your imagination to find some people to follow."
+msgstr ""
+"Görünüşe bakılırsa hiç kimseyi takip etmediğinden dolayı burada"
+"gösterecek hiç bir şey yok Takip edecek birilerini bulmak için hayal gücünü kullan."
 
-#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:51
+#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:54
 msgid "Update Email"
 msgstr "E-Posta Güncelle"
 
@@ -388,19 +396,24 @@ msgstr ""
 "Giriş yap <span class=\"f_weak c_weak wn\">veya <a href=\"%(register_url)s"
 "\">kayıt ol</a>?</span>"
 
-#: templates/auth/pending_follow_requests.html:9
+#: templates/auth/pending_follow_requests.html:13
+#, fuzzy, python-format
+msgid "<a href=\"%(url)s\">%(username)s</a> wants to be your follower."
+msgstr "%(follower_username)s müridin olmak istiyor"
+
+#: templates/auth/pending_follow_requests.html:14
 msgid "Accept"
 msgstr "Kabul et"
 
-#: templates/auth/pending_follow_requests.html:10
+#: templates/auth/pending_follow_requests.html:14
 msgid "Decline"
 msgstr "Görmezden gel"
 
-#: templates/auth/pending_follow_requests.html:14
+#: templates/auth/pending_follow_requests.html:19
 msgid "There are no pending follow requests."
 msgstr "Bekleyen mürit olma talebin yok."
 
-#: templates/auth/pending_follow_requests.html:15
+#: templates/auth/pending_follow_requests.html:20
 msgid ""
 "Share your resm.in profile on your social media accounts to get more "
 "followers."
@@ -449,7 +462,7 @@ msgstr "veya"
 msgid "Sign in"
 msgstr "Giriş yap"
 
-#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:50
+#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:53
 msgid "Update Profile"
 msgstr "Profili Güncelle"
 
@@ -469,7 +482,7 @@ msgstr "Mürit"
 msgid "Following"
 msgstr "Mürşit"
 
-#: templates/auth/user_detail_inc.html:31
+#: templates/auth/user_detail_inc.html:34
 msgid ""
 "Blocking this user means that you wouldn't dispose any of your questions or "
 "answers while you wouldn't be to see any question or answer. Is this cool?"
@@ -477,7 +490,7 @@ msgstr ""
 "Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da "
 "senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?"
 
-#: templates/auth/user_detail_inc.html:34
+#: templates/auth/user_detail_inc.html:37
 msgid ""
 "As you unblock you'd be able to see questions & answers by this user who "
 "would also be able to access your contributions. Am I magnificient?"
@@ -485,39 +498,39 @@ msgstr ""
 "Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını "
 "görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?"
 
-#: templates/auth/user_detail_inc.html:37
+#: templates/auth/user_detail_inc.html:40
 msgid "You want to be a disciple of this user. You're nuts..."
 msgstr "Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?"
 
-#: templates/auth/user_detail_inc.html:40
+#: templates/auth/user_detail_inc.html:43
 msgid "Me don't want no more contact with this user. Ummmm are you bored?"
 msgstr "Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?"
 
-#: templates/auth/user_detail_inc.html:52
+#: templates/auth/user_detail_inc.html:55
 msgid "Invitations"
 msgstr "Davetiyeler"
 
-#: templates/auth/user_detail_inc.html:53
+#: templates/auth/user_detail_inc.html:56
 msgid "Log Out"
 msgstr "Çıkış Yap"
 
-#: templates/auth/user_detail_inc.html:57
+#: templates/auth/user_detail_inc.html:60
 msgid "Unblock"
 msgstr "Engeli Kaldır"
 
-#: templates/auth/user_detail_inc.html:60
+#: templates/auth/user_detail_inc.html:63
 msgid "Unfollow"
 msgstr "Müritlikten Çık"
 
-#: templates/auth/user_detail_inc.html:63
+#: templates/auth/user_detail_inc.html:66
 msgid "Your follow request sent"
 msgstr "Mürit Olma İsteği Gönderilmiş"
 
-#: templates/auth/user_detail_inc.html:65
+#: templates/auth/user_detail_inc.html:68
 msgid "Follow"
 msgstr "Müridi Ol"
 
-#: templates/auth/user_detail_inc.html:68
+#: templates/auth/user_detail_inc.html:71
 msgid "Block"
 msgstr "Engelle"
 
@@ -581,7 +594,7 @@ msgstr "Önceki Kullanıcılar"
 msgid "Next Users"
 msgstr "Sonraki Kullanıcılar"
 
-#: templates/notification/list.html:9
+#: templates/notification/list.html:10
 msgid "No new notifications."
 msgstr "Yeni bildirim yok."
 
@@ -612,30 +625,30 @@ msgstr "Biri ona yaptığım müritlik isteğini kabul ettiğinde."
 msgid "<strong>%(username)s</strong> accepted your follow request."
 msgstr "<strong>%(username)s</strong> müridi olma talebini kabul etti"
 
+#: templates/question/pending_questions.html:16
+msgid "ago"
+msgstr ""
+
 #: templates/question/pending_questions.html:19
+#: templates/question/question_sentence.html:12
+msgid "Answer"
+msgstr "Cevapla"
+
+#: templates/question/pending_questions.html:19
+msgid "Reject"
+msgstr ""
+
+#: templates/question/pending_questions.html:26
 msgid "There are no pending answer requests."
 msgstr "Bekleyen cevap talebin yok."
 
-#: templates/question/pending_questions.html:20
+#: templates/question/pending_questions.html:27
 msgid ""
 "Share your resm.in profile on your social media accounts to get more answer "
 "requests."
-msgstr "Daha fazla soru alabilmek için resm.in profil linkini sosyal medya "
+msgstr ""
+"Daha fazla soru alabilmek için resm.in profil linkini sosyal medya "
 "hesaplarında paylaş."
-
-#: templates/question/pending_questions.html:28
-#, python-format
-msgid ""
-"Anonymouse user wants you to answer: <a href=\"%(post_answer_url)s\">"
-"%(question_text)s</a>"
-msgstr ""
-
-#: templates/question/pending_questions.html:30
-#, python-format
-msgid ""
-"<a href=\"%(questioner_url)s\">%(questioner_username)s</a> wants you to "
-"answer <a href=\"%(post_answer_url)s\">%(question_text)s</a>"
-msgstr ""
 
 #: templates/question/question_list.html:32
 msgid ""
@@ -660,10 +673,6 @@ msgstr "Gönder"
 #, python-format
 msgid "%(s_count)s answers / %(f_count)s followers"
 msgstr ""
-
-#: templates/question/question_sentence.html:12
-msgid "Answer"
-msgstr "Cevapla"
 
 #: templates/question/question_sentence.html:12
 msgctxt "follow"
@@ -758,6 +767,10 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#, fuzzy
+#~ msgid "Foo"
+#~ msgstr "Müridi Ol"
 
 #~ msgid "Latest Asked Questions"
 #~ msgstr "Son Sorulan Sorular"
