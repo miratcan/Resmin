@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-  <form class="narrow wrap mbd" method="post">
+  <form class="narrow wrap mbd pa" method="post">
     {% csrf_token %}
     {{ question_form }}
     <input class="bttn fr green ra" type="submit">

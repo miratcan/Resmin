@@ -1,5 +1,6 @@
 {% extends "base.html" %}{% load i18n %}
 {% block content %}
+<div class="narrow fc bg ra pad">
   <ul>
   {% for n in notifications %}
     {% with tname='notification/'|add:n.ntype.slug|add:'/sentence.txt' %}
@@ -9,4 +10,5 @@
   	<p class="imp pa f_stng">{% trans "No new notifications." %}</p>
   {% endfor %}
   </ul>
+</div>
 {% endblock %}
