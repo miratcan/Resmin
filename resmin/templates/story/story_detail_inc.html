@@ -45,7 +45,7 @@
   {% with likers=story.get_likers_from_redis %}
     {% if likers %}
       <div class="section">
-        <p class="wb">{% trans "Likers" %}</p>
+        <p class="wb mb">{% trans "Likers" %}</p>
         {% if story.owner == user %}
           <p>{% for liker in likers %} {% include "auth/username_inc.html" with user=liker %}, {% endfor %}</p>
         {% else %}
@@ -57,13 +57,13 @@
 
   {% comment %}
   <div class="section">
-    <p class="wb">{% trans "Links" %}</p>
+    <p class="wb mb">{% trans "Links" %}</p>
     <input type="text" value="http://{{ current_site.domain }}{{ story.get_absolute_url }}" />
   </div>
   {% endcomment %}
 
   <div class="section">
-    <p class="wb">{% trans "Mounted Questions" %}</p>
+    <p class="wb mb">{% trans "Mounted Questions" %}</p>
     <ul class="mb">
       {% for question_meta in story.mounted_question_metas.all %}
         <li><a href="{{ question_meta.get_absolute_url }}">{{ question_meta }}</a></li>
@@ -72,7 +72,7 @@
   </div>
   {% if story.owner == request.user %}
   <div class="section">
-    <p class="wb">{% trans 'Actions' %}</p>
+    <p class="wb mb">{% trans 'Actions' %}</p>
     <ul class="mb">
       {% if story.status == story.DRAFT %}<li><a href="#" id="publish_button">{% trans "Publish" %}</a></li>{% endif %}
       <li><a href="{{ story.get_update_images_url }}">{% trans "Update" %}</a></li>

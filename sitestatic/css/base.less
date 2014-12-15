@@ -159,19 +159,16 @@
 
 body {
   .f_nrml;
-  .c_nrml;
   font-family: sans-serif;
   background: @Bluer;
-  color: @Darmstadtium;
+  color: @AGrey;
   a {
-    color: @White;
+    color: @Darmstadtium;
   }
 }
 
 .content {
-  p {
-    color: @DarthGray;
-  }
+  color: @DarthGray;
   a {
     color: @PositivePink;
   }
@@ -400,6 +397,7 @@ textarea         { height: 100px; }
 .bttn:active      { position: relative; }
 
 .bttn.green       { background-color: #6687c9;
+                    border-bottom: 2px solid #365799;
                     color: @White; }
 .bttn.green:hover { background-color: #365799;}
 
@@ -433,7 +431,7 @@ form#preferences {
 }
 
 #answer_form {
-  input, inlineFieldWrapper { .fl; }
+  inlineFieldWrapper { .fl; }
   label { .fl; .mr; }
   input[type=checkbox] { margin: 3px 10px 0 0; }
   #id_image { display: none; }
@@ -474,7 +472,9 @@ form#preferences {
 
 .like-big {
   .pa; .ra; .db; .tac; .f_stng;
-  color: White; border-bottom: 3px solid #C15D63; background: #E17D83;
+  color: @White;
+  border-bottom: 3px solid #C15D63;
+  background: #E17D83;
   cursor: pointer;
   .active { display: none; }
   .passive { display: initial; }
