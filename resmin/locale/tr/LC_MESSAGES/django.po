@@ -620,7 +620,8 @@ msgstr "Bekleyen cevap talebin yok."
 msgid ""
 "Share your resm.in profile on your social media accounts to get more answer "
 "requests."
-msgstr "Daha fazla cevap talebi almak için sosyal medya hesabını "
+msgstr "Daha fazla soru alabilmek için resm.in profil linkini sosyal medya "
+"hesaplarında paylaş."
 
 #: templates/question/pending_questions.html:28
 #, python-format

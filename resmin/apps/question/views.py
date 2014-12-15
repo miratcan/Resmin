@@ -46,8 +46,7 @@ def index(request):
 
     return render(request,
                   "index2.html",
-                  {'page_name': 'index',
-                   'stories': stories,
+                  {'stories': stories,
                    'show_public_stories': show_public_stories,
                    'recommened_questions': recommened_questions,
                    'show_email_message': show_email_message})
