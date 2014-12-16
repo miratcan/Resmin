@@ -39,7 +39,6 @@ class StoryForm(forms.ModelForm):
                         questionee=self.owner))
 
     def save_slots(self, story, slot_data):
-        import ipdb; ipdb.set_trace()
         CT_MAP = {'image': ContentType.objects.get(
             app_label='story', model='image')}
         slots = story.slot_set.all()

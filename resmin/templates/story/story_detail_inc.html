@@ -74,8 +74,8 @@
     <p class="wb mb">{% trans 'Actions' %}</p>
     <ul class="mb">
       {% if story.status == story.DRAFT %}<li><a href="#" id="publish_button">{% trans "Publish" %}</a></li>{% endif %}
-      <li><a href="{{ story.get_update_images_url }}">{% trans "Update" %}</a></li>
-      <li><a href="{{ story.get_update_details_url }}">{% trans "Edit" %}</a></li>
+      <li><a href="{{ story.get_update_images_url }}">{% trans "Update Images" %}</a></li>
+      <li><a href="{{ story.get_update_details_url }}">{% trans "Edit Text" %}</a></li>
       {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}
     </ul>
   </div>
