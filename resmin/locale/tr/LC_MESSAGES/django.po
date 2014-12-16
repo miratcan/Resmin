@@ -314,8 +314,8 @@ msgid ""
 "Seems like you're not following anyone so there's nothing to display from "
 "your followings. Use your imagination to find some people to follow."
 msgstr ""
-"Görünüşe bakılırsa hiç kimseyi takip etmediğinden dolayı burada"
-"gösterecek hiç bir şey yok Takip edecek birilerini bulmak için hayal gücünü kullan."
+"Görünüşe bakılırsa hiç kimseyi takip etmediğinden dolayı burada "
+"gösterecek hiç bir şey yok. Takip edecek birilerini bulmak için hayal gücünü kullan."
 
 #: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:54
 msgid "Update Email"

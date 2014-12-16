@@ -13,23 +13,21 @@
 {% endblock %}
 
 {% block content %}
-  <p class="mbd wrap"><a {% if not show_public_stories %}class="imp" {% endif %}href="/">{% trans 'From Followings' %}</a> / <a {% if show_public_stories %}class="imp" {% endif %}href="/?filter=public">{% trans 'Public' %}</a></p>
-  {% if stories %}
-    <div id="thumbnails">
-      {% if recommened_questions %}
-      <div class="thmb-wrap pa" style="box-sizing: border-box">
-        <h4 class="mb bb pbh">{% trans "Recommened Questions" %}</h4>
-        {% for question in recommened_questions %}
-          <p class="f_tiny mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
-        {% endfor %}
-      {% endif %}
-      </div>
-      {% for story in stories %}
-        {% include "story/story_thumbnail.html" with show_question_info_below_answers=True %}
-      {% empty %}
-        {% trans "Seems like you're not following anyone so there's nothing to display from your followings. Use your imagination to find some people to follow." %}
+  <p class="mbd"><a {% if not show_public_stories %}class="imp" {% endif %}href="/">{% trans 'From Followings' %}</a> / <a {% if show_public_stories %}class="imp" {% endif %}href="/?filter=public">{% trans 'Public' %}</a></p>
+  <div id="thumbnails">
+    {% if recommened_questions %}
+    <div class="thmb-wrap pa" style="box-sizing: border-box">
+      <h4 class="mb bb pbh">{% trans "Recommened Questions" %}</h4>
+      {% for question in recommened_questions %}
+        <p class="f_tiny mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
       {% endfor %}
+    {% endif %}
     </div>
-    {% include "includes/pagination_links_for_answers.html" %}
-  {% endif %}
+    {% for story in stories %}
+      {% include "story/story_thumbnail.html" with show_question_info_below_answers=True %}
+    {% empty %}
+      <p class="imp">{% trans "Seems like you're not following anyone so there's nothing to display from your followings. Use your imagination to find some people to follow." %}</p>
+    {% endfor %}
+  </div>
+  {% include "includes/pagination_links_for_answers.html" %}
 {% endblock %}
