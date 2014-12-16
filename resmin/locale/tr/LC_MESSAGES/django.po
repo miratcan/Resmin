@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-15 20:24+0200\n"
+"POT-Creation-Date: 2014-12-16 22:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -167,15 +167,15 @@ msgstr "AYIP"
 msgid "Visible For"
 msgstr "Şuna Görünür"
 
-#: apps/story/models.py:235
+#: apps/story/models.py:239
 msgid "Uploading"
 msgstr "Gönderiliyor"
 
-#: apps/story/models.py:236
+#: apps/story/models.py:240
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: apps/story/models.py:237
+#: apps/story/models.py:241
 msgid "Failed"
 msgstr "Bitirilemedi"
 
@@ -305,17 +305,17 @@ msgstr "Takip Ettiğim Kişilerden"
 msgid "Public"
 msgstr "Herkesten"
 
-#: templates/index2.html:21
+#: templates/index2.html:20
 msgid "Recommened Questions"
 msgstr "Önerilen Sorular"
 
-#: templates/index2.html:30
+#: templates/index2.html:29
 msgid ""
 "Seems like you're not following anyone so there's nothing to display from "
 "your followings. Use your imagination to find some people to follow."
 msgstr ""
-"Görünüşe bakılırsa hiç kimseyi takip etmediğinden dolayı burada "
-"gösterecek hiç bir şey yok. Takip edecek birilerini bulmak için hayal gücünü kullan."
+"Görünüşe bakılırsa hiç kimseyi takip etmediğinden dolayı burada gösterecek "
+"hiç bir şey yok. Takip edecek birilerini bulmak için hayal gücünü kullan."
 
 #: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:54
 msgid "Update Email"
@@ -690,7 +690,7 @@ msgid "<a class=\"imp\" href=\"%(login_url)s\">Login</a> to post an answer."
 msgstr ""
 "Cevaplayabilmek için <a class=\"imp\" href=\"%(login_url)s\">giriş yap</a>."
 
-#: templates/story/create_story.html:21
+#: templates/story/create_story.html:25
 msgid "Add Images"
 msgstr "Görsel Ekle"
 
@@ -714,49 +714,49 @@ msgstr ""
 "Bu hikaye şu anda müsvette durumunda, yayınla butonuna basarak başkaları "
 "için görünür hale getir."
 
-#: templates/story/story_detail_inc.html:36
+#: templates/story/story_detail_inc.html:35
 msgid "Posted by an anonymouse user."
 msgstr "Gizli kullanıcı tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:38
+#: templates/story/story_detail_inc.html:37
 #, python-format
 msgid "Posted by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>."
 msgstr ""
 "<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:48
+#: templates/story/story_detail_inc.html:47
 msgid "Likers"
 msgstr "Kalpleyenler"
 
-#: templates/story/story_detail_inc.html:52
+#: templates/story/story_detail_inc.html:51
 msgid "Likers can be seen by owner of story."
 msgstr "Kalpleyenler hikaye sahibi tarafından görüntülenebilir."
 
-#: templates/story/story_detail_inc.html:67
+#: templates/story/story_detail_inc.html:66
 msgid "Mounted Questions"
 msgstr "Bağlı Sorular"
 
-#: templates/story/story_detail_inc.html:76
+#: templates/story/story_detail_inc.html:75
 msgid "Actions"
 msgstr "Hareketler"
 
-#: templates/story/story_detail_inc.html:78
+#: templates/story/story_detail_inc.html:77
 msgid "Publish"
 msgstr "Yayınla"
 
+#: templates/story/story_detail_inc.html:78
+msgid "Rearrange Images"
+msgstr "Görselleri Düzenle"
+
 #: templates/story/story_detail_inc.html:79
-msgid "Update"
-msgstr "Güncelle"
+msgid "Edit Title and Descriptions"
+msgstr "Başlık ve Açıklamaları Düzenle"
 
 #: templates/story/story_detail_inc.html:80
-msgid "Edit"
-msgstr "Düzenle"
-
-#: templates/story/story_detail_inc.html:81
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/story/story_detail_inc.html:81
+#: templates/story/story_detail_inc.html:80
 msgid "Click here if you're sure to delete."
 msgstr "Silmeye eminsen buraya tıkla."
 
@@ -767,6 +767,12 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#~ msgid "Update"
+#~ msgstr "Güncelle"
+
+#~ msgid "Edit"
+#~ msgstr "Düzenle"
 
 #, fuzzy
 #~ msgid "Foo"
