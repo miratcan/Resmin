@@ -62,6 +62,10 @@ class Story(BaseModel):
     objects = StoryManager()
 
     @property
+    def humanized_order(self):
+        return self.order + 1
+
+    @property
     def is_deleted(self):
         return bool(self.status)
 

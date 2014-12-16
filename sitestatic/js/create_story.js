@@ -318,7 +318,7 @@ $('#answer_form').submit(function() {
     var model = uploadListView.collection.find(function(item){
       return item.cid === cid;
     });
-    model.set('order', idx);
+    model.set('order', idx + 1);
   });
   $('#id_slot_data').val(JSON.stringify(uploadListView.collection.toJSON()));
 });
