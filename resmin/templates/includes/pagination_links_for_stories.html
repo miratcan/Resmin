@@ -1,0 +1,10 @@
+{% load i18n %}
+<p class="mtd">
+  {% if stories.has_previous %}
+    <a class="fl f_stng wb imp" href="?page={{ stories.previous_page_number }}">{% trans "Previous Stories" %}</a>
+  {% endif %}
+
+  {% if stories.has_next %}
+    <a class="fr f_stng wb imp" href="?page={{ stories.next_page_number }}">{% trans "Next Stories" %}</a>
+  {% endif %}
+</p>

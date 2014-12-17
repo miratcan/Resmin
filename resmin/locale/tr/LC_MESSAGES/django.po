@@ -578,11 +578,11 @@ msgstr "Sorduğun bir soruya yeni cevap geldi O_o"
 msgid "A question that you answered before has new answer"
 msgstr "Cevapladığın bir soruyu başkası da cevapladı :o)"
 
-#: templates/includes/pagination_links_for_answers.html:4
+#: templates/includes/pagination_links_for_stories.html:4
 msgid "Previous Answers"
 msgstr "Önceki Cevaplar"
 
-#: templates/includes/pagination_links_for_answers.html:8
+#: templates/includes/pagination_links_for_stories.html:8
 msgid "Next Answers"
 msgstr "Sonraki Cevaplar"
 
