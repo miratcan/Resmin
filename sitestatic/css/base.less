@@ -170,7 +170,7 @@ body {
     a { color: @PositivePink; }
   }
 }
-
+p { .mb; }
 .content {
   color: @DarthGray;
   a {
@@ -503,10 +503,14 @@ form#preferences {
   box-shadow: 0 5px 5px #aaa inset;
 }
 
-.panel-left { .db; margin-right: 280px; }
+.panel-left { .fl; width: 68%; }
 .panel-right {
-  width: 260px; .pb; position: absolute; top: 0; right: 10px;
-  .section { .db; .bb; .mb; }
+  width: 30%;
+  .fr;
+  .pb; 
+  .section {
+    .db; .bb; .mb;
+  }
 }
 
 .question {
@@ -574,6 +578,14 @@ form#preferences {
        width: 0%;
        .bttn.green;
     }
+  }
+}
+
+.slotBig {
+  .bg; .bb; .oa;
+  margin-bottom: 80px;
+  img {
+    .nm;
   }
 }
 

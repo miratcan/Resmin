@@ -5,7 +5,7 @@
       <p class="mbd imp tac pa">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
     {% endif %}
     {% for slot in story.slot_set.all %}
-      <div id="slot{{ slot.order }}" class="slotBig bg bb mbd oa" style="border-bottom-width: 3px; position: relative;">
+      <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
         {% if slot.title %}<h3 class="ma">{{ slot.title }}</h3>{% endif %}
         {% thumbnail slot.content.image "580" as img %}
           <div class="img" style="position: relative;">

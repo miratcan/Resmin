@@ -85,11 +85,11 @@ msgstr "Sorun kullanıcıya gönderildi."
 
 #: apps/account/views.py:87
 msgid "Follow request sent to user"
-msgstr "Mürit olma isteğin kullanıcıya gönderildi"
+msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
 #: apps/account/views.py:90
 msgid "You are not a follower anymore"
-msgstr "Artık bu kullanıcının müridi değilsin"
+msgstr "Artık bu kullanıcının takipçisi değilsin"
 
 #: apps/account/views.py:93
 msgid "You have blocked this user"
@@ -153,7 +153,7 @@ msgstr "Herkese"
 
 #: apps/story/models.py:42 templates/auth/followers.html:3
 msgid "Followers"
-msgstr "Müritleri"
+msgstr "Takipçileri"
 
 #: apps/story/models.py:49
 msgid "Description"
@@ -213,7 +213,7 @@ msgstr "Bekleyen Sorular"
 
 #: templates/base.html:33
 msgid "Follow Requests"
-msgstr "Mürit Olma Talepleri"
+msgstr "Takipçi Olma Talepleri"
 
 #: templates/base.html:34
 msgid "Notifications"
@@ -346,7 +346,7 @@ msgstr ""
 
 #: templates/auth/followings.html:3
 msgid "Followings"
-msgstr "Mürşitleri"
+msgstr "Takip Edenleri"
 
 #: templates/auth/hof.html:4
 msgid "Users receiving most hearts"
@@ -411,7 +411,7 @@ msgstr "Görmezden gel"
 
 #: templates/auth/pending_follow_requests.html:19
 msgid "There are no pending follow requests."
-msgstr "Bekleyen mürit olma talebin yok."
+msgstr "Bekleyen takip talebin yok."
 
 #: templates/auth/pending_follow_requests.html:20
 msgid ""
@@ -476,11 +476,11 @@ msgstr ""
 
 #: templates/auth/user_detail_inc.html:10
 msgid "Follower"
-msgstr "Mürit"
+msgstr "Takipçi"
 
 #: templates/auth/user_detail_inc.html:13
 msgid "Following"
-msgstr "Mürşit"
+msgstr "Takip Edilen"
 
 #: templates/auth/user_detail_inc.html:34
 msgid ""
@@ -520,15 +520,15 @@ msgstr "Engeli Kaldır"
 
 #: templates/auth/user_detail_inc.html:63
 msgid "Unfollow"
-msgstr "Müritlikten Çık"
+msgstr "Takipten Çık"
 
 #: templates/auth/user_detail_inc.html:66
 msgid "Your follow request sent"
-msgstr "Mürit Olma İsteği Gönderilmiş"
+msgstr "Takip İsteği Gönderilmiş"
 
 #: templates/auth/user_detail_inc.html:68
 msgid "Follow"
-msgstr "Müridi Ol"
+msgstr "Takip Et"
 
 #: templates/auth/user_detail_inc.html:71
 msgid "Block"
@@ -579,12 +579,12 @@ msgid "A question that you answered before has new answer"
 msgstr "Cevapladığın bir soruyu başkası da cevapladı :o)"
 
 #: templates/includes/pagination_links_for_stories.html:4
-msgid "Previous Answers"
-msgstr "Önceki Cevaplar"
+msgid "Previous Stories"
+msgstr "Önceki Hikayeler"
 
 #: templates/includes/pagination_links_for_stories.html:8
-msgid "Next Answers"
-msgstr "Sonraki Cevaplar"
+msgid "Next Hikayeler"
+msgstr "Sonraki Hikayeler"
 
 #: templates/includes/pagination_links_for_users.html:4
 msgid "Previous Users"
@@ -618,7 +618,7 @@ msgstr "\"%(question_text)s\" için yeni bir gönderi var."
 
 #: templates/notification/user_accepted_your_follow_request/option.txt:1
 msgid "When an user accepted my follow request."
-msgstr "Biri ona yaptığım müritlik isteğini kabul ettiğinde."
+msgstr "Biri ona yaptığım takip isteğini kabul ettiğinde."
 
 #: templates/notification/user_accepted_your_follow_request/sentence.txt:1
 #, python-format
