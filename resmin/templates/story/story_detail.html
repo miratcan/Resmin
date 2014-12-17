@@ -19,6 +19,7 @@
       $("#delete_submit").trigger("click");
       return false;
     })
+    var sid = $('.like-big').attr('data-story-id');
     $(".like-big").click(function(ev) {
       function setLike(sid, val, onLike, onRemove) {
         $.ajax({
@@ -42,16 +43,12 @@
         });
       };
 
-      var target = $(ev.target);
-          sid = target.attr('data-story-id'),
-          val = target.hasClass("active") ? 0 : 1,
-          cEl = target.find(".count"),
-          hEl = target.find(".heart");
+      var target = $(".like-big");
+          val = target.hasClass("active") ? 0 : 1;
 
-      var onLike = function(data) { cEl.html(data['like_count']);
-                                    hEl.addClass("pink"); };
-      var onRmve = function(data) { cEl.html(data['like_count']);
-                                    hEl.removeClass("pink"); };
+      var onLike = function(data) { target.addClass('active') };
+      var onRmve = function(data) { target.removeClass('active') };
+
       setLike(sid, val, onLike, onRmve);
     })
     $('.slot').keynav();
