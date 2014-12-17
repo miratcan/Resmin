@@ -28,7 +28,6 @@
           data: {"sid" : sid, "val": val},
           dataType: "json",
           success: function(data) {
-            console.log(data);
             if (data['is_liked']===true) {
               onLike(data);
             } else {
@@ -42,16 +41,12 @@
           }
         });
       };
-
-      var target = $(".like-big");
-          val = target.hasClass("active") ? 0 : 1;
-
+      var target = $(".like-big"), val = target.hasClass("active") ? 0 : 1;
       var onLike = function(data) { target.addClass('active') };
       var onRmve = function(data) { target.removeClass('active') };
-
       setLike(sid, val, onLike, onRmve);
     })
-    $('.slot').keynav();
+    $('.slotBig').keynav();
   });
   </script>
 {% endblock %}

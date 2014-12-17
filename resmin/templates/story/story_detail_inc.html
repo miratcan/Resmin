@@ -5,11 +5,11 @@
       <p class="mbd imp tac pa">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
     {% endif %}
     {% for slot in story.slot_set.all %}
-      <div id="slot{{ slot.humanized_order }}" class="slotBig bg bb mbd oa" style="border-bottom-width: 3px; position: relative;">
+      <div id="slot{{ slot.order }}" class="slotBig bg bb mbd oa" style="border-bottom-width: 3px; position: relative;">
         {% if slot.title %}<h3 class="ma">{{ slot.title }}</h3>{% endif %}
         {% thumbnail slot.content.image "580" as img %}
           <div class="img" style="position: relative;">
-            <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.humanized_order }}">#{{ slot.order }}</a></span>
+            <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></span>
             <img src="{{ img.url }}" class="mb">
           </div>
         {% endthumbnail %}
