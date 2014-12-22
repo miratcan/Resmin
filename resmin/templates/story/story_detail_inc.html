@@ -2,7 +2,10 @@
 
   <div class="panel-left">
     {% if story.status == story.DRAFT %}
-      <p class="mbd imp tac pa">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
+      <div class="oa bg pa mbd imp ra">
+      <p class="mb">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
+        <a href="#" class="bttn green fr pa ra" id="publish_button">{% trans "Publish" %}</a>
+      </div>
     {% endif %}
     {% for slot in story.slot_set.all %}
       <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
@@ -73,7 +76,7 @@
   <div class="section">
     <p class="wb mb">{% trans 'Actions' %}</p>
     <ul class="mb">
-      {% if story.status == story.DRAFT %}<li><a href="#" id="publish_button">{% trans "Publish" %}</a></li>{% endif %}
+
       <li><a href="{{ story.get_update_images_url }}">{% trans "Rearrange Images" %}</a></li>
       <li><a href="{{ story.get_update_details_url }}">{% trans "Edit Title and Descriptions" %}</a></li>
       {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}

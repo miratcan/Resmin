@@ -1,5 +1,10 @@
 {% load thumbnail liked_by %}{% load i18n %}
 <div class="thmb-wrap shadowed" style="position: relative">
+  {% if show_question_info_below_answers %}
+    {% for meta in story.mounted_question_metas.all %}
+      <div class="oa pa db bb f_tiny"><a href="{{ meta.get_absolute_url }}">{{ meta.text }}</a></div>
+    {% endfor %}
+  {% endif %}
   {% if story.is_nsfw %}
     <div class="nsfw_block">
       <a href="{{ story.get_absolute_url }}">AYIPÇI</a>
@@ -19,9 +24,4 @@
     </div>
     {% include "story/like_button_inc.html" %}
   </div>
-  {% if show_question_info_below_answers %}
-    {% for meta in story.mounted_question_metas.all %}
-      <div class="oa pa db bt f_tiny"><a href="{{ meta.get_absolute_url }}">{{ meta.text }}</a></div>
-    {% endfor %}
-  {% endif %}
 </div>

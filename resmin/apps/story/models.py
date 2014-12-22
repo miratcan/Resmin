@@ -76,6 +76,10 @@ class Story(BaseModel):
         is_visible = True
         user_is_authenticated = user.is_authenticated()
 
+        if not user.is_superuser and self.STATUS == Story.DRAFT and \
+           self.owner != user:
+            return False
+
         # We don't need to compute user and question owner relationship
         # if user is not authenticated.
         if user_is_authenticated:
@@ -84,14 +88,14 @@ class Story(BaseModel):
                 return True
 
             # If self is visible for followings
-            if self.visible_for == 1:
+            if self.visible_for == Story.VISIBLE_FOR_FOLLOWERS:
 
                 # user.id must be in owners follower_user_ids
                 if user.id not in self.owner.follower_user_ids:
                     is_visible = False
 
             # If answer is visible for spesific users
-            elif self.visible_for == 2:
+            elif self.visible_for == Story.VISIBLE_FOR_USERS:
 
                 # user must be in visible_for_users list in answer
                 if user not in self.visible_for_users.all():
@@ -106,11 +110,6 @@ class Story(BaseModel):
             # Story is not visible.
             if self.owner_id in blocked_user_ids or \
                user.id in blocked_user_ids:
-                is_visible = False
-        else:
-            # If user is not authenticated and visible_for=0 we can
-            # display it.
-            if self.visible_for in (1, 2):
                 is_visible = False
         return is_visible
 

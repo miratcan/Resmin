@@ -171,7 +171,9 @@ function getFile(file, options) {
 };
 
 function updateSorted() {
-  $('#slot-list').sortable('reload');
+  $('#slot-list').sortable('reload', {
+    items: '.slot'
+  });
 }
 
 /* Backbone --------------------------------------------------------------- */
@@ -184,7 +186,7 @@ var SlotView = Backbone.View.extend({
 
   initialize: function() {
     this.id = "s" + this.model.cid;
-    $('#slot-list').append(this.$el);
+    $('#image-select-box').before(this.$el);
     this.render();
   },
 
@@ -221,8 +223,8 @@ var SlotView = Backbone.View.extend({
       'cid': this.model.cid,
       'opacity': this.model.get('fileCompleted') ? 1 : 0
     }));
+    updateSorted();
   }
-
 });
 
 var Slot = Backbone.Model.extend({

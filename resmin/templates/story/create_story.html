@@ -17,12 +17,13 @@
       {% csrf_token %}
       <input id="id_images" name="images" style="display: none;" type="file" multiple/>
       <div class="oa db">{{ story_form.non_field_errors }}</div>
-      <div id="slot-list"></div>
+      <div id="slot-list">
+        <div id="image-select-box" class="tac fl mah" style="background: url(https://cdn3.iconfinder.com/data/icons/eightyshades/512/14_Add-128.png) center center; background-size: 100%; width: 100px; height: 100px; cursor: pointer;"></div>
+      </div>
       {{ story_form.slot_data }}
       {{ story_form.question }}
       <div class="bt pt mt">
       <input type="submit" id="submit" class="bttn pa ra green tac fr" value="{% trans 'Save' %}" />
-      <div id="image-select-box" class="mr bttn pa ra green tac fr" style="cursor: pointer;">{% trans "Add Images" %}</div>
       </div>
     </div>
     <div class="panel-right">
