@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-16 22:57+0200\n"
+"POT-Creation-Date: 2014-12-22 20:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,7 +129,15 @@ msgstr "Soru"
 
 #: apps/question/views.py:119
 msgid "Action not found"
-msgstr ""
+msgstr "Hareket bulunamadı"
+
+#: apps/story/forms.py:116 apps/story/models.py:48
+msgid "Title"
+msgstr "Başlık"
+
+#: apps/story/forms.py:122 apps/story/models.py:49
+msgid "Description"
+msgstr "Açıklama"
 
 #: apps/story/models.py:36
 msgid "Draft"
@@ -155,10 +163,6 @@ msgstr "Herkese"
 msgid "Followers"
 msgstr "Takipçileri"
 
-#: apps/story/models.py:49
-msgid "Description"
-msgstr "Açıklama"
-
 #: apps/story/models.py:50
 msgid "NSFW"
 msgstr "AYIP"
@@ -167,15 +171,15 @@ msgstr "AYIP"
 msgid "Visible For"
 msgstr "Şuna Görünür"
 
-#: apps/story/models.py:239
+#: apps/story/models.py:238
 msgid "Uploading"
 msgstr "Gönderiliyor"
 
-#: apps/story/models.py:240
+#: apps/story/models.py:239
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: apps/story/models.py:241
+#: apps/story/models.py:240
 msgid "Failed"
 msgstr "Bitirilemedi"
 
@@ -425,7 +429,7 @@ msgstr ""
 msgid "Update Preferences"
 msgstr "Tercihleri Güncelle"
 
-#: templates/auth/preferences.html:9 templates/story/create_story.html:24
+#: templates/auth/preferences.html:9 templates/story/create_story.html:26
 #: templates/story/update_captions.html:21
 msgid "Save"
 msgstr "Kaydet"
@@ -583,8 +587,9 @@ msgid "Previous Stories"
 msgstr "Önceki Hikayeler"
 
 #: templates/includes/pagination_links_for_stories.html:8
-msgid "Next Hikayeler"
-msgstr "Sonraki Hikayeler"
+#, fuzzy
+msgid "Next Stories"
+msgstr "Önceki Hikayeler"
 
 #: templates/includes/pagination_links_for_users.html:4
 msgid "Previous Users"
@@ -690,23 +695,19 @@ msgid "<a class=\"imp\" href=\"%(login_url)s\">Login</a> to post an answer."
 msgstr ""
 "Cevaplayabilmek için <a class=\"imp\" href=\"%(login_url)s\">giriş yap</a>."
 
-#: templates/story/create_story.html:25
-msgid "Add Images"
-msgstr "Görsel Ekle"
-
-#: templates/story/story_detail.html:48
+#: templates/story/story_detail.html:60
 msgid "Story is deleted by it's owner"
 msgstr "Bu cevap sahibi tarafından silinmiş"
 
-#: templates/story/story_detail.html:50
+#: templates/story/story_detail.html:62
 msgid "Story is deleted by admins"
 msgstr "Bu cevap adminler tarafından silinmiş"
 
-#: templates/story/story_detail.html:52
+#: templates/story/story_detail.html:64
 msgid "This story is not visible for you"
 msgstr "Bu cevabı görmeye hakkın yok"
 
-#: templates/story/story_detail_inc.html:5
+#: templates/story/story_detail_inc.html:6
 msgid ""
 "This story is currently in draft status, click publish to make it visible "
 "for others."
@@ -714,59 +715,65 @@ msgstr ""
 "Bu hikaye şu anda müsvette durumunda, yayınla butonuna basarak başkaları "
 "için görünür hale getir."
 
-#: templates/story/story_detail_inc.html:35
+#: templates/story/story_detail_inc.html:7
+msgid "Publish"
+msgstr "Yayınla"
+
+#: templates/story/story_detail_inc.html:38
 msgid "Posted by an anonymouse user."
 msgstr "Gizli kullanıcı tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:37
+#: templates/story/story_detail_inc.html:40
 #, python-format
 msgid "Posted by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>."
 msgstr ""
 "<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:47
+#: templates/story/story_detail_inc.html:50
 msgid "Likers"
 msgstr "Kalpleyenler"
 
-#: templates/story/story_detail_inc.html:51
+#: templates/story/story_detail_inc.html:54
 msgid "Likers can be seen by owner of story."
 msgstr "Kalpleyenler hikaye sahibi tarafından görüntülenebilir."
 
-#: templates/story/story_detail_inc.html:66
+#: templates/story/story_detail_inc.html:69
 msgid "Mounted Questions"
 msgstr "Bağlı Sorular"
 
-#: templates/story/story_detail_inc.html:75
+#: templates/story/story_detail_inc.html:78
 msgid "Actions"
 msgstr "Hareketler"
 
-#: templates/story/story_detail_inc.html:77
-msgid "Publish"
-msgstr "Yayınla"
-
-#: templates/story/story_detail_inc.html:78
+#: templates/story/story_detail_inc.html:81
 msgid "Rearrange Images"
 msgstr "Görselleri Düzenle"
 
-#: templates/story/story_detail_inc.html:79
+#: templates/story/story_detail_inc.html:82
 msgid "Edit Title and Descriptions"
 msgstr "Başlık ve Açıklamaları Düzenle"
 
-#: templates/story/story_detail_inc.html:80
+#: templates/story/story_detail_inc.html:83
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/story/story_detail_inc.html:80
+#: templates/story/story_detail_inc.html:83
 msgid "Click here if you're sure to delete."
 msgstr "Silmeye eminsen buraya tıkla."
 
-#: templates/story/story_thumbnail.html:16
+#: templates/story/story_thumbnail.html:21
 msgid "This story is visible for followers."
 msgstr "Bu hikaye sadece takipçilere açık"
 
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#~ msgid "Next Hikayeler"
+#~ msgstr "Sonraki Hikayeler"
+
+#~ msgid "Add Images"
+#~ msgstr "Görsel Ekle"
 
 #~ msgid "Update"
 #~ msgstr "Güncelle"

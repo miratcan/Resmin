@@ -45,7 +45,7 @@ class Story(BaseModel):
     mounted_question_metas = models.ManyToManyField(
         'question.QuestionMeta', null=True, blank=True)
     question = models.ForeignKey('question.Question', null=True, blank=True)
-    title = models.CharField(max_length=255, null=True, blank=True)
+    title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)

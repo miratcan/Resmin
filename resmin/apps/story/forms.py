@@ -1,9 +1,10 @@
-from copy import copy
 import re
 
 from django import forms
 from django.db import transaction
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import ugettext as _
+
 from json_field.forms import JSONFormField as JSONField
 
 from apps.question.models import Question
@@ -29,6 +30,11 @@ class StoryForm(forms.ModelForm):
         self.meta = kwargs.pop('meta', None)
         self.question = kwargs.pop('question', None)
         super(StoryForm, self).__init__(*args, **kwargs)
+
+        for fn in ['title', 'description']:
+            self.fields[fn].widget.attrs.update({
+                'placeholder': self.fields[fn].label})
+
         if self.owner:
             self.fields['question'] = \
                 forms.ModelChoiceField(
@@ -106,9 +112,14 @@ class UpdateCaptionsForm(forms.Form):
             descr_key = 'slot_%s_descr' % slot.pk
             self.fields[title_key] = forms.CharField(
                 required=False, initial=slot.title)
+            self.fields[title_key].widget.attrs.update({
+                'placeholder': _('Title')})
+
             self.fields[descr_key] = forms.CharField(
                 required=False, initial=slot.description,
                 widget=forms.Textarea)
+            self.fields[descr_key].widget.attrs.update({
+                'placeholder': _('Description')})
             self.stacks.append({
                 'title': self[title_key],
                 'descr': self[descr_key],
