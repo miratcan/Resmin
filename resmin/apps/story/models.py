@@ -73,11 +73,14 @@ class Story(BaseModel):
         return redis.sismember(self._like_set_key(), user.username)
 
     def is_visible_for(self, user, blocked_user_ids=[]):
+
+        if user.is_superuser:
+            return True
+
         is_visible = True
         user_is_authenticated = user.is_authenticated()
 
-        if not user.is_superuser and self.STATUS == Story.DRAFT and \
-           self.owner != user:
+        if self.status == Story.DRAFT and self.owner != user:
             return False
 
         # We don't need to compute user and question owner relationship
