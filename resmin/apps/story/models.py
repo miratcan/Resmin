@@ -80,9 +80,6 @@ class Story(BaseModel):
         is_visible = True
         user_is_authenticated = user.is_authenticated()
 
-        if self.status == Story.DRAFT and self.owner != user:
-            return False
-
         # We don't need to compute user and question owner relationship
         # if user is not authenticated.
         if user_is_authenticated:
