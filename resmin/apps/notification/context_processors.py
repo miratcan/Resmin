@@ -1,6 +1,6 @@
 from apps.follow.models import UserFollow
 from apps.question.models import Question
-from apps.notification.models import Notification
+from apps.notification.models import SiteNotification
 
 
 def notifications(request):
@@ -12,8 +12,8 @@ def notifications(request):
         target=request.user, status=0).count()
     pqs = Question.objects.filter(
         questionee=request.user, status=0).count()
-    pns = Notification.objects.filter(
-        recipient=request.user).count()
+    pns = SiteNotification.objects.filter(
+        meta__recipient=request.user).count()
 
     return {'num_of_pending_follow_requests': pfr,
             'num_of_pending_questions': pqs,

@@ -36,9 +36,11 @@ def _publish_story(request, story):
             story.question.status = Question.ANSWERED
             story.question.answer = story
             story.question.save()
-            notify(story.question.questionee,
-                   'got_answer_to_asked_question', story.question,
-                   story.question.questioner, story.get_absolute_url())
+            notify(ntype_slug='user_answered_your_question',
+                   sub=story.question.questionee,
+                   obj=story.question,
+                   recipient=story.question.questioner,
+                   url=story.get_absolute_url())
         messages.success(request, _('Your story published.'))
         user_created_story.send(sender=story)
     return HttpResponseRedirect(story.get_absolute_url())

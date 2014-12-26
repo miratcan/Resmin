@@ -10,11 +10,11 @@ from redis_cache import get_redis_connection
 
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
-from apps.question.models import Question, QuestionMeta
 from apps.story.models import Story
+from apps.question.models import Question, QuestionMeta
+from apps.notification.utils import notify
 from apps.follow.models import QuestionFollow
 from utils import paginated
-
 
 redis = get_redis_connection('default')
 
@@ -96,6 +96,11 @@ def like(request):
 
     story = get_object_or_404(Story, id=int(sid))
     is_liked = story.set_like(request.user, liked=bool(int(val)))
+    notify(ntype_slug='new_like_on_your_story',
+           sub=request.user,
+           obj=story,
+           recipient=story.owner,
+           url=story.get_absolute_url())
     like_count = story.get_like_count_from_redis()
     return HttpResponse(json.dumps(
         {'like_count': like_count,

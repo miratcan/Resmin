@@ -7,7 +7,6 @@ class InvitationAdmin(admin.ModelAdmin):
     readonly_fields = ('is_usable',)
 
 
-
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio', 'like_count', 'story_count',
                     'follower_count')

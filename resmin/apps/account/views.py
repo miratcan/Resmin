@@ -144,11 +144,11 @@ def pending_follow_request_action(request):
             follow_request.status = UserFollow.FOLLOWING
             follow_request.save()
             follower_count_changed.send(sender=request.user)
-            notify(follow_request.target,
-                   'user_accepted_your_follow_request',
-                   follow_request.target,
-                   follow_request.follower,
-                   follow_request.target.get_absolute_url())
+            notify(ntype_slug='user_accepted_your_follow_request',
+                   sub=follow_request.target,
+                   obj=follow_request,
+                   recipient=follow_request.follower,
+                   url=follow_request.target.get_absolute_url())
             return render_to_json({'success': True})
         if action == 'decline':
             follow_request.delete()

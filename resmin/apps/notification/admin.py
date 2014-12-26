@@ -1,21 +1,24 @@
 from django.contrib import admin
-from apps.notification.models import Notification
-from apps.notification.models import NotificationPreference
-from apps.notification.models import NotificationType
+from apps.notification.models import (NotificationMeta, NotificationPreference,
+                                      NotificationType, SiteNotification,
+                                      EmailNotification)
 
 
-class NotificationAdmin(admin.ModelAdmin):
-    list_display = ('actor', 'ntype', 'recipient')
+class NotificationMetaAdmin(admin.ModelAdmin):
+    list_display = ('ntype', 'recipient', 'is_published', 's_tp', 's_pks',
+                    'o_tp', 'o_pks')
 
 
 class NotificationPreferenceAdmin(admin.ModelAdmin):
-    list_display = ('user', 'ntype', 'subscription_status')
+    list_display = ('user', 'ntype')
 
 
 class NotificationTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
+    list_display = ('name', 'slug', 'plural')
 
 
-admin.site.register(Notification, NotificationAdmin)
+admin.site.register(NotificationMeta, NotificationMetaAdmin)
+admin.site.register(SiteNotification)
+admin.site.register(EmailNotification)
 admin.site.register(NotificationPreference, NotificationPreferenceAdmin)
 admin.site.register(NotificationType, NotificationTypeAdmin)
