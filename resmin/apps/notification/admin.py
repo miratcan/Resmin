@@ -5,8 +5,7 @@ from apps.notification.models import (NotificationMeta, NotificationPreference,
 
 
 class NotificationMetaAdmin(admin.ModelAdmin):
-    list_display = ('ntype', 'recipient', 'is_published', 's_tp', 's_pks',
-                    'o_tp', 'o_pks')
+    list_display = ('ntype', 'recipient', 'is_published', 's_pks', 'o_pks')
 
 
 class NotificationPreferenceAdmin(admin.ModelAdmin):
@@ -14,7 +13,7 @@ class NotificationPreferenceAdmin(admin.ModelAdmin):
 
 
 class NotificationTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'plural')
+    list_display = ('name', 'slug', 'plural', 's_ct', 'o_ct')
 
 
 admin.site.register(NotificationMeta, NotificationMetaAdmin)

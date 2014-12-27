@@ -1,1 +1,0 @@
-{% load i18n %}{% blocktrans with username=n.actor.username question=n.target.question.text %}<strong>{{ username }}</strong> accepted your follow request.{% endblocktrans %}

@@ -1,0 +1,5 @@
+{% load i18n %}{% blocktrans with username=n.sub.username question=n.obj.meta.text %}{{ username }} answered "{{ question }}" by your request.{% endblocktrans %}
+
+{%trans "Click link below to see that answer." %}
+
+{{ n.url }}?nid={{ n.id }}

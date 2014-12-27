@@ -3,27 +3,33 @@
   "pk": 1, 
   "model": "notification.notificationtype", 
   "fields": {
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "slug": "user_answered_your_question", 
-    "name": "User Answered Your Question"
+    "name": "User Answered Your Question",
+    "s_ct": ["auth", "user"],
+    "o_ct": ["question", "question"],
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}"
   }
 },
 {
   "pk": 2, 
   "model": "notification.notificationtype", 
   "fields": {
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
     "slug": "user_accepted_your_follow_request", 
-    "name": "User Accepted Your Follow Request"
+    "name": "User Accepted Your Follow Request",
+    "s_ct": ["auth", "user"],
+    "o_ct": ["follow", "userfollow"],
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}"
   }
 },
 {
   "pk": 3, 
   "model": "notification.notificationtype", 
   "fields": {
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "slug": "new_answer_to_following_question", 
     "name": "New Answer to Following Question",
+    "s_ct": ["story", "story"],
+    "o_ct": ["question", "questionmeta"],
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "plural": "sub"
   }
 },
@@ -31,9 +37,11 @@
   "pk": 4, 
   "model": "notification.notificationtype", 
   "fields": {
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
     "slug": "user_liked_your_story", 
     "name": "User Liked Your Story",
+    "s_ct": ["auth", "user"],
+    "o_ct": ["story", "story"],
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
     "plural": "sub"
   }
 },
@@ -41,9 +49,11 @@
   "pk": 5, 
   "model": "notification.notificationtype", 
   "fields": {
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "slug": "new_comment_on_your_story", 
     "name": "New Comment on Your Story",
+    "s_ct": ["auth", "user"],
+    "o_ct": ["comment", "comment"],
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "plural": "sub"
   }
 },
@@ -51,9 +61,11 @@
   "pk": 6, 
   "model": "notification.notificationtype", 
   "fields": {
+    "slug": "user_liked_your_story", 
+    "name": "User Liked Your Story",
+    "s_ct": ["auth", "user"],
+    "o_ct": ["comment", "comment"],
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
-    "slug": "new_like_on_your_story", 
-    "name": "New Like on Your Story",
     "plural": "sub"
   }
 }

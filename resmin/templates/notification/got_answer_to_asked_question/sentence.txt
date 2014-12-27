@@ -1,1 +1,0 @@
-{% load i18n %}{% blocktrans with username=n.actor.username question=n.target.meta.text %}<strong>{{ username}}</strong> answered <strong>{{ question }}</strong> by your request.{% endblocktrans %}
