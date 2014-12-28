@@ -13,7 +13,7 @@ def notifications(request):
     pqs = Question.objects.filter(
         questionee=request.user, status=0).count()
     pns = SiteNotification.objects.filter(
-        meta__recipient=request.user).count()
+        meta__recipient=request.user, meta__is_read=False).count()
 
     return {'num_of_pending_follow_requests': pfr,
             'num_of_pending_questions': pqs,

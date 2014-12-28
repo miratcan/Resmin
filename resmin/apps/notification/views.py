@@ -8,4 +8,4 @@ from apps.notification.models import SiteNotification
 def notifications(request):
     return render(request, 'notification/list.html', {
         'notifications': SiteNotification.objects.filter(
-            recipient=request.user)})
+            meta__recipient=request.user, meta__is_read=False)})

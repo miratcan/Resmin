@@ -3,9 +3,7 @@
 <div class="narrow fc bg ra pad">
   <ul>
   {% for n in notifications %}
-    {% with tname='notification/'|add:n.ntype.slug|add:'/sentence.txt' %}
-      <li><a href="{{ n.url }}?nid={{ n.id }}">{% include tname %}</a></li>
-    {% endwith %}
+	<li><a href="{{ n.meta.get_url }}">{% include n.template_name with nm=n.meta %}</a></li>
   {% empty %}
   	<p class="imp pa f_stng">{% trans "No new notifications." %}</p>
   {% endfor %}

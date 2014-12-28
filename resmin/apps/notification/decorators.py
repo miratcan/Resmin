@@ -1,5 +1,5 @@
 import functools
-from apps.notification.models import SiteNotification
+from apps.notification.models import NotificationMeta
 
 
 def delete_notification(method):
@@ -8,7 +8,8 @@ def delete_notification(method):
         if request.user.is_authenticated():
             nid = request.GET.get('nid')
             if nid:
-                SiteNotification.objects.filter(
-                    recipient=request.user, id=nid).delete()
+                NotificationMeta.objects.filter(
+                    recipient=request.user, id=nid).update(
+                    is_read=True)
         return method(request, *args, **kwargs)
     return wrapper

@@ -2,9 +2,13 @@ from json_field.fields import JSONField
 
 from django.db import models
 from django.core.cache import get_cache
+from django.core.mail import send_mail
+from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.contrib.contenttypes.models import ContentType
 from django.template.loader import render_to_string
+from django.template import TemplateDoesNotExist
 
 cache = get_cache('default')
 
@@ -81,8 +85,8 @@ class NotificationMeta(models.Model):
         verbose_name='Object Pks', max_length=4096)
     url = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
-    custom_message = models.TextField(null=True, blank=True)
     is_published = models.BooleanField(default=False)
+    is_read = models.BooleanField(default=False)
 
     def _get_objects(self, c_tp, pks):
         """
@@ -190,6 +194,16 @@ class NotificationMeta(models.Model):
         return self.ntype.get_notification_template(self.multiple_subs,
                                                     self.multiple_objs)
 
+    def get_url(self):
+        """
+        Return special url that used to set read notification meta.
+        """
+        return '%s?nid=%s' % (self.url, self.id)
+
+    def get_template_prefix(self):
+        return self.ntype.get_template_prefix(self.multiple_subs,
+                                              self.multiple_objs)
+
     def publish(self):
         """
         Publish this notification. Create SiteNotification and
@@ -200,7 +214,7 @@ class NotificationMeta(models.Model):
             self.recipient.pk, self.ntype.slug)
         if preferences.get('send_mail'):
             self._publish_email_notification()
-        if preferences.get('send_site_notification'):
+        if self.recipient.email and preferences.get('send_site_notification'):
             self._publish_site_notification()
         self.is_published = True
         self.save()
@@ -216,16 +230,15 @@ class EmailNotification(models.Model):
     meta = models.ForeignKey(NotificationMeta)
     subject = models.CharField(max_length=255, blank=True)
     body_txt = models.TextField(blank=True)
-    body_html = models.TextField(blank=True)
+    body_html = models.TextField(null=True, blank=True)
     is_sent = models.BooleanField(default=False)
-    is_read = models.BooleanField(default=False)
-    read_at = models.DateTimeField(null=True, blank=True)
 
     def _body_tname(self, postfix):
         """
         Generic method for getting body template name.
         """
-        return '%s/email_body.%s' % (self.meta.get_template_prefix(), postfix)
+        return '%s/email_body.%s' % (self.meta.get_template_prefix(),
+                                     postfix)
 
     def subject_tname(self):
         """
@@ -246,15 +259,26 @@ class EmailNotification(models.Model):
         """
         return self._body_tname('html')
 
-    def get_url(self):
-        return '%s?nid=%s' % (self.meta.url, self.meta.id)
-
     def save(self, *args, **kwargs):
-        ctx = {'notification': self.meta}
+        """
+        Render, save and send EmailNotification. If dry=True, it will be only \
+        rendered and saved.
+        """
+        dry = kwargs.pop('dry')
+        ctx = {'nm': self.meta,
+               'site': Site.objects.get_current()}
         self.subject = render_to_string(self.subject_tname(), ctx)
         self.body_txt = render_to_string(self.body_txt_tname(), ctx)
-        self.body_html = render_to_string(self.body_html_tname(), ctx)
+        try:
+            self.body_html = render_to_string(self.body_html_tname(), ctx)
+        except TemplateDoesNotExist:
+            pass
         super(EmailNotification, self).save(*args, **kwargs)
+        if not dry:
+            send_mail(self.subject,
+                      self.body_txt,
+                      settings.DEFAULT_FROM_EMAIL
+                      [self.meta.recipient.email], fail_silently=False)
 
 
 class SiteNotification(models.Model):
@@ -263,7 +287,8 @@ class SiteNotification(models.Model):
     read_at = models.DateTimeField(null=True, blank=True)
 
     def template_name(self):
-        '%s%s' % (self.meta.get_template_prefix(), 'site_notification.html')
+        return '%s%s' % (self.meta.get_template_prefix(),
+                         'site_notification.html')
 
 
 def notification_preferences(user_id, ntype_slug, use_cache=True):

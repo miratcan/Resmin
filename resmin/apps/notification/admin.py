@@ -13,7 +13,7 @@ class NotificationPreferenceAdmin(admin.ModelAdmin):
 
 
 class NotificationTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'plural', 's_ct', 'o_ct')
+    list_display = ('name', 'slug', 'is_active', 'plural', 's_ct', 'o_ct')
 
 
 admin.site.register(NotificationMeta, NotificationMetaAdmin)
