@@ -278,12 +278,17 @@ class EmailNotification(models.Model):
         """
         return self._body_tname('html')
 
+    def send(self):
+        send_mail(self.subject, self.body_txt, self.from_email
+                  [self.recipient_email], fail_silently=False)
+        self.is_sent = True
+
     def save(self, *args, **kwargs):
         """
         Render, save and send EmailNotification. If dry=True, it will be only \
         rendered and saved.
         """
-        dry = kwargs.pop('dry', False)
+        send_email = kwargs.pop('send_email', False)
         self.from_email = settings.DEFAULT_FROM_EMAIL
         self.recipient_email = self.meta.recipient.email
         ctx = {'nm': self.meta,
@@ -294,11 +299,8 @@ class EmailNotification(models.Model):
             self.body_html = render_to_string(self.body_html_tname(), ctx)
         except TemplateDoesNotExist:
             pass
-        if not dry:
-            send_mail(self.subject, self.body_txt, self.from_email,
-                      [self.recipient_email], fail_silently=False)
-            self.is_sent = True
-            self.save()
+        if send_email and not self.is_sent:
+            self.send()
         super(EmailNotification, self).save(*args, **kwargs)
 
 
