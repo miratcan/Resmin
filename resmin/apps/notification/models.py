@@ -283,7 +283,7 @@ class EmailNotification(models.Model):
         Render, save and send EmailNotification. If dry=True, it will be only \
         rendered and saved.
         """
-        dry = kwargs.pop('dry', NotificationMeta)
+        dry = kwargs.pop('dry', False)
         self.from_email = settings.DEFAULT_FROM_EMAIL
         self.recipient_email = self.meta.recipient.email
         ctx = {'nm': self.meta,
