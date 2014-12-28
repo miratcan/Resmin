@@ -295,8 +295,7 @@ class EmailNotification(models.Model):
         send_email = kwargs.pop('send_email', True)
         self.from_email = settings.DEFAULT_FROM_EMAIL
         self.recipient_email = self.meta.recipient.email
-        ctx = {'nm': self.meta,
-               'site': Site.objects.get_current()}
+        ctx = {'nm': self.meta, 'site': Site.objects.get_current()}
         self.subject = render_to_string(self.subject_tname(), ctx)
         self.body_txt = render_to_string(self.body_txt_tname(), ctx)
         try:
