@@ -1,5 +1,3 @@
-from django.conf import settings
-
 from resmin.celery_app import app
 from apps.notification.models import NotificationMeta
 
