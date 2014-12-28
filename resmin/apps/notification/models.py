@@ -51,7 +51,8 @@ class NotificationType(models.Model):
                   'grouped.')
     is_active = models.BooleanField(
         default=True,
-        help_text='You can stop that kind of of notifications by unchecking this.')
+        help_text='You can stop that kind of of notifications by '
+                  'unchecking this.')
 
     def get_template_prefix(self, multiple_subs=False, multiple_objs=False):
         """
@@ -279,7 +280,10 @@ class EmailNotification(models.Model):
         return self._body_tname('html')
 
     def send(self):
-        send_mail(self.subject, self.body_txt, self.from_email
+        """
+        Send this notification.
+        """
+        send_mail(self.subject, self.body_txt, self.from_email,
                   [self.recipient_email], fail_silently=False)
         self.is_sent = True
 

@@ -114,7 +114,6 @@ class UpdateCaptionsForm(forms.Form):
                 required=False, initial=slot.title)
             self.fields[title_key].widget.attrs.update({
                 'placeholder': _('Title')})
-
             self.fields[descr_key] = forms.CharField(
                 required=False, initial=slot.description,
                 widget=forms.Textarea)
