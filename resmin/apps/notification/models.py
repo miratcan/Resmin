@@ -245,6 +245,8 @@ class NotificationMeta(models.Model):
 
 class EmailNotification(models.Model):
     meta = models.ForeignKey(NotificationMeta)
+    from_email = models.EmailField()
+    recipient_email = models.EmailField()
     subject = models.CharField(max_length=255, blank=True)
     body_txt = models.TextField(blank=True)
     body_html = models.TextField(null=True, blank=True)
@@ -282,6 +284,8 @@ class EmailNotification(models.Model):
         rendered and saved.
         """
         dry = kwargs.pop('dry', NotificationMeta)
+        self.from_email = settings.DEFAULT_FROM_EMAIL
+        self.recipient_email = self.meta.recipient.email
         ctx = {'nm': self.meta,
                'site': Site.objects.get_current()}
         self.subject = render_to_string(self.subject_tname(), ctx)
@@ -291,11 +295,10 @@ class EmailNotification(models.Model):
         except TemplateDoesNotExist:
             pass
         if not dry:
-            send_mail(self.subject,
-                      self.body_txt,
-                      settings.DEFAULT_FROM_EMAIL
-                      [self.meta.recipient.email], fail_silently=False)
+            send_mail(self.subject, self.body_txt, self.from_email
+                      [self.recipient_email], fail_silently=False)
             self.is_sent = True
+            self.save()
         super(EmailNotification, self).save(*args, **kwargs)
 
 

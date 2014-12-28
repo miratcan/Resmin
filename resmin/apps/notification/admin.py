@@ -16,8 +16,12 @@ class NotificationTypeAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'is_active', 'plural', 's_ct', 'o_ct')
 
 
+class EmailNotificationAdmin(admin.ModelAdmin):
+    list_display = ('meta', 'recipient_email', 'subject', 'is_sent')
+
+
 admin.site.register(NotificationMeta, NotificationMetaAdmin)
 admin.site.register(SiteNotification)
-admin.site.register(EmailNotification)
+admin.site.register(EmailNotification, EmailNotificationAdmin)
 admin.site.register(NotificationPreference, NotificationPreferenceAdmin)
 admin.site.register(NotificationType, NotificationTypeAdmin)
