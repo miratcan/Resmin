@@ -3,13 +3,12 @@ from apps.notification.models import _pks_to_str
 
 
 def _new_notification(ntype, sub, obj, recipient, url):
-    nm = NotificationMeta.objects.create(
+    return NotificationMeta.objects.create(
         ntype=ntype,
         recipient=recipient,
         url=url,
         s_pks=_pks_to_str([sub.pk]),
         o_pks=_pks_to_str([obj.pk]))
-    nm.publish()
 
 
 def notify(ntype_slug, sub, obj, recipient, url):

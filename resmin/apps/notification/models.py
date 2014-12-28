@@ -1,5 +1,6 @@
-from json_field.fields import JSONField
+from datetime import datetime
 
+from json_field.fields import JSONField
 from django.db import models
 from django.core.cache import get_cache
 from django.core.mail import send_mail
@@ -27,18 +28,30 @@ class NotificationType(models.Model):
     PLURAL_SUB = 'sub'
     PLURAL_BOTH = 'both'
 
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(
+        max_length=255,
+        help_text='Used for generating template names for this notification '
+                  'type.')
     name = models.CharField(max_length=255)
-    default_preferences = JSONField()
+    default_preferences = JSONField(
+        help_text='Default preferences that will be used if user has no '
+                  'NotificationPreference or NotificationPreference has no '
+                  'info about that kind of notification.')
     plural = models.CharField(
         max_length=32, null=True, blank=True,
         choices=((PLURAL_SUB, 'Subject'), (PLURAL_OBJ, 'Object'),
                  (PLURAL_BOTH, 'Both')))
-    s_ct = models.ForeignKey(ContentType, verbose_name='Subject Content Type',
+    s_ct = models.ForeignKey(ContentType, verbose_name='Subject Type',
                              related_name='s_ct')
-    o_ct = models.ForeignKey(ContentType, verbose_name='Object Content Type',
+    o_ct = models.ForeignKey(ContentType, verbose_name='Object Type',
                              related_name='o_ct')
-    is_active = models.BooleanField(default=True)
+    collecting_period = models.PositiveSmallIntegerField(
+        default=10,
+        help_text='Amount of minutes that kind notifications collected and '
+                  'grouped.')
+    is_active = models.BooleanField(
+        default=True,
+        help_text='You can stop that kind of of notifications by unchecking this.')
 
     def get_template_prefix(self, multiple_subs=False, multiple_objs=False):
         """
@@ -77,7 +90,8 @@ class NotificationPreference(models.Model):
 
 class NotificationMeta(models.Model):
 
-    ntype = models.ForeignKey(NotificationType)
+    ntype = models.ForeignKey(
+        NotificationType, verbose_name='Type')
     recipient = models.ForeignKey(User, related_name='recipient')
     s_pks = models.CommaSeparatedIntegerField(
         verbose_name='Subject Pks', max_length=4096)
@@ -86,7 +100,9 @@ class NotificationMeta(models.Model):
     url = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now_add=True)
     is_published = models.BooleanField(default=False)
+    published_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
+    read_at = models.DateTimeField(null=True, blank=True)
 
     def _get_objects(self, c_tp, pks):
         """
@@ -212,11 +228,12 @@ class NotificationMeta(models.Model):
         """
         preferences = notification_preferences(
             self.recipient.pk, self.ntype.slug)
-        if preferences.get('send_mail'):
+        if self.recipient.email and preferences.get('send_mail'):
             self._publish_email_notification()
-        if self.recipient.email and preferences.get('send_site_notification'):
+        if preferences.get('send_site_notification'):
             self._publish_site_notification()
         self.is_published = True
+        self.published_at = datetime.now()
         self.save()
 
     class Meta:
@@ -264,7 +281,7 @@ class EmailNotification(models.Model):
         Render, save and send EmailNotification. If dry=True, it will be only \
         rendered and saved.
         """
-        dry = kwargs.pop('dry')
+        dry = kwargs.pop('dry', NotificationMeta)
         ctx = {'nm': self.meta,
                'site': Site.objects.get_current()}
         self.subject = render_to_string(self.subject_tname(), ctx)
@@ -273,18 +290,17 @@ class EmailNotification(models.Model):
             self.body_html = render_to_string(self.body_html_tname(), ctx)
         except TemplateDoesNotExist:
             pass
-        super(EmailNotification, self).save(*args, **kwargs)
         if not dry:
             send_mail(self.subject,
                       self.body_txt,
                       settings.DEFAULT_FROM_EMAIL
                       [self.meta.recipient.email], fail_silently=False)
+            self.is_sent = True
+        super(EmailNotification, self).save(*args, **kwargs)
 
 
 class SiteNotification(models.Model):
     meta = models.ForeignKey(NotificationMeta)
-    is_read = models.BooleanField(default=False)
-    read_at = models.DateTimeField(null=True, blank=True)
 
     def template_name(self):
         return '%s%s' % (self.meta.get_template_prefix(),

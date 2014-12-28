@@ -176,6 +176,13 @@ PIPELINE_JS = {
 
 BROKER_URL = 'redis://localhost:6379/0'
 
+CELERYBEAT_SCHEDULE = {
+    'publish_notifications': {
+        'task': 'apps.notification.tasks.publish_notifications',
+        'schedule': timedelta(seconds=60),
+    },
+}
+
 AVATAR_QUESTIONMETA_ID = 1
 DEFAULT_AVATAR_ANSWER_ID = 1
 
