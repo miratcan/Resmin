@@ -90,6 +90,7 @@ INSTALLED_APPS = (
     'apps.follow',
     'apps.notification',
     'apps.story',
+    'apps.comment',
 
     'seo_cascade',
     'sorl.thumbnail',

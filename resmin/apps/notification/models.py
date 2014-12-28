@@ -295,7 +295,7 @@ class EmailNotification(models.Model):
         except TemplateDoesNotExist:
             pass
         if not dry:
-            send_mail(self.subject, self.body_txt, self.from_email
+            send_mail(self.subject, self.body_txt, self.from_email,
                       [self.recipient_email], fail_silently=False)
             self.is_sent = True
             self.save()
