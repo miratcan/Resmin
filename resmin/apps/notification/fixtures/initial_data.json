@@ -68,5 +68,16 @@
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
     "plural": "sub"
   }
-}
+},
+{
+  "pk": 7,
+  "model": "notification.notificationtype", 
+  "fields": {
+    "slug": "user_asked_you_a_question", 
+    "name": "User Asked You a Question",
+    "s_ct": ["auth", "user"],
+    "o_ct": ["question", "question"],
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}",
+  }
+},
 ]
