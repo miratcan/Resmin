@@ -77,7 +77,7 @@
     "name": "User Asked You a Question",
     "s_ct": ["auth", "user"],
     "o_ct": ["question", "question"],
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}",
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}"
   }
-},
+}
 ]

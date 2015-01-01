@@ -6,4 +6,3 @@ from apps.notification.models import NotificationMeta
 def publish_notifications():
     for nm in NotificationMeta.objects.filter(is_published=False):
         nm.publish()
-        print nm.is_published

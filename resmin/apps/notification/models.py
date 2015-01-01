@@ -10,8 +10,11 @@ from django.contrib.sites.models import Site
 from django.contrib.contenttypes.models import ContentType
 from django.template.loader import render_to_string
 from django.template import TemplateDoesNotExist
+from logging import getLogger
+
 
 cache = get_cache('default')
+logger = getLogger('notification')
 
 
 def _str_to_pks(s):
@@ -50,7 +53,7 @@ class NotificationType(models.Model):
         help_text='Amount of minutes that kind notifications collected and '
                   'grouped.')
     is_active = models.BooleanField(
-        default=True,
+        default=False,
         help_text='You can stop that kind of of notifications by '
                   'unchecking this.')
 
@@ -246,8 +249,8 @@ class NotificationMeta(models.Model):
 
 class EmailNotification(models.Model):
     meta = models.ForeignKey(NotificationMeta)
-    from_email = models.EmailField()
-    recipient_email = models.EmailField()
+    from_email = models.EmailField(blank=True)
+    recipient_email = models.EmailField(blank=True)
     subject = models.CharField(max_length=255, blank=True)
     body_txt = models.TextField(blank=True)
     body_html = models.TextField(null=True, blank=True)
@@ -287,6 +290,27 @@ class EmailNotification(models.Model):
                   [self.recipient_email], fail_silently=False)
         self.is_sent = True
 
+    def render(self):
+        """
+        Try to render subject and body, if successful return True,
+        else log missing template and return False.
+        """
+        ctx = {'nm': self.meta, 'site': Site.objects.get_current()}
+        rendered = True
+        try:
+            self.subject = render_to_string(self.subject_tname(), ctx)
+            self.body_txt = render_to_string(self.body_txt_tname(), ctx)
+        except TemplateDoesNotExist as err:
+            rendered = False
+            logger.error('Could\'nt send email notification. Template named: '
+                         '"%s" does not exist.' % err.args[0])
+        if rendered:
+            try:
+                self.body_html = render_to_string(self.body_html_tname(), ctx)
+            except TemplateDoesNotExist:
+                pass
+        return rendered
+
     def save(self, *args, **kwargs):
         """
         Render, save and send EmailNotification. If dry=True, it will be only \
@@ -295,14 +319,8 @@ class EmailNotification(models.Model):
         send_email = kwargs.pop('send_email', True)
         self.from_email = settings.DEFAULT_FROM_EMAIL
         self.recipient_email = self.meta.recipient.email
-        ctx = {'nm': self.meta, 'site': Site.objects.get_current()}
-        self.subject = render_to_string(self.subject_tname(), ctx)
-        self.body_txt = render_to_string(self.body_txt_tname(), ctx)
-        try:
-            self.body_html = render_to_string(self.body_html_tname(), ctx)
-        except TemplateDoesNotExist:
-            pass
-        if send_email and not self.is_sent:
+        rendered = self.render()
+        if rendered and send_email and not self.is_sent:
             self.send()
         super(EmailNotification, self).save(*args, **kwargs)
 

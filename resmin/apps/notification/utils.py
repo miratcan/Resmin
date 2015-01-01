@@ -1,5 +1,8 @@
 from apps.notification.models import NotificationMeta, NotificationType
 from apps.notification.models import _pks_to_str
+from logging import getLogger
+
+logger = getLogger('notification')
 
 
 def _new_notification(ntype, sub, obj, recipient, url):
@@ -12,7 +15,11 @@ def _new_notification(ntype, sub, obj, recipient, url):
 
 
 def notify(ntype_slug, sub, obj, recipient, url):
-    ntype = NotificationType.objects.get(slug=ntype_slug)
+    try:
+        ntype = NotificationType.objects.get(slug=ntype_slug)
+    except NotificationType.DoesNotExist:
+        logger.error('NotificationType with slug "%s" not found.' % ntype_slug)
+        return
     if not ntype.is_active:
         return
     if not ntype.plural:

@@ -1,0 +1,5 @@
+{% load i18n %}
+
+{% if nm.obj.is_anonymouse %}{% blocktrans %}Click link below to see pending question:{% endblocktrans %}
+
+http://{{ site.domain }}{{ nm.get_url }}

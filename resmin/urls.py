@@ -4,7 +4,6 @@ from django.conf import settings
 
 from django.views.generic import TemplateView
 
-from chunked_upload.views import ChunkedUploadView, ChunkedUploadCompleteView
 
 admin.autodiscover()
 
@@ -77,17 +76,21 @@ urlpatterns = patterns(
         kwargs={'template_name': 'auth/password_reset_sent.html', }
         ),
 
-    url(r'^p/r/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$',
+    url(r'^p/r/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>.+)/$',
         'django.contrib.auth.views.password_reset_confirm',
         name='password_reset_confirm',
-        kwargs={'post_reset_redirect': '/p/r/done/',
-                'template_name': 'auth/password_reset_confirm.html'}
-        ),
+        kwargs={'post_reset_redirect': '/p/r/complete/',
+                'template_name': 'auth/password_reset_confirm.html'}),
 
     url(r'^p/r/done/$',
+        'django.contrib.auth.views.password_reset_done',
+        name='password_reset_done',
+        kwargs={'template_name': 'auth/password_reset_done.html'}),
+
+    url(r'^p/r/complete/$',
         'django.contrib.auth.views.password_reset_complete',
         name='password_reset_complete',
-        kwargs={'template_name': 'auth/password_reset_done.html'}),
+        kwargs={'template_name': 'auth/password_reset_complete.html'}),
 
     url(r'^q/(?P<base62_id>[-\w]+)/$',
         'apps.question.views.question',
