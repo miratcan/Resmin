@@ -3,9 +3,11 @@ import json
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
+
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+from django.utils.translation import ugettext as _
 from redis_cache import get_redis_connection
 
 from libs.baseconv import base62
@@ -122,7 +124,7 @@ def pending_question_action(request):
         return action_method(question)
     else:
         return render_to_json({'errMsg': _('Action not found')},
-                              HttpResponseBadRequest)
+                               HttpResponseBadRequest)
 
 
 @csrf_exempt
