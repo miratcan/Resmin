@@ -10,7 +10,7 @@ def _publish_notifications():
         .filter(is_published=False)
     for nm in nms:
         age = datetime.now() - nm.created_at
-        lifespan = timedelta(nm.ntype.collecting_period)
+        lifespan = timedelta(minutes=nm.ntype.collecting_period)
         print age, lifespan
         if age > lifespan:
             print "published."
