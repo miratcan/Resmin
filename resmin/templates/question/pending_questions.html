@@ -13,7 +13,7 @@
       <li class="bb pad">
         <p>
           <span class="wb">{{ question.meta.text }}</span> 
-          <span class="f_weak">{% include 'auth/username_inc.html' with user=question.questionee anonymouse=question.is_anonymouse %} {{ question.created_at|timesince }} {% trans 'ago' %}.</span>
+          <span class="f_weak">{% include 'auth/username_inc.html' with user=question.questioner anonymouse=question.is_anonymouse %} {{ question.created_at|timesince }} {% trans 'ago' %}.</span>
         </p>
         <p class="nm f_weak">
           <a href="{{ question.post_answer_url }}">{% trans 'Answer' %}</a> / <a class="reject" data-qpk='{{ question.pk }}' href="#">{% trans 'Reject' %}</a>
