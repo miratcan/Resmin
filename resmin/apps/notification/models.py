@@ -102,7 +102,7 @@ class NotificationMeta(models.Model):
     o_pks = models.CommaSeparatedIntegerField(
         verbose_name='Object Pks', max_length=4096)
     url = models.CharField(max_length=255)
-    date = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     is_published = models.BooleanField(default=False)
     published_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)
