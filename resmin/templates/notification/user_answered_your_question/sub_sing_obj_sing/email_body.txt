@@ -1,5 +1,5 @@
 {% load i18n %}{% blocktrans with username=nm.sub.username question=nm.obj.meta.text %}{{ username }} answered "{{ question }}" by your request.{% endblocktrans %}
 
-{%trans "Click link below to see that answer." %}
+{% trans "Click link below to see that answer." %}
 
 http://{{ site.domain }}{{ nm.get_url }}

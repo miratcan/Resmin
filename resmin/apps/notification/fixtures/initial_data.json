@@ -37,11 +37,11 @@
   "pk": 4, 
   "model": "notification.notificationtype", 
   "fields": {
-    "slug": "user_liked_your_story", 
-    "name": "User Liked Your Story",
+    "slug": "user_liked_your_answer", 
+    "name": "User Liked Your Answer",
     "s_ct": ["auth", "user"],
     "o_ct": ["story", "story"],
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
+    "default_preferences": "{\"send_mail_site_notification\": true, \"send_mail\": false}", 
     "plural": "sub"
   }
 },
@@ -58,19 +58,7 @@
   }
 },
 {
-  "pk": 6, 
-  "model": "notification.notificationtype", 
-  "fields": {
-    "slug": "user_liked_your_story", 
-    "name": "User Liked Your Story",
-    "s_ct": ["auth", "user"],
-    "o_ct": ["comment", "comment"],
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
-    "plural": "sub"
-  }
-},
-{
-  "pk": 7,
+  "pk": 6,
   "model": "notification.notificationtype", 
   "fields": {
     "slug": "user_asked_you_a_question", 

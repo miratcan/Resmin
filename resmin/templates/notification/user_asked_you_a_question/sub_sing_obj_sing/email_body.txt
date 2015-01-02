@@ -1,1 +1,5 @@
-Subject: user, Object: question
+{% load i18n %}{% if nm.obj.is_anonymouse %}{% trans "An anonymouse user asked:" %}{% else %}{% blocktrans with nm.sub.username=username %}{{ username }} asked:{% endblocktrans %} {{ nm.obj.meta.text}}
+
+{% blocktrans %}Click link below to see pending question:{% endblocktrans %}
+
+http://{{ site.domain }}{{ nm.obj.get_url }}

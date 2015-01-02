@@ -1,5 +1,5 @@
 {% blocktrans with nm.sub.username=username %}{{ username }} liked your answer. Seems like you've started doing things well.{% endblocktrans %}
 
-{% trans "...to see that answer click link below:" %}
+{% trans "Click link below to see that answer." %}
 
 http://{{ site.domain }}{{ nm.obj.get_absolute_url }}
