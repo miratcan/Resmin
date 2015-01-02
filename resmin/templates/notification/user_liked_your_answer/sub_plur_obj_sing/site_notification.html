@@ -1,1 +1,1 @@
-{% load i18n %}{% trans "Users liked your answer:" %} {% for sub in nm.subs %}<a href="{{ sub.get_absolute_url }}">{{ sub.username }}, </a>{% endfor %}
+{% load i18n %}{% trans "Users liked your answer:" %} {% for sub in nm.subs %}<a href="{{ sub.get_absolute_url }}">{{ sub.username }}</a> ,{% endfor %}
