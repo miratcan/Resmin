@@ -9,7 +9,7 @@
     {% endif %}
     {% for slot in story.slot_set.all %}
       <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
-        {% if slot.title %}<h3 class="ma">{{ slot.title }}</h3>{% endif %}
+        {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
         {% thumbnail slot.content.image "580" as img %}
           <div class="img" style="position: relative;">
             <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></span>
