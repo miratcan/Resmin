@@ -1,3 +1,4 @@
+from django.core.mail import mail_admins
 from django.utils.translation import ugettext as _
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponseRedirect
@@ -201,6 +202,8 @@ def register(request):
             login(request, user)
             Invitation.objects.create(owner=user)
             messages.success(request, _('Registration complete, wellcome :)'))
+            mail_admins('User %s registered.' % user,
+                        'Seems, we\'re doing things well...')
             return HttpResponseRedirect("/")
     return render(request, 'auth/register.html', {'form': form})
 
@@ -283,6 +286,8 @@ def email(request, key=None):
             user.email = email.email
             user.save()
             messages.success(request, _('Your email confirmed :)'))
+            mail_admins('User %s left his email: %s' % (
+                user, user.email), 'Seems, we\'re doing things well...')
             return HttpResponseRedirect("/")
         else:
             return render(request, 'auth/email_form.html', {

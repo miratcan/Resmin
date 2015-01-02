@@ -1,5 +1,7 @@
 {% load i18n thumbnail liked_by %}
-
+  {% with story.mounted_question_metas.all.0 as qm %}
+    <h1 class="f_stng mbd bb pbd mt"><a href="{{ qm.get_absolute_url }}">{{ qm.text }}</a></h1>
+  {% endwith %}
   <div class="panel-left">
     {% if story.status == story.DRAFT %}
       <div class="oa bg pa mbd imp ra">
@@ -19,9 +21,6 @@
         {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
       </div>
     {% endfor %}
-    <div class="db pl pr oa">
-      <div class="f_weak fl mth">{% include "auth/username_inc.html" with user=answer.owner anonymouse=answer.is_anonymouse %}</div>
-    </div>
   </div>
   <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
@@ -31,6 +30,7 @@
   </form>
 <div class="panel-right">
   <div class="section">
+
     {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
     {% if story.description %}{{ story.description|linebreaks }}{% endif %}
     <p class="f_weak c_weak">

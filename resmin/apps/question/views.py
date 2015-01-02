@@ -3,7 +3,8 @@ import json
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import HttpResponse
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
