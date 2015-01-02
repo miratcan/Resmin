@@ -1,0 +1,7 @@
+{% load i18n %}{% trans "These users liked your answer:" %}
+{% for sub in nm.subs %}
+  * <a href="{{ sub.get_absolute_url }}">{{ sub.username }}</a>{% endfor %}
+
+{% trans "...to see that answer click link below:" %}
+
+http://{{ site.domain }}{{ nm.obj.get_absolute_url }}
