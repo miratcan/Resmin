@@ -29,17 +29,18 @@
     <input name="set_cover" type="submit" />
   </form>
 <div class="panel-right">
-  <div class="section">
 
-    {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
-    {% if story.description %}{{ story.description|linebreaks }}{% endif %}
+  <div class="section">
     <p class="f_weak c_weak">
       {% if story.is_anonymouse %}
-        {% blocktrans %}Posted by an anonymouse user.{% endblocktrans %}
+        {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
       {% else %}
-        {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url %}Posted by <a href="{{ story_owner_url }}">{{ story_owner }}</a>.{% endblocktrans %}
-      {% endif %} Visible to {{ story.get_visible_for_display|lower }}.
+        {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a>{% endblocktrans %}
+      {% endif %}
+      [<a title="Visible to: {{ story.get_visible_for_display|lower }}. Posted at: {{ story.created_at }}" href="#">?</a>]
     </p>
+    {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
+    {% if story.description %}{{ story.description|linebreaks }}{% endif %}
   </div>
   <div class="section">
   <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>

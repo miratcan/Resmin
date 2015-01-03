@@ -21,27 +21,21 @@ def user_created_question_callback_task(question):
             follower=question.owner, target=question, reason='asked')
 
 
-@app.task
-def user_created_story_callback_task(story):
+def _user_created_story_callback_task(story):
 
-    # Update related question.
-    if story.question:
-        story.question.meta.update_answer_count()
-        story.question.meta.update_updated_at()
-        story.question.meta.latest_answer = story
+    qmeta = story.mounted_question_metas.all()[0]
+    qmeta.update_answer_count()
+    qmeta.update_updated_at()
+    qmeta.latest_answer = story
 
-        # Make user follow to that question if necessary.
-        if not QuestionFollow.objects.filter(
-           follower=story.owner, target=story.question).exists():
-            QuestionFollow.objects.create(follower=story.owner,
-                                          target=story.question,
-                                          reason=QuestionFollow.ANSWERED)
-            story.question.meta.update_follower_count()
-
-        story.question.save(update_fields=['answer_count',
-                                           'follower_count'
-                                           'updated_at',
-                                           'latest_answer'])
+    # Make user follow to that question if necessary.
+    if not QuestionFollow.objects.filter(
+       follower=story.owner, target=story.question).exists():
+        QuestionFollow.objects.create(follower=story.owner, target=qmeta,
+                                      reason=QuestionFollow.ANSWERED)
+        qmeta.update_follower_count()
+    qmeta.save(update_fields=['answer_count', 'follower_count'
+                              'updated_at', 'latest_answer'])
 
     # Update related profile.
     profile = story.owner.profile
@@ -56,6 +50,11 @@ def user_created_story_callback_task(story):
     qm_pks = (d['pk'] for d in story.mounted_question_metas.values('pk'))
     if settings.AVATAR_QUESTIONMETA_ID in qm_pks:
         _set_avatar_to_answer(story)
+
+
+@app.task
+def user_created_story_callback_task(story):
+    _user_created_story_callback_task(story)
 
 
 @app.task
