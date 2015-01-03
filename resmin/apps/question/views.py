@@ -55,6 +55,14 @@ def index(request):
                    'show_email_message': show_email_message})
 
 
+def questions(request):
+    qms = QuestionMeta.objects.filter(status=QuestionMeta.PUBLISHED)\
+                              .order_by('is_sponsored', 'is_featured',
+                                        'answer_count')
+    return render(request, "question/question_meta_list.html", {
+        'qms': qms})
+
+
 def question(request, base62_id, show_delete=False, **kwargs):
     question = get_object_or_404(QuestionMeta,
                                  id=base62.to_decimal(base62_id))

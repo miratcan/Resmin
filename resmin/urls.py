@@ -124,6 +124,10 @@ urlpatterns = patterns(
         'apps.story.views.update_details',
         name='update-details-of-story'),
 
+    url(r'^qs/',
+        'apps.question.views.questions',
+        name='questions'),
+
     url(r'^pq/',
         'apps.account.views.pending_questions',
         name='pending-questions'),

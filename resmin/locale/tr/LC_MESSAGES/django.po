@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-02 08:54+0200\n"
+"POT-Creation-Date: 2015-01-03 15:40+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -79,39 +79,39 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:67
+#: apps/account/views.py:68
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:87
+#: apps/account/views.py:88
 msgid "Follow request sent to user"
 msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:90
+#: apps/account/views.py:91
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının takipçisi değilsin"
 
-#: apps/account/views.py:93
+#: apps/account/views.py:94
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:96
+#: apps/account/views.py:97
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:174
+#: apps/account/views.py:175
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:203
+#: apps/account/views.py:204
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:264
+#: apps/account/views.py:267
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:285
+#: apps/account/views.py:288
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -127,7 +127,7 @@ msgstr "Adımı Gizle"
 msgid "Question"
 msgstr "Soru"
 
-#: apps/question/views.py:126
+#: apps/question/views.py:135
 msgid "Action not found"
 msgstr "Hareket bulunamadı"
 
@@ -211,51 +211,55 @@ msgstr "Sorulara görsellerle cevap ver"
 msgid "Wall"
 msgstr "Duvar"
 
-#: templates/base.html:32
+#: templates/base.html:32 templates/question/question_meta_list.html:4
+msgid "Questions"
+msgstr "Sorular"
+
+#: templates/base.html:33
 msgid "Pending Questions"
 msgstr "Bekleyen Sorular"
 
-#: templates/base.html:33
+#: templates/base.html:34
 msgid "Follow Requests"
 msgstr "Takipçi Olma Talepleri"
 
-#: templates/base.html:34
+#: templates/base.html:35
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: templates/base.html:35
+#: templates/base.html:36
 msgid "Top Users"
 msgstr "Sevdicekler"
 
-#: templates/base.html:36 templates/auth/login.html:15
+#: templates/base.html:37 templates/auth/login.html:15
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/base.html:38
+#: templates/base.html:39
 msgid "Menu"
 msgstr "Menü"
 
-#: templates/base.html:50
+#: templates/base.html:51
 msgid "twitter"
 msgstr ""
 
-#: templates/base.html:51
+#: templates/base.html:52
 msgid "facebook"
 msgstr ""
 
-#: templates/base.html:52
+#: templates/base.html:53
 msgid "blog"
 msgstr ""
 
-#: templates/base.html:53 templates/base.html.py:73
+#: templates/base.html:54 templates/base.html.py:74
 msgid "suggestions"
 msgstr "istek & öneri"
 
-#: templates/base.html:54
+#: templates/base.html:55
 msgid "api"
 msgstr ""
 
-#: templates/base.html:58
+#: templates/base.html:59
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -686,7 +690,8 @@ msgstr "Kullanıcılar cevabını beğendi:"
 msgid ""
 "%(username)s liked your answer. Seems like you've started doing things well."
 msgstr ""
-"%(username)s cevabını beğendi. Anlaşılan o ki bir şeyleri doğru yapmaya başladın."
+"%(username)s cevabını beğendi. Anlaşılan o ki bir şeyleri doğru yapmaya "
+"başladın."
 
 #: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_subject.txt:1
 #, python-format
@@ -694,15 +699,16 @@ msgid "%(username)s liked your answer."
 msgstr "%(username)s cevabını beğendi."
 
 #: templates/notification/user_liked_your_answer/sub_sing_obj_sing/site_notification.html:1
-#, python-format
-msgid "<a href=\"url\">%(username)s</a> liked your answer."
-msgstr "<a href=\"url\">%(username)s</a> cevabını beğendi."
+#, fuzzy, python-format
+msgid "<strong>%(username)s</strong> liked your answer."
+msgstr "%(username)s cevabını beğendi."
 
 #: templates/question/pending_questions.html:16
 msgid "ago"
 msgstr "önce"
 
 #: templates/question/pending_questions.html:19
+#: templates/question/question_meta_list.html:8
 #: templates/question/question_sentence.html:12
 msgid "Answer"
 msgstr "Cevapla"
@@ -742,6 +748,13 @@ msgstr "Ara"
 msgid "Submit"
 msgstr "Gönder"
 
+#: templates/question/question_meta_list.html:5
+msgid ""
+"List of questions that asked Resm.in. To add a question here simply ask a "
+"question to someone, or to yourself."
+msgstr "Burada Resm.in'de sorulmuş soruların listesi var. Buraya soru eklemek için "
+"birine ya da kendine soru sor."
+
 #: templates/question/question_sentence.html:7
 #, python-format
 msgid "%(s_count)s answers / %(f_count)s followers"
@@ -775,7 +788,7 @@ msgstr "Bu cevap adminler tarafından silinmiş"
 msgid "This story is not visible for you"
 msgstr "Bu cevabı görmeye hakkın yok"
 
-#: templates/story/story_detail_inc.html:6
+#: templates/story/story_detail_inc.html:8
 msgid ""
 "This story is currently in draft status, click publish to make it visible "
 "for others."
@@ -783,49 +796,50 @@ msgstr ""
 "Bu hikaye şu anda müsvette durumunda, yayınla butonuna basarak başkaları "
 "için görünür hale getir."
 
-#: templates/story/story_detail_inc.html:7
+#: templates/story/story_detail_inc.html:9
 msgid "Publish"
 msgstr "Yayınla"
 
-#: templates/story/story_detail_inc.html:38
-msgid "Posted by an anonymouse user."
+#: templates/story/story_detail_inc.html:36
+#, fuzzy
+msgid "Answer by an anonymouse user."
 msgstr "Gizli kullanıcı tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:40
-#, python-format
-msgid "Posted by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>."
+#: templates/story/story_detail_inc.html:38
+#, fuzzy, python-format
+msgid "Answer by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>"
 msgstr ""
 "<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:50
+#: templates/story/story_detail_inc.html:51
 msgid "Likers"
 msgstr "Kalpleyenler"
 
-#: templates/story/story_detail_inc.html:54
+#: templates/story/story_detail_inc.html:55
 msgid "Likers can be seen by owner of story."
 msgstr "Kalpleyenler hikaye sahibi tarafından görüntülenebilir."
 
-#: templates/story/story_detail_inc.html:69
+#: templates/story/story_detail_inc.html:70
 msgid "Mounted Questions"
 msgstr "Bağlı Sorular"
 
-#: templates/story/story_detail_inc.html:78
+#: templates/story/story_detail_inc.html:79
 msgid "Actions"
 msgstr "Hareketler"
 
-#: templates/story/story_detail_inc.html:81
+#: templates/story/story_detail_inc.html:82
 msgid "Rearrange Images"
 msgstr "Görselleri Düzenle"
 
-#: templates/story/story_detail_inc.html:82
+#: templates/story/story_detail_inc.html:83
 msgid "Edit Title and Descriptions"
 msgstr "Başlık ve Açıklamaları Düzenle"
 
-#: templates/story/story_detail_inc.html:83
+#: templates/story/story_detail_inc.html:84
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/story/story_detail_inc.html:83
+#: templates/story/story_detail_inc.html:84
 msgid "Click here if you're sure to delete."
 msgstr "Silmeye eminsen buraya tıkla."
 
@@ -836,6 +850,9 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#~ msgid "<a href=\"url\">%(username)s</a> liked your answer."
+#~ msgstr "<a href=\"url\">%(username)s</a> cevabını beğendi."
 
 #~ msgid "Next Hikayeler"
 #~ msgstr "Sonraki Hikayeler"
