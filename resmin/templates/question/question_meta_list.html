@@ -1,0 +1,12 @@
+{% extends "base.html" %}{% load i18n %}
+{% block content %}
+<div class="wrap narrow bg pad ra">
+  <h2 class="mb">{% trans 'Questions' %}</h2>
+  <p>{% trans 'List of questions that asked Resm.in. To add a question here simply ask a question to someone, or to yourself.' %}</p>
+  <ul>
+  {% for qm in qms %}
+    <li class="mb"><a href="{{ qm.get_absolute_url }}">{{ qm.text }}</a> <a class="f_tiny" href="{% url 'create-story' qm.base62_id %}">{% trans 'Answer' %}</a></li>
+  {% endfor %}
+  </ul>
+</div>
+{% endblock %}
