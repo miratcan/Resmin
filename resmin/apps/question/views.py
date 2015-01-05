@@ -57,7 +57,7 @@ def index(request):
 
 def questions(request):
     qms = QuestionMeta.objects.filter(status=QuestionMeta.PUBLISHED)\
-                              .order_by('is_sponsored', 'is_featured',
+                              .order_by('-is_sponsored', '-is_featured',
                                         'answer_count')
     return render(request, "question/question_meta_list.html", {
         'qms': qms})
