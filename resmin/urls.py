@@ -50,9 +50,6 @@ urlpatterns = patterns(
         'apps.account.views.email',
         name='email_confirm'),
 
-    url(r'^cf/(?P<key>[-\w]+)/$',
-        'apps.question.views.cancel_follow',
-        name='cancel_follow'),
 
     url(r'^me/update/$',
         'apps.account.views.update_profile',

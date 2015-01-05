@@ -29,3 +29,4 @@ def user_created_story_callback(sender, **kwargs):
 @receiver(user_deleted_story)
 def user_deleted_story_callback(sender, **kwargs):
     user_deleted_story_callback_task.delay(sender)
+

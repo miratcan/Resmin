@@ -142,6 +142,12 @@ class Story(BaseModel):
                 is_liked = True
         return is_liked
 
+    def get_slot_count(self):
+        if not self.slot_count:
+            self.slot_count = self.slot_set.all().count()
+            self.save()
+        return self.slot_count
+
     def get_absolute_url(self):
         return reverse('story', kwargs={
             'base62_id': self.base62_id})
@@ -179,6 +185,10 @@ class Story(BaseModel):
                          'thumbnailUrl': slot.content.thumbnail_url,
                          'fileCompleted': True})
         return dumps(data)
+
+    def save(self, *args, **kwargs):
+        self.slot_count = self.slot_set.all().count()
+        super(Story, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title if self.title else u'Story by %s' % self.owner

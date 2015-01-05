@@ -59,25 +59,6 @@ def send_email_from_template(template_name, recipients, context):
     send_mail(e_subject, e_body, settings.EMAIL_FROM, recipients)
 
 
-def _send_notification_emails_to_followers_of_question(new_answer):
-
-    from apps.follow.models import QuestionFollow
-
-    # TODO: Check for optimisation of this query
-    follows = QuestionFollow.objects\
-        .filter(target=new_answer.question, status=0)\
-        .exclude(follower=new_answer.owner)\
-        .prefetch_related('follower__userpreference_set')
-
-    for follow in follows:
-        send_email_from_template(
-            'new_answer',
-            [follow.follower.email],
-            {'domain': Site.objects.get_current().domain,
-             'answer': new_answer,
-             'follow': follow})
-
-
 def _set_avatar_to_answer(story):
 
     from apps.story.models import Image
@@ -86,4 +67,3 @@ def _set_avatar_to_answer(story):
     slot = story.slot_set.filter(cTp=cTp).reverse().first()
     story.owner.userprofile.avatar = slot.content.image
     story.owner.userprofile.save(update_fields=['avatar'])
-

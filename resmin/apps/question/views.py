@@ -3,8 +3,7 @@ import json
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
-from django.http import HttpResponseRedirect, HttpResponseBadRequest
+from django.http import HttpResponse, HttpResponseBadRequest
 
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -17,6 +16,7 @@ from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
 from apps.notification.utils import notify
 from apps.follow.models import QuestionFollow
+
 from utils import paginated
 
 redis = get_redis_connection('default')
@@ -70,25 +70,18 @@ def question(request, base62_id, show_delete=False, **kwargs):
         .from_question_meta(question)\
         .filter(status=Story.PUBLISHED)
 
+    if request.user.is_authenticated():
+        is_following = QuestionFollow.objects\
+            .filter(target=question,
+                    follower=request.user,
+                    status=QuestionFollow.FOLLOWING).exists()
+    else:
+        is_following = False
+
     return render(request, "question/question_detail.html", {
         'question': question,
+        'is_following': is_following,
         'stories': paginated(request, stories, settings.STORIES_PER_PAGE)})
-
-
-@login_required
-def cancel_follow(request, key):
-
-    follow = get_object_or_404(
-        QuestionFollow,
-        key=key,
-        follower=request.user)
-
-    follow.status = 1
-    follow.save()
-
-    return render(request,
-                  'question/unsubscribe_done.html',
-                  {'question': follow.target})
 
 
 @csrf_exempt
@@ -133,11 +126,12 @@ def pending_question_action(request):
         return action_method(question)
     else:
         return render_to_json({'errMsg': _('Action not found')},
-                               HttpResponseBadRequest)
+                              HttpResponseBadRequest)
 
 
 @csrf_exempt
 def follow_question(request):
+
     if not request.user.is_authenticated():
         return HttpResponse(status=401)
 
@@ -153,7 +147,8 @@ def follow_question(request):
     if act not in ['follow', 'unfollow']:
         return HttpResponse(status=400)
 
-    meta = get_object_or_404(QuestionMeta, id=int(qid))
+    qid = int(qid)
+    meta = get_object_or_404(QuestionMeta, id=qid)
 
     if act == 'follow':
         qf = QuestionFollow.objects.get_or_create(
@@ -164,20 +159,27 @@ def follow_question(request):
             qf.reason = QuestionFollow.FOLLOWED
             qf.status = QuestionFollow.FOLLOWING
             qf.save(update_fields=['reason', 'status'])
+            qf.target.update_follower_count()
+            qf.target.save(update_fields=['follower_count'])
 
         is_following = True
 
     elif act == 'unfollow':
 
         try:
-            qf = QuestionFollow.objects.get(id=qid)
-        except:
+            qf = QuestionFollow.objects.get(
+                follower=request.user, target_id=qid)
+        except QuestionFollow.DoesNotExist:
             qf = None
 
         if qf:
             qf.status = QuestionFollow.UNFOLLOWED
             qf.save(update_fields=['status'])
+            qf.target.update_follower_count()
+            qf.target.save(update_fields=['follower_count'])
 
         is_following = False
 
-    return HttpResponse(json.dumps({'is_following': is_following}))
+    return HttpResponse(json.dumps({
+        'is_following': is_following,
+        'follower_count': qf.target.follower_count}))

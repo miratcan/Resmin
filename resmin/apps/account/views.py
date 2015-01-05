@@ -117,7 +117,9 @@ def pending_follow_requests(request):
 
 @login_required
 def pending_questions(request):
-    qs = Question.objects.filter(questionee=request.user, status=0)
+    qs = Question.objects\
+        .filter(questionee=request.user, status=Question.PENDING)\
+        .order_by('-created_at')
     site = get_current_site(request) if not qs else None
     return render(
         request,
