@@ -8,7 +8,8 @@ Replace this with more appropriate tests for your application.
 from django.test import TestCase
 from django.contrib.auth.models import User
 from apps.story.models import Story
-from apps.notification.models import NotificationMeta, NotificationType, SiteNotification
+from apps.notification.models import (NotificationMeta, NotificationType,
+                                      SiteNotification)
 from apps.notification.utils import notify
 
 

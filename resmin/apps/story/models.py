@@ -73,7 +73,6 @@ class Story(BaseModel):
         return redis.sismember(self._like_set_key(), user.username)
 
     def is_visible_for(self, user, blocked_user_ids=[]):
-	return True
         if user.is_superuser:
             return True
 
