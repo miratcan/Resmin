@@ -31,7 +31,7 @@ class Story(BaseModel):
     DELETED_BY_ADMINS = 3
 
     VISIBLE_FOR_EVERYONE = 0
-    VISIBLE_FOR_FOLLOWERS = 0
+    VISIBLE_FOR_FOLLOWERS = 1
 
     STATUS_CHOICES = ((DRAFT, _('Draft')),
                       (PUBLISHED, _('Published')),
