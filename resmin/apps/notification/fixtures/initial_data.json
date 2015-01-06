@@ -41,7 +41,7 @@
     "name": "User Liked Your Answer",
     "s_ct": ["auth", "user"],
     "o_ct": ["story", "story"],
-    "default_preferences": "{\"send_mail_site_notification\": true, \"send_mail\": false}", 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
     "plural": "sub"
   }
 },
