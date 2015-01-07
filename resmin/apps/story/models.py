@@ -73,44 +73,33 @@ class Story(BaseModel):
         return redis.sismember(self._like_set_key(), user.username)
 
     def is_visible_for(self, user, blocked_user_ids=[]):
+
         if user.is_superuser:
             return True
 
-        is_visible = True
-        user_is_authenticated = user.is_authenticated()
+        if user.is_authenticated():
 
-        # We don't need to compute user and question owner relationship
-        # if user is not authenticated.
-        if user_is_authenticated:
-
-            if self.owner == user:
+            if self.owner_id is user.id:
                 return True
 
-            # If self is visible for followings
-            if self.visible_for == Story.VISIBLE_FOR_FOLLOWERS:
-
-                # user.id must be in owners follower_user_ids
-                if user.id not in self.owner.follower_user_ids:
-                    is_visible = False
-
-            # If answer is visible for spesific users
-            elif self.visible_for == Story.VISIBLE_FOR_USERS:
-
-                # user must be in visible_for_users list in answer
-                if user not in self.visible_for_users.all():
-                    is_visible = False
-
-            # If blocked_user_ids didn't given before compute it
             if blocked_user_ids == []:
                 from apps.follow.models import compute_blocked_user_ids_for
                 blocked_user_ids = compute_blocked_user_ids_for(user)
 
-            # If answer owner blocked user, or user blocked answer owner
-            # Story is not visible.
             if self.owner_id in blocked_user_ids or \
                user.id in blocked_user_ids:
-                is_visible = False
-        return is_visible
+                return False
+
+            if self.status == self.PUBLISHED and \
+               self.visible_for == Story.VISIBLE_FOR_FOLLOWERS and \
+               user.id in self.owner.follower_user_ids:
+                return True
+
+        if self.status is Story.PUBLISHED and self.visible_for is \
+           Story.VISIBLE_FOR_EVERYONE:
+            return True
+
+        return False
 
     def _like_set_key(self):
         return self.LIKE_SET_PATTERN % self.id
