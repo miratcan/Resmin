@@ -13,8 +13,8 @@
 {% endblock %}
 
 {% block content %}
-  <p class="mbd"><a {% if not show_public_stories %}class="imp" {% endif %}href="/">{% trans 'From Followings' %}</a> / <a {% if show_public_stories %}class="imp" {% endif %}href="/?filter=public">{% trans 'Public' %}</a></p>
-  <div id="thumbnails">
+  <p class="mbd"><a {% if from == 'followings' %}class="imp" {% endif %}href="/">{% trans 'From Followings' %}</a> / <a {% if from == 'public' %}class="imp" {% endif %}href="/public/">{% trans 'Public' %}</a></p>
+  <div id="thumbnails">1
     {% if recommened_questions %}
     <div class="thmb-wrap pa" style="box-sizing: border-box">
       <h4 class="mb bb pbh">{% trans "Recommened Questions" %}</h4>

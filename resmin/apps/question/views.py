@@ -23,36 +23,37 @@ redis = get_redis_connection('default')
 
 
 @login_required
-def index(request):
+def _index(request, stories, extra):
     """
-
     If user is authenticated and not registered email we will show
     Register your email message
     """
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
-
-    stories = Story.objects\
-        .filter(status=Story.PUBLISHED)
-
-    show_public_stories = True
-
-    if request.GET.get('filter') != u'public':
-        show_public_stories = False
-        stories = Story.objects\
-            .from_followings(request.user)\
-            .filter(status=Story.PUBLISHED)
-
     stories = paginated(request, stories, settings.STORIES_PER_PAGE)
     recommened_questions = QuestionMeta.objects.\
         filter(is_featured=True).order_by('?')[:10]
+    ctx = {'stories': stories,
+           'recommened_questions': recommened_questions,
+           'show_email_message': show_email_message}
+    if extra:
+        ctx.update(extra)
+    return render(request, "index2.html", ctx)
 
-    return render(request,
-                  "index2.html",
-                  {'stories': stories,
-                   'show_public_stories': show_public_stories,
-                   'recommened_questions': recommened_questions,
-                   'show_email_message': show_email_message})
+
+def index_public(request):
+    stories = Story.objects\
+        .filter(status=Story.PUBLISHED,
+                visible_for=Story.VISIBLE_FOR_EVERYONE)
+    return _index(request, stories, extra={'from': 'public'})
+
+
+def index_followings(request):
+    stories = Story.objects\
+        .filter(status=Story.PUBLISHED,
+                visible_for__in=[Story.VISIBLE_FOR_FOLLOWERS,
+                                 Story.VISIBLE_FOR_EVERYONE])
+    return _index(request, stories, extra={'from': 'followings'})
 
 
 def questions(request):

@@ -11,8 +11,12 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$',
-        'apps.question.views.index',
+        'apps.question.views.index_followings',
         name='index'),
+
+    url(r'^public/$',
+        'apps.question.views.index_public',
+        name='index-public'),
 
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
