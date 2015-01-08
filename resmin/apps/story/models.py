@@ -73,13 +73,12 @@ class Story(BaseModel):
         return redis.sismember(self._like_set_key(), user.username)
 
     def is_visible_for(self, user, blocked_user_ids=[]):
-
         if user.is_superuser:
             return True
 
         if user.is_authenticated():
 
-            if self.owner_id is user.id:
+            if self.owner_id == user.id:
                 return True
 
             if blocked_user_ids == []:
@@ -95,7 +94,7 @@ class Story(BaseModel):
                user.id in self.owner.follower_user_ids:
                 return True
 
-        if self.status is Story.PUBLISHED and self.visible_for is \
+        if self.status ==  Story.PUBLISHED and self.visible_for == \
            Story.VISIBLE_FOR_EVERYONE:
             return True
 
