@@ -6,7 +6,7 @@
 
 {% block content_inner %}
   {% if avatar_questionmeta %}
-  	<p class="mb imp">Avatarını "<a href="{{ avatar_question.get_absolute_url }}">{{ avatar_question }}</a>" sorusuna cevap vererek değiştirebilirsin. Son gönderdiğin cevap avatarın olarak kabul edilir.</p>
+  	<p class="mb imp">Avatarını "<a href="{{ avatar_questionmeta.get_absolute_url }}">{{ avatar_questionmeta }}</a>" sorusuna cevap vererek değiştirebilirsin. Son gönderdiğin cevap avatarın olarak kabul edilir.</p>
   {% endif %}
   <form class="mtd" method="post" enctype="multipart/form-data">
 	  {% csrf_token %}
