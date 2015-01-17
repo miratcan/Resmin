@@ -106,7 +106,7 @@ def profile(request, username=None, action=None):
 @login_required
 def pending_follow_requests(request):
     pfr = UserFollow.objects.filter(
-        status=0, target=request.user)
+        status=UserFollow.PENDING, target=request.user)
     site = get_current_site(request) if not pfr else None
     return render(
         request,
@@ -153,6 +153,15 @@ def pending_follow_request_action(request):
                    recipient=follow_request.follower,
                    url=follow_request.target.get_absolute_url())
             return render_to_json({'success': True})
+        elif action == 'accept-restricted':
+            follow_request.status = UserFollow.FOLLOWING_RESTRICTED
+            follow_request.save()
+            follower_count_changed.send(sender=request.user)
+            notify(ntype_slug='user_accepted_your_follow_request',
+                   sub=follow_request.target,
+                   obj=follow_request,
+                   recipient=follow_request.follower,
+                   url=follow_request.target.get_absolute_url())
         if action == 'decline':
             follow_request.delete()
             return render_to_json({'success': True})

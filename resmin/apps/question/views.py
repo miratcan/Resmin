@@ -3,8 +3,8 @@ import json
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponse, HttpResponseBadRequest
-
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.translation import ugettext as _
@@ -15,7 +15,7 @@ from libs.shortcuts import render_to_json
 from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
 from apps.notification.utils import notify
-from apps.follow.models import QuestionFollow
+from apps.follow.models import QuestionFollow, compute_blocked_user_ids_for
 
 from utils import paginated
 
@@ -42,18 +42,25 @@ def _index(request, stories, extra):
 
 
 def index_public(request):
+    blocked_user_ids = compute_blocked_user_ids_for(request.user)
     stories = Story.objects\
         .filter(status=Story.PUBLISHED,
-                visible_for=Story.VISIBLE_FOR_EVERYONE)
+                visible_for=Story.VISIBLE_FOR_EVERYONE)\
+        .exclude(owner_id__in=blocked_user_ids)
     return _index(request, stories, extra={'from': 'public'})
 
 
 def index_followings(request):
-    stories = Story.objects\
-        .filter(status=Story.PUBLISHED,
-                visible_for__in=[Story.VISIBLE_FOR_FOLLOWERS,
-                                 Story.VISIBLE_FOR_EVERYONE])
-    return _index(request, stories, extra={'from': 'followings'})
+    blocked_user_ids = compute_blocked_user_ids_for(request.user)
+    following_user_ids = request.user.following_user_ids
+    q = Q(status=Story.PUBLISHED,
+          visible_for=Story.VISIBLE_FOR_FOLLOWERS,
+          owner_id__in=following_user_ids) | \
+        Q(status=Story.PUBLISHED,
+          visible_for=Story.VISIBLE_FOR_EVERYONE)
+    stories = Story.objects.filter(q).exclude(owner_id__in=blocked_user_ids)
+    return _index(request, stories,
+                  extra={'from': 'followings'})
 
 
 def questions(request):

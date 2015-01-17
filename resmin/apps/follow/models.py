@@ -47,14 +47,18 @@ class QuestionFollow(FollowBase):
 
 
 class StoryFollow(FollowBase):
+
+    REASON_CREATED = 'created'
+    REASON_COMMENTED = 'commented'
+
     target = models.ForeignKey('story.Story', related_name='target')
     status = models.PositiveSmallIntegerField(
         default=0, choices=((0, 'Following'),
                             (1, 'Unfollowed')))
     key = models.CharField(max_length=255, blank=True)
     reason = models.CharField(max_length=16,
-                              choices=(('created', 'Created'),
-                                       ('', '')))
+                              choices=((REASON_CREATED, 'Created'),
+                                       (REASON_COMMENTED, 'Commented')))
 
 
 class UserFollow(FollowBase):
@@ -79,10 +83,12 @@ User.is_blocked_by = lambda u, t: bool(
     UserFollow.objects.filter(follower=t, target=u, status=2).exists())
 
 User.is_following = lambda u, t: UserFollow.objects.filter(
-    follower=u, target=t, status=1).exists()
+    follower=u, target=t, status__in=[
+        UserFollow.FOLLOWING, UserFollow.FOLLOWING_RESTRICTED]).exists()
 
 User.has_pending_follow_request = lambda u, t: \
-    UserFollow.objects.filter(follower=u, target=t, status=0).exists()
+    UserFollow.objects.filter(follower=u, target=t,
+                              status=UserFollow.PENDING).exists()
 
 User.follower_user_ids = \
     property(lambda u: [f.follower_id for f in UserFollow.objects.filter(

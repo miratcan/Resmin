@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.follow.models import UserFollow, QuestionFollow
+from apps.follow.models import UserFollow, QuestionFollow, StoryFollow
 
 
 class UserFollowAdmin(admin.ModelAdmin):
@@ -11,3 +11,4 @@ class QuestionFollowAdmin(admin.ModelAdmin):
 
 admin.site.register(UserFollow, UserFollowAdmin)
 admin.site.register(QuestionFollow, QuestionFollowAdmin)
+admin.site.register(StoryFollow)

@@ -182,6 +182,7 @@ class Story(BaseModel):
 
     class Meta:
         ordering = ['-created_at']
+        verbose_name_plural = 'Stories'
 
 
 class Image(UniqueFileModel):
