@@ -22,7 +22,6 @@ from utils import paginated
 redis = get_redis_connection('default')
 
 
-@login_required
 def _index(request, stories, extra):
     """
     If user is authenticated and not registered email we will show
@@ -42,14 +41,16 @@ def _index(request, stories, extra):
 
 
 def index_public(request):
-    blocked_user_ids = compute_blocked_user_ids_for(request.user)
     stories = Story.objects\
-        .filter(status=Story.PUBLISHED,
-                visible_for=Story.VISIBLE_FOR_EVERYONE)\
-        .exclude(owner_id__in=blocked_user_ids)
+        .filter(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE)
+    if request.user.is_authenticated():
+        blocked_user_ids = compute_blocked_user_ids_for(request.user)
+        stories = stories.exclude(owner_id__in=blocked_user_ids)
+
     return _index(request, stories, extra={'from': 'public'})
 
 
+@login_required
 def index_followings(request):
     blocked_user_ids = compute_blocked_user_ids_for(request.user)
     following_user_ids = request.user.following_user_ids
