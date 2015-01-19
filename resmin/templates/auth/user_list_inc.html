@@ -1,5 +1,22 @@
-{% for user in users %}{% load i18n %}
-  <p>{% include "auth/username_inc.html" %}{% if user.userprofile.bio %} <span class="f_tiny mlh">{{ user.userprofile.bio }}</span>{% endif %}</p>
-{% empty %}
+{% load i18n %}
+
+{% if user_follows %}
+  {% if user == profile_user %}
+    <ul>
+      {% for follow in user_follows %}
+        <li class="mb" id="{{ follow.follower.username }}">
+          <div class="info f_stng">{% include "auth/username_inc.html" with user=follow.follower %}{% if follow.follower.userprofile.bio %} <span class="f_tiny mlh">{{ follow.follower.userprofile.bio }}</span>{% endif %}</div>
+          <div class="actions"><a title="{% trans 'Make him/her unfollow you.' %}" href="#">{% trans "Discard from Followers" %}</a> / <a title="{% trans 'This user will be your follower but will only see your public posts.' %}" href="#">{% trans "Make Restricted Follower" %}</a></div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <ul>
+      {% for user in users %}
+        <li>{% include "auth/username_inc.html" %}{% if user.userprofile.bio %} <span class="f_tiny mlh">{{ user.userprofile.bio }}</span>{% endif %}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% else %}
   <p class="imp pa">{% trans "Nothing to show here" %}</p>
-{% endfor %}
+{% endif %}

@@ -3,17 +3,19 @@
 {% block wrap_class %}narrow{% endblock %}
 
 {% block content %}
+  <div class="mtd ptd mbd pbd oa">
     <div class="panel-right">
       <p class="mb">{% blocktrans %}In order to get signed up at <a href="/">Resm.in</a> you need an invitation code.{% endblocktrans %}</p>
       <p class="mb">{% blocktrans %}You can ask for an invitation code from a friend who has a resm.in account, or you can ask for an invitation sending a picture of yours where your face is visible and you holding a card written "hello!" on it to <a href="mailto:merhaba@resm.in">merhaba@resm.in</a> !{% endblocktrans %}</p>
     </div>
     <div class="panel-left">
       {% comment %}TODO: Make this line work same as login page.{% endcomment %}
-      <h2 class="f_stng  mbd">{% trans 'Register' %} <span class="f_weak c_weak wn">{% trans 'or' %} <a href="{% url 'login'%}">{% trans 'Sign in' %}</a>?</span></h2>
+      <h2 class="f_stng mbd">{% trans 'Register' %} <span class="f_weak c_weak wn">{% trans 'or' %} <a href="{% url 'login'%}">{% trans 'Sign in' %}</a>?</span></h2>
       <form method="post" >
         {% csrf_token %}
         {{ form }}
         <input class="fr bttn green ra" type="submit" value="{% trans 'Register' %}">
       </form>
     </div>
+  </div>
 {% endblock content %}

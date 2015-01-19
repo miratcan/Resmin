@@ -233,16 +233,15 @@ def invitations(request):
 @login_required
 def followers(request, username):
     user = get_object_or_404(User, username=username)
-    follower_users = User.objects\
-        .filter(id__in=user.follower_user_ids)\
-        .select_related('userprofile')
-    follower_users = paginated(
-        request, follower_users, settings.QUESTIONS_PER_PAGE)
+    user_follows = UserFollow.objects.filter(target=user)\
+        .prefetch_related('follower__userprofile')
+    print user_follows
     return render(
         request,
         'auth/followers.html',
         {'profile_user': request.user,
-         'follower_users': follower_users})
+         'user_follows': paginated(request, user_follows,
+                                   settings.QUESTIONS_PER_PAGE)})
 
 
 @login_required

@@ -37,7 +37,7 @@
       {% else %}
         {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a>{% endblocktrans %}
       {% endif %}
-      [<a title="Visible to: {{ story.get_visible_for_display|lower }}. Posted at: {{ story.created_at }}" href="#">?</a>]
+      [<a title="{% trans "Visible to" %}: {{ story.get_visible_for_display|lower }}. {% trans "Posted at" %}: {{ story.created_at }}" href="#">?</a>]
     </p>
     {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
     {% if story.description %}{{ story.description|linebreaks }}{% endif %}

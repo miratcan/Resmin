@@ -110,7 +110,7 @@ User.following_users = \
 def compute_blocked_user_ids_for(user):
     ids = set()
     ids.update(f.target_id for f in UserFollow.objects.filter(
-        follower=user, status=2))
+        follower=user, status=UserFollow.BLOCKED))
     ids.update(f.follower_id for f in UserFollow.objects.filter(
-        target=user, status=2))
+        target=user, status=UserFollow.BLOCKED))
     return ids

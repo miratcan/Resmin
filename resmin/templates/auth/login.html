@@ -1,18 +1,22 @@
 {% extends "base.html" %}{% load i18n %}
 {% block wrap_class %}narrow{% endblock %}
+
 {% block content %}
+<div class="mtd ptd mbd pbd oa">
   <div class="panel-right">
+    <p class="f_stng mbd pbd">{% trans "Resm.in is a question-answer platform that you answer questions by posting photo stories." %}</p>
     {% url 'password_reset' as password_reset_url %}
-    <p class="mb">{% blocktrans %}<a href="/">Resm.in</a> is a question/answer platform where you can only answer sharing pictures.{% endblocktrans %}</p>
     <p class="mb">{% blocktrans %}<a href="{{ password_reset_url }}">Forgotten password?</a>{% endblocktrans %}</p>
   </div>
+
   <div class="panel-left">
     {% url 'register' as register_url %}
-    <h2 class="f_stng mbd" style="clear: both;">{% blocktrans %}Sign in <span class="f_weak c_weak wn">or <a href="{{ register_url }}">get registered</a>?</span>{% endblocktrans %}</h2>
+    <h3 class="f_stng mb" style="clear: both;">{% blocktrans %}Sign in <span class="f_weak c_weak wn">or <a href="{{ register_url }}">get registered</a>?</span>{% endblocktrans %}</h3>
     <form method="post">
       {% csrf_token %}
       {{ form }}
       <input class="fr bttn green ra" type="submit" value="{% trans 'Login' %}">
     </form>
   </div>
+</div>
 {% endblock content %}
