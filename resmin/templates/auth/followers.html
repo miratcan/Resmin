@@ -1,8 +1,50 @@
 {% extends "auth/dashboard_base.html" %}{% load i18n %}
 
+{% comment %}
+  TODO:
+  This template and followings template is so similar and has copy pastes around that files. Must be cleaned up in future.
+{% endcomment %}
+
 {% block page_title %}{% trans 'Followers' %}{% endblock %}
 
+{% block extra_head %}
+  <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+{% endblock %}
 {% block content_inner %}
-  {% include "auth/user_list_inc.html" with users=follower_users %}
-  {% include "includes/pagination_links_for_users.html" with users=follower_users %}
+  <form method="post" style="display: none;">{% csrf_token %}{{ action_form }}<input type="submit"></form>
+  {% if request.user == profile_user %}
+    <ul class="nostyle">
+      {% for follow in user_follows %}
+        <li class="mb pb bb" class="follower">
+          <div class="info f_stng">{% include "auth/username_inc.html" with user=follow.follower %}<span class="f_tiny mlh">{% if follow.status == 3 %}({% trans 'Restricted Follower' %}){% endif %} {% if follow.follower.userprofile.bio %} {{ follow.follower.userprofile.bio }}{% endif %}</span></div>
+          <div class="f_weak actions" data-follow='{{ follow.id }}'>
+            <a class="action" title="{% trans 'Make him/her unfollow you.' %}" data-action="make-unfollow" href="#">{% trans "Discard from Followers" %}</a> / {% if follow.status == 1 %}<a class="action" title="{% trans 'This user will be your follower but will only see your public posts.' %}" data-action="make-restricted" href="#">{% trans "Make Restricted Follower" %}</a>{% else %}<a class="action" data-action="make-follow" title="{% blocktrans %}This user is currently your follower but can't see answers that you posted as visible to followers. Make him/her follower to give access. {% endblocktrans %}" href="#">{% trans "Make Follower" %}</a>{% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <ul class="nostyle">
+      {% for follow in user_follows %}
+        <li class="mb pb bb" class="follower" id="{{ follow.follower.username }}">
+          <div class="info f_stng">{% include "auth/username_inc.html" with user=follow.follower %}<span class="f_tiny mlh">{% if follow.follower.userprofile.bio %} {{ follow.follower.userprofile.bio }}{% endif %}</span></div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <p class="mtd">
+    {% if user_follows.has_previous %}
+      <a class="fl f_stng wb imp" href="?page={{ user_follows.previous_page_number }}">{% trans "Previous Users" %}</a>
+    {% endif %}
+    {% if user_follows.has_next %}
+      <a class="fr f_stng wb imp" href="?page={{ user_follows.next_page_number }}">{% trans "Next Users" %}</a>
+    {% endif %}
+  </p>
+  <script>
+    $(".action").click(function() { 
+      $('#id_action').val($(this).attr('data-action'));
+      $('#id_follow').val($(this).parent().attr('data-follow'))
+      $('form').submit()
+    })
+  </script>
 {% endblock %}

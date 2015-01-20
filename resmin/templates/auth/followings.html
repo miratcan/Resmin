@@ -3,6 +3,19 @@
 {% block page_title %}{% trans 'Followings' %}{% endblock %}
 
 {% block content_inner %}
-  {% include "auth/user_list_inc.html" with users=following_users %}
-  {% include "includes/pagination_links_for_users.html" with users=following_users %}
+  <ul class="nostyle">
+    {% for follow in user_follows %}
+      <li class="mb pb bb" class="follower" id="{{ follow.follower.username }}">
+        <div class="info f_stng">{% include "auth/username_inc.html" with user=follow.target %}<span class="f_tiny mlh">{% if follow.target.userprofile.bio %} {{ follow.target.userprofile.bio }}{% endif %}</span></div>
+      </li>
+    {% endfor %}
+  </ul>
+  <p class="mtd">
+    {% if user_follows.has_previous %}
+      <a class="fl f_stng wb imp" href="?page={{ user_follows.previous_page_number }}">{% trans "Previous Users" %}</a>
+    {% endif %}
+    {% if user_follows.has_next %}
+      <a class="fr f_stng wb imp" href="?page={{ user_follows.next_page_number }}">{% trans "Next Users" %}</a>
+    {% endif %}
+  </p>
 {% endblock %}

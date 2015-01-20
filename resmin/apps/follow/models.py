@@ -75,6 +75,11 @@ class UserFollow(FollowBase):
                             (FOLLOWING_RESTRICTED, 'Following as Restricted'),
                             (BLOCKED, 'Blocked')))
 
+    def __unicode__(self):
+        return '%s %s %s' % (self.follower,
+                             self.get_status_display().lower(),
+                             self.target)
+
 
 User.is_blocked = lambda u, t: bool(
     UserFollow.objects.filter(follower=u, target=t, status=2).exists())

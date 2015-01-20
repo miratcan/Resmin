@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-19 10:01+0200\n"
+"POT-Creation-Date: 2015-01-20 11:00+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,48 +18,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: apps/account/forms.py:16
+#: apps/account/forms.py:17
 msgid "Username"
 msgstr "Kullanıcı Adı"
 
-#: apps/account/forms.py:17
+#: apps/account/forms.py:18
 msgid "Password"
 msgstr "Şifre"
 
-#: apps/account/forms.py:18
+#: apps/account/forms.py:19
 msgid "Password Again"
 msgstr "Şifre Tekrar"
 
-#: apps/account/forms.py:20
+#: apps/account/forms.py:21
 msgid "Invitation Key"
 msgstr "Davet Kodu"
 
-#: apps/account/forms.py:25
+#: apps/account/forms.py:26
 msgid "User with this username already exists"
 msgstr "Bu kullanıcı adı daha önce alınmış"
 
-#: apps/account/forms.py:34
+#: apps/account/forms.py:35
 msgid "Password fields must be same"
 msgstr "Şifre alanları aynı olmalı"
 
-#: apps/account/forms.py:53
+#: apps/account/forms.py:54
 msgid "This key reached it's maximum use limit. It cant be used anymore."
 msgstr ""
 "Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
 
-#: apps/account/forms.py:59
+#: apps/account/forms.py:60
 msgid "Invalid invitation key"
 msgstr "Geçersiz davet kodu"
 
-#: apps/account/forms.py:146
+#: apps/account/forms.py:147
 msgid "You can not do that action on yourself."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin."
 
-#: apps/account/forms.py:167
+#: apps/account/forms.py:180
+#, python-format
+msgid "You made %s unfollow you."
+msgstr "%s kişisini takipçin olmaktan çıkardın."
+
+#: apps/account/forms.py:187
+#, python-format
+msgid "You set %s as follower."
+msgstr "%s kişisini takipçin yaptın."
+
+#: apps/account/forms.py:193
+#, python-format
+msgid "You set %s as restricted follower."
+msgstr "%s kişisini kısıtlı takipçi yaptın."
+
+#: apps/account/forms.py:214
 msgid "Ask me a question:"
 msgstr "Bana bir soru sor:"
 
-#: apps/account/forms.py:168
+#: apps/account/forms.py:215
 msgid "Ask as anonymouse"
 msgstr "Kimliğimi gizle"
 
@@ -79,39 +94,39 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:68
+#: apps/account/views.py:69
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:88
+#: apps/account/views.py:89
 msgid "Follow request sent to user"
 msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:91
+#: apps/account/views.py:92
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının takipçisi değilsin"
 
-#: apps/account/views.py:94
+#: apps/account/views.py:95
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:97
+#: apps/account/views.py:98
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:186
+#: apps/account/views.py:187
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:215
+#: apps/account/views.py:216
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:277
+#: apps/account/views.py:287
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:298
+#: apps/account/views.py:308
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -159,7 +174,7 @@ msgstr "Adminler Tarafından Silinmiş"
 msgid "Everyone"
 msgstr "Herkese"
 
-#: apps/story/models.py:42 templates/auth/followers.html:3
+#: apps/story/models.py:42 templates/auth/followers.html:8
 msgid "Followers"
 msgstr "Takipçileri"
 
@@ -340,6 +355,50 @@ msgid ""
 msgstr ""
 "E-posta adresine bir link gönderdik, ona tıklayarak işlemi tamamlayabilirsin."
 
+#: templates/auth/followers.html:19 templates/auth/user_list_inc.html:6
+msgid "Restricted Follower"
+msgstr "Kısıtlı Takipçi"
+
+#: templates/auth/followers.html:21 templates/auth/user_list_inc.html:8
+msgid "Make him/her unfollow you."
+msgstr "Takipçin olmaktan çıkar."
+
+#: templates/auth/followers.html:21 templates/auth/user_list_inc.html:8
+msgid "Discard from Followers"
+msgstr "Takipçim Olmaktan Çıkar"
+
+#: templates/auth/followers.html:21
+#: templates/auth/pending_follow_requests.html:14
+#: templates/auth/user_list_inc.html:8
+msgid "This user will be your follower but will only see your public posts."
+msgstr ""
+"Bu kulanıcı takipçin olacak ama sadece herkese açık gönderilerini "
+"görebilecek."
+
+#: templates/auth/followers.html:21 templates/auth/user_list_inc.html:8
+msgid "Make Restricted Follower"
+msgstr "Kısıtlı Takipçi Yap"
+
+#: templates/auth/followers.html:21 templates/auth/user_list_inc.html:8
+msgid ""
+"This user is currently your follower but can't see answers that you posted "
+"as visible to followers. Make him/her follower to give access. "
+msgstr ""
+
+#: templates/auth/followers.html:21 templates/auth/user_list_inc.html:8
+msgid "Make Follower"
+msgstr "Takipçim Yap"
+
+#: templates/auth/followers.html:37
+#: templates/includes/pagination_links_for_users.html:4
+msgid "Previous Users"
+msgstr "Önceki Kullanıcılar"
+
+#: templates/auth/followers.html:40
+#: templates/includes/pagination_links_for_users.html:7
+msgid "Next Users"
+msgstr "Sonraki Kullanıcılar"
+
 #: templates/auth/followings.html:3
 msgid "Followings"
 msgstr "Takip Edenleri"
@@ -399,13 +458,6 @@ msgstr "<a href=\"%(url)s\">%(username)s</a> takipçin olmak istiyor"
 #: templates/auth/pending_follow_requests.html:14
 msgid "Accept"
 msgstr "Kabul et"
-
-#: templates/auth/pending_follow_requests.html:14
-#: templates/auth/user_list_inc.html:9
-msgid "This user will be your follower but will only see your public posts."
-msgstr ""
-"Bu kulanıcı takipçin olacak ama sadece herkese açık gönderilerini "
-"görebilecek."
 
 #: templates/auth/pending_follow_requests.html:14
 msgid "Add to Restricted"
@@ -536,22 +588,6 @@ msgstr "Takip Et"
 msgid "Block"
 msgstr "Engelle"
 
-#: templates/auth/user_list_inc.html:9
-msgid "Make him/her unfollow you."
-msgstr "Takipçin olmaktan çıkar."
-
-#: templates/auth/user_list_inc.html:9
-msgid "Discard from Followers"
-msgstr "Takipçim Olmaktan Çıkar"
-
-#: templates/auth/user_list_inc.html:9
-msgid "Make Restricted Follower"
-msgstr "Kısıtlı Takipçi Yap"
-
-#: templates/auth/user_list_inc.html:21
-msgid "Nothing to show here"
-msgstr "Burada gösterecek bir şey yok"
-
 #: templates/auth/username_inc.html:1
 msgid "anonymouse"
 msgstr "gizli kullanıcı"
@@ -599,14 +635,6 @@ msgstr "Önceki Hikayeler"
 #: templates/includes/pagination_links_for_stories.html:8
 msgid "Next Answers"
 msgstr "Sonraki Cevaplar"
-
-#: templates/includes/pagination_links_for_users.html:4
-msgid "Previous Users"
-msgstr "Önceki Kullanıcılar"
-
-#: templates/includes/pagination_links_for_users.html:7
-msgid "Next Users"
-msgstr "Sonraki Kullanıcılar"
 
 #: templates/nf/new_story_on_following_question/sentence.txt:1
 #, python-format
@@ -699,11 +727,6 @@ msgstr ""
 msgid "%(username)s liked your answer."
 msgstr "%(username)s cevabını beğendi."
 
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/site_notification.html:1
-#, fuzzy, python-format
-msgid "<strong>%(username)s</strong> liked your answer."
-msgstr "%(username)s cevabını beğendi."
-
 #: templates/question/pending_questions.html:16
 msgid "ago"
 msgstr "önce"
@@ -760,7 +783,7 @@ msgstr ""
 #: templates/question/question_sentence.html:7
 #, python-format
 msgid "%(s_count)s answers / %(f_count)s followers"
-msgstr ""
+msgstr "%(s_count)s cevap / %(f_count)s takipçi"
 
 #: templates/question/question_sentence.html:12
 msgctxt "follow"
@@ -860,6 +883,9 @@ msgstr "Bu hikaye sadece takipçilere açık"
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
 
+#~ msgid "Nothing to show here"
+#~ msgstr "Burada gösterecek bir şey yok"
+
 #~ msgid "When got answer to a question that i asked"
 #~ msgstr "Sorduğum soruya bir cevap geldiğinde"
 
@@ -909,9 +935,6 @@ msgstr "Burada Hiç Cevap Yok"
 
 #~ msgid "Your question is deleted"
 #~ msgstr "Sorun silindi"
-
-#~ msgid "My Followers"
-#~ msgstr "Takipçilerime"
 
 #~ msgid "got %(count)s answers"
 #~ msgstr "%(count)s cevap aldı"

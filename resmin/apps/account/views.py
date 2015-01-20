@@ -16,7 +16,8 @@ from tastypie.models import ApiKey
 from apps.account.models import (Invitation, UserProfile,
                                  EmailCandidate)
 from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
-                                EmailCandidateForm, QuestionForm)
+                                EmailCandidateForm, QuestionForm,
+                                FollowerActionForm)
 from apps.question.models import (QuestionMeta, Question)
 from django.http import HttpResponseBadRequest
 from apps.follow.models import UserFollow
@@ -232,14 +233,22 @@ def invitations(request):
 
 @login_required
 def followers(request, username):
+    if request.method == 'POST':
+        action_form = FollowerActionForm(request.POST, username=username)
+        if action_form.is_valid():
+            result = action_form.save()
+            if result:
+                messages.warning(request, result)
+    else:
+        action_form = FollowerActionForm(username=username)
     user = get_object_or_404(User, username=username)
     user_follows = UserFollow.objects.filter(target=user)\
         .prefetch_related('follower__userprofile')
-    print user_follows
     return render(
         request,
         'auth/followers.html',
-        {'profile_user': request.user,
+        {'profile_user': user,
+         'action_form': action_form,
          'user_follows': paginated(request, user_follows,
                                    settings.QUESTIONS_PER_PAGE)})
 
@@ -247,16 +256,14 @@ def followers(request, username):
 @login_required
 def followings(request, username):
     user = get_object_or_404(User, username=username)
-    following_users = User.objects\
-        .filter(id__in=user.following_user_ids)\
-        .select_related('userprofile')
-    following_users = paginated(
-        request, following_users, settings.QUESTIONS_PER_PAGE)
+    user_follows = UserFollow.objects.filter(follower=user)\
+        .prefetch_related('follower__userprofile')
     return render(
         request,
         'auth/followings.html',
-        {'profile_user': request.user,
-         'following_users': following_users})
+        {'user': request.user,
+         'profile_user': user,
+         'user_follows': user_follows})
 
 
 @login_required

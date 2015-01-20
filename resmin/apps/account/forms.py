@@ -1,6 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.utils.translation import ugettext as _
 from apps.account.models import (Invitation, UserProfile, EmailCandidate)
 
@@ -161,6 +162,52 @@ class FollowForm(forms.Form):
         if self.action in ('unfollow', 'block', 'unblock'):
             follower_count_changed.send(sender=self.target)
             following_count_changed.send(sender=self.follower)
+
+
+class FollowerActionForm(forms.Form):
+
+    action = forms.ChoiceField(choices=(
+        ('make-follow', 'Make Follow'),
+        ('make-unfollow', 'Make Unfollow'),
+        ('make-restricted', 'Make Restricted')), widget=forms.TextInput)
+
+    follow = forms.ModelChoiceField(
+        queryset=UserFollow.objects.none(),
+        widget=forms.TextInput)
+
+    def _make_unfollow(request, follow):
+        follow.delete()
+        return _('You made %s unfollow you.') % \
+            follow.follower.username
+
+    def _make_follow(request, follow):
+        if follow.status == UserFollow.FOLLOWING_RESTRICTED:
+            follow.status = UserFollow.FOLLOWING
+            follow.save()
+            return _('You set %s as follower.') % follow.follower.username
+
+    def _make_restricted(request, follow):
+        if follow.status == UserFollow.FOLLOWING:
+            follow.status = UserFollow.FOLLOWING_RESTRICTED
+            follow.save()
+            return _('You set %s as restricted follower.') % \
+                follow.follower.username
+
+    def __init__(self, *args, **kwargs):
+        self.username = kwargs.pop('username')
+        self.base_fields['follow'].queryset = UserFollow.objects.filter(
+            target__username=self.username)
+        super(FollowerActionForm, self).__init__(*args, **kwargs)
+
+    def save(self, *args, **kwargs):
+        action_key = self.cleaned_data['action']
+        follow = self.cleaned_data['follow']
+        if action_key:
+            method = {u'make-follow': self._make_follow,
+                      u'make-restricted': self._make_restricted,
+                      u'make-unfollow': self._make_unfollow}.get(action_key)
+            if method:
+                return method(follow)
 
 
 class QuestionForm(forms.Form):
