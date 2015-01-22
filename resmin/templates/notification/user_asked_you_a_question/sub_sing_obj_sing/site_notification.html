@@ -1,1 +1,1 @@
-{% load i18n %}{% if nm.obj.is_anonymouse %}{% trans "An anonymouse user asked:" %}{% else %}{% blocktrans with nm.sub.username=username nm.sub.get_absolute_url=url %}<a href="{{ url }}">{{ username }}</a> asked:{% endblocktrans %} {{ nm.obj.meta.text}}
+{% load i18n %}{% if nm.obj.is_anonymouse %}{% trans "An anonymouse user asked:" %}{% else %}{% blocktrans with username=nm.sub.username url=nm.sub.get_absolute_url %}<a href="{{ url }}">{{ username }}</a> asked:{% endblocktrans %} {{ nm.obj.meta.text}}
