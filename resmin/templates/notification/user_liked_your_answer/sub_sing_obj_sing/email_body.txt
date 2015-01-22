@@ -1,4 +1,4 @@
-{% blocktrans with nm.sub.username=username %}{{ username }} liked your answer. Seems like you've started doing things well.{% endblocktrans %}
+{% load i18n %}{% blocktrans with nm.sub.username=username %}{{ username }} liked your answer. Seems like you've started doing things well.{% endblocktrans %}
 
 {% trans "Click link below to see that answer." %}
 
