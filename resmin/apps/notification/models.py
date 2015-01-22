@@ -304,6 +304,9 @@ class EmailNotification(models.Model):
             rendered = False
             logger.error('Could\'nt send email notification. Template named: '
                          '"%s" does not exist.' % err.args[0])
+        except Exception as err:
+            import ipdb; ipdb.set_trace()
+
         if rendered:
             try:
                 self.body_html = render_to_string(self.body_html_tname(), ctx)
