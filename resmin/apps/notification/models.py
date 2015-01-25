@@ -1,4 +1,6 @@
 from datetime import datetime
+from multilingual_model.models import (MultilingualModel,
+                                       MultilingualTranslation)
 
 from json_field.fields import JSONField
 from django.db import models
@@ -10,6 +12,7 @@ from django.contrib.sites.models import Site
 from django.contrib.contenttypes.models import ContentType
 from django.template.loader import render_to_string
 from django.template import TemplateDoesNotExist
+
 from logging import getLogger
 
 
@@ -25,7 +28,12 @@ def _pks_to_str(pks):
     return ','.join((str(pk) for pk in pks))
 
 
-class NotificationType(models.Model):
+class NotificationTypeTranslation(MultilingualTranslation):
+    parent = models.ForeignKey('NotificationType', related_name='translations')
+    name = models.CharField(max_length=255)
+
+
+class NotificationType(MultilingualModel):
 
     PLURAL_OBJ = 'obj'
     PLURAL_SUB = 'sub'
@@ -35,7 +43,6 @@ class NotificationType(models.Model):
         max_length=255,
         help_text='Used for generating template names for this notification '
                   'type.')
-    name = models.CharField(max_length=255)
     default_preferences = JSONField(
         help_text='Default preferences that will be used if user has no '
                   'NotificationPreference or NotificationPreference has no '
@@ -70,7 +77,7 @@ class NotificationType(models.Model):
         return 'notification/%s/%s_%s/' % (pfx, sub, obj)
 
     def __unicode__(self):
-        return self.name
+        return self.slug
 
 
 class NotificationPreference(models.Model):
@@ -337,6 +344,9 @@ class SiteNotification(models.Model):
 
 
 def notification_preferences(user_id, ntype_slug, use_cache=True):
+    """
+    TODO: Rename this function to get_notification_preferences.
+    """
     if use_cache:
         cache_key = NotificationPreference.cache_key(user_id, ntype_slug)
         cached = cache.get(cache_key)

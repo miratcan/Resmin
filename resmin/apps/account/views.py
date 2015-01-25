@@ -25,6 +25,7 @@ from apps.notification.utils import notify
 from apps.notification.decorators import delete_notification
 from apps.story.models import Story
 from apps.account.signals import follower_count_changed
+from apps.account.forms import NotificationPreferencesForm
 from utils import paginated, send_email_from_template
 from libs.shortcuts import render_to_json
 
@@ -148,7 +149,7 @@ def pending_follow_request_action(request):
             follow_request.status = UserFollow.FOLLOWING
             follow_request.save()
             follower_count_changed.send(sender=request.user)
-            notify(ntype_slug='user_accepted_your_follow_request',
+            notify(ntype_slug='user_accepted_my_follow_request',
                    sub=follow_request.target,
                    obj=follow_request,
                    recipient=follow_request.follower,
@@ -158,7 +159,7 @@ def pending_follow_request_action(request):
             follow_request.status = UserFollow.FOLLOWING_RESTRICTED
             follow_request.save()
             follower_count_changed.send(sender=request.user)
-            notify(ntype_slug='user_accepted_your_follow_request',
+            notify(ntype_slug='user_accepted_my_follow_request',
                    sub=follow_request.target,
                    obj=follow_request,
                    recipient=follow_request.follower,
@@ -285,6 +286,19 @@ def remote_key(request):
         return HttpResponseRedirect(reverse('remote_key'))
 
     return render(request, 'auth/remote_key.html', {'remote_key': remote_key})
+
+
+@login_required
+def notification_preferences(request):
+    if request.method == 'POST':
+        form = NotificationPreferencesForm(request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+    else:
+        form = NotificationPreferencesForm(user=request.user)
+    return render(request, 'auth/notification_preferences.html', {
+        'profile_user': request.user,
+        'form': form})
 
 
 @login_required

@@ -23,7 +23,6 @@
       <p class="mb f_weak" style="margin-left: 110px;">
         <a class="username f_stng wb" href="/u/{{profile_user.username}}">{{ profile_user }}</a>
       </p>
-
       {% if profile.bio %}<p style="margin-left: 110px;">{{ profile.bio }}</p>{% endif %}
       {% if profile.website %}<p style="margin-left: 110px;" class="f_weak"><a href="{{ profile.website }}">{{ profile.website }}</a></p>{% endif %}
       </ul>
@@ -51,6 +50,7 @@
         <p class="oa nm">
         {% if user == profile_user %}
           <a class="f_weak mr" href="{% url 'update_profile' %}">{% trans "Update Profile" %}</a>
+          <a class="f_weak mr" href="{% url 'update_notification_preferences' %}">{% trans "Update Notification Preferences" %}</a>
   	      <a class="f_weak mr" href="{% url 'email_form' %}">{% trans "Update Email" %}</a>
           <a class="f_weak mr" href="/i/" >{% trans "Invitations" %}</a>
           <a class="f_weak mr" href="{% url 'logout' %}">{% trans "Log Out" %}</a>

@@ -109,7 +109,7 @@ def like(request):
 
     story = get_object_or_404(Story, id=int(sid))
     is_liked = story.set_like(request.user, liked=bool(int(val)))
-    notify(ntype_slug='user_liked_your_answer',
+    notify(ntype_slug='user_liked_my_answer',
            sub=request.user,
            obj=story,
            recipient=story.owner,

@@ -37,7 +37,7 @@ def _publish_story(request, story):
             story.question.answer = story
             story.question.save()
             if story.question.questionee:
-                notify(ntype_slug='user_answered_your_question',
+                notify(ntype_slug='user_answered_my_question',
                        sub=story.question.questionee,
                        obj=story.question,
                        recipient=story.question.questioner,

@@ -1,71 +1,188 @@
 [
 {
   "pk": 1, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "kullan\u0131c\u0131 bana bir soru sordu", 
+    "parent": 6, 
+    "language_code": "tr"
+  }
+},
+{
+  "pk": 2, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "user asked me a question", 
+    "parent": 6, 
+    "language_code": "en"
+  }
+},
+{
+  "pk": 3, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "cevab\u0131na yeni bir yorum geldi", 
+    "parent": 5, 
+    "language_code": "tr"
+  }
+},
+{
+  "pk": 4, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "new comment on my story", 
+    "parent": 5, 
+    "language_code": "en"
+  }
+},
+{
+  "pk": 5, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "kullan\u0131c\u0131 cevab\u0131n\u0131 be\u011fendi", 
+    "parent": 4, 
+    "language_code": "tr"
+  }
+},
+{
+  "pk": 6, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "user liked my answer", 
+    "parent": 4, 
+    "language_code": "en"
+  }
+},
+{
+  "pk": 7, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "takip edilen soruya yeni bir cevap geldi", 
+    "parent": 3, 
+    "language_code": "tr"
+  }
+},
+{
+  "pk": 8, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "new story on following question", 
+    "parent": 3, 
+    "language_code": "en"
+  }
+},
+{
+  "pk": 9, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "kullan\u0131c\u0131 takip talebimi kabul etti", 
+    "parent": 2, 
+    "language_code": "tr"
+  }
+},
+{
+  "pk": 10, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "user accepted my follow request", 
+    "parent": 2, 
+    "language_code": "en"
+  }
+},
+{
+  "pk": 11, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "kullan\u0131c\u0131 sorumu cevaplad\u0131", 
+    "parent": 1, 
+    "language_code": "tr"
+  }
+},
+{
+  "pk": 12, 
+  "model": "notification.notificationtypetranslation", 
+  "fields": {
+    "name": "user answered my question", 
+    "parent": 1, 
+    "language_code": "en"
+  }
+},
+{
+  "pk": 1, 
   "model": "notification.notificationtype", 
   "fields": {
-    "slug": "user_answered_your_question", 
-    "name": "User Answered Your Question",
-    "s_ct": ["auth", "user"],
-    "o_ct": ["question", "question"],
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}"
+    "s_ct": 3, 
+    "is_active": false, 
+    "o_ct": 9, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
+    "collecting_period": 10, 
+    "plural": null, 
+    "slug": "user_answered_my_question"
   }
 },
 {
   "pk": 2, 
   "model": "notification.notificationtype", 
   "fields": {
-    "slug": "user_accepted_your_follow_request", 
-    "name": "User Accepted Your Follow Request",
-    "s_ct": ["auth", "user"],
-    "o_ct": ["follow", "userfollow"],
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}"
+    "s_ct": 3, 
+    "is_active": false, 
+    "o_ct": 15, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
+    "collecting_period": 10, 
+    "plural": null, 
+    "slug": "user_accepted_my_follow_request"
   }
 },
 {
   "pk": 3, 
   "model": "notification.notificationtype", 
   "fields": {
-    "slug": "new_answer_to_following_question", 
-    "name": "New Answer to Following Question",
-    "s_ct": ["story", "story"],
-    "o_ct": ["question", "questionmeta"],
+    "s_ct": 16, 
+    "is_active": false, 
+    "o_ct": 8, 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
-    "plural": "sub"
+    "collecting_period": 10, 
+    "plural": "sub", 
+    "slug": "new_answer_to_following_question"
   }
 },
 {
   "pk": 4, 
   "model": "notification.notificationtype", 
   "fields": {
-    "slug": "user_liked_your_answer", 
-    "name": "User Liked Your Answer",
-    "s_ct": ["auth", "user"],
-    "o_ct": ["story", "story"],
+    "s_ct": 3, 
+    "is_active": false, 
+    "o_ct": 16, 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
-    "plural": "sub"
+    "collecting_period": 10, 
+    "plural": "sub", 
+    "slug": "user_liked_my_answer"
   }
 },
 {
   "pk": 5, 
   "model": "notification.notificationtype", 
   "fields": {
-    "slug": "new_comment_on_your_story", 
-    "name": "New Comment on Your Story",
-    "s_ct": ["auth", "user"],
-    "o_ct": ["comment", "comment"],
+    "s_ct": 3, 
+    "is_active": false, 
+    "o_ct": 26, 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
-    "plural": "sub"
+    "collecting_period": 10, 
+    "plural": "sub", 
+    "slug": "new_comment_on_my_story"
   }
 },
 {
-  "pk": 6,
+  "pk": 6, 
   "model": "notification.notificationtype", 
   "fields": {
-    "slug": "user_asked_you_a_question", 
-    "name": "User Asked You a Question",
-    "s_ct": ["auth", "user"],
-    "o_ct": ["question", "question"],
-    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}"
+    "s_ct": 3, 
+    "is_active": false, 
+    "o_ct": 9, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
+    "collecting_period": 10, 
+    "plural": null, 
+    "slug": "user_asked_me_a_question"
   }
 }
 ]

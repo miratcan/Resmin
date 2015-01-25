@@ -35,8 +35,8 @@ class SimpleTest(TestCase):
         notify('non_existing_notification', None, None, None, None)
         self.assertEqual(NotificationMeta.objects.count(), 0)
 
-    def test_user_liked_your_answer(self):
-        notify('user_liked_your_answer', self.u2, self.s1, self.u1, '/abc/')
+    def test_user_liked_my_answer(self):
+        notify('user_liked_my_answer', self.u2, self.s1, self.u1, '/abc/')
         self.assertEqual(NotificationMeta.objects.count(), 1)
 
         nm = NotificationMeta.objects.first()
@@ -45,16 +45,16 @@ class SimpleTest(TestCase):
         sn = SiteNotification.objects.first()
         self.assertEqual(
             sn.template_name(),
-            'notification/user_liked_your_answer/'
+            'notification/user_liked_my_answer/'
             'sub_sing_obj_sing/site_notification.html')
         NotificationMeta.objects.all().delete()
         SiteNotification.objects.all().delete()
 
     def test_user_liked_your_story_answer_sub(self):
 
-        notify('user_liked_your_answer', self.u2, self.s1, self.u1, '/abc/')
-        notify('user_liked_your_answer', self.u3, self.s1, self.u1, '/abc/')
-        notify('user_liked_your_answer', self.u4, self.s1, self.u1, '/abc/')
+        notify('user_liked_my_answer', self.u2, self.s1, self.u1, '/abc/')
+        notify('user_liked_my_answer', self.u3, self.s1, self.u1, '/abc/')
+        notify('user_liked_my_answer', self.u4, self.s1, self.u1, '/abc/')
         self.assertEqual(NotificationMeta.objects.count(), 1)
 
         nm = NotificationMeta.objects.first()
@@ -63,5 +63,5 @@ class SimpleTest(TestCase):
         sn = SiteNotification.objects.first()
         self.assertEqual(
             sn.template_name(),
-            'notification/user_liked_your_answer/'
+            'notification/user_liked_my_answer/'
             'sub_plur_obj_sing/site_notification.html')

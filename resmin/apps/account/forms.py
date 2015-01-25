@@ -1,11 +1,14 @@
+import re
+
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib import messages
 from django.utils.translation import ugettext as _
 from apps.account.models import (Invitation, UserProfile, EmailCandidate)
 
 from apps.follow.models import UserFollow
+from apps.notification.models import (NotificationType, NotificationPreference,
+                                      notification_preferences)
 from apps.question.models import Question, QuestionMeta
 from apps.account.signals import (follower_count_changed,
                                   following_count_changed)
@@ -128,6 +131,55 @@ class DeleteQuestionForm(forms.Form):
             self.question.delete()
 
         return self.question
+
+
+class NotificationPreferencesForm(forms.Form):
+
+    FIELD_LABEL_MAP = {
+        'send_email_notification': _('send email notification'),
+        'send_site_notification': _('send site notification')
+    }
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user')
+        super(NotificationPreferencesForm, self).__init__(*args, **kwargs)
+        self.stacks = []
+        for ntype in NotificationType.objects.filter(is_active=True):
+            fields = []
+            user_preferences = notification_preferences(
+                self.user.id, ntype.slug)
+            for slug, name in self.FIELD_LABEL_MAP.iteritems():
+                key = '%s_when_%s' % (slug, ntype.slug)
+                self.fields[key] = forms.BooleanField(
+                    label=name,
+                    initial=user_preferences.get(slug, False),
+                    required=False)
+                fields.append(self[key])
+            self.stacks.append({
+                'name': ntype.name,
+                'fields': fields})
+
+    def parse_preferences(self):
+        events = {}
+        for key, data in self.cleaned_data.iteritems():
+            action_slug, event_slug = key.split('_when_')
+            if event_slug in events:
+                events[event_slug].update({action_slug: data})
+            else:
+                events[event_slug] = {action_slug: data}
+        return events
+
+    def save(self):
+        """
+        TODO: Optimise to not save unchanged preferences.
+        """
+        form_preferences = self.parse_preferences()
+        for ntype in NotificationType.objects.filter(is_active=True):
+            user_preferences = notification_preferences(self.user, ntype.slug)
+            user_preferences.update(form_preferences.get(ntype.slug, {}))
+            NotificationPreference.objects.filter(
+                user=self.user, ntype=ntype).update(
+                    preferences=user_preferences)
 
 
 class FollowForm(forms.Form):

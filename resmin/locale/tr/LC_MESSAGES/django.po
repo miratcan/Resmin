@@ -660,8 +660,8 @@ msgid "%(username)s answered \"%(question)s\" by your request."
 msgstr "%(username)s isteğin üzerine \"%(question)s\" sorusuna cevap verdi."
 
 #: templates/notification/user_answered_your_question/sub_sing_obj_sing/email_body.txt:3
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_body.txt:5
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_body.txt:3
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_body.txt:5
+#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_body.txt:3
 msgid "Click link below to see that answer."
 msgstr "Cevabı görüntülemek için aşağıdaki linke tıkla"
 
@@ -702,19 +702,19 @@ msgstr "Biri sana soru sordu."
 msgid "<a href=\"%(url)s\">%(username)s</a> asked:"
 msgstr "<a href=\"%(url)s\">%(username)s</a> sordu:"
 
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_body.txt:1
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_body.txt:1
 msgid "These users liked your answer:"
 msgstr "Şu kullanıcılar cevabını beğendi:"
 
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_subject.txt:1
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_subject.txt:1
 msgid "You have some love from resm.in"
 msgstr "Resm.in'den kalpler."
 
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/site_notification.html:1
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/site_notification.html:1
 msgid "Users liked your answer:"
 msgstr "Kullanıcılar cevabını beğendi:"
 
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_body.txt:1
+#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_body.txt:1
 #, python-format
 msgid ""
 "%(username)s liked your answer. Seems like you've started doing things well."
@@ -722,7 +722,7 @@ msgstr ""
 "%(username)s cevabını beğendi. Anlaşılan o ki bir şeyleri doğru yapmaya "
 "başladın."
 
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_subject.txt:1
+#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_subject.txt:1
 #, python-format
 msgid "%(username)s liked your answer."
 msgstr "%(username)s cevabını beğendi."

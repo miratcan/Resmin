@@ -59,6 +59,10 @@ urlpatterns = patterns(
         'apps.account.views.update_profile',
         name='update_profile'),
 
+    url(r'^me/notification/preferences/$',
+        'apps.account.views.notification_preferences',
+        name='update_notification_preferences'),
+
     url(r'^me/key/$',
         'apps.account.views.remote_key',
         name='remote_key'),

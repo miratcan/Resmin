@@ -1,7 +1,9 @@
 from django.contrib import admin
 from apps.notification.models import (NotificationMeta, NotificationPreference,
-                                      NotificationType, SiteNotification,
-                                      EmailNotification)
+                                      NotificationType,
+                                      NotificationTypeTranslation,
+                                       SiteNotification, EmailNotification)
+from multilingual_model.admin import TranslationStackedInline
 
 
 class NotificationMetaAdmin(admin.ModelAdmin):
@@ -13,8 +15,13 @@ class NotificationPreferenceAdmin(admin.ModelAdmin):
     list_display = ('user', 'ntype')
 
 
+class NotificationTypeTranslationInline(TranslationStackedInline):
+    model = NotificationTypeTranslation
+
+
 class NotificationTypeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'is_active', 'plural', 's_ct', 'o_ct')
+    list_display = ('slug', 'is_active', 'plural', 's_ct', 'o_ct')
+    inlines = [NotificationTypeTranslationInline]
 
 
 class EmailNotificationAdmin(admin.ModelAdmin):
