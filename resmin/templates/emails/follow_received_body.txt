@@ -1,3 +1,0 @@
-{% load i18n %}{% 'To response this follow request and others, please the link below:' %}
-
-http://{{ domain }}/pfr/

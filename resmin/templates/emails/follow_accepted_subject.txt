@@ -1,1 +1,0 @@
-{% load i18n %}{% blocktrans with target_username=follow.target.username %}{{ target_username }} accepted your follow request{% endblocktrans %}
