@@ -7,3 +7,4 @@ sitestatic/css/base.css
 .DS_Store
 celerybeat-schedule
 *.log
+.idea
