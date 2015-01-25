@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-20 11:00+0200\n"
+"POT-Creation-Date: 2015-01-25 15:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,63 +18,71 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: apps/account/forms.py:17
+#: apps/account/forms.py:20
 msgid "Username"
 msgstr "Kullanıcı Adı"
 
-#: apps/account/forms.py:18
+#: apps/account/forms.py:21
 msgid "Password"
 msgstr "Şifre"
 
-#: apps/account/forms.py:19
+#: apps/account/forms.py:22
 msgid "Password Again"
 msgstr "Şifre Tekrar"
 
-#: apps/account/forms.py:21
+#: apps/account/forms.py:24
 msgid "Invitation Key"
 msgstr "Davet Kodu"
 
-#: apps/account/forms.py:26
+#: apps/account/forms.py:29
 msgid "User with this username already exists"
 msgstr "Bu kullanıcı adı daha önce alınmış"
 
-#: apps/account/forms.py:35
+#: apps/account/forms.py:38
 msgid "Password fields must be same"
 msgstr "Şifre alanları aynı olmalı"
 
-#: apps/account/forms.py:54
+#: apps/account/forms.py:57
 msgid "This key reached it's maximum use limit. It cant be used anymore."
 msgstr ""
 "Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
 
-#: apps/account/forms.py:60
+#: apps/account/forms.py:63
 msgid "Invalid invitation key"
 msgstr "Geçersiz davet kodu"
 
-#: apps/account/forms.py:147
+#: apps/account/forms.py:139
+msgid "send email notification"
+msgstr "eposta ile bildir"
+
+#: apps/account/forms.py:140
+msgid "send site notification"
+msgstr "sitede bildir"
+
+#: apps/account/forms.py:199
 msgid "You can not do that action on yourself."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin."
 
-#: apps/account/forms.py:180
+#: apps/account/forms.py:232
 #, python-format
 msgid "You made %s unfollow you."
 msgstr "%s kişisini takipçin olmaktan çıkardın."
 
-#: apps/account/forms.py:187
+#: apps/account/forms.py:239
 #, python-format
 msgid "You set %s as follower."
 msgstr "%s kişisini takipçin yaptın."
 
-#: apps/account/forms.py:193
+#: apps/account/forms.py:245
 #, python-format
 msgid "You set %s as restricted follower."
 msgstr "%s kişisini kısıtlı takipçi yaptın."
 
-#: apps/account/forms.py:214
+#: apps/account/forms.py:266
 msgid "Ask me a question:"
 msgstr "Bana bir soru sor:"
 
-#: apps/account/forms.py:215
+#: apps/account/forms.py:267
 msgid "Ask as anonymouse"
 msgstr "Kimliğimi gizle"
 
@@ -94,39 +102,39 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:69
+#: apps/account/views.py:70
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:89
+#: apps/account/views.py:90
 msgid "Follow request sent to user"
 msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:92
+#: apps/account/views.py:93
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının takipçisi değilsin"
 
-#: apps/account/views.py:95
+#: apps/account/views.py:96
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:98
+#: apps/account/views.py:99
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:187
+#: apps/account/views.py:188
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:216
+#: apps/account/views.py:217
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:287
+#: apps/account/views.py:285
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:308
+#: apps/account/views.py:319
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -389,12 +397,12 @@ msgstr ""
 msgid "Make Follower"
 msgstr "Takipçim Yap"
 
-#: templates/auth/followers.html:37
+#: templates/auth/followers.html:37 templates/auth/followings.html:15
 #: templates/includes/pagination_links_for_users.html:4
 msgid "Previous Users"
 msgstr "Önceki Kullanıcılar"
 
-#: templates/auth/followers.html:40
+#: templates/auth/followers.html:40 templates/auth/followings.html:18
 #: templates/includes/pagination_links_for_users.html:7
 msgid "Next Users"
 msgstr "Sonraki Kullanıcılar"
@@ -450,6 +458,29 @@ msgstr ""
 "Giriş yap <span class=\"f_weak c_weak wn\">veya <a href=\"%(register_url)s"
 "\">kayıt ol</a>?</span>"
 
+#: templates/auth/notification_preferences.html:5
+#: templates/auth/user_detail_inc.html:53
+msgid "Update Notification Preferences"
+msgstr "Bildirim Tercihleri Güncelle"
+
+#: templates/auth/notification_preferences.html:13
+msgid "Event"
+msgstr "Etkinlik"
+
+#: templates/auth/notification_preferences.html:13
+msgid "Send Site Notification"
+msgstr "Sitede Bildir"
+
+#: templates/auth/notification_preferences.html:13
+msgid "Send Email Notification"
+msgstr "Eposta İle Bildir"
+
+#: templates/auth/notification_preferences.html:28
+#: templates/auth/preferences.html:9 templates/story/create_story.html:26
+#: templates/story/update_captions.html:21
+msgid "Save"
+msgstr "Kaydet"
+
 #: templates/auth/pending_follow_requests.html:13
 #, python-format
 msgid "<a href=\"%(url)s\">%(username)s</a> wants to be your follower."
@@ -483,11 +514,6 @@ msgstr ""
 msgid "Update Preferences"
 msgstr "Tercihleri Güncelle"
 
-#: templates/auth/preferences.html:9 templates/story/create_story.html:26
-#: templates/story/update_captions.html:21
-msgid "Save"
-msgstr "Kaydet"
-
 #: templates/auth/register.html:8
 msgid ""
 "In order to get signed up at <a href=\"/\">Resm.in</a> you need an "
@@ -520,7 +546,7 @@ msgstr "veya"
 msgid "Sign in"
 msgstr "Giriş yap"
 
-#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:53
+#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:52
 msgid "Update Profile"
 msgstr "Profili Güncelle"
 
@@ -540,7 +566,7 @@ msgstr "Takipçi"
 msgid "Following"
 msgstr "Takip Edilen"
 
-#: templates/auth/user_detail_inc.html:34
+#: templates/auth/user_detail_inc.html:33
 msgid ""
 "Blocking this user means that you wouldn't dispose any of your questions or "
 "answers while you wouldn't be to see any question or answer. Is this cool?"
@@ -548,7 +574,7 @@ msgstr ""
 "Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da "
 "senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?"
 
-#: templates/auth/user_detail_inc.html:37
+#: templates/auth/user_detail_inc.html:36
 msgid ""
 "As you unblock you'd be able to see questions & answers by this user who "
 "would also be able to access your contributions. Am I magnificient?"
@@ -556,11 +582,11 @@ msgstr ""
 "Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını "
 "görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?"
 
-#: templates/auth/user_detail_inc.html:40
+#: templates/auth/user_detail_inc.html:39
 msgid "You want to be a disciple of this user. You're nuts..."
 msgstr "Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?"
 
-#: templates/auth/user_detail_inc.html:43
+#: templates/auth/user_detail_inc.html:42
 msgid "Me don't want no more contact with this user. Ummmm are you bored?"
 msgstr "Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?"
 
@@ -660,8 +686,8 @@ msgid "%(username)s answered \"%(question)s\" by your request."
 msgstr "%(username)s isteğin üzerine \"%(question)s\" sorusuna cevap verdi."
 
 #: templates/notification/user_answered_your_question/sub_sing_obj_sing/email_body.txt:3
-#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_body.txt:5
-#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_body.txt:3
+#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_body.txt:5
+#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_body.txt:3
 msgid "Click link below to see that answer."
 msgstr "Cevabı görüntülemek için aşağıdaki linke tıkla"
 
@@ -702,19 +728,19 @@ msgstr "Biri sana soru sordu."
 msgid "<a href=\"%(url)s\">%(username)s</a> asked:"
 msgstr "<a href=\"%(url)s\">%(username)s</a> sordu:"
 
-#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_body.txt:1
+#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_body.txt:1
 msgid "These users liked your answer:"
 msgstr "Şu kullanıcılar cevabını beğendi:"
 
-#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_subject.txt:1
+#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_subject.txt:1
 msgid "You have some love from resm.in"
 msgstr "Resm.in'den kalpler."
 
-#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/site_notification.html:1
+#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/site_notification.html:1
 msgid "Users liked your answer:"
 msgstr "Kullanıcılar cevabını beğendi:"
 
-#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_body.txt:1
+#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_body.txt:1
 #, python-format
 msgid ""
 "%(username)s liked your answer. Seems like you've started doing things well."
@@ -722,7 +748,8 @@ msgstr ""
 "%(username)s cevabını beğendi. Anlaşılan o ki bir şeyleri doğru yapmaya "
 "başladın."
 
-#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_subject.txt:1
+#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_subject.txt:1
+#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/site_notification.html:1
 #, python-format
 msgid "%(username)s liked your answer."
 msgstr "%(username)s cevabını beğendi."
