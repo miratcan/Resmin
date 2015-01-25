@@ -1,0 +1,33 @@
+{% extends "auth/dashboard_base.html" %}{% load i18n keyvalue %}
+
+{% block wrap_class %}narrow{% endblock %}
+
+{% block page_title %}{% trans "Update Notification Preferences" %}{% endblock %}
+
+
+{% block content_inner %}
+<form method="post">
+  {% csrf_token %}
+  <table id="update-preferences" class="bg ra pa" style="width: 100%">
+  	<tr>
+  		<th>{% trans "Event" %}</th><th>{% trans "Send Site Notification" %}</th><th>{% trans "Send Email Notification" %}</th>
+  	</tr>
+    {% for stack in form.stacks %}
+      <tr>
+        <td class="fl">
+        	{{ stack|keyvalue:"name"|capfirst }}
+        </td>
+        {% for field in stack|keyvalue:"fields" %}
+        	<td>
+        		{{ field }}
+        	</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    <tr>
+    	<td colspan="3"><input class="bttn green fr pa ra" type="submit" value="{% trans 'Save' %}"></td>
+    </tr>
+  </table>
+
+</form>
+{% endblock %}
