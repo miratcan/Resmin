@@ -77,7 +77,7 @@ def question(request, base62_id, show_delete=False, **kwargs):
                                  id=base62.to_decimal(base62_id))
     stories = Story.objects\
         .from_question_meta(question)\
-        .filter(status=Story.PUBLISHED)
+        .filter(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE)
 
     if request.user.is_authenticated():
         is_following = QuestionFollow.objects\
