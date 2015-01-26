@@ -30,10 +30,10 @@ def _index(request, stories, extra):
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
     stories = paginated(request, stories, settings.STORIES_PER_PAGE)
-    recommened_questions = QuestionMeta.objects.\
+    recommended_questions = QuestionMeta.objects.\
         filter(is_featured=True).order_by('?')[:10]
     ctx = {'stories': stories,
-           'recommened_questions': recommened_questions,
+           'recommended_questions': recommended_questions,
            'show_email_message': show_email_message}
     if extra:
         ctx.update(extra)
