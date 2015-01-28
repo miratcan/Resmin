@@ -52,9 +52,9 @@ class NotificationType(MultilingualModel):
         choices=((PLURAL_SUB, 'Subject'), (PLURAL_OBJ, 'Object'),
                  (PLURAL_BOTH, 'Both')))
     s_ct = models.ForeignKey(ContentType, verbose_name='Subject Type',
-                             related_name='s_ct')
+                             related_name='s_ct', null=True, blank=True)
     o_ct = models.ForeignKey(ContentType, verbose_name='Object Type',
-                             related_name='o_ct')
+                             related_name='o_ct', null=True, blank=True)
     collecting_period = models.PositiveSmallIntegerField(
         default=10,
         help_text='Amount of minutes that kind notifications collected and '

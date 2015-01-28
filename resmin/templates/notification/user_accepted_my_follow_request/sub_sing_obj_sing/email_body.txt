@@ -1,0 +1,4 @@
+{% load i18n %}{% include 'notification/user_accepted_my_follow_request/sub_sing_obj_sing/site_notification.html' %}
+
+{% trans "Clink link below to see that users profile:" %}
+http://{{ site_url }}{{ nm.sub.get_absolute_url }}
