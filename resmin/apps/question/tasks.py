@@ -64,7 +64,7 @@ def _user_created_story_callback_task(story):
 
 
 @app.task
-def user_created_story_callback_task(story, qms):
+def user_created_story_callback_task(story):
     _user_created_story_callback_task(story)
 
 

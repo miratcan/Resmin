@@ -13,7 +13,6 @@ def _publish_notifications():
         lifespan = timedelta(minutes=nm.ntype.collecting_period)
         print age, lifespan
         if age > lifespan:
-            print "published."
             nm.publish()
 
 

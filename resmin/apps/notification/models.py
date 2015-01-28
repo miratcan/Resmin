@@ -312,7 +312,7 @@ class EmailNotification(models.Model):
             logger.error('Could\'nt send email notification. Template named: '
                          '"%s" does not exist.' % err.args[0])
         except Exception as err:
-            import ipdb; ipdb.set_trace()
+            logger.error(err)
 
         if rendered:
             try:
