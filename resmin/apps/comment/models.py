@@ -9,7 +9,7 @@ class CommentManager(models.Manager):
     def published(self):
         return self.get_queryset().filter(status=Comment.PUBLISHED)
 
-COMMENT_RENDERER = linebreaks
+COMMENT_RENDERER = lambda b: linebreaks(urlize(b))
 
 class Comment(models.Model):
 
