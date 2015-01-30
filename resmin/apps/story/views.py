@@ -71,7 +71,8 @@ def story(request, base62_id):
     comments = paginated(request, comments,
                          settings.COMMENTS_PER_PAGE)
     if 'comment' in request.POST:
-        comment_form = CommentForm(request.POST, owner=request.user, story=story)
+        comment_form = CommentForm(request.POST, owner=request.user,
+                                   story=story)
         if comment_form.is_valid():
             comment = comment_form.save()
             return HttpResponseRedirect(comment.get_absolute_url())

@@ -187,6 +187,20 @@ class NotificationMeta(models.Model):
         return self._get_objects(self.ntype.o_ct, self.o_pks)
 
     @property
+    def sub_count(self):
+        """
+        Return num of subjects in notification.
+        """
+        return len(self.s_pks.split(','))
+
+    @property
+    def obj_count(self):
+        """
+        Return num of objects in notification.
+        """
+        return len(self.o_pks.split(','))
+
+    @property
     def sub(self):
         """
         Return first subject. Usually used with notification types 

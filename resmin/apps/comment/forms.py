@@ -1,5 +1,7 @@
-from apps.comment.models import Comment
 from django import forms
+
+from apps.notification.utils import notify
+from apps.comment.models import Comment
 
 
 class CommentForm(forms.Form):
@@ -24,4 +26,9 @@ class CommentForm(forms.Form):
                 story=self.story,
                 body=self.cleaned_data['comment'],
                 status=Comment.PUBLISHED)
+            notify(ntype_slug='new_comment_on_my_story',
+                   sub=comment,
+                   obj=comment.story,
+                   recipient=comment.story.owner,
+                   url=comment.story.get_absolute_url())
         return comment
