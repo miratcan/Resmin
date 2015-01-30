@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.story.models import Story
+from django.template.defaultfilters import linebreaks
 # Create your models here.
 
 
@@ -8,6 +9,7 @@ class CommentManager(models.Manager):
     def published(self):
         return self.get_queryset().filter(status=Comment.PUBLISHED)
 
+COMMENT_RENDERER = linebreaks
 
 class Comment(models.Model):
 
@@ -30,3 +32,10 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return u"%s's comment on %s" % (self.owner, self.story)
+
+    def get_absolute_url(self):
+        return '%s#cid=%s' % (self.story.get_absolute_url(), self.id)
+
+    def save(self, *args, **kwargs):
+        self.as_html = COMMENT_RENDERER(self.body)
+        super(Comment, self).save(*args, **kwargs)

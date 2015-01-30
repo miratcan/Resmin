@@ -8,15 +8,17 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
-
 from apps.question.models import Question, QuestionMeta
 from apps.question.signals import user_created_story
+from apps.comment.models import Comment
+from apps.comment.forms import CommentForm
 from apps.story.forms import StoryForm, UpdateCaptionsForm
 from apps.story.models import Story, Upload
 from apps.notification.utils import notify
 from apps.notification.decorators import delete_notification
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
+from utils import paginated
 
 
 def _delete_story(request, story=None):
@@ -63,9 +65,22 @@ def story(request, base62_id):
     story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                               status__in=statuses_in)
     story_is_visible = story.is_visible_for(request.user)
+    comments = Comment.objects\
+        .filter(story=story, status=Comment.PUBLISHED)\
+        .select_related('owner__profile')
+    comments = paginated(request, comments,
+                         settings.COMMENTS_PER_PAGE)
+    if 'comment' in request.POST:
+        comment_form = CommentForm(request.POST, owner=request.user, story=story)
+        if comment_form.is_valid():
+            comment = comment_form.save()
+            return HttpResponseRedirect(comment.get_absolute_url())
+    else:
+        comment_form = CommentForm(owner=request.user, story=story)
     return render(request, 'story/story_detail.html',
                   {'story': story, 'current_site': Site.objects.get_current(),
-                   'story_is_visible': story_is_visible})
+                   'story_is_visible': story_is_visible, 'comments': comments,
+                   'comment_form': comment_form})
 
 
 @login_required

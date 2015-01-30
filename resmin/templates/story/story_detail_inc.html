@@ -21,9 +21,20 @@
         {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
       </div>
     {% endfor %}
-    {% for comment in story.comment_set.published %}
-      {{ comment.owner }}: {{ comment.body }}
-    {% endfor %}
+    <div class="comments mb">
+      {% for comment in comments %}
+        <div class="comment pb pt">
+          <a class="wb db mb" href="{{ comment.owner.get_absolute_url}}">{{ comment.owner }}</a>
+          <div class="comment-body">{{ comment.as_html|safe }}</div>
+        </div>
+      {% endfor %}
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" value="add_comment">
+        {{ comment_form.comment }}
+        <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
+      </form>
+    </div>
   </div>
   <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
