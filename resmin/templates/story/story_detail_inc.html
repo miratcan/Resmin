@@ -21,6 +21,9 @@
         {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
       </div>
     {% endfor %}
+    {% for comment in story.comment_set.published %}
+      {{ comment.owner }}: {{ comment.body }}
+    {% endfor %}
   </div>
   <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
@@ -77,7 +80,6 @@
   <div class="section">
     <p class="wb mb">{% trans 'Actions' %}</p>
     <ul class="mb">
-
       <li><a href="{{ story.get_update_images_url }}">{% trans "Rearrange Images" %}</a></li>
       <li><a href="{{ story.get_update_details_url }}">{% trans "Edit Title and Descriptions" %}</a></li>
       {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}
