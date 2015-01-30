@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from apps.story.models import Story
-from django.template.defaultfilters import linebreaks
+from django.template.defaultfilters import linebreaks, urlize
 # Create your models here.
 
 
