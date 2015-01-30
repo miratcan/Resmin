@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-25 15:21+0200\n"
+"POT-Creation-Date: 2015-01-30 20:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -102,39 +102,39 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:70
+#: apps/account/views.py:71
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:90
+#: apps/account/views.py:91
 msgid "Follow request sent to user"
 msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:93
+#: apps/account/views.py:94
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının takipçisi değilsin"
 
-#: apps/account/views.py:96
+#: apps/account/views.py:97
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:99
+#: apps/account/views.py:100
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:188
+#: apps/account/views.py:189
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:217
+#: apps/account/views.py:218
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:285
+#: apps/account/views.py:286
 msgid "Your remote key has been reset"
 msgstr "Uzak anahtarın sıfırlandı"
 
-#: apps/account/views.py:319
+#: apps/account/views.py:320
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -206,23 +206,23 @@ msgstr "Tamamlandı"
 msgid "Failed"
 msgstr "Bitirilemedi"
 
-#: apps/story/views.py:27
+#: apps/story/views.py:29
 msgid "Your story deleted."
 msgstr "Hikayen silindi"
 
-#: apps/story/views.py:45
+#: apps/story/views.py:47
 msgid "Your story published."
 msgstr "Hikayen yayınlandı."
 
-#: apps/story/views.py:97
+#: apps/story/views.py:113
 msgid "Your story updated"
 msgstr "Hikayen güncellendi"
 
-#: apps/story/views.py:129
+#: apps/story/views.py:145
 msgid "md5sum and size required."
 msgstr "md5sum ve size gerekli."
 
-#: apps/story/views.py:146
+#: apps/story/views.py:162
 msgid "post method required."
 msgstr "post metodu gerekli."
 
@@ -477,6 +477,7 @@ msgstr "Eposta İle Bildir"
 
 #: templates/auth/notification_preferences.html:28
 #: templates/auth/preferences.html:9 templates/story/create_story.html:26
+#: templates/story/story_detail_inc.html:35
 #: templates/story/update_captions.html:21
 msgid "Save"
 msgstr "Kaydet"
@@ -626,34 +627,6 @@ msgstr "Eposta adresini belirlemek için aşağıdaki linke tıkla"
 msgid "E-mail confirmation"
 msgstr "E-Posta onayı"
 
-#: templates/emails/follow_accepted_subject.txt:1
-#, python-format
-msgid "%(target_username)s accepted your follow request"
-msgstr "%(target_username)s müridi olma talebini kabul etti"
-
-#: templates/emails/follow_received_subject.txt:1
-#, python-format
-msgid "%(follower_username)s wants to be your follower"
-msgstr "%(follower_username)s müridin olmak istiyor"
-
-#: templates/emails/new_answer_body.txt:1
-msgid "Click the link below to display answer"
-msgstr "Cevabı görüntülemek için aşağıdaki linke tıkla"
-
-#: templates/emails/new_answer_body.txt:5
-msgid ""
-"If you don't want to get more emails about that question, click the link "
-"below"
-msgstr "Bu soru hak"
-
-#: templates/emails/new_answer_subject.txt:4
-msgid "A question that you asked has a new answer"
-msgstr "Sorduğun bir soruya yeni cevap geldi O_o"
-
-#: templates/emails/new_answer_subject.txt:6
-msgid "A question that you answered before has new answer"
-msgstr "Cevapladığın bir soruyu başkası da cevapladı :o)"
-
 #: templates/includes/pagination_links_for_stories.html:4
 msgid "Previous Answers"
 msgstr "Önceki Hikayeler"
@@ -662,41 +635,70 @@ msgstr "Önceki Hikayeler"
 msgid "Next Answers"
 msgstr "Sonraki Cevaplar"
 
-#: templates/nf/new_story_on_following_question/sentence.txt:1
-#, python-format
-msgid "New story on \"%(question_text)s\""
-msgstr "\"%(question_text)s\" için yeni bir cevap var."
-
-#: templates/nf/user_accepted_your_follow_request/option.txt:1
-msgid "When an user accepted my follow request."
-msgstr "Biri ona yaptığım takip isteğini kabul ettiğinde."
-
-#: templates/nf/user_accepted_your_follow_request/sentence.txt:1
-#, python-format
-msgid "<strong>%(username)s</strong> accepted your follow request."
-msgstr "<strong>%(username)s</strong> müridi olma talebini kabul etti"
-
 #: templates/notification/list.html:8
 msgid "No new notifications."
 msgstr "Yeni bildirim yok."
 
-#: templates/notification/user_answered_your_question/sub_sing_obj_sing/email_body.txt:1
+#: templates/notification/new_comment_on_my_story/sub_plur_obj_sing/email_body.txt:1
+#, python-format
+msgid ""
+"You have %(num_of_comments)s new comments your story. Click link below to "
+"see them:"
+msgstr ""
+
+#: templates/notification/new_comment_on_my_story/sub_plur_obj_sing/email_subject.txt:1
+msgid "New comments arrived on your answer :)"
+msgstr "Cevabına yeni yorumlar geldi :)"
+
+#: templates/notification/new_comment_on_my_story/sub_plur_obj_sing/site_notification.html:1
+#, python-format
+msgid "You have %(num_of_comments)s new comments your answer."
+msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
+
+#: templates/notification/new_comment_on_my_story/sub_sing_obj_sing/email_body.txt:1
+#, python-format
+msgid "%(comment_owner)s commented on your answer. Click link below to see it:"
+msgstr "%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya tıkla:"
+
+#: templates/notification/new_comment_on_my_story/sub_sing_obj_sing/email_subject.txt:1
+msgid "New comment on your answer."
+msgstr "Cevabına yeni yorum geldi"
+
+#: templates/notification/new_comment_on_my_story/sub_sing_obj_sing/site_notification.html:1
+#, python-format
+msgid "%(comment_owner)s commented on your answer."
+msgstr "%(comment_owner)s cevabına yorum yaptı"
+
+#: templates/notification/user_accepted_my_follow_request/sub_sing_obj_sing/email_body.txt:3
+msgid "Clink link below to see that users profile:"
+msgstr "Kullanıcının profilini görüntülemek için aşağıdaki bağlantıya tıkla:"
+
+#: templates/notification/user_accepted_my_follow_request/sub_sing_obj_sing/email_subject.txt:1
+msgid "User accepted your follow request."
+msgstr "Kullanıcı takip talebini kabul etti."
+
+#: templates/notification/user_accepted_my_follow_request/sub_sing_obj_sing/site_notification.html:1
+#, python-format
+msgid "%(username)s accepted your follow request."
+msgstr "%(username)s takip talebini kabul etti"
+
+#: templates/notification/user_answered_my_question/sub_sing_obj_sing/email_body.txt:1
 #, python-format
 msgid "%(username)s answered \"%(question)s\" by your request."
 msgstr "%(username)s isteğin üzerine \"%(question)s\" sorusuna cevap verdi."
 
-#: templates/notification/user_answered_your_question/sub_sing_obj_sing/email_body.txt:3
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_body.txt:5
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_body.txt:3
+#: templates/notification/user_answered_my_question/sub_sing_obj_sing/email_body.txt:3
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_body.txt:5
+#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_body.txt:3
 msgid "Click link below to see that answer."
 msgstr "Cevabı görüntülemek için aşağıdaki linke tıkla"
 
-#: templates/notification/user_answered_your_question/sub_sing_obj_sing/email_subject.txt:1
+#: templates/notification/user_answered_my_question/sub_sing_obj_sing/email_subject.txt:1
 #, python-format
 msgid "%(username)s answered your question."
 msgstr "%(username)s sorunu cevapladı."
 
-#: templates/notification/user_answered_your_question/sub_sing_obj_sing/site_notification.html:1
+#: templates/notification/user_answered_my_question/sub_sing_obj_sing/site_notification.html:1
 #, python-format
 msgid ""
 "<strong>%(username)s</strong> answered <strong>%(question)s</strong> by your "
@@ -705,42 +707,42 @@ msgstr ""
 "<strong>%(username)s</strong> senin isteğin üzerine <strong>%(question)s</"
 "strong> sorusuna cevap verdi."
 
-#: templates/notification/user_asked_you_a_question/sub_sing_obj_sing/email_body.txt:1
-#: templates/notification/user_asked_you_a_question/sub_sing_obj_sing/site_notification.html:1
+#: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/email_body.txt:1
+#: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/site_notification.html:1
 msgid "An anonymouse user asked:"
 msgstr "Gizli kullanıcı sordu:"
 
-#: templates/notification/user_asked_you_a_question/sub_sing_obj_sing/email_body.txt:1
+#: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/email_body.txt:1
 #, python-format
 msgid "%(username)s asked:"
 msgstr "%(username)s sordu:"
 
-#: templates/notification/user_asked_you_a_question/sub_sing_obj_sing/email_body.txt:3
+#: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/email_body.txt:3
 msgid "Click link below to see pending question:"
 msgstr "Cevabı görüntülemek için aşağıdaki linke tıkla"
 
-#: templates/notification/user_asked_you_a_question/sub_sing_obj_sing/email_subject.txt:1
+#: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/email_subject.txt:1
 msgid "Somebody asked you a question."
 msgstr "Biri sana soru sordu."
 
-#: templates/notification/user_asked_you_a_question/sub_sing_obj_sing/site_notification.html:1
+#: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/site_notification.html:1
 #, python-format
 msgid "<a href=\"%(url)s\">%(username)s</a> asked:"
 msgstr "<a href=\"%(url)s\">%(username)s</a> sordu:"
 
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_body.txt:1
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_body.txt:1
 msgid "These users liked your answer:"
 msgstr "Şu kullanıcılar cevabını beğendi:"
 
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/email_subject.txt:1
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/email_subject.txt:1
 msgid "You have some love from resm.in"
 msgstr "Resm.in'den kalpler."
 
-#: templates/notification/user_liked_your_answer/sub_plur_obj_sing/site_notification.html:1
+#: templates/notification/user_liked_my_answer/sub_plur_obj_sing/site_notification.html:1
 msgid "Users liked your answer:"
 msgstr "Kullanıcılar cevabını beğendi:"
 
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_body.txt:1
+#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_body.txt:1
 #, python-format
 msgid ""
 "%(username)s liked your answer. Seems like you've started doing things well."
@@ -748,8 +750,8 @@ msgstr ""
 "%(username)s cevabını beğendi. Anlaşılan o ki bir şeyleri doğru yapmaya "
 "başladın."
 
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/email_subject.txt:1
-#: templates/notification/user_liked_your_answer/sub_sing_obj_sing/site_notification.html:1
+#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/email_subject.txt:1
+#: templates/notification/user_liked_my_answer/sub_sing_obj_sing/site_notification.html:1
 #, python-format
 msgid "%(username)s liked your answer."
 msgstr "%(username)s cevabını beğendi."
@@ -852,53 +854,53 @@ msgstr ""
 msgid "Publish"
 msgstr "Yayınla"
 
-#: templates/story/story_detail_inc.html:36
+#: templates/story/story_detail_inc.html:50
 msgid "Answer by an anonymouse user."
 msgstr "Gizli kullanıcı tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:38
+#: templates/story/story_detail_inc.html:52
 #, python-format
 msgid "Answer by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>"
 msgstr ""
 "<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı."
 
-#: templates/story/story_detail_inc.html:40
+#: templates/story/story_detail_inc.html:54
 msgid "Visible to"
 msgstr "Şuna Görünür"
 
-#: templates/story/story_detail_inc.html:40
+#: templates/story/story_detail_inc.html:54
 msgid "Posted at"
 msgstr "Oluşturulma Zamanı"
 
-#: templates/story/story_detail_inc.html:51
+#: templates/story/story_detail_inc.html:65
 msgid "Likers"
 msgstr "Kalpleyenler"
 
-#: templates/story/story_detail_inc.html:55
+#: templates/story/story_detail_inc.html:69
 msgid "Likers can be seen by owner of story."
 msgstr "Kalpleyenler hikaye sahibi tarafından görüntülenebilir."
 
-#: templates/story/story_detail_inc.html:70
+#: templates/story/story_detail_inc.html:84
 msgid "Mounted Questions"
 msgstr "Bağlı Sorular"
 
-#: templates/story/story_detail_inc.html:79
+#: templates/story/story_detail_inc.html:93
 msgid "Actions"
 msgstr "Hareketler"
 
-#: templates/story/story_detail_inc.html:82
+#: templates/story/story_detail_inc.html:95
 msgid "Rearrange Images"
 msgstr "Görselleri Düzenle"
 
-#: templates/story/story_detail_inc.html:83
+#: templates/story/story_detail_inc.html:96
 msgid "Edit Title and Descriptions"
 msgstr "Başlık ve Açıklamaları Düzenle"
 
-#: templates/story/story_detail_inc.html:84
+#: templates/story/story_detail_inc.html:97
 msgid "Delete"
 msgstr "Sil"
 
-#: templates/story/story_detail_inc.html:84
+#: templates/story/story_detail_inc.html:97
 msgid "Click here if you're sure to delete."
 msgstr "Silmeye eminsen buraya tıkla."
 
@@ -909,6 +911,29 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#~ msgid "%(follower_username)s wants to be your follower"
+#~ msgstr "%(follower_username)s müridin olmak istiyor"
+
+#~ msgid "Click the link below to display answer"
+#~ msgstr "Cevabı görüntülemek için aşağıdaki linke tıkla"
+
+#~ msgid ""
+#~ "If you don't want to get more emails about that question, click the link "
+#~ "below"
+#~ msgstr "Bu soru hak"
+
+#~ msgid "A question that you asked has a new answer"
+#~ msgstr "Sorduğun bir soruya yeni cevap geldi O_o"
+
+#~ msgid "A question that you answered before has new answer"
+#~ msgstr "Cevapladığın bir soruyu başkası da cevapladı :o)"
+
+#~ msgid "New story on \"%(question_text)s\""
+#~ msgstr "\"%(question_text)s\" için yeni bir cevap var."
+
+#~ msgid "<strong>%(username)s</strong> accepted your follow request."
+#~ msgstr "<strong>%(username)s</strong> müridi olma talebini kabul etti"
 
 #~ msgid "Nothing to show here"
 #~ msgstr "Burada gösterecek bir şey yok"
@@ -998,9 +1023,6 @@ msgstr "Burada Hiç Cevap Yok"
 
 #~ msgid "Email when somebody posted answer to my question"
 #~ msgstr "Biri benim soruma cevap yolladığında eposta gönder"
-
-#~ msgid "Email when somebody commented on my answer"
-#~ msgstr "Biri cevabıma yorum yazarsa eposta gönder"
 
 #~ msgid "Email when somebody commented on answer that i commented before"
 #~ msgstr "Biri yorum yazdığım cevaba yorum eklediğinde eposta gönder"
