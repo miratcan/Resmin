@@ -3,7 +3,7 @@
 <div class="narrow fc bg ra pad">
   <ul>
   {% for n in notifications %}
-    <li><a href="{{ n.meta.get_url }}">{% include n.template_name with nm=n.meta %}</a></li>
+    <li class="pt pb bb"><a href="{{ n.meta.get_url }}">{% include n.template_name with nm=n.meta %}</a></li>
   {% empty %}
     <p class="imp pa f_stng">{% trans "No new notifications." %}</p>
   {% endfor %}
