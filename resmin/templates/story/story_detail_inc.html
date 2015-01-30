@@ -21,6 +21,20 @@
         {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
       </div>
     {% endfor %}
+    <div class="comments mb">
+      {% for comment in comments %}
+        <div class="comment pb pt">
+          <a class="wb db mb" href="{{ comment.owner.get_absolute_url}}">{{ comment.owner }}</a>
+          <div class="comment-body">{{ comment.as_html|safe }}</div>
+        </div>
+      {% endfor %}
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" value="add_comment">
+        {{ comment_form.comment }}
+        <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
+      </form>
+    </div>
   </div>
   <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
@@ -77,7 +91,6 @@
   <div class="section">
     <p class="wb mb">{% trans 'Actions' %}</p>
     <ul class="mb">
-
       <li><a href="{{ story.get_update_images_url }}">{% trans "Rearrange Images" %}</a></li>
       <li><a href="{{ story.get_update_details_url }}">{% trans "Edit Title and Descriptions" %}</a></li>
       {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}
