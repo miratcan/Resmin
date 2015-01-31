@@ -1,0 +1,3 @@
+{% load i18n %}{% blocktrans with comment_owner=nm.sub.owner %}{{ comment_owner }} commented on an answer that you commented before. Click link below to see it:{% endblocktrans %}
+
+http://{{ site.domain }}{{ nm.obj.get_absolute_url }}

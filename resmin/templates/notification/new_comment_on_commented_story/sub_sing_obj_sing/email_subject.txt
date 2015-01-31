@@ -1,0 +1,1 @@
+{% load i18n %}{% trans "New comment on an answer that you commented before.” %}
