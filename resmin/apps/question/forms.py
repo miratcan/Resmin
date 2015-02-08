@@ -29,9 +29,11 @@ class CreateQuestionForm(forms.ModelForm):
 class RequestAnswerForm(forms.Form):
 
     questionees = forms.CharField(
+        label=_('Questionees'),
         widget=forms.Textarea,
         help_text=_('Write comma seperated usernames that you want answer.'))
-    is_anonymouse = forms.BooleanField(required=False)
+    is_anonymouse = forms.BooleanField(label=_('Is Anonymouse'),
+                                       required=False)
 
     def __init__(self, *args, **kwargs):
         self.questioner = kwargs.pop('questioner')

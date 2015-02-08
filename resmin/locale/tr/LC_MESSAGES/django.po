@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-01-30 20:29+0200\n"
+"POT-Creation-Date: 2015-02-08 14:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -146,11 +146,15 @@ msgstr "Tercihlerin güncellendi"
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
+#: apps/question/forms.py:33
+msgid "Write comma seperated usernames that you want answer."
+msgstr "Cevap isteyen kişilerin kullanıcı adını virgüllerle ayırarak yaz"
+
 #: apps/question/models.py:26
 msgid "Question"
 msgstr "Soru"
 
-#: apps/question/views.py:137
+#: apps/question/views.py:159
 msgid "Action not found"
 msgstr "Hareket bulunamadı"
 
@@ -639,6 +643,36 @@ msgstr "Sonraki Cevaplar"
 msgid "No new notifications."
 msgstr "Yeni bildirim yok."
 
+#: templates/notification/new_comment_on_commented_story/sub_plur_obj_sing/email_body.txt:1
+#, fuzzy, python-format
+msgid ""
+"There are %(num_of_comments)s new comments on an answer that you commented "
+"before. Click link below to see them:"
+msgstr ""
+"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
+"tıkla:"
+
+#: templates/notification/new_comment_on_commented_story/sub_plur_obj_sing/site_notification.html:1
+#, fuzzy, python-format
+msgid ""
+"There are %(num_of_comments)s new comments on an answer that you commented "
+"before."
+msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
+
+#: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/email_body.txt:1
+#, fuzzy, python-format
+msgid ""
+"%(comment_owner)s commented on an answer that you commented before. Click "
+"link below to see it:"
+msgstr ""
+"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
+"tıkla:"
+
+#: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/site_notification.html:1
+#, fuzzy, python-format
+msgid "%(comment_owner)s commented on an answer that you commented before."
+msgstr "Biri yorum yazdığım cevaba yorum eklediğinde eposta gönder"
+
 #: templates/notification/new_comment_on_my_story/sub_plur_obj_sing/email_body.txt:1
 #, python-format
 msgid ""
@@ -658,7 +692,9 @@ msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
 #: templates/notification/new_comment_on_my_story/sub_sing_obj_sing/email_body.txt:1
 #, python-format
 msgid "%(comment_owner)s commented on your answer. Click link below to see it:"
-msgstr "%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya tıkla:"
+msgstr ""
+"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
+"tıkla:"
 
 #: templates/notification/new_comment_on_my_story/sub_sing_obj_sing/email_subject.txt:1
 msgid "New comment on your answer."
@@ -762,7 +798,7 @@ msgstr "önce"
 
 #: templates/question/pending_questions.html:19
 #: templates/question/question_meta_list.html:8
-#: templates/question/question_sentence.html:12
+#: templates/question/question_sentence.html:14
 msgid "Answer"
 msgstr "Cevapla"
 
@@ -809,22 +845,26 @@ msgstr ""
 "Burada Resm.in'de sorulmuş soruların listesi var. Buraya soru eklemek için "
 "birine ya da kendine soru sor."
 
-#: templates/question/question_sentence.html:7
+#: templates/question/question_sentence.html:8
 #, python-format
 msgid "%(s_count)s answers / %(f_count)s followers"
 msgstr "%(s_count)s cevap / %(f_count)s takipçi"
 
-#: templates/question/question_sentence.html:12
+#: templates/question/question_sentence.html:14
+msgid "Request Answer"
+msgstr "Cevap İste"
+
+#: templates/question/question_sentence.html:14
 msgctxt "follow"
 msgid "Unfollow"
 msgstr "Takipten Çık"
 
-#: templates/question/question_sentence.html:12
+#: templates/question/question_sentence.html:14
 msgctxt "follow"
 msgid "Follow"
 msgstr "Takip Et"
 
-#: templates/question/question_sentence.html:16
+#: templates/question/question_sentence.html:18
 #, python-format
 msgid "<a class=\"imp\" href=\"%(login_url)s\">Login</a> to post an answer."
 msgstr ""
@@ -1024,9 +1064,6 @@ msgstr "Burada Hiç Cevap Yok"
 #~ msgid "Email when somebody posted answer to my question"
 #~ msgstr "Biri benim soruma cevap yolladığında eposta gönder"
 
-#~ msgid "Email when somebody commented on answer that i commented before"
-#~ msgstr "Biri yorum yazdığım cevaba yorum eklediğinde eposta gönder"
-
 #~ msgid "Latest Answers"
 #~ msgstr "Son Cevaplar"
 
@@ -1035,9 +1072,6 @@ msgstr "Burada Hiç Cevap Yok"
 
 #~ msgid "Set As Cover Of Question"
 #~ msgstr "Soru Kapağı Olarak Belirle"
-
-#~ msgid "Post Answer"
-#~ msgstr "Cevap Gönder"
 
 #~ msgid "Login To Post Answer"
 #~ msgstr "Cevap Göndermek İçin Giriş Yap"
