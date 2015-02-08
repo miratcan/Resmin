@@ -2,6 +2,15 @@
 
 {% block before_content %}
   {% include "question/question_sentence.html" %}
+
+  {% if request_answer_form %}
+  <form class="oa mb wrap narrow bg-dark pa c_nrml" style="display: none;"method="post" action="#">
+    {% csrf_token %}
+    <p class="f_nrml">{{ request_answer_form.questionees.label }} <span class="f_tiny wn">({{ request_answer_form.questionees.help_text }})</span></p>
+    {{ request_answer_form.questionees }}
+    <p>{{ request_answer_form.is_anonymouse.label }} {{ request_answer_form.is_anonymouse }}</p>
+    <input type="submit" class="bttn ra pa green fr" /></form>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
