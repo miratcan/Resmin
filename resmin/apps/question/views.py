@@ -3,10 +3,13 @@ import json
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseBadRequest
+from django.http import (HttpResponse, HttpResponseBadRequest,
+                         HttpResponseRedirect)
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
+
 from django.utils.translation import ugettext as _
 from redis_cache import get_redis_connection
 
@@ -14,6 +17,7 @@ from libs.baseconv import base62
 from libs.shortcuts import render_to_json
 from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
+from apps.question.forms import RequestAnswerForm
 from apps.notification.utils import notify
 from apps.follow.models import QuestionFollow, compute_blocked_user_ids_for
 
@@ -73,23 +77,41 @@ def questions(request):
 
 
 def question(request, base62_id, show_delete=False, **kwargs):
-    question = get_object_or_404(QuestionMeta,
-                                 id=base62.to_decimal(base62_id))
+    qmeta = get_object_or_404(QuestionMeta,
+                              id=base62.to_decimal(base62_id))
     stories = Story.objects\
-        .from_question_meta(question)\
+        .from_question_meta(qmeta)\
         .filter(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE)
 
     if request.user.is_authenticated():
+        request_answer_form = RequestAnswerForm(questioner=request.user,
+                                                qmeta=qmeta)
+        if request.method == 'POST':
+            request_answer_form = RequestAnswerForm(
+                request.POST, questioner=request.user, qmeta=qmeta,)
+            if request_answer_form.is_valid():
+                usernames = request_answer_form.save()
+                if usernames:
+                    messages.success(request, 'Your question sent to: %s' %
+                                              ', '.join(usernames))
+                else:
+                    messages.error(request, 'Could\'t find any users to send.')
+                return HttpResponseRedirect(qmeta.get_absolute_url())
+    else:
+        request_answer_form = None
+
+    if request.user.is_authenticated():
         is_following = QuestionFollow.objects\
-            .filter(target=question,
+            .filter(target=qmeta,
                     follower=request.user,
                     status=QuestionFollow.FOLLOWING).exists()
     else:
         is_following = False
 
     return render(request, "question/question_detail.html", {
-        'question': question,
+        'question': qmeta,
         'is_following': is_following,
+        'request_answer_form': request_answer_form,
         'stories': paginated(request, stories, settings.STORIES_PER_PAGE)})
 
 
