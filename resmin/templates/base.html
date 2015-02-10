@@ -31,7 +31,7 @@
             <li><a href="/qs/" class="f_weak pa {% if request.path == '/qs/' %}active{% endif %}">{% trans "Questions" %}</a></li>
             <li><a href="/pq/" class="f_weak pa {% if request.path == '/pq/' %}active{% endif %}">{% trans "Pending Questions" %}{% if num_of_pending_questions %} ({{ num_of_pending_questions }}){% endif %}</a></li>
             <li><a href="/pfr/" class="f_weak pa {% if request.path == '/pfr/' %}active{% endif %}">{% trans "Follow Requests" %}{% if num_of_pending_follow_requests > 0 %} ({{ num_of_pending_follow_requests }}){% endif %}</a></li>
-            <li><a href="/pm/" class="f_weak pa {% if request.path == '/pm/' %}active{% endif %}">{% trans "PM's" %}{% if num_of_pending_follow_requests > 0 %} ({{ num_of_pending_dms }}){% endif %}</a></li>
+            <li><a href="/pm/" class="f_weak pa {% if request.path == '/pm/' %}active{% endif %}">{% trans "PM's" %}{% if num_of_unread_messages > 0 %} ({{ num_of_unread_messages }}){% endif %}</a></li>
             <li><a href="/n/" class="f_weak pa {% if request.path == '/n/' %}active{% endif %}">{% trans "Notifications" %}{% if num_of_pending_notifications > 0 %} ({{ num_of_pending_notifications}}){% endif %}</a></li>
             <li><a href="/hof/" class="f_weak pa {% if request.path == '/hof/' %}active{% endif %}">{% trans "Top Users" %}</a></li>
             <li class="fr">{% if user.is_authenticated %}<a href="{{ user.get_absolute_url }}" class="f_weak wb pa {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>{% else %}<a href="{% url 'login' %}" {% if request.path == '/login/' %}class="f_weak pa active"{% endif %}>{% trans 'Login' %}</a>{% endif %}</li>  
