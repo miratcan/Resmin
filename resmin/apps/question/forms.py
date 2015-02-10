@@ -27,7 +27,9 @@ class CreateQuestionForm(forms.ModelForm):
 
 
 class RequestAnswerForm(forms.Form):
-
+    """
+    TODO: User CommaSeperatedUserField at PM app instead of CharField.
+    """
     questionees = forms.CharField(
         label=_('Questionees'),
         widget=forms.Textarea,

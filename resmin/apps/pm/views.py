@@ -63,8 +63,7 @@ def trash(request, template_name='pm/trash.html'):
 
 @login_required
 def compose(request, recipient=None, form_class=ComposeForm,
-            template_name='pm/compose.html', success_url=None,
-            recipient_filter=None):
+            template_name='pm/compose.html', success_url=None):
     """
     Displays and handles the ``form_class`` form to compose new messages.
     Required Arguments: None
@@ -76,6 +75,9 @@ def compose(request, recipient=None, form_class=ComposeForm,
         ``template_name``: the template to use
         ``success_url``: where to redirect after successfull submission
     """
+    from apps.follow.models import compute_blocked_user_ids_for
+    blocked_user_ids = compute_blocked_user_ids_for(request.user)
+    recipient_filter = lambda u: u.id not in blocked_user_ids
     if request.method == "POST":
         form = form_class(request.POST, recipient_filter=recipient_filter)
         if form.is_valid():
