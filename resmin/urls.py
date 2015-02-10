@@ -179,6 +179,8 @@ urlpatterns = patterns(
 
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
+
+    url(r'pm/', include('apps.pm.urls'))
 )
 
 if settings.DEBUG:

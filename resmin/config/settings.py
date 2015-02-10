@@ -91,6 +91,7 @@ INSTALLED_APPS = (
     'apps.notification',
     'apps.story',
     'apps.comment',
+    'apps.pm',
 
     'seo_cascade',
     'sorl.thumbnail',

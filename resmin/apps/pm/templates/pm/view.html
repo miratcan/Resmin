@@ -1,0 +1,14 @@
+{% extends "pm/base.html" %}{% load i18n %}{% load url from future %}
+
+{% block content %}
+  <h1 class="f_stng mb">{% trans "View Message" %}</h1> 
+    <div class="bg pa ba mb">
+    <h3 class="mb">{{ message.subject }}</h3>
+    <div>{{ message.body|linebreaks }}</div>
+    <p class="f_weak bt pt">Sent by {{ message.sender }} at {{ message.sent_at|date:_("DATETIME_FORMAT")}}</p>
+  </div>
+  {% ifequal message.recipient.pk user.pk %}
+    <a class="mr" href="{% url 'messages_reply' message.id %}">{% trans "Reply" %}</a>
+  {% endifequal %}
+    <a href="{% url 'messages_delete' message.id %}">{% trans "Delete" %}</a>
+{% endblock %}
