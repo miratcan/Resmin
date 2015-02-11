@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-02-08 14:36+0200\n"
+"POT-Creation-Date: 2015-02-11 12:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -142,19 +142,374 @@ msgstr "E-posta adresin onaylandı :)"
 msgid "Your preferences updated"
 msgstr "Tercihlerin güncellendi"
 
+#: apps/pm/admin.py:24
+msgid "group"
+msgstr ""
+
+#: apps/pm/admin.py:25
+msgid "Creates the message optionally for all users or a group of users."
+msgstr ""
+
+#: apps/pm/admin.py:34
+msgid "All users"
+msgstr "Herkes"
+
+#: apps/pm/admin.py:53 apps/pm/models.py:99
+msgid "Message"
+msgstr ""
+
+#: apps/pm/admin.py:60
+msgid "Date/time"
+msgstr ""
+
+#: apps/pm/fields.py:55
+#, python-format
+msgid "The following usernames are incorrect: %(users)s"
+msgstr ""
+
+#: apps/pm/forms.py:19 apps/pm/models.py:59 apps/pm/templates/pm/outbox.html:9
+msgid "Recipient"
+msgstr ""
+
+#: apps/pm/forms.py:20 apps/pm/models.py:52 apps/pm/templates/pm/inbox.html:10
+#: apps/pm/templates/pm/outbox.html:10 apps/pm/templates/pm/trash.html:10
+#, fuzzy
+msgid "Subject"
+msgstr "Reddet"
+
+#: apps/pm/forms.py:22 apps/pm/models.py:53
+msgid "Body"
+msgstr ""
+
+#: apps/pm/management.py:9
+msgid "Message Received"
+msgstr ""
+
+#: apps/pm/management.py:9
+msgid "you have received a message"
+msgstr ""
+
+#: apps/pm/management.py:10
+msgid "Message Sent"
+msgstr ""
+
+#: apps/pm/management.py:10
+msgid "you have sent a message"
+msgstr ""
+
+#: apps/pm/management.py:11
+msgid "Message Replied"
+msgstr ""
+
+#: apps/pm/management.py:11
+msgid "you have replied to a message"
+msgstr "bir mesaja cevap verdin"
+
+#: apps/pm/management.py:12
+msgid "Reply Received"
+msgstr "Cevapla"
+
+#: apps/pm/management.py:12
+msgid "you have received a reply to a message"
+msgstr ""
+
+#: apps/pm/management.py:13
+msgid "Message Deleted"
+msgstr ""
+
+#: apps/pm/management.py:13
+msgid "you have deleted a message"
+msgstr ""
+
+#: apps/pm/management.py:14
+msgid "Message Recovered"
+msgstr ""
+
+#: apps/pm/management.py:14
+#, fuzzy
+msgid "you have undeleted a message"
+msgstr "Bu kullanıcının engelini kaldırdın"
+
+#: apps/pm/models.py:56 apps/pm/templates/pm/inbox.html:10
+#: apps/pm/templates/pm/trash.html:10
+msgid "Sender"
+msgstr ""
+
+#: apps/pm/models.py:62
+msgid "Parent message"
+msgstr ""
+
+#: apps/pm/models.py:63
+msgid "sent at"
+msgstr ""
+
+#: apps/pm/models.py:64
+#, fuzzy
+msgid "read at"
+msgstr "Oluşturulma Zamanı"
+
+#: apps/pm/models.py:65
+msgid "replied at"
+msgstr ""
+
+#: apps/pm/models.py:67
+msgid "Sender deleted at"
+msgstr ""
+
+#: apps/pm/models.py:69
+msgid "Recipient deleted at"
+msgstr ""
+
+#: apps/pm/models.py:100
+msgid "Messages"
+msgstr ""
+
+#: apps/pm/utils.py:26
+#, python-format
+msgid ""
+"%(sender)s wrote:\n"
+"%(body)s"
+msgstr ""
+
+#: apps/pm/utils.py:54
+#, python-format
+msgid "Re%(prefix)s: %(subject)s"
+msgstr ""
+
+#: apps/pm/utils.py:60
+#, python-format
+msgid "New Message: %(subject)s"
+msgstr ""
+
+#: apps/pm/views.py:85 apps/pm/views.py:124
+msgid "Message successfully sent."
+msgstr ""
+
+#: apps/pm/views.py:107 apps/pm/views.py:207
+#, python-format
+msgid "Re: %(subject)s"
+msgstr ""
+
+#: apps/pm/views.py:168
+msgid "Message successfully deleted."
+msgstr ""
+
+#: apps/pm/views.py:197
+msgid "Message successfully recovered."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_deleted/full.txt:1
+#, python-format
+msgid "You have deleted the message '%(message)s'."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_deleted/notice.html:1
+#, python-format
+msgid ""
+"You have deleted the message <a href=\"%(message_url)s\">%(message)s</a>."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_received/full.txt:1
+#, python-format
+msgid ""
+"%(message_sender)s has sent you a message:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"%(message_body)s\n"
+"\n"
+"http://%(current_site)s%(message_url)s"
+msgstr ""
+
+#: apps/pm/templates/notification/messages_received/notice.html:2
+#, python-format
+msgid ""
+"You have received the message <a href=\"%(message_url)s\">%(message)s</a> "
+"from %(message_sender)s."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_received/short.txt:1
+#: apps/pm/templates/notification/messages_reply_received/short.txt:1
+#, python-format
+msgid "%(notice)s by %(message_sender)s"
+msgstr ""
+
+#: apps/pm/templates/notification/messages_recovered/full.txt:1
+#, python-format
+msgid "You have recovered the message '%(message)s'."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_recovered/notice.html:1
+#, python-format
+msgid ""
+"You have recovered the message <a href=\"%(message_url)s\">%(message)s</a>."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_replied/full.txt:1
+#, python-format
+msgid ""
+"You have replied to '%(message_parent_msg)s' from %(message_recipient)s."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_replied/notice.html:2
+#, python-format
+msgid ""
+"You have replied to <a href=\"%(message_url)s\">%(message_parent_msg)s</a> "
+"from %(message_recipient)s."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_reply_received/full.txt:1
+#, python-format
+msgid ""
+"%(message_sender)s replied to '%(message_parent_msg)s':\n"
+"\n"
+"%(message)s\n"
+"\n"
+"%(message_body)s\n"
+"\n"
+"http://%(current_site)s%(message_url)s"
+msgstr ""
+
+#: apps/pm/templates/notification/messages_reply_received/notice.html:2
+#, python-format
+msgid "%(message_sender)s has sent you a reply to %(message_parent_msg)s."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_sent/full.txt:1
+#, python-format
+msgid "You have sent the message '%(message)s' to %(message_recipient)s."
+msgstr ""
+
+#: apps/pm/templates/notification/messages_sent/notice.html:2
+#, python-format
+msgid ""
+"You have sent the message <a href=\"%(message_url)s\">%(message)s</a> to "
+"%(message_recipient)s."
+msgstr ""
+
+#: apps/pm/templates/pm/base.html:8 apps/pm/templates/pm/inbox.html:6
+#: apps/pm/templates/pm/new_message.html:13
+msgid "Inbox"
+msgstr ""
+
+#: apps/pm/templates/pm/base.html:9 apps/pm/templates/pm/outbox.html:4
+msgid "Sent Messages"
+msgstr ""
+
+#: apps/pm/templates/pm/base.html:10
+msgid "New Message"
+msgstr ""
+
+#: apps/pm/templates/pm/base.html:11
+msgid "Trash"
+msgstr ""
+
+#: apps/pm/templates/pm/compose.html:3
+msgid "Compose Message"
+msgstr ""
+
+#: apps/pm/templates/pm/compose.html:6
+msgid "Send"
+msgstr ""
+
+#: apps/pm/templates/pm/inbox.html:10
+msgid "Received"
+msgstr ""
+
+#: apps/pm/templates/pm/inbox.html:10 apps/pm/templates/pm/outbox.html:12
+#: apps/pm/templates/pm/trash.html:10
+#, fuzzy
+msgid "Action"
+msgstr "Hareketler"
+
+#: apps/pm/templates/pm/inbox.html:22 apps/pm/templates/pm/outbox.html:20
+#: apps/pm/templates/pm/trash.html:19 apps/pm/templates/pm/view.html:8
+msgid "DATETIME_FORMAT"
+msgstr ""
+
+#: apps/pm/templates/pm/inbox.html:23 apps/pm/templates/pm/outbox.html:21
+#, fuzzy
+msgid "delete"
+msgstr "Sil"
+
+#: apps/pm/templates/pm/inbox.html:29 apps/pm/templates/pm/outbox.html:27
+#: apps/pm/templates/pm/trash.html:26
+msgid "No messages."
+msgstr ""
+
+#: apps/pm/templates/pm/new_message.html:4
+#, python-format
+msgid ""
+"Hello %(recipient)s,\n"
+"\n"
+"you received a private message from %(sender)s with\n"
+"the following contents:"
+msgstr ""
+
+#: apps/pm/templates/pm/new_message.html:12
+#, python-format
+msgid "Sent from %(site_url)s"
+msgstr ""
+
+#: apps/pm/templates/pm/new_message.html:14 apps/pm/templates/pm/view.html:11
+msgid "Reply"
+msgstr ""
+
+#: apps/pm/templates/pm/outbox.html:11
+msgid "Sent"
+msgstr ""
+
+#: apps/pm/templates/pm/trash.html:6
+#, fuzzy
+msgid "Deleted Messages"
+msgstr "Seçtiğim Kişilere"
+
+#: apps/pm/templates/pm/trash.html:10
+msgid "Date"
+msgstr ""
+
+#: apps/pm/templates/pm/trash.html:20
+#, fuzzy
+msgid "undelete"
+msgstr "Sil"
+
+#: apps/pm/templates/pm/trash.html:29
+msgid ""
+"Deleted Messages are removed from the trash at unregular intervals, don't "
+"rely on this feature for long-time storage."
+msgstr ""
+
+#: apps/pm/templates/pm/view.html:4
+msgid "View Message"
+msgstr ""
+
+#: apps/pm/templates/pm/view.html:13 templates/story/story_detail_inc.html:97
+msgid "Delete"
+msgstr "Sil"
+
 #: apps/question/forms.py:15 apps/story/models.py:51
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
-#: apps/question/forms.py:33
+#: apps/question/forms.py:34
+#, fuzzy
+msgid "Questionees"
+msgstr "Sorular"
+
+#: apps/question/forms.py:36
 msgid "Write comma seperated usernames that you want answer."
 msgstr "Cevap isteyen kişilerin kullanıcı adını virgüllerle ayırarak yaz"
+
+#: apps/question/forms.py:37
+#, fuzzy
+msgid "Is Anonymouse"
+msgstr "gizli kullanıcı"
 
 #: apps/question/models.py:26
 msgid "Question"
 msgstr "Soru"
 
-#: apps/question/views.py:159
+#: apps/question/views.py:168
 msgid "Action not found"
 msgstr "Hareket bulunamadı"
 
@@ -251,26 +606,30 @@ msgid "Follow Requests"
 msgstr "Takipçi Olma Talepleri"
 
 #: templates/base.html:35
+msgid "PM's"
+msgstr ""
+
+#: templates/base.html:36
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: templates/base.html:36
+#: templates/base.html:37
 msgid "Top Users"
 msgstr "Sevdicekler"
 
-#: templates/base.html:37 templates/auth/login.html:18
+#: templates/base.html:38 templates/auth/login.html:17
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/base.html:39
+#: templates/base.html:40
 msgid "Menu"
 msgstr "Menü"
 
-#: templates/base.html:54
+#: templates/base.html:55
 msgid "Suggestions"
 msgstr "İstek & Öneri"
 
-#: templates/base.html:59
+#: templates/base.html:60
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -282,7 +641,7 @@ msgstr ""
 "için sakıncalı olabilir. Sorulardan ve gönderilen cevaplardan göndericileri "
 "sorumludur. Kaynak göstermeden alıntılanamaz. Zaten niye alıntılıyorsun?"
 
-#: templates/base.html:74
+#: templates/base.html:75
 msgid "suggestions"
 msgstr "istek & öneri"
 
@@ -320,19 +679,37 @@ msgstr ""
 "Görünürlüğü belirsiz cevapların var. Lütfen <a href=\"%(the_fixanswers_url)s"
 "\">buraya tıklayarak</a> cevaplarını düzenle."
 
-#: templates/index2.html:16
+#: templates/index2.html:17
 msgid "From Followings"
 msgstr "Takip Ettiğim Kişilerden"
 
-#: templates/index2.html:16
+#: templates/index2.html:17
 msgid "Public"
 msgstr "Herkesten"
 
 #: templates/index2.html:20
+msgid ""
+"Resm.in is a question-answer platform that you answer questions by posting "
+"photo stories."
+msgstr "Resm.in sorulara foto hikayelerle verilen soru-cevap platformudur."
+
+#: templates/index2.html:21
+msgid ""
+"You can use resm.in to share information, meet new people or learn useful "
+"things."
+msgstr "Resm.in'i bilgi paylaşmak, yeni insanlarla tanılmak ve kullanışlı bilgiler "
+"edinmek için kullanabilirsin."
+
+#: templates/index2.html:26
+#, fuzzy
+msgid "Follow Us"
+msgstr "Takip Et"
+
+#: templates/index2.html:31
 msgid "Recommened Questions"
 msgstr "Önerilen Sorular"
 
-#: templates/index2.html:29
+#: templates/index2.html:41
 msgid ""
 "Seems like you're not following anyone so there's nothing to display from "
 "your followings. Use your imagination to find some people to follow."
@@ -439,21 +816,14 @@ msgstr ""
 msgid "You don't have any invitations :("
 msgstr "Hiç davetiyen yok :("
 
-#: templates/auth/login.html:7
-msgid ""
-"Resm.in is a question-answer platform that you answer questions by posting "
-"photo stories."
-msgstr ""
-"Resm.in sorulara foto hikayelerle verilen soru-cevap platformudur."
-
-#: templates/auth/login.html:9
+#: templates/auth/login.html:8
 #, python-format
 msgid "<a href=\"%(password_reset_url)s\">Forgotten password?</a>"
 msgstr ""
 "Şifreni unuttuysan <a href=\"%(password_reset_url)s\">belki de buraya "
 "tıklarsın</a>?"
 
-#: templates/auth/login.html:14
+#: templates/auth/login.html:13
 #, python-format
 msgid ""
 "Sign in <span class=\"f_weak c_weak wn\">or <a href=\"%(register_url)s\">get "
@@ -530,14 +900,8 @@ msgstr ""
 #: templates/auth/register.html:9
 msgid ""
 "You can ask for an invitation code from a friend who has a resm.in account, "
-"or you can ask for an invitation sending a picture of yours where your face "
-"is visible and you holding a card written \"hello!\" on it to <a href="
-"\"mailto:merhaba@resm.in\">merhaba@resm.in</a> !"
+"or use your imagination to find it. Resm.in is not an idiot proof website :)"
 msgstr ""
-"Davetiye kodunu eğer varsa resm.in hesabı olan bir arkadaşından isteyebilir, "
-"ya da <a href=\"mailto:merhaba@resm.in\">merhaba@resm.in</a> adresine yüzün "
-"gözükecek şekilde ve elinde \"merhaba\" yazan bir karton ile fotoğraf "
-"göndererek davetiye isteyebilirsin."
 
 #: templates/auth/register.html:14 templates/auth/register.html.py:18
 msgid "Register"
@@ -603,19 +967,23 @@ msgstr "Çıkış Yap"
 msgid "Unblock"
 msgstr "Engeli Kaldır"
 
-#: templates/auth/user_detail_inc.html:63
+#: templates/auth/user_detail_inc.html:62
+msgid "Send PM"
+msgstr ""
+
+#: templates/auth/user_detail_inc.html:64
 msgid "Unfollow"
 msgstr "Takipten Çık"
 
-#: templates/auth/user_detail_inc.html:66
+#: templates/auth/user_detail_inc.html:67
 msgid "Your follow request sent"
 msgstr "Takip İsteği Gönderilmiş"
 
-#: templates/auth/user_detail_inc.html:68
+#: templates/auth/user_detail_inc.html:69
 msgid "Follow"
 msgstr "Takip Et"
 
-#: templates/auth/user_detail_inc.html:71
+#: templates/auth/user_detail_inc.html:72
 msgid "Block"
 msgstr "Engelle"
 
@@ -870,15 +1238,15 @@ msgid "<a class=\"imp\" href=\"%(login_url)s\">Login</a> to post an answer."
 msgstr ""
 "Cevaplayabilmek için <a class=\"imp\" href=\"%(login_url)s\">giriş yap</a>."
 
-#: templates/story/story_detail.html:60
+#: templates/story/story_detail.html:66
 msgid "Story is deleted by it's owner"
 msgstr "Bu cevap sahibi tarafından silinmiş"
 
-#: templates/story/story_detail.html:62
+#: templates/story/story_detail.html:68
 msgid "Story is deleted by admins"
 msgstr "Bu cevap adminler tarafından silinmiş"
 
-#: templates/story/story_detail.html:64
+#: templates/story/story_detail.html:70
 msgid "This story is not visible for you"
 msgstr "Bu cevabı görmeye hakkın yok"
 
@@ -937,10 +1305,6 @@ msgid "Edit Title and Descriptions"
 msgstr "Başlık ve Açıklamaları Düzenle"
 
 #: templates/story/story_detail_inc.html:97
-msgid "Delete"
-msgstr "Sil"
-
-#: templates/story/story_detail_inc.html:97
 msgid "Click here if you're sure to delete."
 msgstr "Silmeye eminsen buraya tıkla."
 
@@ -951,6 +1315,17 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#~ msgid ""
+#~ "You can ask for an invitation code from a friend who has a resm.in "
+#~ "account, or you can ask for an invitation sending a picture of yours "
+#~ "where your face is visible and you holding a card written \"hello!\" on "
+#~ "it to <a href=\"mailto:merhaba@resm.in\">merhaba@resm.in</a> !"
+#~ msgstr ""
+#~ "Davetiye kodunu eğer varsa resm.in hesabı olan bir arkadaşından "
+#~ "isteyebilir, ya da <a href=\"mailto:merhaba@resm.in\">merhaba@resm.in</a> "
+#~ "adresine yüzün gözükecek şekilde ve elinde \"merhaba\" yazan bir karton "
+#~ "ile fotoğraf göndererek davetiye isteyebilirsin."
 
 #~ msgid "%(follower_username)s wants to be your follower"
 #~ msgstr "%(follower_username)s müridin olmak istiyor"
@@ -1114,6 +1489,3 @@ msgstr "Burada Hiç Cevap Yok"
 
 #~ msgid "Direct Answers"
 #~ msgstr "Bana Özel Cevaplar"
-
-#~ msgid "Selected Users"
-#~ msgstr "Seçtiğim Kişilere"
