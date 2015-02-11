@@ -12,12 +12,6 @@
           columnWidth: 240
       });
     });
-    var iconcommentcontent;
-    var iconword="&lt;3";
-    var icontemplate = '<span class="heartie">&nbsp;</span>';
-    var iconpattern = new RegExp(iconword,"ig");
-    iconcommentcontent = $('.comment-body').html();
-    $('.comment-body').html(iconcommentcontent.replace(iconpattern, icontemplate));
   </script>
   <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
 {% endblock %}
