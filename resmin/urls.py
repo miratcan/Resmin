@@ -11,7 +11,7 @@ admin.autodiscover()
 urlpatterns = patterns(
     '',
     url(r'^$',
-        'apps.question.views.index_followings',
+        'apps.question.views.index',
         name='index'),
 
     url(r'^public/$',

@@ -50,6 +50,8 @@ def index_public(request):
     if request.user.is_authenticated():
         blocked_user_ids = compute_blocked_user_ids_for(request.user)
         stories = stories.exclude(owner_id__in=blocked_user_ids)
+    else:
+        stories = stories.exclude(is_nsfw=True)
 
     return _index(request, stories, extra={'from': 'public'})
 
@@ -66,6 +68,13 @@ def index_followings(request):
     stories = Story.objects.filter(q).exclude(owner_id__in=blocked_user_ids)
     return _index(request, stories,
                   extra={'from': 'followings'})
+
+
+def index(request):
+    if request.user.is_authenticated():
+        return index_followings(request)
+    else:
+        return index_public(request)
 
 
 def questions(request):

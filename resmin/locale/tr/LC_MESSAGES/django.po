@@ -444,7 +444,7 @@ msgid ""
 "Resm.in is a question-answer platform that you answer questions by posting "
 "photo stories."
 msgstr ""
-"Resm.in sorulan sorulara foto hikayelerle verilen soru-cevap platformudur."
+"Resm.in sorulara foto hikayelerle verilen soru-cevap platformudur."
 
 #: templates/auth/login.html:9
 #, python-format

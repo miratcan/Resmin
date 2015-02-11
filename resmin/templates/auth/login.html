@@ -4,7 +4,6 @@
 {% block content %}
 <div class="mtd ptd mbd pbd oa">
   <div class="panel-right">
-    <p class="f_stng mbd pbd">{% trans "Resm.in is a question-answer platform that you answer questions by posting photo stories." %}</p>
     {% url 'password_reset' as password_reset_url %}
     <p class="mb">{% blocktrans %}<a href="{{ password_reset_url }}">Forgotten password?</a>{% endblocktrans %}</p>
   </div>
