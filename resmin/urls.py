@@ -7,6 +7,35 @@ from django.views.generic import TemplateView
 
 admin.autodiscover()
 
+from django.contrib.sitemaps import Sitemap
+from apps.question.models import QuestionMeta
+from apps.story.models import Story
+
+
+class QMetaSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.5
+
+    def items(self):
+        return QuestionMeta.objects.filter(
+            status=QuestionMeta.PUBLISHED)
+
+    def lastmod(self, obj):
+        return obj.created_at
+
+
+class StorySiteMap(Sitemap):
+    changefreq = "hourly"
+    priority = 0.8
+
+    def items(self):
+        return Story.objects.filter(
+            status=Story.PUBLISHED,
+            visible_for=Story.VISIBLE_FOR_EVERYONE)
+
+    def lastmod(self, obj):
+        return obj.created_at
+
 
 urlpatterns = patterns(
     '',
@@ -180,7 +209,14 @@ urlpatterns = patterns(
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
 
-    url(r'pm/', include('apps.pm.urls'))
+    url(r'pm/', include('apps.pm.urls')),
+
+    url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {
+        'sitemaps': {
+            'qmeta': QMetaSitemap,
+            'story': StorySiteMap
+        }
+    }, name='django.contrib.sitemaps.views.sitemap'),
 )
 
 if settings.DEBUG:
