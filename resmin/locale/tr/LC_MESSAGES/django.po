@@ -144,11 +144,11 @@ msgstr "Tercihlerin güncellendi"
 
 #: apps/pm/admin.py:24
 msgid "group"
-msgstr ""
+msgstr "grup"
 
 #: apps/pm/admin.py:25
 msgid "Creates the message optionally for all users or a group of users."
-msgstr ""
+msgstr "Opsiyonel olarak mesajı tüm kullanıcılar veya bir grup için yaratır."
 
 #: apps/pm/admin.py:34
 msgid "All users"
@@ -156,20 +156,20 @@ msgstr "Herkes"
 
 #: apps/pm/admin.py:53 apps/pm/models.py:99
 msgid "Message"
-msgstr ""
+msgstr "Mesaj"
 
 #: apps/pm/admin.py:60
 msgid "Date/time"
-msgstr ""
+msgstr "Tarih/Zaman"
 
 #: apps/pm/fields.py:55
 #, python-format
 msgid "The following usernames are incorrect: %(users)s"
-msgstr ""
+msgstr "Bu kullanıcı isimleri hatalı: %users)s"
 
 #: apps/pm/forms.py:19 apps/pm/models.py:59 apps/pm/templates/pm/outbox.html:9
 msgid "Recipient"
-msgstr ""
+msgstr "Alıcı"
 
 #: apps/pm/forms.py:20 apps/pm/models.py:52 apps/pm/templates/pm/inbox.html:10
 #: apps/pm/templates/pm/outbox.html:10 apps/pm/templates/pm/trash.html:10
@@ -183,23 +183,23 @@ msgstr ""
 
 #: apps/pm/management.py:9
 msgid "Message Received"
-msgstr ""
+msgstr "Mesaj alındı"
 
 #: apps/pm/management.py:9
 msgid "you have received a message"
-msgstr ""
+msgstr "yeni bir mesajın var"
 
 #: apps/pm/management.py:10
 msgid "Message Sent"
-msgstr ""
+msgstr "Mesaj Gönderildi"
 
 #: apps/pm/management.py:10
 msgid "you have sent a message"
-msgstr ""
+msgstr "bir mesaj gönderdin"
 
 #: apps/pm/management.py:11
 msgid "Message Replied"
-msgstr ""
+msgstr "Mesaj Cevaplandı"
 
 #: apps/pm/management.py:11
 msgid "you have replied to a message"
@@ -211,19 +211,19 @@ msgstr "Cevapla"
 
 #: apps/pm/management.py:12
 msgid "you have received a reply to a message"
-msgstr ""
+msgstr "bir mesaja cevap aldın"
 
 #: apps/pm/management.py:13
 msgid "Message Deleted"
-msgstr ""
+msgstr "Mesaj Silindi"
 
 #: apps/pm/management.py:13
 msgid "you have deleted a message"
-msgstr ""
+msgstr "bir mesaj sildin"
 
 #: apps/pm/management.py:14
 msgid "Message Recovered"
-msgstr ""
+msgstr "Mesaj Geri Alındı"
 
 #: apps/pm/management.py:14
 #, fuzzy
@@ -233,7 +233,7 @@ msgstr "Bu kullanıcının engelini kaldırdın"
 #: apps/pm/models.py:56 apps/pm/templates/pm/inbox.html:10
 #: apps/pm/templates/pm/trash.html:10
 msgid "Sender"
-msgstr ""
+msgstr "Gönderen"
 
 #: apps/pm/models.py:62
 msgid "Parent message"
@@ -241,7 +241,7 @@ msgstr ""
 
 #: apps/pm/models.py:63
 msgid "sent at"
-msgstr ""
+msgstr "gönderilme zamanı"
 
 #: apps/pm/models.py:64
 #, fuzzy
@@ -250,26 +250,27 @@ msgstr "Oluşturulma Zamanı"
 
 #: apps/pm/models.py:65
 msgid "replied at"
-msgstr ""
+msgstr "cevaplanma zamanı"
 
 #: apps/pm/models.py:67
 msgid "Sender deleted at"
-msgstr ""
+msgstr "Gönderici sildi: "
 
 #: apps/pm/models.py:69
 msgid "Recipient deleted at"
-msgstr ""
+msgstr "Alıcı sildi:"
 
 #: apps/pm/models.py:100
 msgid "Messages"
-msgstr ""
+msgstr "Mesajlar"
 
 #: apps/pm/utils.py:26
 #, python-format
 msgid ""
 "%(sender)s wrote:\n"
 "%(body)s"
-msgstr ""
+msgstr "%(sender)s" demiş ki:\n"
+"%(body)s"
 
 #: apps/pm/utils.py:54
 #, python-format
@@ -279,35 +280,36 @@ msgstr ""
 #: apps/pm/utils.py:60
 #, python-format
 msgid "New Message: %(subject)s"
-msgstr ""
+msgstr "Yeni Mesaj: %/subject)s"
 
 #: apps/pm/views.py:85 apps/pm/views.py:124
 msgid "Message successfully sent."
-msgstr ""
+msgstr "Mesaj başarıyla gönderildi"
 
 #: apps/pm/views.py:107 apps/pm/views.py:207
 #, python-format
 msgid "Re: %(subject)s"
-msgstr ""
+msgstr "Cvp: %(subject)s"
 
 #: apps/pm/views.py:168
 msgid "Message successfully deleted."
-msgstr ""
+msgstr "Mesaj başarıyla silindi"
 
 #: apps/pm/views.py:197
 msgid "Message successfully recovered."
-msgstr ""
+msgstr "Mesaj başarıyla geri alındı"
 
 #: apps/pm/templates/notification/messages_deleted/full.txt:1
 #, python-format
 msgid "You have deleted the message '%(message)s'."
-msgstr ""
+msgstr "'%(message)s' mesajını sildin."
 
 #: apps/pm/templates/notification/messages_deleted/notice.html:1
 #, python-format
 msgid ""
 "You have deleted the message <a href=\"%(message_url)s\">%(message)s</a>."
 msgstr ""
+"<a href=\"%(message_url)s\">%(message)s</a> mesajını sildin"
 
 #: apps/pm/templates/notification/messages_received/full.txt:1
 #, python-format
@@ -320,6 +322,13 @@ msgid ""
 "\n"
 "http://%(current_site)s%(message_url)s"
 msgstr ""
+"%(message_sender)s sana mesaj gönderdi:\n"
+"\n"
+"%(message)s\n"
+"\n"
+"%(message_body)s\n"
+"\n"
+"http://%(current_site)s%(message_url)s"
 
 #: apps/pm/templates/notification/messages_received/notice.html:2
 #, python-format
