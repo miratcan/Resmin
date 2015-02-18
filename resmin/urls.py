@@ -129,13 +129,13 @@ urlpatterns = patterns(
         name='password_reset_complete',
         kwargs={'template_name': 'auth/password_reset_complete.html'}),
 
-    url(r'^q/(?P<base62_id>[-\w]+)(?:/(?P<order>[a-zA-Z]+))?/$',
-        'apps.question.views.question',
-        name='question'),
-
     url(r'^q/(?P<base62_id>[-\w]+)/answer/$',
         'apps.story.views.create_story',
         name='create-story'),
+
+    url(r'^q/(?P<base62_id>[-\w]+)(?:/(?P<order>[a-zA-Z]+))?/$',
+        'apps.question.views.question',
+        name='question'),
 
     url(r'^upload/$',
         'apps.story.views.get_upload', name='get_upload'),
