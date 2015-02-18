@@ -83,6 +83,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     'django.contrib.admin',
 
     'apps.question',
@@ -99,6 +100,7 @@ INSTALLED_APPS = (
     'tastypie',
     'json_field',
     'geoposition',
+    'django_extensions'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
