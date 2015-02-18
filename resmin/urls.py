@@ -47,6 +47,10 @@ urlpatterns = patterns(
         'apps.question.views.index_public',
         name='index-public'),
 
+    url(r'^private/$',
+        'apps.question.views.index_private',
+        name='index-public'),
+
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
 
@@ -82,7 +86,6 @@ urlpatterns = patterns(
     url(r'^e/(?P<key>[-\w]+)/$',
         'apps.account.views.email',
         name='email_confirm'),
-
 
     url(r'^me/update/$',
         'apps.account.views.update_profile',
@@ -126,7 +129,7 @@ urlpatterns = patterns(
         name='password_reset_complete',
         kwargs={'template_name': 'auth/password_reset_complete.html'}),
 
-    url(r'^q/(?P<base62_id>[-\w]+)/$',
+    url(r'^q/(?P<base62_id>[-\w]+)(?:/(?P<order>[a-zA-Z]+))?/$',
         'apps.question.views.question',
         name='question'),
 
@@ -220,10 +223,12 @@ urlpatterns = patterns(
 )
 
 if settings.DEBUG:
+    import debug_toolbar
     urlpatterns += patterns(
         '',
         url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.MEDIA_ROOT, }),
         url(r'^static/(?P<path>.*)$', 'django.views.static.serve', {
             'document_root': settings.STATIC_ROOT, }),
+        url(r'^__debug__/', include(debug_toolbar.urls)),
     )

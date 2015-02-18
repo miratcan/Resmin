@@ -47,10 +47,12 @@ class Story(BaseModel):
     question = models.ForeignKey('question.Question', null=True, blank=True)
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
+    is_featured = models.BooleanField(_('Featured'), default=False)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
     like_count = models.PositiveIntegerField(default=0)
     slot_count = models.PositiveIntegerField(null=True, blank=True)
+    comment_count = models.PositiveIntegerField(null=True, blank=True)
     status = models.PositiveSmallIntegerField(default=DRAFT,
                                               choices=STATUS_CHOICES)
     visible_for = models.PositiveSmallIntegerField(
@@ -94,7 +96,7 @@ class Story(BaseModel):
                user.id in self.owner.follower_user_ids:
                 return True
 
-        if self.status ==  Story.PUBLISHED and self.visible_for == \
+        if self.status == Story.PUBLISHED and self.visible_for == \
            Story.VISIBLE_FOR_EVERYONE:
             return True
 

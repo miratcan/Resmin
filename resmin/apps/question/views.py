@@ -44,7 +44,25 @@ def _index(request, stories, extra):
     return render(request, "index2.html", ctx)
 
 
+@login_required
+def index_wall(request):
+    """
+    Show public posts from following users.
+    """
+    blocked_user_ids = compute_blocked_user_ids_for(request.user)
+    stories = Story.objects\
+        .filter(status=Story.PUBLISHED,
+                visible_for=Story.VISIBLE_FOR_EVERYONE,
+                owner_id__in=request.user.following_user_ids)\
+        .exclude(owner_id__in=blocked_user_ids)
+    return _index(request, stories,
+                  extra={'from': 'followings'})
+
+
 def index_public(request):
+    """
+    Show public posts from everyone
+    """
     stories = Story.objects\
         .filter(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE)
     if request.user.is_authenticated():
@@ -52,27 +70,30 @@ def index_public(request):
         stories = stories.exclude(owner_id__in=blocked_user_ids)
     else:
         stories = stories.exclude(is_nsfw=True)
-
     return _index(request, stories, extra={'from': 'public'})
 
 
 @login_required
-def index_followings(request):
+def index_private(request):
+    """
+    Show private posts from users that request.user is
+    following.
+    """
     blocked_user_ids = compute_blocked_user_ids_for(request.user)
     following_user_ids = request.user.following_user_ids
-    q = Q(status=Story.PUBLISHED,
-          visible_for=Story.VISIBLE_FOR_FOLLOWERS,
-          owner_id__in=following_user_ids) | \
-        Q(status=Story.PUBLISHED,
-          visible_for=Story.VISIBLE_FOR_EVERYONE)
-    stories = Story.objects.filter(q).exclude(owner_id__in=blocked_user_ids)
+    stories = Story.objects\
+        .filter(status=Story.PUBLISHED,
+                visible_for=Story.VISIBLE_FOR_FOLLOWERS,
+                owner_id__in=following_user_ids)
+    if blocked_user_ids:
+        stories = stories.exclude(owner_id__in=blocked_user_ids)
     return _index(request, stories,
-                  extra={'from': 'followings'})
+                  extra={'from': 'private'})
 
 
 def index(request):
     if request.user.is_authenticated():
-        return index_followings(request)
+        return index_wall(request)
     else:
         return index_public(request)
 
@@ -85,12 +106,18 @@ def questions(request):
         'qms': qms})
 
 
-def question(request, base62_id, show_delete=False, **kwargs):
+def question(request, base62_id, order=None, show_delete=False, **kwargs):
     qmeta = get_object_or_404(QuestionMeta,
                               id=base62.to_decimal(base62_id))
+
+    order = {'popular': '-like_count',
+             'featured': 'is_featured',
+             'recent': '-created_at'}.get(order, '-created_at')
+
     stories = Story.objects\
         .from_question_meta(qmeta)\
-        .filter(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE)
+        .filter(status=Story.PUBLISHED,
+                visible_for=Story.VISIBLE_FOR_EVERYONE).order_by(order)
 
     if request.user.is_authenticated():
         request_answer_form = RequestAnswerForm(questioner=request.user,

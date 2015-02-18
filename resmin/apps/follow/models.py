@@ -80,16 +80,18 @@ class UserFollow(FollowBase):
                              self.get_status_display().lower(),
                              self.target)
 
+FOLLOWING_STATUSES = [UserFollow.FOLLOWING, UserFollow.FOLLOWING_RESTRICTED]
 
 User.is_blocked = lambda u, t: bool(
-    UserFollow.objects.filter(follower=u, target=t, status=2).exists())
+    UserFollow.objects.filter(
+        follower=u, target=t, status=UserFollow.BLOCKED).exists())
 
 User.is_blocked_by = lambda u, t: bool(
-    UserFollow.objects.filter(follower=t, target=u, status=2).exists())
+    UserFollow.objects.filter(
+        follower=t, target=u, status=UserFollow.BLOCKED).exists())
 
 User.is_following = lambda u, t: UserFollow.objects.filter(
-    follower=u, target=t, status__in=[
-        UserFollow.FOLLOWING, UserFollow.FOLLOWING_RESTRICTED]).exists()
+    follower=u, target=t, status__in=FOLLOWING_STATUSES).exists()
 
 User.has_pending_follow_request = lambda u, t: \
     UserFollow.objects.filter(follower=u, target=t,
@@ -97,22 +99,30 @@ User.has_pending_follow_request = lambda u, t: \
 
 User.follower_user_ids = \
     property(lambda u: [f.follower_id for f in UserFollow.objects.filter(
-             target=u, status=1)])
+             target=u, status__in=FOLLOWING_STATUSES)])
 
 User.following_user_ids = \
     property(lambda u: [f.target_id for f in UserFollow.objects.filter(
-             follower=u, status=1)])
+             follower=u, status__in=FOLLOWING_STATUSES)])
 
 User.follower_users = \
-    property(lambda u: [f.follower for f in UserFollow.objects.filter(
-             target=u, status=1).select_related('follower')])
+    property(lambda u: [f.follower for f in UserFollow.objects
+             .filter(target=u, status__in=FOLLOWING_STATUSES)
+             .select_related('follower')])
 
 User.following_users = \
-    property(lambda u: [f.target for f in UserFollow.objects.filter(
-             follower=u, status=1).select_related('target')])
+    property(lambda u: [f.target for f in UserFollow.objects
+             .filter(follower=u, status__in=FOLLOWING_STATUSES)
+             .select_related('target')])
 
 
 def compute_blocked_user_ids_for(user):
+    """
+    Collects user ids that:
+        * Blocked by me.
+        * Blocked me.
+    Makes two SQL requests. May be it can be cached.
+    """
     ids = set()
     ids.update(f.target_id for f in UserFollow.objects.filter(
         follower=user, status=UserFollow.BLOCKED))

@@ -18,6 +18,7 @@
 {% endblock %}
 
 {% block content %}
+  <p><a href="{% url 'question' base62_id=question.base62_id %}" title="{% trans 'Shows latest answers first.' %}">{% trans 'Latest' %}</a> / <a href="{% url 'question' base62_id=question.base62_id order='popular' %}" title="{% trans 'Show answers with most hearts first.' %}">{% trans 'Popular' %}</a> / <a href="{% url 'question' base62_id=question.base62_id order='featured' %}" title="{% trans 'Shows answers that is marked as qualified content by our admins.' %}">{% trans 'Featured' %}</a></p>
   {% include "story/story_thumbnails.html" %}
   {% include "includes/pagination_links_for_stories.html" %}
   <script>
