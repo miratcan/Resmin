@@ -13,10 +13,9 @@
     {% thumbnail story.slot_set.all.0.content.image "220" as thmb %}
       <a class="thmb" style="height: {{ thmb.height }}px; width: {{ thmb.width }}px; background-image: url({{ thmb.url }});" href="{{ story.get_absolute_url }}">
         {% if story.visible_for == 1 %}
-          <span href="#" title='{% trans "This story is visible for followers." %}' class="private_answer_indicator"></span>
+          <i href="#" title='{% trans "This story is visible for followers." %}' class="private_answer_indicator fa fa-lock"></i>
         {% endif %}
-        {% if story.is_featured %}<span href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator"></span>
-{% endif %}
+        {% if story.is_featured %}<i href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator fa fa-star"></i>{% endif %}
       </a>
     {% endthumbnail %}
   {% endif %}
@@ -24,7 +23,16 @@
     <div class="username">
       {% include "auth/username_inc.html" with user=story.owner anonymouse=story.is_anonymouse narrow=True %}
     </div>
-    {% include "story/like_button_inc.html" %}
+
+    <div class="likes-wrap like-button" data-story-id="{{ story.id }}">
+      <div class="count">{{ story.like_count }}</div>
+      <i class="mth fa fa-heart{% if story|is_liked_by:user %} pink{% endif %}"></i>
+    </div>
+
+    <div class="comments-wrap">
+      <a href="{{ story.get_absolute_url }}#comments"><span class="count">{% if story.comment_count %}{{ story.comment_count }}{% else %}0{% endif %}</span><i class="mth fa fa-comment"></a></i>
+    </div>
+
   </div>
   {% for idx in story.get_slot_count|more_loop %}
     <div class="bb mbh"></div>

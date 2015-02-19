@@ -1,5 +1,5 @@
 {% load liked_by %}
 <div class="like-wrap like-button" data-story-id="{{ story.id }}">
   <div class="count">{{ story.like_count }}</div>
-  <div class="heart{% if story|is_liked_by:user %} pink{% endif %}">&#10084;</div>
+  <i class="fa{% if story|is_liked_by:user %} fa-heart{% else %} fa-heart-o{% endif %}"></i>
 </div>

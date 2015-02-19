@@ -6,8 +6,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
 from django.conf import settings
+
 
 def unique_filename(instance, filename, prefix):
     f, ext = os.path.splitext(filename)

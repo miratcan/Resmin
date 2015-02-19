@@ -4,7 +4,6 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q
 from django.http import (HttpResponse, HttpResponseBadRequest,
                          HttpResponseRedirect)
 from django.conf import settings
@@ -21,6 +20,7 @@ from apps.question.forms import RequestAnswerForm
 from apps.notification.utils import notify
 from apps.follow.models import QuestionFollow, compute_blocked_user_ids_for
 
+from libs.shortcuts import render_to_json
 from utils import paginated
 
 redis = get_redis_connection('default')
@@ -154,11 +154,15 @@ def question(request, base62_id, order=None, show_delete=False, **kwargs):
 @csrf_exempt
 def like(request):
     if not request.user.is_authenticated():
-        return HttpResponse(status=401)
+        return render_to_json(
+            {'errMsg': _('You have to login to complete this action.')},
+            HttpResponse, 401)
 
     # TODO: Make it decorator
     if not request.POST:
-        return HttpResponse(status=400)
+        return render_to_json(
+            {'errMsg': _('You have send bad data.')},
+            HttpResponse, 400)
 
     sid, val = request.POST.get('sid'), request.POST.get('val')
 
