@@ -100,7 +100,8 @@ INSTALLED_APPS = (
     'tastypie',
     'json_field',
     'geoposition',
-    'django_extensions'
+    'django_extensions',
+    'rest_framework',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -243,6 +244,14 @@ EMAIL_TEMPLATES_PREFIX = 'emails'
 CHUNKED_UPLOAD_PATH = '/upload/'
 MAXIMUM_UPLOAD_SIZE = (1024 * 1024) * 6  # 6MB
 UPLOAD_EXPIRATION_TIMEDELTA = timedelta(hours=6)  # 6Hours
+
+#DJANGO REST FRAMEWORK SETTINGS
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
+
 
 try:
     from resmin.config.local_settings import *

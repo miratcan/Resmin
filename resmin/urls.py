@@ -10,7 +10,7 @@ admin.autodiscover()
 from django.contrib.sitemaps import Sitemap
 from apps.question.models import QuestionMeta
 from apps.story.models import Story
-
+from apps.story.views import StoryList
 
 class QMetaSitemap(Sitemap):
     changefreq = "daily"
@@ -208,6 +208,8 @@ urlpatterns = patterns(
     url(r'^test/$',
         TemplateView.as_view(template_name="test.html"),
         name='test'),
+
+    url(r'^api/v1/storyList$', StoryList.as_view(), name='story-list'),
 
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
