@@ -6,4 +6,17 @@ class StorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Story
-        #fields = ('id', 'col1', 'col2')
+        fields = ('id',
+                  'title',
+                  'description',
+                  'is_nsfw',
+                  'is_anonymouse',
+                  'is_featured',
+                  'like_count',
+                  'slot_count',
+                  'comment_count',
+                  'status',
+                  'visible_for',
+                  'owner',
+                  'question',
+                  'mounted_question_metas')

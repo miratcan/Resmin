@@ -19,8 +19,7 @@ from apps.notification.decorators import delete_notification
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
 from utils import paginated
-from rest_framework import generics
-from .serializers import StorySerializer
+
 
 def _delete_story(request, story=None):
     from apps.question.signals import user_deleted_story
@@ -207,10 +206,3 @@ def upload(request, upload_id):
     return render_to_json({'upload_id': upload.upload_id,
                            'status': 'uploading',
                            'offset': upload.offset})
-
-
-class StoryList(generics.ListAPIView):
-    model = Story
-    serializer_class = StorySerializer
-    queryset = Story.objects.filter(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE)
-    paginate_by = 100
