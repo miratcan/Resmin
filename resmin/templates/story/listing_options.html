@@ -1,0 +1,1 @@
+{% load i18n %}<p class="mbd"><a {% if listing == 'wall' %}class="imp" {% endif %} title="{% trans 'Show public answers from your followings.' %}" href="/">{% trans 'Wall' %}</a> / <a {% if listing == 'public' %}class="imp" {% endif %}href="/public/">{% trans 'Public' %}</a> / <a {% if listing == 'private' %}class="imp" {% endif %}href="/private/">{% trans 'Private' %}</a></p>
