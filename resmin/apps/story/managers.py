@@ -10,7 +10,6 @@ class StoryManager(Manager):
 
         from apps.question.models import QuestionMeta
         from apps.story.models import Story
-
         if not requested_user.is_authenticated() and listing in \
            ['wall', 'private', 'draft']:
             return Story.objects.none()
@@ -19,7 +18,7 @@ class StoryManager(Manager):
             qset = Q(status=Story.PUBLISHED,
                      visible_for=Story.VISIBLE_FOR_EVERYONE)
             if not requested_user.is_authenticated():
-                qset = qset & Q(is_nsfw=True)
+                qset = qset & Q(is_nsfw=False)
         elif listing == 'wall':
             qset = Q(status=Story.PUBLISHED,
                      visible_for=Story.VISIBLE_FOR_EVERYONE,
