@@ -41,15 +41,15 @@ urlpatterns = patterns(
     '',
     url(r'^$',
         'apps.question.views.index',
-        name='index'),
+        name='index', kwargs={'listing': 'wall'}),
 
     url(r'^public/$',
-        'apps.question.views.index_public',
-        name='index-public'),
+        'apps.question.views.index',
+        name='index-public', kwargs={'listing': 'public'}),
 
     url(r'^private/$',
-        'apps.question.views.index_private',
-        name='index-public'),
+        'apps.question.views.index',
+        name='index-public', kwargs={'listing': 'private'}),
 
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
@@ -133,7 +133,7 @@ urlpatterns = patterns(
         'apps.story.views.create_story',
         name='create-story'),
 
-    url(r'^q/(?P<base62_id>[-\w]+)(?:/(?P<order>[a-zA-Z]+))?/$',
+    url(r'^q/(?P<base62_id>[-\w]+)(?:/(?P<ordering>[a-zA-Z]+))?/$',
         'apps.question.views.question',
         name='question'),
 

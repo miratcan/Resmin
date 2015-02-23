@@ -18,84 +18,30 @@ from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
 from apps.question.forms import RequestAnswerForm
 from apps.notification.utils import notify
-from apps.follow.models import QuestionFollow, compute_blocked_user_ids_for
+from apps.follow.models import QuestionFollow
 
-from libs.shortcuts import render_to_json
 from utils import paginated
 
 redis = get_redis_connection('default')
 
 
-def _index(request, stories, extra):
+def index(request, listing='public'):
     """
     If user is authenticated and not registered email we will show
     Register your email message
     """
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
+    stories = Story.objects.build(
+        requested_user=request.user, listing=listing)
     stories = paginated(request, stories, settings.STORIES_PER_PAGE)
     recommended_questions = QuestionMeta.objects.\
         filter(is_featured=True).order_by('?')[:10]
     ctx = {'stories': stories,
+           'listing': listing,
            'recommended_questions': recommended_questions,
            'show_email_message': show_email_message}
-    if extra:
-        ctx.update(extra)
     return render(request, "index2.html", ctx)
-
-
-@login_required
-def index_wall(request):
-    """
-    Show public posts from following users.
-    """
-    blocked_user_ids = compute_blocked_user_ids_for(request.user)
-    stories = Story.objects\
-        .filter(status=Story.PUBLISHED,
-                visible_for=Story.VISIBLE_FOR_EVERYONE,
-                owner_id__in=request.user.following_user_ids)\
-        .exclude(owner_id__in=blocked_user_ids)
-    return _index(request, stories,
-                  extra={'from': 'followings'})
-
-
-def index_public(request):
-    """
-    Show public posts from everyone
-    """
-    stories = Story.objects\
-        .filter(status=Story.PUBLISHED, visible_for=Story.VISIBLE_FOR_EVERYONE)
-    if request.user.is_authenticated():
-        blocked_user_ids = compute_blocked_user_ids_for(request.user)
-        stories = stories.exclude(owner_id__in=blocked_user_ids)
-    else:
-        stories = stories.exclude(is_nsfw=True)
-    return _index(request, stories, extra={'from': 'public'})
-
-
-@login_required
-def index_private(request):
-    """
-    Show private posts from users that request.user is
-    following.
-    """
-    blocked_user_ids = compute_blocked_user_ids_for(request.user)
-    following_user_ids = request.user.following_user_ids
-    stories = Story.objects\
-        .filter(status=Story.PUBLISHED,
-                visible_for=Story.VISIBLE_FOR_FOLLOWERS,
-                owner_id__in=following_user_ids)
-    if blocked_user_ids:
-        stories = stories.exclude(owner_id__in=blocked_user_ids)
-    return _index(request, stories,
-                  extra={'from': 'private'})
-
-
-def index(request):
-    if request.user.is_authenticated():
-        return index_wall(request)
-    else:
-        return index_public(request)
 
 
 def questions(request):
@@ -106,18 +52,12 @@ def questions(request):
         'qms': qms})
 
 
-def question(request, base62_id, order=None, show_delete=False, **kwargs):
-    qmeta = get_object_or_404(QuestionMeta,
-                              id=base62.to_decimal(base62_id))
+def question(request, base62_id, ordering=None, show_delete=False, **kwargs):
+    qmeta = get_object_or_404(QuestionMeta, id=base62.to_decimal(base62_id))
+    stories = Story.objects.build(frm=qmeta, ordering=ordering)
 
-    order = {'popular': '-like_count',
-             'featured': 'is_featured',
-             'recent': '-created_at'}.get(order, '-created_at')
-
-    stories = Story.objects\
-        .from_question_meta(qmeta)\
-        .filter(status=Story.PUBLISHED,
-                visible_for=Story.VISIBLE_FOR_EVERYONE).order_by(order)
+    if not ordering:
+        ordering = 'recent'
 
     if request.user.is_authenticated():
         request_answer_form = RequestAnswerForm(questioner=request.user,
@@ -148,6 +88,7 @@ def question(request, base62_id, order=None, show_delete=False, **kwargs):
         'question': qmeta,
         'is_following': is_following,
         'request_answer_form': request_answer_form,
+        'ordering': ordering,
         'stories': paginated(request, stories, settings.STORIES_PER_PAGE)})
 
 

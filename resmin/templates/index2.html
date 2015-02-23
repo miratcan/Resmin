@@ -14,13 +14,20 @@
 
 {% block content %}
   {% if user.is_authenticated %}
-    <p class="mbd"><a {% if from == 'followings' %}class="imp" {% endif %} title="{% trans 'Show public answers from your followings.' %}" href="/">{% trans 'From Followings' %}</a> / <a {% if from == 'public' %}class="imp" {% endif %}href="/public/">{% trans 'Public' %}</a> / <a {% if from == 'private' %}class="imp" {% endif %}href="/private/">{% trans 'Private' %}</a></p>
+    {% include "story/listing_options.html" %}
   {% else %}
     <div class="bg ptd">
       <p class="f_stng mbd pbd wb tac">{% trans "Resm.in is a question-answer platform that you answer questions by posting photo stories." %}</p>
       <p class="mbd pbd tac">{% trans "You can use resm.in to share information, meet new people or learn useful things." %}</p>
     </div>
   {% endif %}
+
+  {% if not stories %}
+    {% if user.is_authenticated %}
+      <p class="imp">{% trans "Seems like you're not following anyone so there's nothing to display from your followings. Use your imagination to find some people to follow." %}</p>
+    {% endif %}
+  {% endif %}
+
   <div id="thumbnails">
     <div class="thmb-wrap pa" style="box-sizing: border-box">
     <h4 class="mb bb pbh">{% trans "Follow Us" %}</h4>
@@ -36,10 +43,6 @@
     </div>
     {% for story in stories %}
       {% include "story/story_thumbnail.html" with show_question_info_below_answers=True %}
-    {% empty %}
-      {% if user.is_authenticated %}
-        <p class="imp">{% trans "Seems like you're not following anyone so there's nothing to display from your followings. Use your imagination to find some people to follow." %}</p>
-      {% endif %}
     {% endfor %}
   </div>
   {% include "includes/pagination_links_for_stories.html" %}
