@@ -1,7 +1,6 @@
 from django.db.models import Q, Manager
 from django.contrib.auth.models import User, AnonymousUser
 from apps.follow.models import compute_blocked_user_ids_for
-from enum import Enum
 
 
 class StoryManager(Manager):
