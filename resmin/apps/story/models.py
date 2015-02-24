@@ -1,4 +1,6 @@
 import hashlib
+import magic
+
 from json import dumps
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
@@ -46,10 +48,12 @@ class Story(BaseModel):
         'question.QuestionMeta', null=True, blank=True)
     question = models.ForeignKey('question.Question', null=True, blank=True)
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
+    cover_img = models.ImageField(upload_to='/covers/story/', blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
     is_featured = models.BooleanField(_('Featured'), default=False)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
     is_anonymouse = models.BooleanField(_('Hide my name'), default=False)
+    is_playble = models.BooleanField(default=False)
     like_count = models.PositiveIntegerField(default=0)
     slot_count = models.PositiveIntegerField(null=True, blank=True)
     comment_count = models.PositiveIntegerField(null=True, blank=True)
@@ -137,6 +141,11 @@ class Story(BaseModel):
             self.save()
         return self.slot_count
 
+    def get_cover_img(self):
+        if not self.cover_img:
+            self.cover_img.name = self.slot_set.first().content.image.name
+            self.save()
+        return self.cover_img
     def get_absolute_url(self):
         return reverse('story', kwargs={
             'base62_id': self.base62_id})
@@ -175,10 +184,6 @@ class Story(BaseModel):
                          'fileCompleted': True})
         return dumps(data)
 
-    def save(self, *args, **kwargs):
-        self.slot_count = self.slot_set.all().count()
-        super(Story, self).save(*args, **kwargs)
-
     def __unicode__(self):
         return self.title if self.title else u'Story by %s' % self.owner
 
@@ -191,6 +196,8 @@ class Image(UniqueFileModel):
     UNIQUE_FILE_FIELD = 'image'
     image = models.ImageField(upload_to=filename_for_image)
     taken_at = models.DateTimeField(null=True, blank=True)
+    mime_type = models.CharField(max_length=64)
+    is_playble = models.BooleanField(blank=True)
     """position = GeopositionField(null=True, blank=True)"""
 
     @property
@@ -201,6 +208,10 @@ class Image(UniqueFileModel):
         return {'pk': self.pk,
                 'thumbnail_url': self.thumbnail_url,
                 'small_image_url': get_thumbnail(self.image, '220').url}
+
+    def save(self, *args, **kwargs):
+        self.is_playble = self.mime_type in settings.PLAYBLE_MIME_TYPES
+        super(Image, self).save(*args, **kwargs)
 
 
 class Slot(models.Model):
@@ -246,6 +257,7 @@ class Upload(models.Model):
     upload_id = models.CharField(max_length=32, unique=True, editable=False,
                                  default=generate_upload_id)
     file = models.FileField(max_length=255, upload_to=filename_for_upload)
+    mime_type = models.CharField(max_length=64)
     offset = models.PositiveIntegerField(default=0)
     size = models.PositiveIntegerField()
     md5sum = models.CharField(max_length=36, blank=True)
@@ -296,7 +308,8 @@ class Upload(models.Model):
         obj = model.objects.get_or_create(
             md5sum=self.md5sum,
             defaults={
-                model.FILE_FIELD: File(open(self.file.path, 'r'))
+                model.FILE_FIELD: File(open(self.file.path, 'r')),
+                'mime_type': self.mime_type
             })[0]
         if delete:
             self.delete_file()
@@ -313,6 +326,10 @@ class Upload(models.Model):
         self.file.open(mode='ab')
         self.file.write(data)
         self.close_file()
+
+        if self.offset == 0:
+            self.mime_type = magic.from_buffer(data, mime=True)
+
         self.offset += size or (len(data) - 1)
 
         if self.offset > self.size:

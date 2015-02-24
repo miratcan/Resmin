@@ -28,8 +28,8 @@ def generate_upload_id():
     return uuid.uuid4().hex
 
 
-def filename_for_upload(instance, filename):
-    return os.path.join('uploading/', instance.upload_id + '.part')
+def filename_for_upload(instance, fn):
+    return os.path.join('uploading/%s' % instance.upload_id)
 
 
 def paginated(request, query, amount):

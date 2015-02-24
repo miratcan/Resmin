@@ -10,7 +10,7 @@
       <a href="{{ story.get_absolute_url }}">AYIPÇI</a>
     </div>
   {% else %}
-    {% thumbnail story.slot_set.all.0.content.image "220" as thmb %}
+    {% thumbnail story.get_cover_img "220" as thmb %}
       <a class="thmb" style="height: {{ thmb.height }}px; width: {{ thmb.width }}px; background-image: url({{ thmb.url }});" href="{{ story.get_absolute_url }}">
         {% if story.visible_for == 1 %}
           <i href="#" title='{% trans "This story is visible for followers." %}' class="private_answer_indicator fa fa-lock"></i>
