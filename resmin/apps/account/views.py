@@ -33,7 +33,7 @@ redis = get_redis_connection('default')
 
 
 @delete_notification
-def profile(request, username=None, listing=None, action=None):
+def profile(request, username=None, listing='public', action=None):
 
     user = get_object_or_404(User, username=username) if username \
         else request.user

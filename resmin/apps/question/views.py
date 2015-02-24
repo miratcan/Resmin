@@ -30,6 +30,8 @@ def index(request, listing='public'):
     If user is authenticated and not registered email we will show
     Register your email message
     """
+    if not request.user.is_authenticated():
+        listing = 'public'
     show_email_message = request.user.is_authenticated() and \
         not request.user.email
     stories = Story.objects.build(

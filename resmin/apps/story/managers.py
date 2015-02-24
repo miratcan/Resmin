@@ -10,9 +10,16 @@ class StoryManager(Manager):
 
         from apps.question.models import QuestionMeta
         from apps.story.models import Story
+
         if not requested_user.is_authenticated() and listing in \
            ['wall', 'private', 'draft']:
             return Story.objects.none()
+
+        if listing not in ['public', 'wall', 'private', 'draft']:
+           listing = 'public'
+
+        if not requested_user.is_authenticated() and listing != 'public':
+           listing = 'public'
 
         if listing == 'public':
             qset = Q(status=Story.PUBLISHED,
@@ -29,8 +36,6 @@ class StoryManager(Manager):
                      owner_id__in=requested_user.following_user_ids)
         elif listing == 'draft':
             qset = Q(status=Story.DRAFT, owner=requested_user)
-        else:
-            qset = Q()
 
         if frm:
             if isinstance(frm, QuestionMeta):
