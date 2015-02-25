@@ -4,6 +4,7 @@ import magic
 from json import dumps
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
+from json_field.fields import JSONField
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.generic import GenericForeignKey
@@ -48,7 +49,7 @@ class Story(BaseModel):
         'question.QuestionMeta', null=True, blank=True)
     question = models.ForeignKey('question.Question', null=True, blank=True)
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
-    cover_img = models.ImageField(upload_to='/covers/story/', blank=True)
+    cover_img = JSONField(null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
     is_featured = models.BooleanField(_('Featured'), default=False)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
@@ -143,9 +144,19 @@ class Story(BaseModel):
 
     def get_cover_img(self):
         if not self.cover_img:
-            self.cover_img.name = self.slot_set.first().content.image.name
+            slot = self.slot_set.first()
+            if slot.content.mime_type == 'video/webm':
+                self.cover_img = {'url': settings.VIDEO_THMB_URL,
+                                  'width': 220,
+                                  'height': 220}
+            else:
+                thmb = get_thumbnail(slot.content.image, '220')
+                self.cover_img = {'url': thmb.url,
+                                  'width': thmb.width,
+                                  'height': thmb.height}
             self.save()
         return self.cover_img
+
     def get_absolute_url(self):
         return reverse('story', kwargs={
             'base62_id': self.base62_id})
@@ -201,13 +212,16 @@ class Image(UniqueFileModel):
     """position = GeopositionField(null=True, blank=True)"""
 
     @property
-    def thumbnail_url(self):
-        return get_thumbnail(self.image, '100x100', crop='center').url
+    def thumbnail_url(self, size='100x100'):
+        return get_thumbnail(self.image, size, crop='center').url
 
     def serialize(self):
+        if self.mime_type == 'video/webm':
+            thumbnail_url = settings.VIDEO_THMB_URL
+        else:
+            thumbnail_url = self.thumbnail_url
         return {'pk': self.pk,
-                'thumbnail_url': self.thumbnail_url,
-                'small_image_url': get_thumbnail(self.image, '220').url}
+                'thumbnail_url': thumbnail_url}
 
     def save(self, *args, **kwargs):
         self.is_playble = self.mime_type in settings.PLAYBLE_MIME_TYPES

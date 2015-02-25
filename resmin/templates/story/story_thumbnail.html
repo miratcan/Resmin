@@ -10,14 +10,12 @@
       <a href="{{ story.get_absolute_url }}">AYIPÇI</a>
     </div>
   {% else %}
-    {% thumbnail story.get_cover_img "220" as thmb %}
-      <a class="thmb" style="height: {{ thmb.height }}px; width: {{ thmb.width }}px; background-image: url({{ thmb.url }});" href="{{ story.get_absolute_url }}">
-        {% if story.visible_for == 1 %}
-          <i href="#" title='{% trans "This story is visible for followers." %}' class="private_answer_indicator fa fa-lock"></i>
-        {% endif %}
-        {% if story.is_featured %}<i href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator fa fa-star"></i>{% endif %}
-      </a>
-    {% endthumbnail %}
+    <a class="thmb" style="height: {{ story.cover_img.height }}px; width: {{ story.cover_img.width }}px; background-image: url({{ story.cover_img.url }}); background-size: 100%;" href="{{ story.get_absolute_url }}">
+      {% if story.visible_for == 1 %}
+        <i href="#" title='{% trans "This story is visible for followers." %}' class="private_answer_indicator fa fa-lock"></i>
+      {% endif %}
+      {% if story.is_featured %}<i href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator fa fa-star"></i>{% endif %}
+    </a>
   {% endif %}
   <div class="footer oa db pl pr">
     <div class="username">
