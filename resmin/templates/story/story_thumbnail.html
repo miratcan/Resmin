@@ -10,12 +10,14 @@
       <a href="{{ story.get_absolute_url }}">AYIPÇI</a>
     </div>
   {% else %}
-    <a class="thmb" style="height: {{ story.cover_img.height }}px; width: {{ story.cover_img.width }}px; background-image: url({{ story.cover_img.url }}); background-size: 100%;" href="{{ story.get_absolute_url }}">
+    {% with story.get_cover_img as cover_img %}
+    <a class="thmb" style="height: {{ cover_img.height }}px; width: {{ cover_img.width }}px; background-image: url({{ cover_img.url }}); background-size: 100%;" href="{{ story.get_absolute_url }}">
       {% if story.visible_for == 1 %}
         <i href="#" title='{% trans "This story is visible for followers." %}' class="private_answer_indicator fa fa-lock"></i>
       {% endif %}
       {% if story.is_featured %}<i href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator fa fa-star"></i>{% endif %}
     </a>
+    {% endwith %}
   {% endif %}
   <div class="footer oa db pl pr">
     <div class="username">
