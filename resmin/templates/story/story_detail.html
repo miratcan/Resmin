@@ -11,7 +11,13 @@
   <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
   <script src="{{ STATIC_URL }}js/like_buttons.js"></script>
   <script src="{{ STATIC_URL }}js/jquery.keynav.js"></script>
-
+  <!-- VideoJs CDN -->
+  <link href="//vjs.zencdn.net/4.12/video-js.css" rel="stylesheet">
+  <script src="//vjs.zencdn.net/4.12/video.js"></script>
+  <script>
+        videojs.options.flash.swf = "//vjs.zencdn.net/4.12/video-js.swf"
+  </script>
+  <!-- VideoJs CDN -->
   <script>
   $(document).ready(function() {
     $("#fake_delete_button").click(function(){

@@ -16,7 +16,15 @@
             <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></span>
             {% if slot.content.is_playble %}
               {% if slot.content.mime_type == 'video/webm' %}
-                <video style="width: 100%" loop controls="play"><source src="{{ slot.content.image.url }}" type="video/webm"></video>
+                    <video id="vid"
+                           class="video-js vjs-default-skin vjs-big-play-centered"
+                           controls preload="auto"
+                           width="100%"
+                           height="430"
+                           data-setup='{"example_option":true}'>
+                        <source src="{{ slot.content.image.url }}" type='video/webm'/>
+                        <p class="vjs-no-js">Lütfen Tarayıcınızdan Javascripti Etkinleştirin.</p>
+                    </video>
               {% else %}
                 <img src="{{ slot.content.image.url }}" style="width: 100%;">
               {% endif %}
