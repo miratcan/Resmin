@@ -4,9 +4,9 @@ django-pipeline==1.4.2
 django-redis==3.8.0
 django-seo-cascade==0.5
 sorl-thumbnail==12.1c
-django-geoposition==0.2.2
-django-tastypie==0.10.0
 django-json-field==0.5.7
 mimeparse==0.1.3
 celery==3.1.17
 django-multilingual-model==0.6
+djangorestframework==3.0.5
+python-magic==0.4.6

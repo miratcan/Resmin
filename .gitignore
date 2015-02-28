@@ -2,9 +2,12 @@
 .idea/
 sqlite3.db
 media/
+static/
 resmin/config/local_settings.py
 sitestatic/css/base.css
 .DS_Store
 celerybeat-schedule
 *.log
 .idea
+.vagrant
+VagrantFile
