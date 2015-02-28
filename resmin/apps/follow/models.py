@@ -97,14 +97,27 @@ User.has_pending_follow_request = lambda u, t: \
     UserFollow.objects.filter(follower=u, target=t,
                               status=UserFollow.PENDING).exists()
 
+# Return all follower user ids.
 User.follower_user_ids = \
     property(lambda u: [f.follower_id for f in UserFollow.objects.filter(
              target=u, status__in=FOLLOWING_STATUSES)])
 
+# Return unrestricted follower user ids.
+User.follower_unrestricted_user_ids = \
+    property(lambda u: [f.follower_id for f in UserFollow.objects.filter(
+             target=u, status=UserFollow.FOLLOWING)])
+
+# Return all following user ids.
 User.following_user_ids = \
     property(lambda u: [f.target_id for f in UserFollow.objects.filter(
              follower=u, status__in=FOLLOWING_STATUSES)])
 
+# Return all follower user ids.
+User.following_unrestricted_user_ids = \
+    property(lambda u: [f.target_id for f in UserFollow.objects.filter(
+             follower=u, status=UserFollow.FOLLOWING)])
+
+# Return unrestricted follower user ids.
 User.follower_users = \
     property(lambda u: [f.follower for f in UserFollow.objects
              .filter(target=u, status__in=FOLLOWING_STATUSES)

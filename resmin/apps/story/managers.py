@@ -27,9 +27,11 @@ class StoryManager(Manager):
             if not requested_user.is_authenticated():
                 qset = qset & Q(is_nsfw=False)
         elif listing == 'wall':
+            oids = requested_user.following_user_ids
+            oids.append(requested_user.id)
             qset = Q(status=Story.PUBLISHED,
                      visible_for=Story.VISIBLE_FOR_EVERYONE,
-                     owner_id__in=requested_user.following_user_ids)
+                     owner_id__in=oids)
         elif listing == 'private':
             qset = Q(status=Story.PUBLISHED,
                      visible_for=Story.VISIBLE_FOR_FOLLOWERS,
