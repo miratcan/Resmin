@@ -240,7 +240,7 @@ CHUNKED_UPLOAD_PATH = '/upload/'
 MAXIMUM_UPLOAD_SIZE = 6000000  # 6MB
 UPLOAD_EXPIRATION_TIMEDELTA = timedelta(hours=6)  # 6Hours
 PLAYBLE_MIME_TYPES = ['image/gif', 'video/webm']
-VIDEO_THMB_URL = '%s%s' % (STATIC_URL, '/img/video_thmb.png')
+VIDEO_THMB_URL = '%s%s' % (STATIC_URL, '/static/img/video_thmb.png')
 
 # DJANGO REST FRAMEWORK SETTINGS
 REST_FRAMEWORK = {
