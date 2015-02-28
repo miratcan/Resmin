@@ -326,6 +326,7 @@ class EmailNotification(models.Model):
             logger.error('Could\'nt send email notification. Template named: '
                          '"%s" does not exist.' % err.args[0])
         except Exception as err:
+            rendered = False
             logger.error(err)
 
         if rendered:
