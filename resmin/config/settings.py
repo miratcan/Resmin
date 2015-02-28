@@ -188,9 +188,6 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
 
-PIPELINE_YUGLIFY_BINARY = "~/node_modules/yuglify/bin/yuglify"
-PIPELINE_LESS_BINARY = "~/node_modules/less/bin/lessc"
-
 PIPELINE_CSS = {
     'base': {
         'source_filenames': (
