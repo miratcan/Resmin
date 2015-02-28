@@ -97,9 +97,7 @@ INSTALLED_APPS = (
     'seo_cascade',
     'sorl.thumbnail',
     'pipeline',
-    'tastypie',
     'json_field',
-    'geoposition',
     'django_extensions',
     'rest_framework',
 )

@@ -19,7 +19,6 @@ from redis_cache import get_redis_connection
 
 from utils import (filename_for_image, filename_for_upload, generate_upload_id)
 from utils.models import BaseModel, UniqueFileModel
-from geoposition.fields import GeopositionField
 
 from apps.story.managers import StoryManager
 

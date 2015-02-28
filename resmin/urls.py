@@ -96,10 +96,6 @@ urlpatterns = patterns(
         'apps.account.views.notification_preferences',
         name='update_notification_preferences'),
 
-    url(r'^me/key/$',
-        'apps.account.views.remote_key',
-        name='remote_key'),
-
     url(r'^p/r/$',
         'django.contrib.auth.views.password_reset',
         name='password_reset',

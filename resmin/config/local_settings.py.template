@@ -24,6 +24,7 @@ MIDDLEWARE_CLASSES = (
     'pipeline.middleware.MinifyHTMLMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -33,16 +34,21 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django.contrib.admin',
+
     'apps.question',
     'apps.account',
     'apps.follow',
-    'apps.story',
     'apps.notification',
+    'apps.story',
+    'apps.comment',
+    'apps.pm',
+
     'seo_cascade',
     'sorl.thumbnail',
     'pipeline',
-    'debug_toolbar',
-    'tastypie'
+    'json_field',
+    'django_extensions',
+    'rest_framework',
 )
 
 INTERNAL_IPS = ('127.0.0.1',)

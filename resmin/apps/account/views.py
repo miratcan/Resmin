@@ -11,7 +11,6 @@ from django.contrib.sites.models import get_current_site
 from django.conf import settings
 from datetime import datetime, timedelta
 from redis_cache import get_redis_connection
-from tastypie.models import ApiKey
 
 from apps.account.models import (Invitation, UserProfile,
                                  EmailCandidate)
@@ -271,19 +270,6 @@ def hof(request):
         request,
         'auth/hof.html',
         {'profiles': UserProfile.objects.order_by('-like_count')[:40]})
-
-
-@login_required
-def remote_key(request):
-    remote_key, created = ApiKey.objects.get_or_create(user=request.user)
-
-    if request.POST.get('reset'):
-        remote_key.delete()
-        remote_key = ApiKey.objects.create(user=request.user)
-        messages.success(request, _('Your remote key has been reset'))
-        return HttpResponseRedirect(reverse('remote_key'))
-
-    return render(request, 'auth/remote_key.html', {'remote_key': remote_key})
 
 
 @login_required
