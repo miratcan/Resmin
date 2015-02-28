@@ -16,10 +16,10 @@ class StoryManager(Manager):
             return Story.objects.none()
 
         if listing not in ['public', 'wall', 'private', 'draft']:
-           listing = 'public'
+            listing = 'public'
 
         if not requested_user.is_authenticated() and listing != 'public':
-           listing = 'public'
+            listing = 'public'
 
         if listing == 'public':
             qset = Q(status=Story.PUBLISHED,
@@ -41,7 +41,7 @@ class StoryManager(Manager):
             if isinstance(frm, QuestionMeta):
                 qset = qset & Q(mounted_question_metas=frm)
             if isinstance(frm, User):
-                qset = qset & Q(owner=frm)
+                qset = qset & Q(owner=frm, is_anonymouse=False)
 
         if requested_user.is_authenticated():
             blocked_user_ids = compute_blocked_user_ids_for(requested_user)
