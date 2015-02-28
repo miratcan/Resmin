@@ -38,7 +38,8 @@ def _publish_story(request, story):
             story.question.status = Question.ANSWERED
             story.question.answer = story
             story.question.save()
-            if story.question.questioner:
+            if story.question.questioner and story.question.questioner !=\
+               story.owner:
                 notify(ntype_slug='user_answered_my_question',
                        sub=story.question.questionee,
                        obj=story.question,
