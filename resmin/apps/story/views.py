@@ -198,9 +198,13 @@ def upload(request, upload_id):
         return HttpResponseBadRequest('Offsets does not match.')
 
     chunk_size = end - start
-    upload.append_data(chunk, size=chunk_size)
+    try:
+        upload.append_data(chunk, size=chunk_size)
+    except Exception as err:
+        return render_to_json({'status': 'failed',
+                               'msg': err.status}, status=400)
+
     if end >= upload.size:
-        import ipdb; ipdb.set_trace()
         obj = upload.convert_to_model()
         return render_to_json({'status': 'uploaded',
                                'object': obj.serialize()})

@@ -56,7 +56,7 @@ class StoryForm(forms.ModelForm):
                 'cPk', slot.pk, slot_data)['order']
             slot.save()
         for sd in slot_data:
-            if 'pk' not in sd:
+            if 'pk' not in sd and 'cPk' in sd:
                 Slot.objects.create(
                     story=story, order=sd['order'], cPk=sd['cPk'],
                     cTp=ContentType.objects.get(id=sd['cTp']))
@@ -83,6 +83,15 @@ class StoryForm(forms.ModelForm):
 
     def clean(self):
         if not self.cleaned_data['slot_data']:
+            raise forms.ValidationError("A story must have at least 1 image.")
+
+        valid_slots = 0
+        for slot in self.cleaned_data['slot_data']:
+            if 'cPk' in slot:
+                valid_slots += 1
+                break
+
+        if not valid_slots:
             raise forms.ValidationError("A story must have at least 1 image.")
 
         if not self.owner.is_authenticated():

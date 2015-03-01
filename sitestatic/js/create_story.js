@@ -56,7 +56,7 @@ function calculateMd5Sum(file, func, options) {
   }
 
   function readerOnError() {
-    console.warn('something went wrong');
+    console.warn('Could\'t read file.');
   }
 
   function loadChunk() {
@@ -66,9 +66,7 @@ function calculateMd5Sum(file, func, options) {
     fileReader.onload = readerOnLoad.bind(this);
     fileReader.onerror = readerOnError.bind(this);
     fileReader.readAsArrayBuffer(sliceMethod.call(file, start, end));
-
   }
-
   loadChunk();
 }
 
@@ -101,6 +99,7 @@ function upload(file, upload_id, options) {
       chunkSize: 1024 * 100,
       urlPrefix: '/upload/',
       onUploadComplete: function(result) {},
+      onUploadFail: function(result) {},
       onChunkSent: function(offset) {}
     }, options || {});
     var fileSize = file.size;
@@ -121,17 +120,21 @@ function upload(file, upload_id, options) {
     }
 
     uploadRequest.onreadystatechange = function() {
-      if (uploadRequest.readyState == 4 && uploadRequest.status == 200) {
+      if (uploadRequest.readyState == 4) {
         var result = JSON.parse(uploadRequest.responseText);
-        if (result.status == 'uploaded') {
-          options['onUploadComplete'](result);
+        if (uploadRequest.status == 200) {
+          if (result.status == 'uploaded') {
+            options['onUploadComplete'](result);
+          } else {
+            options['onChunkSent'](result.offset);
+            var rangeStart = result.offset;
+            var rangeEnd = Math.min(fileSize, rangeStart + options['chunkSize'])
+            _upload(rangeStart, rangeEnd);
+          }
         } else {
-          options['onChunkSent'](result.offset);
-          var rangeStart = result.offset;
-          var rangeEnd = Math.min(fileSize, rangeStart + options['chunkSize'])
-          _upload(rangeStart, rangeEnd);
+          options['onUploadFail'](result);
         }
-      }
+      } 
     };
     _upload(0, Math.min(options['chunkSize'], fileSize));
 };
@@ -142,6 +145,7 @@ function getFile(file, options) {
     uploadURL: '/upload/',
     chunkSize: 1024 * 100,
     onUploadComplete: function(result) {},
+    onUploadFail: function(result) {},
     onChunkSent: function(offset) {}
   }, options || {});
 
@@ -157,7 +161,8 @@ function getFile(file, options) {
         } else if (result.status == 'uploading') {
           upload(file, result.upload_id, {
             onUploadComplete: function(result) { options['onUploadComplete'](result) },
-            onChunkSent: function(offset) { options['onChunkSent'](offset) }
+            onUploadFail: function(result) { options['onUploadFail'](result) },
+            onChunkSent: function(offset) { options['onChunkSent'](offset) },
           });
         } else {
           alert('Unknown response');
@@ -196,6 +201,12 @@ var SlotView = Backbone.View.extend({
     } else {
       return 100
     }
+  },
+
+  setMsg: function(msg) {
+    var thmbWrap = this.$el.find('.thmbWrap')
+    thmbWrap.css('background-image', 'none');
+    thmbWrap.prepend('<p class="pa f_tiny">' + msg + '</p>');    
   },
 
   updateIndicator: function() {
@@ -246,9 +257,11 @@ var Slot = Backbone.Model.extend({
             'thumbnailUrl': result.object.thumbnail_url,
             'fileCompleted': true
           });
-          console.log(_this);
           _this.view.render();
-        }, 
+        },
+        onUploadFail: function(result) {
+          _this.view.setMsg(result.msg)
+        },
         onChunkSent: function(offset) {
           _this.set({'fileOffset': offset});
           _this.view.updateIndicator();
@@ -260,8 +273,7 @@ var Slot = Backbone.Model.extend({
 
 });
 
-var SlotList = Backbone.Collection.extend({
-  model: Slot });
+var SlotList = Backbone.Collection.extend({model: Slot });
 
 var SlotListView = Backbone.View.extend({
   events: {'click #image-select-box' : 'openFileSelect',
