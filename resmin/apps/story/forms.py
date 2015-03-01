@@ -45,8 +45,6 @@ class StoryForm(forms.ModelForm):
                         questionee=self.owner))
 
     def save_slots(self, story, slot_data):
-        CT_MAP = {'image': ContentType.objects.get(
-            app_label='story', model='image')}
         slots = story.slot_set.all()
         slot_pks = [s.pk for s in slots]
         form_pks = [i['pk'] for i in slot_data if 'pk' in i]
@@ -55,13 +53,13 @@ class StoryForm(forms.ModelForm):
         slots = filter(lambda s: s.pk in form_pks, slots)
         for slot in slots:
             slot.order = find_in_dictlist(
-                'pk', slot.pk, slot_data)['order']
+                'cPk', slot.pk, slot_data)['order']
             slot.save()
         for sd in slot_data:
             if 'pk' not in sd:
                 Slot.objects.create(
                     story=story, order=sd['order'], cPk=sd['cPk'],
-                    cTp=CT_MAP[sd['cTp']])
+                    cTp=ContentType.objects.get(id=sd['cTp']))
 
     def save(self, *args, **kwargs):
 

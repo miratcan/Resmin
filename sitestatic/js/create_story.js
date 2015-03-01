@@ -230,7 +230,6 @@ var SlotView = Backbone.View.extend({
 var Slot = Backbone.Model.extend({
 
   defaults: {
-    cTp: 'image',
     fileCompleted: false
   },
 
@@ -242,10 +241,12 @@ var Slot = Backbone.Model.extend({
         onUploadComplete: function (result) {
           _this.set({
             'fileName': trimFileName(file.name, 30),
-            'cPk': result.object.pk,
+            'cPk': result.object.cPk,
+            'cTp': result.object.cTp,
             'thumbnailUrl': result.object.thumbnail_url,
             'fileCompleted': true
           });
+          console.log(_this);
           _this.view.render();
         }, 
         onChunkSent: function(offset) {

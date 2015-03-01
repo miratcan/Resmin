@@ -1,7 +1,9 @@
 import hashlib
+from sorl.thumbnail import get_thumbnail
 
 from django.db import models
 from django.contrib.auth.models import User, AnonymousUser
+from django.contrib.contenttypes.models import ContentType
 
 from resmin.libs.baseconv import base62
 
@@ -37,6 +39,15 @@ class UniqueFileModel(models.Model):
         for chunk in getattr(self, self.FILE_FIELD).chunks():
             md5.update(chunk)
         self.md5sum = md5.hexdigest()
+
+    @property
+    def thumbnail_url(self, size='100x100'):
+        return get_thumbnail(self.image, size, crop='center').url
+
+    def serialize(self):
+        return {'cPk': self.pk,
+                'cTp': ContentType.objects.get_for_model(self).pk,
+                'thumbnail_url': self.thumbnail_url}
 
     class Meta:
         abstract = True

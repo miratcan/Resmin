@@ -1,5 +1,5 @@
-import hashlib
 import magic
+import hashlib
 
 from json import dumps
 from datetime import datetime
@@ -17,11 +17,12 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from redis_cache import get_redis_connection
 
-from utils import (filename_for_image, filename_for_upload, generate_upload_id)
+from utils import (filename_for_image, filename_for_upload, generate_upload_id,
+                   filename_for_video, filename_for_video_frame)
 from utils.models import BaseModel, UniqueFileModel
 
 from apps.story.managers import StoryManager
-
+from apps.story.video_processing import grab_frame
 redis = get_redis_connection('default')
 
 
@@ -144,15 +145,10 @@ class Story(BaseModel):
     def get_cover_img(self):
         if not self.cover_img:
             slot = self.slot_set.first()
-            if slot.content.mime_type == 'video/webm':
-                self.cover_img = {'url': settings.VIDEO_THMB_URL,
-                                  'width': 220,
-                                  'height': 220}
-            else:
-                thmb = get_thumbnail(slot.content.image, '220')
-                self.cover_img = {'url': thmb.url,
-                                  'width': thmb.width,
-                                  'height': thmb.height}
+            thmb = get_thumbnail(slot.content.image, '220')
+            self.cover_img = {'url': thmb.url,
+                              'width': thmb.width,
+                              'height': thmb.height}
             self.save()
         return self.cover_img
 
@@ -202,25 +198,29 @@ class Story(BaseModel):
         verbose_name_plural = 'Stories'
 
 
+class Video(UniqueFileModel):
+    FILE_FIELD = 'video'
+    video = models.FileField(upload_to=filename_for_video)
+    frame = models.ImageField(upload_to=filename_for_video_frame, blank=True)
+    taken_at = models.DateTimeField(null=True, blank=True)
+    mime_type = models.CharField(max_length=64)
+    is_playble = True
+
+    @property
+    def image(self):
+        if not self.frame:
+            img_path = grab_frame(self.video.path)
+            self.frame = File(open(img_path, 'r'))
+            self.save()
+        return self.frame
+
+
 class Image(UniqueFileModel):
-    UNIQUE_FILE_FIELD = 'image'
+    FILE_FIELD = 'image'
     image = models.ImageField(upload_to=filename_for_image)
     taken_at = models.DateTimeField(null=True, blank=True)
     mime_type = models.CharField(max_length=64)
     is_playble = models.BooleanField(blank=True)
-    """position = GeopositionField(null=True, blank=True)"""
-
-    @property
-    def thumbnail_url(self, size='100x100'):
-        return get_thumbnail(self.image, size, crop='center').url
-
-    def serialize(self):
-        if self.mime_type == 'video/webm':
-            thumbnail_url = settings.VIDEO_THMB_URL
-        else:
-            thumbnail_url = self.thumbnail_url
-        return {'pk': self.pk,
-                'thumbnail_url': thumbnail_url}
 
     def save(self, *args, **kwargs):
         self.is_playble = self.mime_type in settings.PLAYBLE_MIME_TYPES
@@ -228,7 +228,6 @@ class Image(UniqueFileModel):
 
 
 class Slot(models.Model):
-
     order = models.PositiveIntegerField(null=True)
     story = models.ForeignKey(Story, null=True, blank=True)
     title = models.CharField(max_length=144, null=True, blank=True)
@@ -263,8 +262,13 @@ class Upload(models.Model):
                       (COMPLETE, _('Complete')),
                       (FAILED, _('Failed')))
 
-    MODEL_CHOICES = (('image', Image.__name__),)
-    MODEL_MAPPING = {'image': Image}
+    MODEL_CHOICES = (('image', Image.__name__),
+                     ('video', Video.__name__))
+
+    MIME_MAPPING = {'image/png': Image,
+                    'image/jpeg': Image,
+                    'image/gif': Image,
+                    'video/webm': Video}
 
     owner = models.ForeignKey(User)
     upload_id = models.CharField(max_length=32, unique=True, editable=False,
@@ -277,7 +281,7 @@ class Upload(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(blank=True)
     completed_at = models.DateTimeField(auto_now_add=True)
-    model = models.CharField(max_length=64, choices=MODEL_CHOICES)
+    model = models.CharField(max_length=64, blank=True, choices=MODEL_CHOICES)
     status = models.PositiveSmallIntegerField(choices=STATUS_CHOICES,
                                               default=UPLOADING)
 
@@ -317,7 +321,7 @@ class Upload(models.Model):
         if not self.status == self.COMPLETE or self.pk is None:
             return None
 
-        model = self.MODEL_MAPPING[self.model]
+        model = self.MIME_MAPPING[self.mime_type]
         obj = model.objects.get_or_create(
             md5sum=self.md5sum,
             defaults={
@@ -339,9 +343,13 @@ class Upload(models.Model):
         self.file.open(mode='ab')
         self.file.write(data)
         self.close_file()
-
         if self.offset == 0:
             self.mime_type = magic.from_buffer(data, mime=True)
+            try:
+                self.model = self.MIME_MAPPING[
+                    self.mime_type].__name__.lower()
+            except KeyError:
+                raise UploadError('Mime type is not supported.')
 
         self.offset += size or (len(data) - 1)
 

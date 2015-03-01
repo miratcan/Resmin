@@ -13,7 +13,7 @@ from apps.question.signals import user_created_story
 from apps.comment.models import Comment
 from apps.comment.forms import CommentForm
 from apps.story.forms import StoryForm, UpdateCaptionsForm
-from apps.story.models import Story, Upload
+from apps.story.models import Story, Upload, Image, Video
 from apps.notification.utils import notify
 from apps.notification.decorators import delete_notification
 from libs.baseconv import base62
@@ -140,22 +140,25 @@ def update_details(request, base62_id):
 def get_upload(request):
     if request.POST:
         missing_keys = filter(lambda i: i not in request.POST.keys(),
-                              [u'md5sum', u'size', u'model'])
+                              [u'md5sum', u'size'])
+
         if missing_keys:
             return render_to_json({
                 'success': False, 'msg': _('md5sum and size required.')},
                 HttpResponseBadRequest)
-        model = Upload.MODEL_MAPPING[request.POST['model']]
-        try:
-            obj = model.objects.get(md5sum=request.POST['md5sum'])
-            return render_to_json({'status': 'uploaded',
-                                   'object': obj.serialize()})
-        except model.DoesNotExist:
-            pass
+
+        for model in [Image, Video]:
+            try:
+                obj = model.objects.get(md5sum=request.POST['md5sum'])
+                return render_to_json({'status': 'uploaded',
+                                       'object': obj.serialize()})
+            except model.DoesNotExist:
+                pass
+
         upload = Upload.objects.create(md5sum=request.POST['md5sum'],
                                        size=int(request.POST['size']),
-                                       model=request.POST['model'],
                                        owner=request.user)
+
         return render_to_json({'status': 'uploading',
                                'upload_id': upload.upload_id})
     else:
@@ -178,10 +181,6 @@ def upload(request, upload_id):
 
     IF file finished return obj.
     """
-    if settings.DEBUG:
-        import time
-        time.sleep(0.5)
-
     upload = get_object_or_404(Upload, upload_id=upload_id,
                                owner=request.user,
                                expires_at__gte=datetime.now())
@@ -201,6 +200,7 @@ def upload(request, upload_id):
     chunk_size = end - start
     upload.append_data(chunk, size=chunk_size)
     if end >= upload.size:
+        import ipdb; ipdb.set_trace()
         obj = upload.convert_to_model()
         return render_to_json({'status': 'uploaded',
                                'object': obj.serialize()})

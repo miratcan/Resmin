@@ -24,6 +24,14 @@ def filename_for_image(instance, filename):
     return unique_filename(instance, filename, 'story/images')
 
 
+def filename_for_video(instance, filename):
+    return unique_filename(instance, filename, 'story/videos')
+
+
+def filename_for_video_frame(instance, filename):
+    return '%s.jpg' % filename_for_video(instance, filename)
+
+
 def generate_upload_id():
     return uuid.uuid4().hex
 
