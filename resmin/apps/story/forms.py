@@ -82,9 +82,6 @@ class StoryForm(forms.ModelForm):
         return story
 
     def clean(self):
-        if not self.cleaned_data['slot_data']:
-            raise forms.ValidationError("A story must have at least 1 image.")
-
         valid_slots = 0
         for slot in self.cleaned_data['slot_data']:
             if 'cPk' in slot:
@@ -92,7 +89,7 @@ class StoryForm(forms.ModelForm):
                 break
 
         if not valid_slots:
-            raise forms.ValidationError("A story must have at least 1 image.")
+            raise forms.ValidationError("Story must have at least 1 image.")
 
         if not self.owner.is_authenticated():
             raise forms.ValidationError("You have to login to answer "

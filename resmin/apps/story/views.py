@@ -94,10 +94,9 @@ def create_story(request, base62_id):
         if story_form.is_valid():
             story = story_form.save()
             return HttpResponseRedirect(story.get_absolute_url())
-        else:
-            print story_form.errors
-    story_form = StoryForm(owner=request.user, meta=meta, initial={
-        'question': request.GET.get('qid')})
+    else:
+        story_form = StoryForm(owner=request.user, meta=meta, initial={
+            'question': request.GET.get('qid')})
     return render(request, 'story/create_story.html',
                   {'story_form': story_form})
 
@@ -130,8 +129,6 @@ def update_details(request, base62_id):
         if update_captions_form.is_valid():
             update_captions_form.save(slot_data=request.POST)
             return HttpResponseRedirect(story.get_absolute_url())
-        else:
-            print update_captions_form.errors
     update_captions_form = UpdateCaptionsForm(story=story)
     return render(request, 'story/update_captions.html',
                   {'captions_form': update_captions_form})
@@ -145,7 +142,12 @@ def get_upload(request):
         if missing_keys:
             return render_to_json({
                 'success': False, 'msg': _('md5sum and size required.')},
-                HttpResponseBadRequest)
+                status=400)
+
+        if int(request.POST['size']) > settings.MAXIMUM_UPLOAD_SIZE:
+            return render_to_json({
+                'success': False, 'msg': _('File is too big to upload.')},
+                status=400)
 
         for model in [Image, Video]:
             try:
@@ -164,7 +166,7 @@ def get_upload(request):
     else:
         return render_to_json({
             'success': False, 'msg': _('post method required.')},
-            HttpResponseBadRequest)
+            status=400)
 
 
 CONTENT_RANGE_PATTERN = re.compile(
