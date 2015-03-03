@@ -148,8 +148,8 @@ function getFile(file, options) {
     onUploadFail: function(result) {},
     onChunkSent: function(offset) {}
   }, options || {});
+
   calculateMd5Sum(file, function(hash) {
-    console.log(file.size);
     var data = {'md5sum': hash, 'size': file.size, 'model': 'image'};
     var settings = {
       'method': 'post',
