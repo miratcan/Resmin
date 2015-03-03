@@ -44,12 +44,16 @@
           <div class="comment-body">{{ comment.as_html|safe }}</div>
         </div>
       {% endfor %}
-      <form method="post">
-        {% csrf_token %}
-        <input type="hidden" value="add_comment">
-        {{ comment_form.comment }}
-        <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
-      </form>
+      {% if comment_form %}
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" value="add_comment">
+          {{ comment_form.comment }}
+          <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
+        </form>
+      {% else %}
+        <p>Login to leave comment</p>
+      {% endif %}
     </div>
   </div>
   <form id="action_form" method="post" style="display: none;">

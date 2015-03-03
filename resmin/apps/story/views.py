@@ -71,14 +71,17 @@ def story(request, base62_id):
         .select_related('owner__profile')
     comments = paginated(request, comments,
                          settings.COMMENTS_PER_PAGE)
-    if 'comment' in request.POST:
-        comment_form = CommentForm(request.POST, owner=request.user,
-                                   story=story)
-        if comment_form.is_valid():
-            comment = comment_form.save()
-            return HttpResponseRedirect(comment.get_absolute_url())
+    if request.user.is_authenticated():
+        if 'comment' in request.POST:
+            comment_form = CommentForm(request.POST, owner=request.user,
+                                       story=story)
+            if comment_form.is_valid():
+                comment = comment_form.save()
+                return HttpResponseRedirect(comment.get_absolute_url())
+        else:
+            comment_form = CommentForm(owner=request.user, story=story)
     else:
-        comment_form = CommentForm(owner=request.user, story=story)
+        comment_form = None
     return render(request, 'story/story_detail.html',
                   {'story': story, 'current_site': Site.objects.get_current(),
                    'story_is_visible': story_is_visible, 'comments': comments,
