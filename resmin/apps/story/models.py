@@ -210,8 +210,11 @@ class Video(UniqueFileModel):
     def image(self):
         if not self.frame:
             img_path = grab_frame(self.video.path)
-            self.frame = File(open(img_path, 'r'))
-            self.save()
+            if img_path:
+                self.frame = File(open(img_path, 'r'))
+                self.save()
+            else:
+                return None
         return self.frame
 
 

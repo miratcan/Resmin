@@ -40,7 +40,7 @@ def grab_frame(video_path, frames=100):
     # Fail silently if ffmpeg is not installed.
     # the ffmpeg commandline tool that is.
     if response != 0:
-        raise RuntimeError(response)
+        raise None
 
     # Loop through the generated images, open, and
     # generate the image histogram.
