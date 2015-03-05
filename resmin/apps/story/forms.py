@@ -13,7 +13,10 @@ from apps.story.models import Story, Slot
 
 def find_in_dictlist(k, v, dl):
     # Finds matching key value in list of dicts.
-    return (i for i in dl if i[k] == v).next()
+    try:
+        return (i for i in dl if i[k] == v).next()
+    except StopIteration:
+        return None
 
 
 def rm_key_in_dictlist(k, dl):
@@ -53,7 +56,7 @@ class StoryForm(forms.ModelForm):
         slots = filter(lambda s: s.pk in form_pks, slots)
         for slot in slots:
             slot.order = find_in_dictlist(
-                'cPk', slot.pk, slot_data)['order']
+                'pk', slot.pk, slot_data)['order']
             slot.save()
         for sd in slot_data:
             if 'pk' not in sd and 'cPk' in sd:
