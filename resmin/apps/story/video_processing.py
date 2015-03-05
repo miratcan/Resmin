@@ -31,8 +31,9 @@ def grab_frame(video_path, frames=100):
 
     # Build the ffmpeg shell command and run it via subprocess
     cmd_args = {'frames': frames, 'video_path': video_path,
-                'output': frame}
-    command = "ffmpeg -i %(video_path)s -y -vframes %(frames)d %(output)s"
+                'output': frame, 'ffmpeg_path': settings.FFMPEG_PATH}
+    command = "%(ffmpeg_path)s -i %(video_path)s -y -vframes " \
+              "%(frames)d %(output)s"
     command = command % cmd_args
     response = subprocess.call(command, shell=True, stdout=subprocess.PIPE,
                                stderr=subprocess.PIPE)
