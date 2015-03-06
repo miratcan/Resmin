@@ -506,13 +506,12 @@ msgid "Questionees"
 msgstr "Sorular"
 
 #: apps/question/forms.py:36
-msgid "Write comma seperated usernames that you want answer."
-msgstr "Cevap isteyen kişilerin kullanıcı adını virgüllerle ayırarak yaz"
+msgid "Write comma separated usernames. You can only request answer from your followers"
+msgstr "Kullanıcı isimlerini virgüllerle ayırarak yaz. Sadece seni takip eden kişilerden cevap talep edebilirsin."
 
 #: apps/question/forms.py:37
-#, fuzzy
 msgid "Is Anonymouse"
-msgstr "gizli kullanıcı"
+msgstr "Gizli"
 
 #: apps/question/models.py:26
 msgid "Question"
@@ -711,9 +710,8 @@ msgstr ""
 "edinmek için kullanabilirsin."
 
 #: templates/index2.html:26
-#, fuzzy
 msgid "Follow Us"
-msgstr "Takip Et"
+msgstr "Bizi Takip Et"
 
 #: templates/index2.html:31
 msgid "Recommened Questions"

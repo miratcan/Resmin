@@ -117,14 +117,14 @@ class NotificationMeta(models.Model):
 
     def _get_objects(self, c_tp, pks):
         """
-        Generic method for getting comma seperated objects.
+        Generic method for getting comma separated objects.
         """
         pks = _str_to_pks(pks)
         return c_tp.model_class().objects.filter(pk__in=pks)
 
     def _add_object(self, key, obj):
         """
-        Generic method for adding comma seperated object.
+        Generic method for adding comma separated object.
         """
         CT_MAP = {'sub': {'ct': 's_ct', 'pks': 's_pks'},
                   'obj': {'ct': 'o_ct', 'pks': 's_pks'}}
@@ -141,7 +141,7 @@ class NotificationMeta(models.Model):
 
     def _has_multiple_objects(self, key):
         """
-        Return True if comma seperated objects in given key has more than
+        Return True if comma separated objects in given key has more than
         one object.
         """
         return ',' in getattr(self, key)
