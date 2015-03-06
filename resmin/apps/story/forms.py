@@ -69,6 +69,7 @@ class StoryForm(forms.ModelForm):
         # Save Story
         story = super(StoryForm, self).save(commit=False)
         story.owner = self.owner
+        story.slot_count = None
         story.save()
 
         # If there's a meta add as mounted question meta.
