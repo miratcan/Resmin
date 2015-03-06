@@ -25,32 +25,6 @@ MIDDLEWARE_CLASSES = (
     'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.sitemaps',
-    'django.contrib.admin',
-
-    'apps.question',
-    'apps.account',
-    'apps.follow',
-    'apps.notification',
-    'apps.story',
-    'apps.comment',
-    'apps.pm',
-
-    'seo_cascade',
-    'sorl.thumbnail',
-    'pipeline',
-    'json_field',
-    'django_extensions',
-    'rest_framework',
-)
-
 INTERNAL_IPS = ('127.0.0.1',)
 
 
