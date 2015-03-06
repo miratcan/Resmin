@@ -33,7 +33,9 @@ class RequestAnswerForm(forms.Form):
     questionees = forms.CharField(
         label=_('Questionees'),
         widget=forms.Textarea,
-        help_text=_('Write comma seperated usernames that you want answer.'))
+        help_text=_('Write comma seperated usernames of your followers '
+                    'that you want answer.'))
+
     is_anonymouse = forms.BooleanField(label=_('Is Anonymouse'),
                                        required=False)
 
