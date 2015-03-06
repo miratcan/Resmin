@@ -4,38 +4,35 @@ from apps.notification.utils import notify
 from apps.comment.models import Comment
 from apps.follow.models import StoryFollow
 
-
-class CommentForm(forms.Form):
+class CommentFormBase(forms.Form):
     comment = forms.CharField(
         label='Comment',
         widget=forms.Textarea(
             attrs={'placeholder': 'Comment'}))
 
+
+class CommentForm(CommentFormBase):
+
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
         self.story = kwargs.pop('story')
-        self.comment_id = kwargs.pop('comment_id', None)
         super(CommentForm, self).__init__(*args, **kwargs)
 
-    def create_new_comment(self):
-
-        comment = Comment.objects.create(
-            owner=self.owner,
-            story=self.story,
-            body=self.cleaned_data['comment'],
-            status=Comment.PUBLISHED)
-
+    def save(self):
+        comment = Comment.objects.create(owner=self.owner,
+                                         story=self.story,
+                                         body=self.cleaned_data['comment'],
+                                         status=Comment.PUBLISHED)
         self.story.comment_count = Comment.objects.filter(
             status=Comment.PUBLISHED, story=self.story).count()
         self.story.save(update_fields=['comment_count'])
-
         StoryFollow.objects.get_or_create(
             follower=comment.owner,
             target=comment.story, defaults={
                 'reason': StoryFollow.REASON_COMMENTED})
 
         """
-        Send notificationsself.
+        Send notification.
         TODO: Run notify actions to celery task.
         """
         for follow in StoryFollow.objects.filter(target=comment.story)\
@@ -48,13 +45,14 @@ class CommentForm(forms.Form):
                    comment.story.get_absolute_url())
         return comment
 
-    def update_old_comment(self):
-        comment = Comment.objects.get(id=self.comment_id)
-        comment.body = self.cleaned_data['comment']
-        return comment
+
+class UpdateCommentForm(CommentFormBase):
+    def __init__(self, *args, **kwargs):
+        self.comment = kwargs.pop('comment', None)
+        self.base_fields['comment'].initial = self.comment.body
+        super(UpdateCommentForm, self).__init__(*args, **kwargs)
 
     def save(self):
-        if self.comment_id:
-            return self.update_old_comment()
-        else:
-            return self.create_new_comment()
+        self.comment.body = self.cleaned_data['comment']
+        self.comment.save()
+        return self.comment

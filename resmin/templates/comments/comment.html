@@ -1,0 +1,11 @@
+{% load i18n %}
+<div class="comment pb pt">
+    <a class="wb db mb" href="{{ comment.owner.get_absolute_url}}">{{ comment.owner }}</a>
+    <div class="comment-body">{{ comment.as_html|safe }}</div>
+    {% if comment.owner == request.user %}
+        <ul class="flat comment-options">
+            <li><a href="#" class="f_weak c_weak">{% trans "Update" %}</a></li>
+            <li><a href="#" class="f_weak c_weak">{% trans "Delete" %}</a></li>
+        </ul>
+    {% endif %}
+</div>

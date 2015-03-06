@@ -39,10 +39,7 @@
     {% endfor %}
     <div id="comments" class="mb">
       {% for comment in comments %}
-        <div class="comment pb pt">
-          <a class="wb db mb" href="{{ comment.owner.get_absolute_url}}">{{ comment.owner }}</a>
-          <div class="comment-body">{{ comment.as_html|safe }}</div>
-        </div>
+        {% include 'comments/comment.html' %}
       {% endfor %}
       {% if comment_form %}
         <form method="post">
