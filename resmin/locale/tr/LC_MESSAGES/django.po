@@ -505,10 +505,6 @@ msgstr "Adımı Gizle"
 msgid "Questionees"
 msgstr "Sorular"
 
-#: apps/question/forms.py:36
-msgid "Write comma separated usernames. You can only request answer from your followers"
-msgstr "Kullanıcı isimlerini virgüllerle ayırarak yaz. Sadece seni takip eden kişilerden cevap talep edebilirsin."
-
 #: apps/question/forms.py:37
 msgid "Is Anonymouse"
 msgstr "Gizli"
