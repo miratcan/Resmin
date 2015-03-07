@@ -23,7 +23,7 @@
                            height="430"
                            data-setup='{"example_option":true}'>
                         <source src="{{ slot.content.video.url }}" type='video/webm'/>
-                        <p class="vjs-no-js">Lütfen Tarayıcınızdan Javascripti Etkinleştirin.</p>
+                        <p class="vjs-no-js">{% trans 'Please activate javascript on your browser.' %}</p>
                     </video>
               {% else %}
                 <img src="{{ slot.content.image.url }}" style="width: 100%;">
@@ -44,8 +44,8 @@
       {% if comment_form %}
         <form method="post">
           {% csrf_token %}
-          <input type="hidden" value="add_comment">
           {{ comment_form.comment }}
+          <input type="hidden" name="action" value="create_comment">
           <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
         </form>
       {% else %}
@@ -60,7 +60,6 @@
     <input name="set_cover" type="submit" />
   </form>
 <div class="panel-right">
-
   <div class="section">
     <p class="f_weak c_weak">
       {% if story.is_anonymouse %}

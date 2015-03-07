@@ -23,7 +23,8 @@ class StoryManager(Manager):
 
         if listing == 'public':
             qset = Q(status=Story.PUBLISHED,
-                     visible_for=Story.VISIBLE_FOR_EVERYONE)
+                     visible_for=Story.VISIBLE_FOR_EVERYONE,
+                     owner__is_active=True)
             if not requested_user.is_authenticated():
                 qset = qset & Q(is_nsfw=False)
         elif listing == 'wall':

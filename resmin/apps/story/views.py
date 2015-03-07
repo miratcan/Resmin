@@ -64,15 +64,16 @@ def story(request, base62_id):
     statuses_in = [Story.DRAFT, Story.PUBLISHED] if request.user.is_authenticated() \
         else [Story.PUBLISHED]
     story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
-                              status__in=statuses_in)
+                              status__in=statuses_in, owner__is_active=True)
     story_is_visible = story.is_visible_for(request.user)
     comments = Comment.objects\
-        .filter(story=story, status=Comment.PUBLISHED)\
+        .filter(story=story, status=Comment.PUBLISHED, owner__is_active=True)\
         .select_related('owner__profile')
     comments = paginated(request, comments,
                          settings.COMMENTS_PER_PAGE)
     if request.user.is_authenticated():
-        if 'comment' in request.POST:
+        if request.method == 'POST' and request.POST.get('action') ==\
+           'create_comment':
             comment_form = CommentForm(request.POST, owner=request.user,
                                        story=story)
             if comment_form.is_valid():

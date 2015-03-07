@@ -4,6 +4,7 @@ from apps.notification.utils import notify
 from apps.comment.models import Comment
 from apps.follow.models import StoryFollow
 
+
 class CommentFormBase(forms.Form):
     comment = forms.CharField(
         label='Comment',

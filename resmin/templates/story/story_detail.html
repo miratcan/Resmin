@@ -60,12 +60,29 @@
     })
     $('.slotBig').keynav();
   });
+
+  function getUpdateCommentForm(cid) {
+    var url = '/c/' + cid + '/';
+    var el = $('#c' + cid);
+    $.get(url, function(data) {
+      el.html(data);
+    })
+  };
+
+  function saveUpdateComment(cid) {
+    var form = $('#c' + cid);
+    console.log(form);
+    return false;
+  };
+
+  /*
   var iconcommentcontent;
   var iconword="&lt;3";
   var icontemplate = '<span class="heartie">&nbsp;</span>';
   var iconpattern = new RegExp(iconword,"ig");
   iconcommentcontent = $('.comment-body').html();
   $('.comment-body').html(iconcommentcontent.replace(iconpattern, icontemplate));
+  */
   </script>
 {% endblock %}
 

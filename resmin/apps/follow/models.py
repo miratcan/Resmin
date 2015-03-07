@@ -110,22 +110,26 @@ User.follower_unrestricted_user_ids = \
 # Return all following user ids.
 User.following_user_ids = \
     property(lambda u: [f.target_id for f in UserFollow.objects.filter(
-             follower=u, status__in=FOLLOWING_STATUSES)])
+             follower=u, status__in=FOLLOWING_STATUSES,
+             target__is_active=True)])
 
 # Return all follower user ids.
 User.following_unrestricted_user_ids = \
     property(lambda u: [f.target_id for f in UserFollow.objects.filter(
-             follower=u, status=UserFollow.FOLLOWING)])
+             follower=u, status=UserFollow.FOLLOWING,
+             target__is_active=True)])
 
 # Return unrestricted follower user ids.
 User.follower_users = \
     property(lambda u: [f.follower for f in UserFollow.objects
-             .filter(target=u, status__in=FOLLOWING_STATUSES)
+             .filter(target=u, status__in=FOLLOWING_STATUSES,
+                     follower__is_active=True)
              .select_related('follower')])
 
 User.following_users = \
     property(lambda u: [f.target for f in UserFollow.objects
-             .filter(follower=u, status__in=FOLLOWING_STATUSES)
+             .filter(follower=u, status__in=FOLLOWING_STATUSES,
+                     target__is_active=True)
              .select_related('target')])
 
 

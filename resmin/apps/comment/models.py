@@ -11,6 +11,7 @@ class CommentManager(models.Manager):
 
 COMMENT_RENDERER = lambda b: linebreaks(urlize(b))
 
+
 class Comment(models.Model):
 
     PUBLISHED = 1
@@ -34,7 +35,7 @@ class Comment(models.Model):
         return u"%s's comment on %s" % (self.owner, self.story)
 
     def get_absolute_url(self):
-        return '%s#cid=%s' % (self.story.get_absolute_url(), self.id)
+        return '%s#c%s' % (self.story.get_absolute_url(), self.id)
 
     def save(self, *args, **kwargs):
         self.as_html = COMMENT_RENDERER(self.body)

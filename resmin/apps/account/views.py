@@ -34,7 +34,7 @@ redis = get_redis_connection('default')
 @delete_notification
 def profile(request, username=None, listing='public', action=None):
 
-    user = get_object_or_404(User, username=username) if username \
+    user = get_object_or_404(User, username=username, is_active=True) if username \
         else request.user
 
     user_is_blocked_me, user_is_blocked_by_me,\
