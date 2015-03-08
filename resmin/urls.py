@@ -89,8 +89,16 @@ urlpatterns = patterns(
         name='email_confirm'),
 
     url(r'^c/(?P<cid>[-\d]+)/$',
+        'apps.comment.views.get_comment',
+        name='get_comment'),
+
+    url(r'^c/u/(?P<cid>[-\d]+)/$',
         'apps.comment.views.update_comment',
         name='update_comment'),
+
+    url(r'^c/d/(?P<cid>[-\d]+)/$',
+        'apps.comment.views.delete_comment',
+        name='delete_comment'),
 
     url(r'^me/update/$',
         'apps.account.views.update_profile',

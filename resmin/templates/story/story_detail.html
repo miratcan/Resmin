@@ -61,18 +61,40 @@
     $('.slotBig').keynav();
   });
 
-  function getUpdateCommentForm(cid) {
+  function getComment(cid) {
     var url = '/c/' + cid + '/';
+    var el = $('#c' + cid);
+    $.get(url, function(result) {
+      console.log(result);
+      el.replaceWith(result);
+    })
+  };
+
+  function getUpdateCommentForm(cid) {
+    var url = '/c/u/' + cid + '/';
     var el = $('#c' + cid);
     $.get(url, function(data) {
       el.html(data);
     })
   };
 
-  function saveUpdateComment(cid) {
-    var form = $('#c' + cid);
-    console.log(form);
-    return false;
+  function saveUpdateComment(el, cid) {
+    var el = $(el);
+    var url = '/c/u/' + cid + '/'
+    $.post(url, el.serialize(), function(result) {
+      $('#c' + cid).replaceWith(result);
+    })
+  };
+
+  function removeComment(cid) {
+    var confirmed = confirm('Ar yu şur?');
+    if (confirmed) {
+      var el = $('#c' + cid);
+      var url = '/c/d/' + cid + '/'
+      $.post(url, {}, function(result) {
+        el.slideUp();
+      })      
+    }
   };
 
   /*

@@ -1,8 +1,9 @@
 {% load i18n %}
-<form method="post" class="pa bg-darker"onsubmit="saveUpdateComment({{ update_comment_form.instance.id }}); return false;">
+<form method="post" class="pa bg-darker"onsubmit="saveUpdateComment(this, {{ update_comment_form.comment_id }}); return false;">
   {% csrf_token %}
   {{ update_comment_form.comment }}
   <input type="hidden" name="action" value="update_comment">
   <input type="hidden" name="cid" value="{{ update_comment_form.comment.id }}">
-  <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
+  <input type="submit" name="save" class="fr ra pa bttn green" value="{% trans "Save" %}">
+  <a href="#" onclick="getComment({{ update_comment_form.comment_id }}); return false;" class="fr pa mr">{% trans "Cancel" %}</a>
 </form>

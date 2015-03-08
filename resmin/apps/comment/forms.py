@@ -53,6 +53,9 @@ class UpdateCommentForm(CommentFormBase):
         self.base_fields['comment'].initial = self.comment.body
         super(UpdateCommentForm, self).__init__(*args, **kwargs)
 
+    def comment_id(self):
+        return self.comment.id
+
     def save(self):
         self.comment.body = self.cleaned_data['comment']
         self.comment.save()
