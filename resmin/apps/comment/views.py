@@ -29,6 +29,7 @@ def get_comment(request, cid):
     return render(request, 'comments/comment.html', {
         'comment': comment})
 
+
 @csrf_exempt
 @require_http_methods(['POST', ])
 def delete_comment(request, cid):
