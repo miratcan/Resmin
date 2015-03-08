@@ -1,5 +1,5 @@
 {% load i18n %}
-<form method="post" onsubmit="saveUpdateComment({{ update_comment_form.instance.id }}); return false;">
+<form method="post" class="pa bg-darker"onsubmit="saveUpdateComment({{ update_comment_form.instance.id }}); return false;">
   {% csrf_token %}
   {{ update_comment_form.comment }}
   <input type="hidden" name="action" value="update_comment">

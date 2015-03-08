@@ -69,8 +69,7 @@ def story(request, base62_id):
     comments = Comment.objects\
         .filter(story=story, status=Comment.PUBLISHED, owner__is_active=True)\
         .select_related('owner__profile')
-    comments = paginated(request, comments,
-                         settings.COMMENTS_PER_PAGE)
+    comments = paginated(request, comments, settings.COMMENTS_PER_PAGE)
     if request.user.is_authenticated():
         if request.method == 'POST' and request.POST.get('action') ==\
            'create_comment':
