@@ -5,14 +5,12 @@ from apps.comment.models import Comment
 from apps.follow.models import StoryFollow
 
 
-class CommentFormBase(forms.Form):
+class CommentForm(forms.Form):
+
     comment = forms.CharField(
         label='Comment',
         widget=forms.Textarea(
             attrs={'placeholder': 'Comment'}))
-
-
-class CommentForm(CommentFormBase):
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
@@ -47,7 +45,13 @@ class CommentForm(CommentFormBase):
         return comment
 
 
-class UpdateCommentForm(CommentFormBase):
+class UpdateCommentForm(forms.Form):
+
+    comment = forms.CharField(
+        label='Comment',
+        widget=forms.Textarea(
+            attrs={'placeholder': 'Comment'}))
+
     def __init__(self, *args, **kwargs):
         self.comment = kwargs.pop('comment', None)
         self.base_fields['comment'].initial = self.comment.body
