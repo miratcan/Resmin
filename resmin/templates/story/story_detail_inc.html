@@ -14,25 +14,25 @@
         {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
           <div class="img" style="position: relative;">
             <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></span>
-            {% if slot.content.is_playble %}
-              {% if slot.content.mime_type == 'video/webm' %}
+              {% if slot.cTp.name == 'video' %}
                     <video id="vid"
                            class="video-js vjs-default-skin vjs-big-play-centered"
                            controls preload="auto"
                            width="100%"
                            height="430"
-                           data-setup='{"example_option":true}'>
+                           data-setup='{"loop":true}'>
                         <source src="{{ slot.content.video.url }}" type='video/webm'/>
                         <p class="vjs-no-js">{% trans 'Please activate javascript on your browser.' %}</p>
                     </video>
               {% else %}
-                <img src="{{ slot.content.image.url }}" style="width: 100%;">
+                {% if slot.content.is_playble %}
+                  <img src="{{ slot.content.image.url }}" style="width: 100%;">
+                {% else %}
+                  {% thumbnail slot.content.image "580" as img %}
+                    <img src="{{ img.url }}">
+                  {% endthumbnail %}
+                {% endif %}
               {% endif %}
-            {% else %}
-              {% thumbnail slot.content.image "580" as img %}
-                <img src="{{ img.url }}">
-              {% endthumbnail %}
-            {% endif %}
           </div>
         {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
       </div>

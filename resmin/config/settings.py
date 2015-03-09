@@ -239,7 +239,7 @@ EMAIL_TEMPLATES_PREFIX = 'emails'
 CHUNKED_UPLOAD_PATH = '/upload/'
 MAXIMUM_UPLOAD_SIZE = 6000000  # 6MB
 UPLOAD_EXPIRATION_TIMEDELTA = timedelta(hours=6)  # 6Hours
-PLAYBLE_MIME_TYPES = ['image/gif', 'video/webm']
+PLAYBLE_MIME_TYPES = ['image/gif', 'video/webm', 'video/mp4']
 FFMPEG_PATH = 'ffmpeg'
 DEFAULT_VIDEO_THMB_URL = '%s%s' % (STATIC_URL, '/static/img/video_thmb.png')
 

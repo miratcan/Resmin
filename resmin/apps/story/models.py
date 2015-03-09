@@ -204,7 +204,6 @@ class Video(UniqueFileModel):
     frame = models.ImageField(upload_to=filename_for_video_frame, blank=True)
     taken_at = models.DateTimeField(null=True, blank=True)
     mime_type = models.CharField(max_length=64)
-    is_playble = True
 
     @property
     def image(self):
@@ -271,7 +270,8 @@ class Upload(models.Model):
     MIME_MAPPING = {'image/png': Image,
                     'image/jpeg': Image,
                     'image/gif': Image,
-                    'video/webm': Video}
+                    'video/webm': Video,
+                    'video/mp4': Video}
 
     owner = models.ForeignKey(User)
     upload_id = models.CharField(max_length=32, unique=True, editable=False,
