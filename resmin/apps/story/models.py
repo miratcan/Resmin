@@ -171,13 +171,24 @@ class Story(BaseModel):
     def get_like_count_from_redis(self):
         return redis.scard(self._like_set_key())
 
-    def update_like_count(self):
+    def update_like_count(self, save=False):
         """Update self.likes count from redis db, it does not save, must
         be saved manually."""
         self.like_count = self.get_like_count_from_redis()
+        if save:
+            self.save(update_fields=['like_count'])
 
-    def update_slot_count(self):
+    def update_slot_count(self, save=False):
         self.slot_count = self.slot_set.count()
+        if save:
+            self.save(update_fields=['slot_count'])
+
+    def update_comment_count(self, save=False):
+        from apps.comment.models import Comment
+        self.comment_count = Comment.objects.filter(
+            status=Comment.PUBLISHED, story=self).count()
+        if save:
+            self.save(update_fields=['comment_count'])
 
     def serialize_slots(self):
         data = []

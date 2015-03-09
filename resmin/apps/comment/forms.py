@@ -22,9 +22,7 @@ class CommentForm(forms.Form):
                                          story=self.story,
                                          body=self.cleaned_data['comment'],
                                          status=Comment.PUBLISHED)
-        self.story.comment_count = Comment.objects.filter(
-            status=Comment.PUBLISHED, story=self.story).count()
-        self.story.save(update_fields=['comment_count'])
+        self.story.update_comment_count(save=True)
         StoryFollow.objects.get_or_create(
             follower=comment.owner,
             target=comment.story, defaults={

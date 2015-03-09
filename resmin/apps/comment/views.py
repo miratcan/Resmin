@@ -36,4 +36,5 @@ def delete_comment(request, cid):
     comment = get_object_or_404(Comment, id=cid, owner=request.user)
     comment.status = Comment.DELETED_BY_OWNER
     comment.save()
+    comment.story.update_comment_count(save=True)
     return render_to_json({'status': 'deleted'})
