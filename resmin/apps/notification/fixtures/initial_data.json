@@ -1,0 +1,93 @@
+[
+{
+  "pk": 1, 
+  "model": "notification.notificationtype", 
+  "fields": {
+    "s_ct": 3, 
+    "is_active": true, 
+    "o_ct": 9, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
+    "collecting_period": 10, 
+    "plural": null, 
+    "slug": "user_answered_my_question"
+  }
+},
+{
+  "pk": 2, 
+  "model": "notification.notificationtype", 
+  "fields": {
+    "s_ct": 3, 
+    "is_active": false, 
+    "o_ct": 3, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
+    "collecting_period": 10, 
+    "plural": null, 
+    "slug": "user_accepted_my_follow_request"
+  }
+},
+{
+  "pk": 3, 
+  "model": "notification.notificationtype", 
+  "fields": {
+    "s_ct": 49, 
+    "is_active": false, 
+    "o_ct": 44, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
+    "collecting_period": 10, 
+    "plural": "sub", 
+    "slug": "new_answer_to_following_question"
+  }
+},
+{
+  "pk": 4, 
+  "model": "notification.notificationtype", 
+  "fields": {
+    "s_ct": 3, 
+    "is_active": false, 
+    "o_ct": 49, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
+    "collecting_period": 10, 
+    "plural": "sub", 
+    "slug": "user_liked_my_answer"
+  }
+},
+{
+  "pk": 5, 
+  "model": "notification.notificationtype", 
+  "fields": {
+    "s_ct": 56, 
+    "is_active": true, 
+    "o_ct": 49, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
+    "collecting_period": 5, 
+    "plural": "sub", 
+    "slug": "new_comment_on_my_story"
+  }
+},
+{
+  "pk": 6, 
+  "model": "notification.notificationtype", 
+  "fields": {
+    "s_ct": 3, 
+    "is_active": true, 
+    "o_ct": 9, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
+    "collecting_period": 10, 
+    "plural": null, 
+    "slug": "user_asked_me_a_question"
+  }
+},
+{
+  "pk": 7, 
+  "model": "notification.notificationtype", 
+  "fields": {
+    "s_ct": 56, 
+    "is_active": true, 
+    "o_ct": 49, 
+    "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
+    "collecting_period": 10, 
+    "plural": "sub", 
+    "slug": "new_comment_on_commented_story"
+  }
+}
+]
