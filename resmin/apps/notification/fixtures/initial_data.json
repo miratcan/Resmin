@@ -3,9 +3,15 @@
   "pk": 1, 
   "model": "notification.notificationtype", 
   "fields": {
-    "s_ct": 3, 
+    "s_ct": [
+      "auth", 
+      "user"
+    ], 
     "is_active": true, 
-    "o_ct": 9, 
+    "o_ct": [
+      "question", 
+      "question"
+    ], 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "collecting_period": 10, 
     "plural": null, 
@@ -16,9 +22,15 @@
   "pk": 2, 
   "model": "notification.notificationtype", 
   "fields": {
-    "s_ct": 3, 
+    "s_ct": [
+      "auth", 
+      "user"
+    ], 
     "is_active": false, 
-    "o_ct": 3, 
+    "o_ct": [
+      "auth", 
+      "user"
+    ], 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
     "collecting_period": 10, 
     "plural": null, 
@@ -29,9 +41,15 @@
   "pk": 3, 
   "model": "notification.notificationtype", 
   "fields": {
-    "s_ct": 49, 
+    "s_ct": [
+      "story", 
+      "story"
+    ], 
     "is_active": false, 
-    "o_ct": 44, 
+    "o_ct": [
+      "question", 
+      "questionmeta"
+    ], 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "collecting_period": 10, 
     "plural": "sub", 
@@ -42,9 +60,15 @@
   "pk": 4, 
   "model": "notification.notificationtype", 
   "fields": {
-    "s_ct": 3, 
+    "s_ct": [
+      "auth", 
+      "user"
+    ], 
     "is_active": false, 
-    "o_ct": 49, 
+    "o_ct": [
+      "story", 
+      "story"
+    ], 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": false}", 
     "collecting_period": 10, 
     "plural": "sub", 
@@ -55,9 +79,15 @@
   "pk": 5, 
   "model": "notification.notificationtype", 
   "fields": {
-    "s_ct": 56, 
+    "s_ct": [
+      "comment", 
+      "comment"
+    ], 
     "is_active": true, 
-    "o_ct": 49, 
+    "o_ct": [
+      "story", 
+      "story"
+    ], 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "collecting_period": 5, 
     "plural": "sub", 
@@ -68,9 +98,15 @@
   "pk": 6, 
   "model": "notification.notificationtype", 
   "fields": {
-    "s_ct": 3, 
+    "s_ct": [
+      "auth", 
+      "user"
+    ], 
     "is_active": true, 
-    "o_ct": 9, 
+    "o_ct": [
+      "question", 
+      "question"
+    ], 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "collecting_period": 10, 
     "plural": null, 
@@ -81,9 +117,15 @@
   "pk": 7, 
   "model": "notification.notificationtype", 
   "fields": {
-    "s_ct": 56, 
+    "s_ct": [
+      "comment", 
+      "comment"
+    ], 
     "is_active": true, 
-    "o_ct": 49, 
+    "o_ct": [
+      "story", 
+      "story"
+    ], 
     "default_preferences": "{\"send_site_notification\": true, \"send_mail\": true}", 
     "collecting_period": 10, 
     "plural": "sub", 
