@@ -14,7 +14,11 @@ def _new_notification(ntype, sub, obj, recipient, url):
         o_pks=_pks_to_str([obj.pk]))
 
 
-def notify(ntype_slug, sub, obj, recipient, url):
+def notify(ntype_slug, sub, obj, recipient, url,
+           ignored_recipients=[]):
+
+    if recipient in ignored_recipients:
+        return
 
     try:
         ntype = NotificationType.objects.get(slug=ntype_slug)
