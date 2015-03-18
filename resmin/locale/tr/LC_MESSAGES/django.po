@@ -32,7 +32,7 @@ msgstr "Şifre Tekrar"
 
 #: apps/account/forms.py:24
 msgid "Invitation Key"
-msgstr "Davet Kodu"
+msgstr "Davetiye Kodu"
 
 #: apps/account/forms.py:29
 msgid "User with this username already exists"
@@ -44,12 +44,11 @@ msgstr "Şifre alanları aynı olmalı"
 
 #: apps/account/forms.py:57
 msgid "This key reached it's maximum use limit. It cant be used anymore."
-msgstr ""
-"Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
+msgstr "Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
 
 #: apps/account/forms.py:63
 msgid "Invalid invitation key"
-msgstr "Geçersiz davet kodu"
+msgstr "Geçersiz davetiye kodu"
 
 #: apps/account/forms.py:139
 msgid "send email notification"
@@ -88,7 +87,7 @@ msgstr "Kimliğimi gizle"
 
 #: apps/account/models.py:21
 msgid "bio"
-msgstr "kişisel bilgiler"
+msgstr "biografi"
 
 #: apps/account/models.py:22
 msgid "website"
@@ -171,11 +170,11 @@ msgstr "Alıcı"
 #: apps/pm/templates/pm/outbox.html:10 apps/pm/templates/pm/trash.html:10
 #, fuzzy
 msgid "Subject"
-msgstr "Reddet"
+msgstr "Konu"
 
 #: apps/pm/forms.py:22 apps/pm/models.py:53
 msgid "Body"
-msgstr ""
+msgstr "Mesaj"
 
 #: apps/pm/management.py:9
 msgid "Message Received"
@@ -224,7 +223,7 @@ msgstr "Mesaj Geri Alındı"
 #: apps/pm/management.py:14
 #, fuzzy
 msgid "you have undeleted a message"
-msgstr "Bu kullanıcının engelini kaldırdın"
+msgstr ""
 
 #: apps/pm/models.py:56 apps/pm/templates/pm/inbox.html:10
 #: apps/pm/templates/pm/trash.html:10
@@ -242,7 +241,7 @@ msgstr "gönderilme zamanı"
 #: apps/pm/models.py:64
 #, fuzzy
 msgid "read at"
-msgstr "Oluşturulma Zamanı"
+msgstr "okunma Zamanı"
 
 #: apps/pm/models.py:65
 msgid "replied at"
@@ -393,7 +392,7 @@ msgstr ""
 #: apps/pm/templates/pm/base.html:8 apps/pm/templates/pm/inbox.html:6
 #: apps/pm/templates/pm/new_message.html:13
 msgid "Inbox"
-msgstr ""
+msgstr "Gelen kutusu"
 
 #: apps/pm/templates/pm/base.html:9 apps/pm/templates/pm/outbox.html:4
 msgid "Sent Messages"
@@ -401,11 +400,11 @@ msgstr ""
 
 #: apps/pm/templates/pm/base.html:10
 msgid "New Message"
-msgstr ""
+msgstr "Yeni Mesaj"
 
 #: apps/pm/templates/pm/base.html:11
 msgid "Trash"
-msgstr ""
+msgstr "Çöp"
 
 #: apps/pm/templates/pm/compose.html:3
 msgid "Compose Message"
@@ -413,11 +412,11 @@ msgstr ""
 
 #: apps/pm/templates/pm/compose.html:6
 msgid "Send"
-msgstr ""
+msgstr "Gönder"
 
 #: apps/pm/templates/pm/inbox.html:10
 msgid "Received"
-msgstr ""
+msgstr "Alındı"
 
 #: apps/pm/templates/pm/inbox.html:10 apps/pm/templates/pm/outbox.html:12
 #: apps/pm/templates/pm/trash.html:10
@@ -438,7 +437,7 @@ msgstr "Sil"
 #: apps/pm/templates/pm/inbox.html:29 apps/pm/templates/pm/outbox.html:27
 #: apps/pm/templates/pm/trash.html:26
 msgid "No messages."
-msgstr ""
+msgstr "Mesaj yok"
 
 #: apps/pm/templates/pm/new_message.html:4
 #, python-format
@@ -456,11 +455,11 @@ msgstr ""
 
 #: apps/pm/templates/pm/new_message.html:14 apps/pm/templates/pm/view.html:11
 msgid "Reply"
-msgstr ""
+msgstr "Cevapla"
 
 #: apps/pm/templates/pm/outbox.html:11
 msgid "Sent"
-msgstr ""
+msgstr "Gönderilen"
 
 #: apps/pm/templates/pm/trash.html:6
 #, fuzzy
@@ -469,7 +468,7 @@ msgstr "Seçtiğim Kişilere"
 
 #: apps/pm/templates/pm/trash.html:10
 msgid "Date"
-msgstr ""
+msgstr "Tarih"
 
 #: apps/pm/templates/pm/trash.html:20
 #, fuzzy
@@ -537,7 +536,7 @@ msgstr "Açıklama"
 
 #: apps/story/models.py:39
 msgid "Draft"
-msgstr "Müsvette"
+msgstr "Taslak"
 
 #: apps/story/models.py:40
 msgid "Published"
@@ -573,7 +572,7 @@ msgstr "Şuna Görünür"
 
 #: apps/story/models.py:264
 msgid "Uploading"
-msgstr "Gönderiliyor"
+msgstr "Yükleniyor"
 
 #: apps/story/models.py:265
 msgid "Complete"
@@ -601,7 +600,7 @@ msgstr "md5sum ve size gerekli."
 
 #: apps/story/views.py:152
 msgid "File is too big to upload."
-msgstr ""
+msgstr "Dosya boyutu çok büyük"
 
 #: apps/story/views.py:171
 msgid "post method required."
@@ -629,7 +628,7 @@ msgstr "Takipçi Olma Talepleri"
 
 #: templates/base.html:33
 msgid "PM's"
-msgstr ""
+msgstr "Özel Mesajlar"
 
 #: templates/base.html:34
 msgid "Notifications"
@@ -986,7 +985,7 @@ msgstr "Engeli Kaldır"
 
 #: templates/auth/user_detail_inc.html:62
 msgid "Send PM"
-msgstr ""
+msgstr "Özel mesaj gönder"
 
 #: templates/auth/user_detail_inc.html:64
 msgid "Unfollow"
@@ -1014,7 +1013,7 @@ msgstr "Güncelle"
 
 #: templates/comments/update_form.html:8
 msgid "Cancel"
-msgstr ""
+msgstr "İptal"
 
 #: templates/emails/confirmation_body.txt:1
 msgid "To confirm email address click the link below"
@@ -1290,7 +1289,7 @@ msgstr ""
 
 #: templates/story/ordering_options.html:1
 msgid "Popular"
-msgstr ""
+msgstr "Popüler"
 
 #: templates/story/ordering_options.html:1
 msgid "Shows answers that is marked as qualified content by our admins."
