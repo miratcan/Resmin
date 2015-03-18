@@ -4,6 +4,7 @@
 <div class="narrow fc mtd mbd">
   <div class="panel-left">
     <h3 class="mbd"><a href="{{ update_answer_form.instance.question.get_absolute_url }}">{{ update_answer_form.instance.question }}</a></h3>
+    
     <form method="post" id="update_form">
       {% csrf_token %}
       <div class="row oa mb">
@@ -12,23 +13,28 @@
           <label>{{ update_answer_form.visible_for.label }}:</label>
           {{ update_answer_form.visible_for }}
         </div>
+
         <div class="fl mrd">
           <label>{{ update_answer_form.is_nsfw.label }}:</label>
           {{ update_answer_form.is_nsfw }}
         </div>
+
         <div class="fl mrd">
           <label>{{ update_answer_form.is_anonymouse.label }}:</label>
             {{ update_answer_form.is_anonymouse }}
         </div>
       </div>
+
       <div class="row oa">
         <label>{{ update_answer_form.description.label }}:</label>
         {{ update_answer_form.description }}
       </div>
+
       <div class="row oa">
         <label>{{ update_answer_form.source_url.label }}:</label>
         {{ update_answer_form.source_url }}
       </div>
+
       <div class="row oa mb">
         <div class="fr mld">
           <input name="answer" class="fr bttn green ra" type="submit" value="{% trans 'Submit' %}">
@@ -36,6 +42,7 @@
       </div>
     </form>
   </div>
+  
   <div class="panel-right">
     {% include "question/answer_thumbnail.html" with answer=update_answer_form.instance %}
   </div>

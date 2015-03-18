@@ -9,42 +9,72 @@
     <link rel="apple-touch-icon" href="{{ STATIC_URL }}iphone/icon.png"/>
     <link rel='icon' href='{{ STATIC_URL }}/favico.png' type='image/png' />
     {% block extra_head %}{% endblock %}
+    
     {% meta %}
       <title>resm.in</title>
       <meta name="description" content="{% trans 'Story questions with pics.' %}" />
     {% endmeta %}
   </head>
+  
   <body>
     {% if messages %}
       {% for message in messages %}
         <p class="yellow-stripe">{{ message }}</p>
       {% endfor %}
     {% endif %}
+    
     {% block extra_messages %}
     {% endblock %}
+    
     <header>
       <div class="wrap">
         <nav class="clearfix">
           <ul class="clearfix">
-            <li><a href="/" class="f_weak pa {% if request.path == '/' %}active{% endif %}">{% trans "Wall" %}</a></li>
-            <li><a href="/qs/" class="f_weak pa {% if request.path == '/qs/' %}active{% endif %}">{% trans "Questions" %}</a></li>
-            <li><a href="/pq/" class="f_weak pa {% if request.path == '/pq/' %}active{% endif %}">{% trans "Pending Questions" %}{% if num_of_pending_questions %} ({{ num_of_pending_questions }}){% endif %}</a></li>
-            <li><a href="/pfr/" class="f_weak pa {% if request.path == '/pfr/' %}active{% endif %}">{% trans "Follow Requests" %}{% if num_of_pending_follow_requests > 0 %} ({{ num_of_pending_follow_requests }}){% endif %}</a></li>
-            <li><a href="/pm/" class="f_weak pa {% if request.path == '/pm/' %}active{% endif %}">{% trans "PM's" %}{% if num_of_unread_messages > 0 %} ({{ num_of_unread_messages }}){% endif %}</a></li>
-            <li><a href="/n/" class="f_weak pa {% if request.path == '/n/' %}active{% endif %}">{% trans "Notifications" %}{% if num_of_pending_notifications > 0 %} ({{ num_of_pending_notifications}}){% endif %}</a></li>
-            <li><a href="/hof/" class="f_weak pa {% if request.path == '/hof/' %}active{% endif %}">{% trans "Top Users" %}</a></li>
-            <li class="fr">{% if user.is_authenticated %}<a href="{{ user.get_absolute_url }}" class="f_weak wb pa {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>{% else %}<a href="{% url 'login' %}" {% if request.path == '/login/' %}class="f_weak pa active"{% endif %}>{% trans 'Login' %}</a>{% endif %}</li>  
+            <li>
+              <a href="/" class="f_weak pa {% if request.path == '/' %}active{% endif %}">{% trans "Wall" %}</a>
+            </li>
+            
+            <li>
+              <a href="/qs/" class="f_weak pa {% if request.path == '/qs/' %}active{% endif %}">{% trans "Questions" %}</a>
+            </li>
+            
+            <li>
+              <a href="/pq/" class="f_weak pa {% if request.path == '/pq/' %}active{% endif %}">{% trans "Pending Questions" %}{% if num_of_pending_questions %} ({{ num_of_pending_questions }}){% endif %}</a>
+            </li>
+            
+            <li>
+              <a href="/pfr/" class="f_weak pa {% if request.path == '/pfr/' %}active{% endif %}">{% trans "Follow Requests" %}{% if num_of_pending_follow_requests > 0 %} ({{ num_of_pending_follow_requests }}){% endif %}</a>
+            </li>
+            
+            <li>
+              <a href="/pm/" class="f_weak pa {% if request.path == '/pm/' %}active{% endif %}">{% trans "PM's" %}{% if num_of_unread_messages > 0 %} ({{ num_of_unread_messages }}){% endif %}</a>
+            </li>
+            
+            <li>
+              <a href="/n/" class="f_weak pa {% if request.path == '/n/' %}active{% endif %}">{% trans "Notifications" %}{% if num_of_pending_notifications > 0 %} ({{ num_of_pending_notifications}}){% endif %}</a>
+            </li>
+            
+            <li>
+              <a href="/hof/" class="f_weak pa {% if request.path == '/hof/' %}active{% endif %}">{% trans "Top Users" %}</a>
+            </li>
+            
+            <li class="fr">{% if user.is_authenticated %}
+              <a href="{{ user.get_absolute_url }}" class="f_weak wb pa {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>{% else %}<a href="{% url 'login' %}" {% if request.path == '/login/' %}class="f_weak pa active"{% endif %}>{% trans 'Login' %}</a>{% endif %}
+            </li>  
           </ul>
+          
           <a href="#" id="pull">{% trans 'Menu' %}</a>
         </nav>
-      </wrap>
+      </div>
     </header>
     {% block before_content %}{% endblock %}
+    
     <div class="content pbd ptd oa">
       <div class="wrap oa {% block wrap_class %}{% endblock %}">
         {% block content %}{% endblock content %}
       </div>
     </div>
+    
     <footer class="oa tac pbh ptd">
       <div class="wrap mb">
         <a href="http://twitter.com/mirat/">Twitter</a>
@@ -53,9 +83,11 @@
         <a class="mld mrd" href="https://resmin.uservoice.com/forums/219051-general">{% trans 'Suggestions' %}</a>
         <a href="http://resm-in.tumblr.com/post/59702522278/resm-in-api-ilk-nefes">Api</a>
       </div>
+      
       <div class="wrap mb">
         <p class="f_weak mb">
-          {% trans 'Non of the images & content that appear at this site are real. Site content might not be convenient for kids & minors. Users who create the questions & share the images are responsible and liable from their content. Every content should be conveniently credited. By the way Why do you just copy when you can create something original?' %}</p>
+          {% trans 'Non of the images & content that appear at this site are real. Site content might not be convenient for kids & minors. Users who create the questions & share the images are responsible and liable from their content. Every content should be conveniently credited. By the way Why do you just copy when you can create something original?' %}
+        </p>
       </div>
     </footer>
   {% block extra_foot %}{% endblock %}
