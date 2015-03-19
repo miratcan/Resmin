@@ -160,7 +160,7 @@ msgstr "Tarih/Zaman"
 #: apps/pm/fields.py:55
 #, python-format
 msgid "The following usernames are incorrect: %(users)s"
-msgstr "Bu kullanıcı isimleri hatalı: %users)s"
+msgstr "Bu kullanıcı isimleri hatalı: %(users)s"
 
 #: apps/pm/forms.py:19 apps/pm/models.py:59 apps/pm/templates/pm/outbox.html:9
 msgid "Recipient"
@@ -168,7 +168,6 @@ msgstr "Alıcı"
 
 #: apps/pm/forms.py:20 apps/pm/models.py:52 apps/pm/templates/pm/inbox.html:10
 #: apps/pm/templates/pm/outbox.html:10 apps/pm/templates/pm/trash.html:10
-#, fuzzy
 msgid "Subject"
 msgstr "Konu"
 
@@ -239,7 +238,6 @@ msgid "sent at"
 msgstr "gönderilme zamanı"
 
 #: apps/pm/models.py:64
-#, fuzzy
 msgid "read at"
 msgstr "okunma Zamanı"
 
@@ -274,7 +272,7 @@ msgstr ""
 #: apps/pm/utils.py:61
 #, python-format
 msgid "New Message: %(subject)s"
-msgstr "Yeni Mesaj: %/subject)s"
+msgstr "Yeni Mesaj: %(subject)s"
 
 #: apps/pm/views.py:85 apps/pm/views.py:124
 msgid "Message successfully sent."
@@ -420,7 +418,6 @@ msgstr "Alındı"
 
 #: apps/pm/templates/pm/inbox.html:10 apps/pm/templates/pm/outbox.html:12
 #: apps/pm/templates/pm/trash.html:10
-#, fuzzy
 msgid "Action"
 msgstr "Hareketler"
 
@@ -430,7 +427,6 @@ msgid "DATETIME_FORMAT"
 msgstr ""
 
 #: apps/pm/templates/pm/inbox.html:23 apps/pm/templates/pm/outbox.html:21
-#, fuzzy
 msgid "delete"
 msgstr "Sil"
 
@@ -462,9 +458,8 @@ msgid "Sent"
 msgstr "Gönderilen"
 
 #: apps/pm/templates/pm/trash.html:6
-#, fuzzy
 msgid "Deleted Messages"
-msgstr "Seçtiğim Kişilere"
+msgstr "Silinmiş MEsajlar"
 
 #: apps/pm/templates/pm/trash.html:10
 msgid "Date"
@@ -483,7 +478,7 @@ msgstr ""
 
 #: apps/pm/templates/pm/view.html:4
 msgid "View Message"
-msgstr ""
+msgstr "Mesajı Görüntüle"
 
 #: apps/pm/templates/pm/view.html:13 templates/comments/comment.html:8
 #: templates/story/story_detail_inc.html:113
@@ -515,12 +510,11 @@ msgstr "Soru"
 
 #: apps/question/views.py:101
 msgid "You have to login to complete this action."
-msgstr ""
+msgstr "Bu işlemi gerçekleştirmek için giriş yapmalısın."
 
 #: apps/question/views.py:107
-#, fuzzy
 msgid "You have send bad data."
-msgstr "bir mesaj gönderdin"
+msgstr "Bir mesaj gönderdin"
 
 #: apps/question/views.py:142
 msgid "Action not found"
@@ -1279,13 +1273,12 @@ msgid "Shows latest answers first."
 msgstr ""
 
 #: templates/story/ordering_options.html:1
-#, fuzzy
 msgid "Latest"
 msgstr "Son Cevaplar"
 
 #: templates/story/ordering_options.html:1
 msgid "Show answers with most hearts first."
-msgstr ""
+msgstr "En çok kalp alanları başa alarak listele."
 
 #: templates/story/ordering_options.html:1
 msgid "Popular"
@@ -1293,7 +1286,7 @@ msgstr "Popüler"
 
 #: templates/story/ordering_options.html:1
 msgid "Shows answers that is marked as qualified content by our admins."
-msgstr ""
+msgstr "Adminler tarafından kaliteli içerik olarak işaretlenenleri başa alarak liste."
 
 #: templates/story/story_detail.html:5
 #, python-format
