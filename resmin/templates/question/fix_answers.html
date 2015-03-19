@@ -7,9 +7,12 @@
 {% block content %}
 <div class="imp pa mbd">
   <h2 class="mt mbd">Aşağıdaki Cevapları Düzeltmen Gerekiyor</h2>
+  
   <p class="mb">Seni bu sayfaya yönlendirdim çünkü aşağıdaki cevapların eskiden kalma ve kimin görmesini istediğine dair bir bilgi olmadığı için <strong>kimseye için görülebilir değiller</strong>.</p>
+  
   <p class="mb">Cevaplarının karşısındaki "kime görünür" seçeneklerini ayarlayıp sayfanın sonundaki kaydet butonunu kullanman gerekiyor.</p>
 </div>
+
 {% for answer in answers %}
 <div data-answer-id="{{ answer.id }}" class="answer pb pt bb oa">
 
