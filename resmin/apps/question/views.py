@@ -118,7 +118,7 @@ def like(request):
            sub=request.user,
            obj=story,
            recipient=story.owner,
-           ignored_recipients=request.user,
+           ignored_recipients=[request.user],
            url=story.get_absolute_url())
     like_count = story.get_like_count_from_redis()
     return HttpResponse(json.dumps(
