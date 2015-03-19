@@ -26,7 +26,7 @@
       "auth", 
       "user"
     ], 
-    "is_active": false, 
+    "is_active": true, 
     "o_ct": [
       "auth", 
       "user"
@@ -45,7 +45,7 @@
       "story", 
       "story"
     ], 
-    "is_active": false, 
+    "is_active": true, 
     "o_ct": [
       "question", 
       "questionmeta"
@@ -64,7 +64,7 @@
       "auth", 
       "user"
     ], 
-    "is_active": false, 
+    "is_active": true, 
     "o_ct": [
       "story", 
       "story"

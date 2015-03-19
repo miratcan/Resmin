@@ -14,7 +14,6 @@ def _publish_notifications(force=False):
         else:
             age = datetime.now() - nm.created_at
             lifespan = timedelta(minutes=nm.ntype.collecting_period)
-            print age, lifespan
             if age > lifespan:
                 nm.publish()
 
