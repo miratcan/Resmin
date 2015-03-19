@@ -2,7 +2,7 @@ from apps.notification.models import NotificationMeta, NotificationType
 from apps.notification.models import _pks_to_str
 from logging import getLogger
 
-logger = getLogger('notification')
+logger = getLogger(__name__)
 
 
 def _new_notification(ntype, sub, obj, recipient, url):

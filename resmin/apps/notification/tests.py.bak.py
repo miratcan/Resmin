@@ -9,11 +9,8 @@ from django.test import TestCase
 from django.contrib.auth.models import User
 from apps.story.models import Story
 from apps.notification.models import (NotificationMeta, NotificationType,
-                                      SiteNotification,
-                                      notification_preferences)
+                                      SiteNotification)
 from apps.notification.utils import notify
-
-
 
 
 def _create_user(username, password):
@@ -74,8 +71,9 @@ class SimpleTest(TestCase):
         # There must be no NotificationMeta objects created.
         self.assertEqual(NotificationMeta.objects.count(), 0)
 
-    def test_user_liked_your_answer_with_multiple_subjects(self):
+    def test_user_liked_your_story_answer_with_multiple_subjects(self):
 
+        # When 
         notify('user_liked_my_answer', self.u2, self.s1, self.u1, '/abc/')
         notify('user_liked_my_answer', self.u3, self.s1, self.u1, '/abc/')
         notify('user_liked_my_answer', self.u4, self.s1, self.u1, '/abc/')
@@ -89,27 +87,3 @@ class SimpleTest(TestCase):
             sn.template_name(),
             'notification/user_liked_my_answer/'
             'sub_plur_obj_sing/site_notification.html')
-
-    def test_user_liked_your_answer_with_multiple_objects(self):
-
-        notify('user_liked_my_answer', self.u2, self.s1, self.u1, '/abc/')
-        notify('user_liked_my_answer', self.u3, self.s1, self.u1, '/abc/')
-        notify('user_liked_my_answer', self.u4, self.s1, self.u1, '/abc/')
-        self.assertEqual(NotificationMeta.objects.count(), 1)
-
-        nm = NotificationMeta.objects.first()
-        self.assertEqual(len(nm.subs), 3)
-        nm.publish()
-        sn = SiteNotification.objects.first()
-        self.assertEqual(
-            sn.template_name(),
-            'notification/user_liked_my_answer/'
-            'sub_plur_obj_sing/site_notification.html')
-
-    def test_user_preferences(self):
-        # User preferences must be same as NotificationType's
-        preferences = notification_preferences(
-            self.u1.id, 'user_liked_my_answer')
-        default_preferences = NotificationType.objects\
-            .get(slug='user_liked_my_answer').default_preferences
-        self.assertEqual(preferences, default_preferences)
