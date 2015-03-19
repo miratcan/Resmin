@@ -405,9 +405,13 @@ input[type=file] { border: 0;
 input[type=checkbox] { margin-top: 3px; }
 
 input,
-textarea         { .pah; .f_nrml; }
 
-textarea         { height: 100px; }
+textarea  { 
+            .pah;
+            .f_nrml;
+            height: 100px;
+            resize: none;
+            border-radius: 5px; }
 
 .bttn {
     border: none;
@@ -429,11 +433,15 @@ textarea         { height: 100px; }
 
 .bttn.red:hover   { background-color: #670000 }
 
-
 table {
     text-align: center;
-    td { vertical-align: top; }
+      td { vertical-align: top;
+        textarea { 
+          height: 300px;
+          resize: none; } 
+      }
 }
+
 form#preferences {
   input[type='checkbox']{ .mr; }  
 }
@@ -643,11 +651,11 @@ form#preferences {
 }
 
 .sortable-placeholder {   
-   height: 100px;
-   width: 100px;
-   float: left;
-   margin: 5px;
-   background: White;
+ height: 100px;
+ width: 100px;
+ float: left;
+ margin: 5px;
+ background: White;
 }
 
 #update-captions {
@@ -660,7 +668,7 @@ td, th {
 }
 
 th {
-    text-align: left;
+    text-align: center;
 }
 
 td {
@@ -670,12 +678,12 @@ td {
 }
 
 .heartie {
-display: inline;
-color: red;
-width: 16px;
-margin: 1px;
-padding: 8px;
-height: 16px;
-line-height: 16px;
-background: transparent url('../img/heart_icon.png') no-repeat center;
+  display: inline;
+  color: red;
+  width: 16px;
+  margin: 1px;
+  padding: 8px;
+  height: 16px;
+  line-height: 16px;
+  background: transparent url('../img/heart_icon.png') no-repeat center;
 }
