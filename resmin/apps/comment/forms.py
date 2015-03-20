@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext as _
 
 from apps.notification.utils import notify
 from apps.comment.models import Comment
