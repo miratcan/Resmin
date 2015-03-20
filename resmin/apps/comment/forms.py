@@ -10,7 +10,7 @@ class CommentForm(forms.Form):
     comment = forms.CharField(
         label='Comment',
         widget=forms.Textarea(
-            attrs={'placeholder': 'Comment'}))
+            attrs={'placeholder':  _('Comment')}))
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
@@ -48,7 +48,7 @@ class UpdateCommentForm(forms.Form):
     comment = forms.CharField(
         label='Comment',
         widget=forms.Textarea(
-            attrs={'placeholder': 'Comment'}))
+            attrs={'placeholder':  _('Comment')}))
 
     def __init__(self, *args, **kwargs):
         self.comment = kwargs.pop('comment', None)
