@@ -1,3 +1,3 @@
-{% load i18n %}{% blocktrans with sentence=nm.sub.text %}There are {{ count }} new answers on "{{ sentence }}". Click link below to see them:{% endblocktrans %}
+{% load i18n %}{% blocktrans with count=nm.sub_count sentence=nm.obj.text %}There are {{ count }} new answers on "{{ sentence }}". Click link below to see them:{% endblocktrans %}
 
 http://{{ site.domain }}{{ nm.sub.get_absolute_url }}

@@ -1,1 +1,1 @@
-{% load i18n %}{% blocktrans with sentence=nm.sub.text %}There are {{ count }} new answers on "{{ sentence }}".{% endblocktrans %}
+{% load i18n %}{% blocktrans with sentence=nm.sub_count sentence=nm.obj.text %}There are {{ count }} new answers on "{{ sentence }}".{% endblocktrans %}
