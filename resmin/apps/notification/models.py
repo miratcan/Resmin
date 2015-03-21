@@ -290,11 +290,9 @@ class EmailNotification(models.Model):
         rendered and saved.
         """
         send_now = kwargs.pop('send_now', True)
-        rendered = self.render()
-        if rendered:
-            if send_now and not self.is_sent:
-                self.send()
-            super(EmailNotification, self).save(*args, **kwargs)
+        if send_now and not self.is_sent:
+            self.send()
+        super(EmailNotification, self).save(*args, **kwargs)
 
 
 class SiteNotification(models.Model):

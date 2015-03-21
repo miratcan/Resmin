@@ -39,8 +39,7 @@ class EmailNotificationManager(Manager):
             """
             Return html version of body template.
             """
-            return nmeta._body_tname(nmeta, 'html')
-
+            return _body_tname(nmeta, 'html')
         ctx = {'nm': nmeta, 'site': Site.objects.get_current()}
         rendered = True
         try:
@@ -62,7 +61,7 @@ class EmailNotificationManager(Manager):
         except TemplateDoesNotExist:
             body_html = ''
 
-        return self.model.create(
+        return self.model.objects.create(
             meta=nmeta, subject=subject, body_txt=body_txt,
             body_html=body_html, from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_email=nmeta.recipient.email)
