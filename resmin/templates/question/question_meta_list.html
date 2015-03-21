@@ -5,7 +5,10 @@
   <p>{% trans 'List of questions that asked Resm.in. To add a question here simply ask a question to someone, or to yourself.' %}</p>
   <ul>
   {% for qm in qms %}
-    <li class="mb"><a href="{{ qm.get_absolute_url }}">{{ qm.text }}</a> <a class="f_tiny" href="{% url 'create-story' qm.base62_id %}">{% trans 'Answer' %}</a></li>
+  <li class="mb">
+    <p class="nm"><a href="{{ qm.get_absolute_url }}">{{ qm.text }}</a> <a class="f_tiny" href="{% url 'create-story' qm.base62_id %}">{% trans 'Answer' %}</a></p>
+    <p class="f_weak">{% blocktrans with ac=qm.answer_count %}{{ ac }} answers.{% endblocktrans %}</p>
+  </li>
   {% endfor %}
   </ul>
 </div>
