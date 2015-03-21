@@ -1,1 +1,1 @@
-{% load i18n %}{% blocktrans with sentence=nm.sub.sentence %}There are {{ count }} new answers on a question that you're following.{% endblocktrans %}
+{% load i18n %}{% blocktrans with count=nm.sub_count %}There are {{ count }} new answers on a question that you're following.{% endblocktrans %}
