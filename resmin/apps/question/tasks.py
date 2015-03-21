@@ -2,6 +2,7 @@ from django.conf import settings
 from resmin.celery_app import app
 
 from apps.follow.models import QuestionFollow
+from apps.notification.utils import notify
 from redis_cache import get_redis_connection
 
 from utils import _set_avatar_to_answer
@@ -56,6 +57,16 @@ def _update_related_profile_of_story(story):
 def _user_created_story_callback_task(story):
     _update_related_question_metas_of_story(story)
     _update_related_profile_of_story(story)
+
+    # If question has questioner, and he/she is not
+    # story.owner notify.
+    if story.question.questioner:
+        notify(ntype_slug='user_answered_my_question',
+               sub=story.question.questionee,
+               obj=story.question,
+               recipient=story.question.questioner,
+               ignored_recipients=[story.owner],
+               url=story.get_absolute_url())
 
     # Set avatar for user if necessary.
     qm_pks = (d['pk'] for d in story.mounted_question_metas.values('pk'))
