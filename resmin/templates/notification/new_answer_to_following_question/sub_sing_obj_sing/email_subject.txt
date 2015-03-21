@@ -1,0 +1,1 @@
+{% load i18n %}{% trans "There's a new answer on a question that you're following" %}{% endblocktrans %}

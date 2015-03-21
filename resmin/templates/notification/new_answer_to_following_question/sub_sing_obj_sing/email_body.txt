@@ -1,0 +1,4 @@
+{% load i18n %}{% blocktrans with sentence=nm.sub.sentence %}There's a new answer on "{{ sentence }}". Click link below to see it:{% endblocktrans %}
+
+http://{{ site.domain }}{{ nm.obj.get_absolute_url }}
+
