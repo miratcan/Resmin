@@ -58,17 +58,22 @@ def _user_created_story_callback_task(story):
     _update_related_question_metas_of_story(story)
     _update_related_profile_of_story(story)
 
-    # If questionmeta has followers. Notify them new
-    # answers.
-    if story.question.questioner:
-        for follower in QuestionFollow.objects.filter(
-                status=QuestionFollow.FOLLOWING):
+    # If story is answer of a question notify questioner
+    if story.question:
+        notify(ntype_slug='user_answered_my_question',
+               sub=story.question.questionee,
+               obj=story.question, recipient=story.question.questioner,
+               ignored_recipients=[story.owner],
+               url=story.get_absolute_url())
+
+    # If questionmeta has followers. Notify them new answers.
+    for meta in story.mounted_question_metas.all():
+        for follow in QuestionFollow.objects.filter(
+                status=QuestionFollow.FOLLOWING, target=meta):
             notify(ntype_slug='new_answer_to_following_question',
-                   sub=story,
-                   obj=story.question.meta,
-                   recipient=follower,
+                   sub=story, obj=meta, recipient=follow.follower,
                    ignored_recipients=[story.owner],
-                   url=story.get_absolute_url())
+                   url=meta.get_absolute_url())
 
     # Set avatar for user if necessary.
     qm_pks = (d['pk'] for d in story.mounted_question_metas.values('pk'))
