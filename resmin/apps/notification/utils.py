@@ -20,6 +20,9 @@ def notify(ntype_slug, sub, obj, recipient, url,
     if recipient in ignored_recipients:
         return
 
+    if not recipient.is_active:
+        return
+
     try:
         ntype = NotificationType.objects.get(slug=ntype_slug)
     except NotificationType.DoesNotExist:
