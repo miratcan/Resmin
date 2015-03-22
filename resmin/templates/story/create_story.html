@@ -1,12 +1,10 @@
 {% extends "base.html" %}{% load i18n %}
 
 {% block extra_head %}
-  <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
   <script src="{{ STATIC_URL }}js/html.sortable.js"></script>  
   <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
   <script src="{{ STATIC_URL }}js/backbone-min.js"></script>
   <script src="{{ STATIC_URL }}js/spark-md5.min.js"></script>
-  <script>$(function () {});</script>
 {% endblock %}
 
 {% block wrap_class %}narrow{% endblock %}

@@ -7,9 +7,6 @@
 
 {% block page_title %}{% trans 'Followers' %}{% endblock %}
 
-{% block extra_head %}
-  <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
-{% endblock %}
 {% block content_inner %}
   <form method="post" style="display: none;">{% csrf_token %}{{ action_form }}<input type="submit"></form>
   {% if request.user == profile_user %}
