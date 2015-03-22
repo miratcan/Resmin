@@ -43,7 +43,7 @@ class EmailNotificationManager(Manager):
         ctx = {'nm': nmeta, 'site': Site.objects.get_current()}
         rendered = True
         try:
-            subject = render_to_string(subject_tname(nmeta), ctx)
+            subject = render_to_string(subject_tname(nmeta), ctx).strip()
             body_txt = render_to_string(body_txt_tname(nmeta), ctx)
         except TemplateDoesNotExist as err:
             rendered = False
