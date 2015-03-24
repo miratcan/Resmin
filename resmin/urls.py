@@ -218,7 +218,8 @@ urlpatterns = patterns(
         TemplateView.as_view(template_name="test.html"),
         name='test'),
 
-    url(r'^api/v1/story/list/public/$', PublicStoryList.as_view(), name='story-list'),
+    url(r'^api/v1/story/list/public/$', PublicStoryList.as_view(),
+        name='story-list'),
 
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
