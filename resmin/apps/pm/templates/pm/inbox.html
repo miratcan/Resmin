@@ -3,7 +3,7 @@
 {% load url from future %}
 
 {% block content %}
-  <h1 class="f_stng mb">{% trans "Inbox" %}</h1>
+  <p class="f_stng mb">{% trans "Inbox" %} <a class="f_weak" href="{% url 'messages_outbox' %}">{% trans "Outbox" %}</a></p>
   {% if message_list %} 
   <table class="messages">
     <thead>
