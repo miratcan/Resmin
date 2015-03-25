@@ -705,7 +705,7 @@ msgid ""
 "You can use resm.in to share information, meet new people or learn useful "
 "things."
 msgstr ""
-"Resm.in'i bilgi paylaşmak, yeni insanlarla tanılmak ve kullanışlı bilgiler "
+"Resm.in'i bilgi paylaşmak, yeni insanlarla tanışmak ve kullanışlı bilgiler "
 "edinmek için kullanabilirsin."
 
 #: templates/index2.html:27
