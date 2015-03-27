@@ -80,7 +80,7 @@
       <div class="section">
         <p class="wb mb">{% trans "Likers" %}</p>
         {% if story.owner == user %}
-          <p>{% for liker in likers %} {% include "auth/username_inc.html" with user=liker %}, {% endfor %}</p>
+          <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}{% if forloop.last %}.{% else %}, {% endif %}{% endfor %}</p>
         {% else %}
           <p>{% trans 'Likers can be seen by owner of story.' %}</p>
         {% endif %}
