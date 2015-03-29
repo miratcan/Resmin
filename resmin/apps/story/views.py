@@ -103,7 +103,7 @@ def update_story(request, base62_id):
                               owner=request.user)
     if request.method == "POST":
         story_form = StoryForm(request.POST, instance=story,
-                               owner=request.user)
+                               owner=request.user, meta=story.qmeta)
         if story_form.is_valid():
             story_form.save()
             messages.success(request, _('Your story updated'))

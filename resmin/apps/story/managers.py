@@ -42,7 +42,7 @@ class StoryManager(Manager):
 
         if frm:
             if isinstance(frm, QuestionMeta):
-                qset = qset & Q(mounted_question_metas=frm)
+                qset = qset & Q(question_meta=frm)
             if isinstance(frm, User):
                 qset = qset & Q(owner=frm, is_anonymouse=False)
 

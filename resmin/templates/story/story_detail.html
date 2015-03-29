@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% load thumbnail i18n meta %}
 
 {% meta %}
-  <title>{{ story.mounted_question_metas.first.text }}</title>
+  <title>{{ story.question_meta.text }}</title>
   <meta name="description" content="{% if story.title %}{{ story.title }}{% else %}{% blocktrans with username=story.owner.username %}Click here to see answer of {{ username }}.{% endblocktrans %}{% endif %}" />
 {% endmeta %}
 

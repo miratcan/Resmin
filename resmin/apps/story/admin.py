@@ -3,7 +3,7 @@ from apps.story.models import (Story, Slot, Image, Video, Upload)
 
 
 class StoryAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'is_nsfw', 'is_featured', 'is_anonymouse',
+    list_display = ('__unicode__', 'is_nsfw', 'is_featured',
                     'status', 'created_at')
 
 

@@ -13,7 +13,6 @@
   <form method="post" id="answer_form" class="oa" style="min-height: 600px;">
     <div class="panel-left">
       {% csrf_token %}
-      {% if story_form.meta %}<p class="f_nrml mb"><a href="{{ story_form.meta.get_absolute_url }}">{{ story_form.meta.text }}</a> sorusuna cevap olarak göndermektesin.</p>{% endif %}
       <input id="id_images" name="images" style="display: none;" type="file" multiple/>
       <div class="oa db">{{ story_form.non_field_errors }}</div>
       <div id="slot-list">
@@ -23,14 +22,13 @@
       {{ story_form.question }}
       <div class="mbd">
         <p class="f_weak mb">Yukarıdaki görsel ekleme düğmesini kullanarak bir ya da birden fazla fotoğraf seçebilir. Yüklenmiş fotoğrafları tutup sürükleyerek sırasını değiştirebilirsin.</p>
-        <p class="f_weak mb">İstersen Adımı Gizle seçeneğini kullanarak anonim cevap verebilirsin. Bu durumda senden cevap isteyen kişi soruyu cevapladığına dair bildirim almaz, hikayen isimsiz olarak paylaşılır.</p>
         <p class="f_weak mb">Özel olduğunu düşündüğün bir şey paylaşıyorsan, takipçilerine gözükür şekilde paylaşabilirsin. Ayrıca bu onları ödüllendirmenin güzel bir yoludur.</p>
-        <p class="f_weak mb">Açıklama kısmını kullanırsan dil kurallarına uyman gerektiğini söylememize gerek yok umuyoruz.</p>
+        <p class="f_weak mb">Açıklama kısmını kullanırsan dil kurallarına uymayı unutma.</p>
       </div>
     </div>
     <div class="panel-right">
       <div class="db mb oa bb">
-        <p>{{ story_form.title }}</p>
+        <p><input type="text" disabled="disabled" value="{{ story_form.meta }}"></p>
         <p>{{ story_form.description }}</p>
         {% if story_form.is_anonymouse %}<p class="oa db">{{ story_form.is_anonymouse }} {{ story_form.is_anonymouse.label_tag }}</p>{% endif %}
         <p class="oa">{{ story_form.is_nsfw.label_tag }} {{ story_form.is_nsfw }}</p>

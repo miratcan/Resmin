@@ -45,9 +45,8 @@ class Story(BaseModel):
                            (VISIBLE_FOR_FOLLOWERS, _('Followers')))
 
     LIKE_SET_PATTERN = 'answer:%s:likes'
-    mounted_question_metas = models.ManyToManyField(
-        'question.QuestionMeta', null=True, blank=True)
     question = models.ForeignKey('question.Question', null=True, blank=True)
+    question_meta = models.ForeignKey('question.QuestionMeta')
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
     cover_img = JSONField(null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)

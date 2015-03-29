@@ -27,25 +27,21 @@ def user_created_question_callback_task(question):
             Nreason=QuestionFollow.ASKED)
 
 
-def _update_related_question_metas_of_story(story, qms=False):
+def _update_related_question_meta_of_story(story):
+    if not QuestionFollow.objects.filter(
+       follower=story.owner, target=story.question_meta).exists():
+        QuestionFollow.objects.create(
+            follower=story.owner, target=story.question_meta,
+            reason=QuestionFollow.ANSWERED)
 
-    if not qms:
-        qms = story.mounted_question_metas.all()
-
-    for qm in qms:
-        if not QuestionFollow.objects.filter(
-           follower=story.owner, target=qm).exists():
-            QuestionFollow.objects.create(
-                follower=story.owner, target=qm,
-                reason=QuestionFollow.ANSWERED)
-
-        qm.update_follower_count()
-        qm.update_answer_count()
-        qm.update_updated_at()
-        qm.latest_answer = story
-        qm.update_follower_count()
-        qm.save(update_fields=['answer_count', 'follower_count',
-                               'updated_at', 'latest_answer'])
+    story.question_meta.update_follower_count()
+    story.question_meta.update_answer_count()
+    story.question_meta.update_updated_at()
+    story.question_meta.latest_answer = story
+    story.question_meta.update_follower_count()
+    story.question_meta.save(
+        update_fields=['answer_count', 'follower_count',
+                       'updated_at', 'latest_answer'])
 
 
 def _update_related_profile_of_story(story):
@@ -55,7 +51,7 @@ def _update_related_profile_of_story(story):
 
 
 def _user_created_story_callback_task(story):
-    _update_related_question_metas_of_story(story)
+    _update_related_question_meta_of_story(story)
     _update_related_profile_of_story(story)
 
     # If story is answer of a question notify questioner
@@ -67,16 +63,16 @@ def _user_created_story_callback_task(story):
                url=story.get_absolute_url())
 
     # If questionmeta has followers. Notify them new answers.
-    for meta in story.mounted_question_metas.all():
-        for follow in QuestionFollow.objects.filter(
-                status=QuestionFollow.FOLLOWING, target=meta):
-            notify(ntype_slug='new_answer_to_following_question',
-                   sub=story, obj=meta, recipient=follow.follower,
-                   ignored_recipients=[story.owner],
-                   url=meta.get_absolute_url())
+    meta = story.question_meta
+    for follow in QuestionFollow.objects.filter(
+            status=QuestionFollow.FOLLOWING, target=meta):
+        notify(ntype_slug='new_answer_to_following_question',
+               sub=story, obj=meta, recipient=follow.follower,
+               ignored_recipients=[story.owner],
+               url=meta.get_absolute_url())
 
     # Set avatar for user if necessary.
-    qm_pks = (d['pk'] for d in story.mounted_question_metas.values('pk'))
+    qm_pks = (d['pk'] for d in story.question_meta.values('pk'))
     if settings.AVATAR_QUESTIONMETA_ID in qm_pks:
         _set_avatar_to_answer(story)
 
