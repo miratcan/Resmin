@@ -38,6 +38,7 @@
           <a href="/pm/" class="{% if request.path == '/pm/' %}active{% endif %}">{% trans "PM's" %}{% if num_of_unread_messages > 0 %} ({{ num_of_unread_messages }}){% endif %}</a>
           <a href="/n/" class="{% if request.path == '/n/' %}active{% endif %}">{% trans "Notifications" %}{% if num_of_pending_notifications > 0 %} ({{ num_of_pending_notifications}}){% endif %}</a>
           <a href="/hof/" class="{% if request.path == '/hof/' %}active{% endif %}">{% trans "Top Users" %}</a>
+          <a href="https://kiwiirc.com/client/irc.freenode.net/" target="_blank">{% trans "IRC" %}</a>
           {% if user.is_authenticated %}
             <a href="{{ user.get_absolute_url }}" class="right {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>{% else %}<a href="{% url 'login' %}" {% if request.path == '/login/' %}class="active right"{% endif %}>{% trans 'Login' %}</a>{% endif %}
         </div>

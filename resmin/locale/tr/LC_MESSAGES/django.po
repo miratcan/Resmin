@@ -394,7 +394,7 @@ msgstr "Gelen kutusu"
 
 #: apps/pm/templates/pm/base.html:9 apps/pm/templates/pm/outbox.html:4
 msgid "Sent Messages"
-msgstr ""
+msgstr "Gönderilen Mesajlar"
 
 #: apps/pm/templates/pm/base.html:10
 msgid "New Message"
@@ -632,6 +632,10 @@ msgstr "Bildirimler"
 msgid "Top Users"
 msgstr "Sevdicekler"
 
+#: templates/base.html:41
+msgid "IRC"
+msgstr "IRC"
+
 #: templates/base.html:36 templates/auth/login.html:17
 msgid "Login"
 msgstr "Giriş Yap"
@@ -859,10 +863,13 @@ msgstr "Eposta İle Bildir"
 #: templates/auth/notification_preferences.html:28
 #: templates/auth/preferences.html:9 templates/comments/update_form.html:7
 #: templates/story/create_story.html:26
-#: templates/story/story_detail_inc.html:49
 #: templates/story/update_captions.html:21
 msgid "Save"
 msgstr "Kaydet"
+
+#: templates/story/story_detail_inc.html:49
+msgid "Save"
+msgstr "Gönder"
 
 #: templates/auth/pending_follow_requests.html:13
 #, python-format
