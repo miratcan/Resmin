@@ -74,8 +74,8 @@ class StoryForm(forms.ModelForm):
 
         # If there's a meta add as mounted question meta.
         if self.meta:
-            story.mounted_question_metas.add(self.meta)
-            self.save_m2m()
+            story.question_meta = self.meta
+            story.save(update_fields=['question_meta_id'])
 
         if self.question:
             self.question.status = Question.ANSWERED
@@ -102,7 +102,7 @@ class StoryForm(forms.ModelForm):
 
     class Meta:
         model = Story
-        fields = ['title', 'visible_for', 'is_anonymouse', 'is_nsfw',
+        fields = ['title', 'visible_for', 'is_nsfw',
                   'description', 'question', 'slot_data']
 
 

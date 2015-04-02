@@ -1,13 +1,11 @@
 {% load thumbnail liked_by story_tags %}{% load i18n %}
 <div class="thmb-wrap shadowed" style="position: relative">
   {% if show_question_info_below_answers %}
-    {% for meta in story.mounted_question_metas.all %}
-      <div class="oa pa db bb f_tiny"><a href="{{ meta.get_absolute_url }}">{{ meta.text }}</a></div>
-    {% endfor %}
+    <div class="oa pa db bb f_tiny"><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></div>
   {% endif %}
   {% if story.is_nsfw %}
     <div class="nsfw_block">
-      <a href="{{ story.get_absolute_url }}">AYIPÇI</a>
+      <a href="{{ story.get_absolute_url }}">{% trans 'NSFW' %}</a>
     </div>
   {% else %}
     {% with story.get_cover_img as cover_img %}

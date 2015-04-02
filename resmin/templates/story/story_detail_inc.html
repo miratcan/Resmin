@@ -1,14 +1,15 @@
 {% load i18n thumbnail liked_by %}
-  {% with story.mounted_question_metas.all.0 as qm %}
-    <h1 class="f_stng mbd bb pbd mt"><a href="{{ qm.get_absolute_url }}">{{ qm.text }}</a></h1>
-  {% endwith %}
+
   <div class="panel-left">
+
     {% if story.status == story.DRAFT %}
       <div class="oa bg pa mbd imp ra">
       <p class="mb">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
         <a href="#" class="bttn green fr pa ra" id="publish_button">{% trans "Publish" %}</a>
       </div>
     {% endif %}
+    <h1 class="f_stng mbd mt"><a href="{{ qm.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
+    <div class="mbd">{% if story.description %}{{ story.description|linebreaks }}{% endif %}</div>
     {% for slot in story.slot_set.all %}
       <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
         {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
@@ -69,8 +70,6 @@
       {% endif %}
       [<a title="{% trans "Visible to" %}: {{ story.get_visible_for_display|lower }}. {% trans "Posted at" %}: {{ story.created_at }}" href="#">?</a>]
     </p>
-    {% if story.title %}<h2 class="mb">{{ story.title }}</h2>{% endif %}
-    {% if story.description %}{{ story.description|linebreaks }}{% endif %}
   </div>
   <div class="section">
   <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
@@ -80,7 +79,7 @@
       <div class="section">
         <p class="wb mb">{% trans "Likers" %}</p>
         {% if story.owner == user %}
-          <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}, {% endfor %}</p>
+          <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}{% if forloop.last %}.{% else %}, {% endif %}{% endfor %}</p>
         {% else %}
           <p>{% trans 'Likers can be seen by owner of story.' %}</p>
         {% endif %}
@@ -96,11 +95,9 @@
   {% endcomment %}
 
   <div class="section">
-    <p class="wb mb">{% trans "Mounted Questions" %}</p>
+    <p class="wb mb">{% trans "Question" %}</p>
     <ul class="mb">
-      {% for question_meta in story.mounted_question_metas.all %}
-        <li><a href="{{ question_meta.get_absolute_url }}">{{ question_meta }}</a></li>
-      {% endfor %}
+      <li><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></li>
     </ul>
   </div>
   {% if story.owner == request.user %}

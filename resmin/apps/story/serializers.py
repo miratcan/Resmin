@@ -19,4 +19,4 @@ class StorySerializer(serializers.ModelSerializer):
                   'visible_for',
                   'owner',
                   'question',
-                  'mounted_question_metas')
+                  'question_meta')
