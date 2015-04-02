@@ -632,6 +632,10 @@ msgstr "Bildirimler"
 msgid "Top Users"
 msgstr "Sevdicekler"
 
+#: templates/base.html:41
+msgid "IRC"
+msgstr "IRC"
+
 #: templates/base.html:36 templates/auth/login.html:17
 msgid "Login"
 msgstr "Giriş Yap"
