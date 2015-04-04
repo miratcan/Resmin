@@ -100,6 +100,7 @@ INSTALLED_APPS = (
     'json_field',
     'django_extensions',
     'rest_framework',
+    'watson'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

@@ -114,7 +114,7 @@
 .nb         { border: none; }
 .lt         { text-decoration: line-through; }
 
-.imp        { background: @Crematorix; }
+.imp        { background: @Crematorix; border:none !important; }
 
 .rt         { border-top-right-radius: 5px;
               border-top-left-radius: 5px}
@@ -169,11 +169,10 @@ body {
   }
 }
 p { .mb; }
+
 .content {
   color: @DarthGray;
-  a {
-    color: @PositivePink;
-  }
+  a { color: @St2; border-bottom: dashed 1px #aaa; }
 }
 
 footer {
@@ -263,9 +262,6 @@ nav {
     }
   }
 }  
-
-
-a:hover     { text-decoration: underline; }
 
 img         { .bg; .tac;
               max-width: 100%; }
@@ -652,4 +648,18 @@ td {
   height: 16px;
   line-height: 16px;
   background: transparent url('../img/heart_icon.png') no-repeat center;
+}
+
+.four-column {
+  .db; .oa;
+  .column {
+    width: 25%;
+    float: left;
+    .pa;
+     box-sizing: border-box; /* css3 rec */
+    -moz-box-sizing: border-box; /* ff2 */
+    -ms-box-sizing: border-box; /* ie8 */
+    -webkit-box-sizing: border-box; /* safari3 */
+    -khtml-box-sizing: border-box; /* konqueror */
+  }
 }
