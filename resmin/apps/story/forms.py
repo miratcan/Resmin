@@ -69,6 +69,7 @@ class StoryForm(forms.ModelForm):
         # Save Story
         story = super(StoryForm, self).save(commit=False)
         story.owner = self.owner
+        story.question_meta = self.meta
         story.slot_count = None
         story.save()
 
