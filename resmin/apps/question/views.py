@@ -60,11 +60,15 @@ def questions(request):
 
     return render(request, "question/question_meta_list.html", {
         'search_form': SearchForm(),
-        'qms': QuestionMeta.objects.all()})
+        'qms': QuestionMeta.objects.filter(status=QuestionMeta.PUBLISHED)})
 
 
 def question(request, base62_id, ordering=None, show_delete=False, **kwargs):
     qmeta = get_object_or_404(QuestionMeta, id=base62.to_decimal(base62_id))
+
+    if qmeta.status == QuestionMeta.REDIRECTED and qmeta.redirected_to:
+        return HttpResponseRedirect(qmeta.redirected_to.get_absolute_url())
+
     stories = Story.objects.build(frm=qmeta, ordering=ordering)
 
     if not ordering:

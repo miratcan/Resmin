@@ -18,6 +18,7 @@ class QuestionMeta(models.Model):
     PUBLISHED = 0
     DELETED_BY_OWNER = 1
     DELETED_BY_ADMINS = 2
+    REDIRECTED = 3
 
     STATUS_CHOICES = ((PUBLISHED, 'Published '),
                       (DELETED_BY_OWNER, 'Deleted by Owner'),
@@ -33,6 +34,7 @@ class QuestionMeta(models.Model):
     follower_count = models.PositiveIntegerField(default=0)
     status = models.PositiveSmallIntegerField(default=0,
                                               choices=STATUS_CHOICES)
+    redirected_to = models.ForeignKey('self', null=True, blank=True)
     cover_answer = models.ForeignKey(
         'story.Story', related_name='cover_answer', null=True, blank=True)
     latest_answer = models.ForeignKey(
