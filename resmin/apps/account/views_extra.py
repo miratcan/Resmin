@@ -63,4 +63,3 @@ def update_preferences(request):
         request,
         'auth/preferences.html',
         {'preferences_form': p_form, 'profile_user': request.user})
-
