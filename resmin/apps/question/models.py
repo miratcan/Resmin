@@ -1,13 +1,14 @@
+import watson
+from datetime import datetime
+
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext as _
 
-from datetime import datetime
 
 from libs.baseconv import base62
-
 from apps.story.models import Story
 from apps.follow.models import QuestionFollow
 
@@ -17,6 +18,7 @@ class QuestionMeta(models.Model):
     PUBLISHED = 0
     DELETED_BY_OWNER = 1
     DELETED_BY_ADMINS = 2
+    REDIRECTED = 3
 
     STATUS_CHOICES = ((PUBLISHED, 'Published '),
                       (DELETED_BY_OWNER, 'Deleted by Owner'),
@@ -32,6 +34,7 @@ class QuestionMeta(models.Model):
     follower_count = models.PositiveIntegerField(default=0)
     status = models.PositiveSmallIntegerField(default=0,
                                               choices=STATUS_CHOICES)
+    redirected_to = models.ForeignKey('self', null=True, blank=True)
     cover_answer = models.ForeignKey(
         'story.Story', related_name='cover_answer', null=True, blank=True)
     latest_answer = models.ForeignKey(
@@ -125,3 +128,5 @@ class Question(models.Model):
         return '%s?qid=%s' % (
             reverse('create-story', kwargs={
                 'base62_id': self.meta.base62_id}), self.id)
+
+watson.register(QuestionMeta, store=("text", "answer_count", "base62_id"))

@@ -1,4 +1,5 @@
 import json
+import watson
 
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -16,7 +17,7 @@ from libs.baseconv import base62
 from libs.shortcuts import render_to_json
 from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
-from apps.question.forms import RequestAnswerForm
+from apps.question.forms import RequestAnswerForm, SearchForm
 from apps.notification.utils import notify
 from apps.follow.models import QuestionFollow
 
@@ -47,15 +48,27 @@ def index(request, listing='public'):
 
 
 def questions(request):
-    qms = QuestionMeta.objects.filter(status=QuestionMeta.PUBLISHED)\
-                              .order_by('-is_sponsored', '-is_featured',
-                                        'answer_count')
+
+    if request.GET:
+        search_form = SearchForm(request.GET)
+        if search_form.is_valid():
+            results = watson.search(search_form.cleaned_data['q'])
+
+        return render(request, "question/question_meta_list.html", {
+            'search_form': search_form,
+            'results': results})
+
     return render(request, "question/question_meta_list.html", {
-        'qms': qms})
+        'search_form': SearchForm(),
+        'qms': QuestionMeta.objects.filter(status=QuestionMeta.PUBLISHED)})
 
 
 def question(request, base62_id, ordering=None, show_delete=False, **kwargs):
     qmeta = get_object_or_404(QuestionMeta, id=base62.to_decimal(base62_id))
+
+    if qmeta.status == QuestionMeta.REDIRECTED and qmeta.redirected_to:
+        return HttpResponseRedirect(qmeta.redirected_to.get_absolute_url())
+
     stories = Story.objects.build(frm=qmeta, ordering=ordering)
 
     if not ordering:

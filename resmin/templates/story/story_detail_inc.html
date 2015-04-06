@@ -8,8 +8,6 @@
         <a href="#" class="bttn green fr pa ra" id="publish_button">{% trans "Publish" %}</a>
       </div>
     {% endif %}
-    <h1 class="f_stng mbd mt"><a href="{{ qm.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
-    <div class="mbd">{% if story.description %}{{ story.description|linebreaks }}{% endif %}</div>
     {% for slot in story.slot_set.all %}
       <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
         {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
@@ -62,6 +60,9 @@
   </form>
 <div class="panel-right">
   <div class="section">
+      <h1 class="f_stng mbd mt"><a href="{{ qm.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
+    <div class="mbd">{% if story.description %}{{ story.description|linebreaks }}{% endif %}</div>
+
     <p class="f_weak c_weak">
       {% if story.is_anonymouse %}
         {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
@@ -77,7 +78,7 @@
   {% with likers=story.get_likers_from_redis %}
     {% if likers %}
       <div class="section">
-        <p class="wb mb">{% trans "Likers" %}</p>
+        <p class="wb mb">{% blocktrans with count=story.like_count %}{{ count }} people liked{% endblocktrans %}</p>
         {% if story.owner == user %}
           <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}{% if forloop.last %}.{% else %}, {% endif %}{% endfor %}</p>
         {% else %}
@@ -94,12 +95,6 @@
   </div>
   {% endcomment %}
 
-  <div class="section">
-    <p class="wb mb">{% trans "Question" %}</p>
-    <ul class="mb">
-      <li><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></li>
-    </ul>
-  </div>
   {% if story.owner == request.user %}
   <div class="section">
     <p class="wb mb">{% trans 'Actions' %}</p>

@@ -62,5 +62,5 @@ class RequestAnswerForm(forms.Form):
         return usernames
 
 
-class SearchQuestionForm(forms.Form):
+class SearchForm(forms.Form):
     q = forms.CharField()

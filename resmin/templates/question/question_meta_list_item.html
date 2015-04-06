@@ -1,0 +1,2 @@
+{% load i18n %}<li><p class="nm"><a href="{{ qm.get_absolute_url }}">{{ qm.text }}</a> <a class="f_tiny imp pink" href="{% url 'create-story' qm.base62_id %}">{% trans 'Answer' %}</a></p>
+<p class="f_weak">{% blocktrans with ac=qm.answer_count %}{{ ac }} answers.{% endblocktrans %}</p></li>

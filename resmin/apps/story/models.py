@@ -62,8 +62,6 @@ class Story(BaseModel):
     visible_for = models.PositiveSmallIntegerField(
         default=VISIBLE_FOR_EVERYONE, verbose_name=_('Visible For'),
         choices=VISIBLE_FOR_CHOICES)
-    visible_for_users = models.ManyToManyField(
-        User, related_name='visible_for_users', null=True, blank=True)
 
     objects = StoryManager()
 

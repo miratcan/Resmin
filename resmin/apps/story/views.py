@@ -14,7 +14,6 @@ from apps.comment.models import Comment
 from apps.comment.forms import CommentForm
 from apps.story.forms import StoryForm, UpdateCaptionsForm
 from apps.story.models import Story, Upload, Image, Video
-from apps.notification.utils import notify
 from apps.notification.decorators import delete_notification
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
@@ -103,7 +102,7 @@ def update_story(request, base62_id):
                               owner=request.user)
     if request.method == "POST":
         story_form = StoryForm(request.POST, instance=story,
-                               owner=request.user, meta=story.qmeta)
+                               owner=request.user, meta=story.question_meta)
         if story_form.is_valid():
             story_form.save()
             messages.success(request, _('Your story updated'))
@@ -111,7 +110,8 @@ def update_story(request, base62_id):
         else:
             return render(request, 'story/create_story.html',
                           {'story_form': story_form})
-    story_form = StoryForm(instance=story, owner=request.user)
+    story_form = StoryForm(instance=story, owner=request.user,
+                           meta=story.question_meta)
     return render(request, 'story/create_story.html',
                   {'story_form': story_form})
 
