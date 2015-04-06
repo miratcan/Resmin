@@ -634,7 +634,7 @@ msgstr "Sevdicekler"
 
 #: templates/base.html:41
 msgid "IRC"
-msgstr "IRC"
+msgstr "Chat"
 
 #: templates/base.html:36 templates/auth/login.html:17
 msgid "Login"
