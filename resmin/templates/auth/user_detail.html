@@ -10,6 +10,9 @@
     {{ question_form }}
     <input class="bttn fr green ra" type="submit">
   </form>
+
+  {% load i18n %}<p class="mbd"><a {% if listing == 'public' %}class="imp" {% endif %}href="{% url 'profile' profile_user %}">{% trans 'Public' context 'profile public' %}</a> / <a {% if listing == 'private' %}class="imp" {% endif %}href="{% url 'profile-privates' profile_user %}">{% trans 'Private' %}</a>{% if request.user == profile_user %} / <a {% if listing == 'draft' %}class="imp" {% endif %}href="{% url 'profile-drafts' profile_user %}">{% trans 'Draft' %}</a>{% endif %}</p>
+
   {% with answers=answers.paginated_object_list %}
     {% include "story/story_thumbnails.html" with show_question_info_below_answers=True %}
     {% include "includes/pagination_links_for_stories.html" %}

@@ -70,15 +70,15 @@ urlpatterns = patterns(
         'apps.account.views.followings',
         name='followings'),
 
-    url(r'^u/(?P<username>[-\w]+)/to/followings/$',
+    url(r'^u/(?P<username>[-\w]+)/private/$',
         'apps.account.views.profile',
-        name='my-answers-to-followers',
-        kwargs={'get_filter': 'to_followings'}),
+        name='profile-privates',
+        kwargs={'listing': 'private'}),
 
-    url(r'^u/(?P<username>[-\w]+)/to/others/$',
+    url(r'^u/(?P<username>[-\w]+)/draft/',
         'apps.account.views.profile',
-        name='my-direct-answers',
-        kwargs={'visible_for': 2}),
+        name='profile-drafts',
+        kwargs={'listing': 'draft'}),
 
     url(r'^e/$',
         'apps.account.views.email',
