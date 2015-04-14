@@ -18,9 +18,6 @@ class StoryManager(Manager):
         if listing not in ['public', 'wall', 'private', 'draft']:
             listing = 'public'
 
-        if not requested_user.is_authenticated() and listing != 'public':
-            listing = 'public'
-
         if listing == 'public':
             qset = Q(status=Story.PUBLISHED,
                      visible_for=Story.VISIBLE_FOR_EVERYONE,
@@ -34,9 +31,11 @@ class StoryManager(Manager):
                      visible_for=Story.VISIBLE_FOR_EVERYONE,
                      owner_id__in=oids)
         elif listing == 'private':
+            oids = requested_user.following_user_ids
+            oids.append(requested_user.id)
             qset = Q(status=Story.PUBLISHED,
                      visible_for=Story.VISIBLE_FOR_FOLLOWERS,
-                     owner_id__in=requested_user.following_user_ids)
+                     owner_id__in=oids)
         elif listing == 'draft':
             qset = Q(status=Story.DRAFT, owner=requested_user)
 
