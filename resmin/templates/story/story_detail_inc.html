@@ -60,9 +60,8 @@
   </form>
 <div class="panel-right">
   <div class="section">
-      <h1 class="f_stng mbd mt"><a href="{{ qm.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
-    <div class="mbd">{% if story.description %}{{ story.description|linebreaks }}{% endif %}</div>
-
+      <h1 class="f_stng mbd mt"><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
+    {% if story.description %}<div class="mbd">{{ story.description|linebreaks }}</div>{% endif %}
     <p class="f_weak c_weak">
       {% if story.is_anonymouse %}
         {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
