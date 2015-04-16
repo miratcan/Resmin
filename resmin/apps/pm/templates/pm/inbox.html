@@ -12,7 +12,7 @@
     <tbody>
     {% for message in message_list %} 
     <tr>
-      <td>{{ message.sender }}</td>
+      <td><a href="{{ message.sender.get_absolute_url }}">{{ message.sender }}</a></td>
       <td>
         {% if message.new %}<strong>{% endif %}
         {% if message.replied %}<em>{% endif %}
