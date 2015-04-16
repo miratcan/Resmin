@@ -72,8 +72,7 @@ def _user_created_story_callback_task(story):
                url=meta.get_absolute_url())
 
     # Set avatar for user if necessary.
-    qm_pks = (d['pk'] for d in story.question_meta.values('pk'))
-    if settings.AVATAR_QUESTIONMETA_ID in qm_pks:
+    if settings.AVATAR_QUESTIONMETA_ID == story.question_meta_id:
         _set_avatar_to_answer(story)
 
 
