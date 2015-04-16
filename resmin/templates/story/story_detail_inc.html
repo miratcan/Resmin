@@ -48,7 +48,7 @@
           <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
         </form>
       {% else %}
-        <p>Login to leave comment</p>
+        <p class="imp pa f_stng"><a href="{% url 'login' %}">{% trans "Login to leave comment" %}</a></p>
       {% endif %}
     </div>
   </div>
