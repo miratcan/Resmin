@@ -71,6 +71,7 @@ class StoryForm(forms.ModelForm):
         story.owner = self.owner
         story.question_meta = self.meta
         story.slot_count = None
+        story.cover_img = None
         story.save()
 
         # If there's a meta add as mounted question meta.

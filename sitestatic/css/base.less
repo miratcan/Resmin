@@ -199,13 +199,17 @@ nav {
   a#pull {
     display: none;
   }
+  .drawer-right {
+    float: right;
+  }
 }
+
 
 @media screen and (max-width: 600px) {  
   nav {   
       height: auto;  
   }  
-  nav a {  
+  nav a {
     padding: 10px 0;
     width: 50%;  
     float: left;  
@@ -217,6 +221,10 @@ nav {
     -webkit-box-sizing: border-box; /* safari3 */
     -khtml-box-sizing: border-box; /* konqueror */
   }
+    nav .drawer-right {
+    float: none;
+  }
+
 }  
 
 @media only screen and (max-width : 480px) {  
@@ -238,10 +246,6 @@ nav {
   }
   nav .drawer {
     display: none;
-  }
-
-  nav .drawer-right {
-    float: right;
   }
 
   nav a#pull:after {  
@@ -329,7 +333,6 @@ ul.comment-options {
   .np;
   list-style-type: none;
   .f_weak; .oa;
-  li { .fl; .mr; }
 }
 
 /*.answer_actions a 

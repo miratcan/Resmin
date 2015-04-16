@@ -41,11 +41,11 @@ class UserProfile(models.Model):
 
     def update_follower_count(self):
         self.follower_count = UserFollow.objects.filter(
-            target=self.user, status=1).count()
+            target=self.user).count()
 
     def update_following_count(self):
         self.following_count = UserFollow.objects.filter(
-            follower=self.user, status=1).count()
+            follower=self.user).count()
 
     def update_story_count(self):
         self.story_count = self.user.story_set.filter(

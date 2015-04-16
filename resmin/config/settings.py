@@ -221,7 +221,6 @@ CELERYBEAT_SCHEDULE = {
         'schedule': timedelta(seconds=60),
     },
 }
-
 AVATAR_QUESTIONMETA_ID = 1
 DEFAULT_AVATAR_ANSWER_ID = 1
 

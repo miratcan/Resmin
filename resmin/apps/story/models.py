@@ -136,7 +136,7 @@ class Story(BaseModel):
     def get_slot_count(self):
         if not self.slot_count:
             self.slot_count = self.slot_set.all().count()
-            self.save()
+            self.save(update_fields=['slot_count'])
         return self.slot_count
 
     def get_cover_img(self):
@@ -146,7 +146,7 @@ class Story(BaseModel):
             self.cover_img = {'url': thmb.url,
                               'width': thmb.width,
                               'height': thmb.height}
-            self.save()
+            self.save(update_fields=['cover_img'])
         return self.cover_img
 
     def get_absolute_url(self):

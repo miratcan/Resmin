@@ -49,6 +49,7 @@ def profile(request, username=None, listing='public', action=None):
             request.user.has_pending_follow_request(user)
 
     ctx = {'profile_user': user,
+           'listing': listing,
            'user_is_blocked_by_me': user_is_blocked_by_me,
            'user_is_blocked_me': user_is_blocked_me,
            'have_pending_follow_request': have_pending_follow_request,
@@ -56,7 +57,8 @@ def profile(request, username=None, listing='public', action=None):
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        ctx['stories'] = Story.objects.build(frm=user, listing=listing)
+        ctx['stories'] = Story.objects.build(
+            frm=user, requested_user=request.user, listing=listing)
 
     if request.POST:
         questioner = request.user if request.user.is_authenticated() else None
