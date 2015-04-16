@@ -1,11 +1,16 @@
 {% load i18n %}
 <div id="c{{ comment.id }}" class="comment pb pt bb mb">
   <a class="wb db mb" href="{{ comment.owner.get_absolute_url}}">{{ comment.owner }}</a>
-  <div class="comment-body">{{ comment.as_html|safe }}</div>
-  {% if comment.owner == request.user %}
-    <ul class="comment-options">
-      <li><a href="#c{{ comment.id }}" onClick="getUpdateCommentForm({{ comment.id }}); return false;" class="f_weak c_weak">{% trans "Update" %}</a></li>
-      <li><a href="#" onclick="removeComment({{ comment.id }}); return false;" class="f_weak c_weak">{% trans "Delete" %}</a></li>
-    </ul>
-  {% endif %}
+  	<div class="comment-body">{{ comment.as_html|safe }}</div>
+  		{% if comment.owner == request.user %}
+    		<ul class="comment-options">
+      			<li>
+      				<i><a href="#c{{ comment.id }}" onClick="getUpdateCommentForm({{ comment.id }}); return false;" class="f_weak c_weak">{% trans "Update" %}</a></i>
+      			</li>
+
+      			<li>
+      				<i><a href="#" onclick="removeComment({{ comment.id }}); return false;" class="f_weak c_weak">{% trans "Delete" %}</a></i>
+      			</li>
+    		</ul>
+  		{% endif %}
 </div>

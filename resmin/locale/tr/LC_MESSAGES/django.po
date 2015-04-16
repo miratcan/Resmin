@@ -487,7 +487,8 @@ msgstr ""
 msgid "View Message"
 msgstr "Mesajı Görüntüle"
 
-#: apps/pm/templates/pm/view.html:13 templates/comments/comment.html:8
+#: apps/pm/templates/pm/view.html:13
+#: templates/comments/comment.html:8
 #: templates/story/story_detail_inc.html:105
 msgid "Delete"
 msgstr "Sil"
@@ -1095,9 +1096,7 @@ msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
 msgid ""
 "%(comment_owner)s commented on an answer that you commented before. Click "
 "link below to see it:"
-msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+msgstr %(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya tıkla"
 
 #: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/site_notification.html:1
 #, fuzzy, python-format

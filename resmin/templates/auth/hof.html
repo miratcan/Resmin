@@ -2,9 +2,9 @@
 
 {% block content %}
 <h2 class="f_stng  mbd ">{% trans 'Users receiving most hearts' %}</h2>
-<ol class="mld pld">
-	{% for profile in profiles %}
-		<li class="mb  ">{% include "auth/username_inc.html" with user=profile.user %} <span class="f_weak c_weak">- {{ profile.like_count }}</span></li>
-	{% endfor %}
-</ol>
+	<ol class="mld pld">
+		{% for profile in profiles %}
+			<li class="mb">{% include "auth/username_inc.html" with user=profile.user %}<span class="f_weak c_weak"> - {{ profile.like_count }}</span></li>
+		{% endfor %}
+	</ol>
 {% endblock %}
