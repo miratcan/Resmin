@@ -1,5 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext as _
+from django.utils.html import strip_tags
 
 from apps.notification.utils import notify
 from apps.comment.models import Comment
@@ -17,6 +18,9 @@ class CommentForm(forms.Form):
         self.owner = kwargs.pop('owner')
         self.story = kwargs.pop('story')
         super(CommentForm, self).__init__(*args, **kwargs)
+
+    def clean_comment(self):
+        return strip_tags(self.cleaned_data['comment'])
 
     def save(self):
         comment = Comment.objects.create(owner=self.owner,
@@ -55,6 +59,9 @@ class UpdateCommentForm(forms.Form):
         self.comment = kwargs.pop('comment', None)
         self.base_fields['comment'].initial = self.comment.body
         super(UpdateCommentForm, self).__init__(*args, **kwargs)
+
+    def clean_comment(self):
+        return strip_tags(self.cleaned_data['comment'])
 
     def comment_id(self):
         return self.comment.id
