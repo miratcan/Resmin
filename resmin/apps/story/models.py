@@ -1,6 +1,7 @@
 import magic
 import hashlib
 
+from logging import getLogger
 from json import dumps
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
@@ -23,7 +24,9 @@ from utils.models import BaseModel, UniqueFileModel
 
 from apps.story.managers import StoryManager
 from apps.story.video_processing import grab_frame
+
 redis = get_redis_connection('default')
+logger = getLogger(__name__)
 
 
 class Story(BaseModel):
@@ -141,12 +144,16 @@ class Story(BaseModel):
 
     def get_cover_img(self):
         if not self.cover_img:
-            slot = self.slot_set.first()
-            thmb = get_thumbnail(slot.content.image, '220')
-            self.cover_img = {'url': thmb.url,
-                              'width': thmb.width,
-                              'height': thmb.height}
-            self.save(update_fields=['cover_img'])
+            try:
+                slot = self.slot_set.first()
+                thmb = get_thumbnail(slot.content.image, '220')
+                self.cover_img = {'url': thmb.url,
+                                  'width': thmb.width,
+                                  'height': thmb.height}
+                self.save(update_fields=['cover_img'])
+            except:
+                logger.error('Could\'nt generate cover image '
+                             'for Story: %s' % self.id)
         return self.cover_img
 
     def get_absolute_url(self):
