@@ -41,7 +41,11 @@
           <a href="https://kiwiirc.com/client/irc.freenode.net/#resmin" target="_blank">{% trans "IRC" %}</a>
           <div class="drawer-right">
             {% if user.is_authenticated %}
-            <a href="{{ user.get_absolute_url }}" class="right {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>{% else %}<a href="{% url 'login' %}" {% if request.path == '/login/' %}class="active right"{% endif %}>{% trans 'Login' %}</a>{% endif %}
+              <a href="{{ user.get_absolute_url }}" class="right {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>
+                {% else %}
+                  <a href="{% url 'login' %}" {% if request.path == '/login/' %}class="active right"{% endif %}>{% trans 'Login' %}</a>
+                  <a href="{% url 'reg' %}" {% if request.path == '/reg/' %}class="active right"{% endif %}>{% trans 'Register' %}</a>
+                {% endif %}
           </div>
         </div>
         <a href="#" id="pull">{% trans 'Menu' %}</a>
