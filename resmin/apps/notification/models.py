@@ -107,10 +107,11 @@ class NotificationMeta(models.Model):
         verbose_name='Object Pks', max_length=4096)
     url = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_published = models.BooleanField(default=False)
+    updated_at = models.DateTimeField(auto_now=True)
     published_at = models.DateTimeField(auto_now_add=True)
-    is_read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
+    is_published = models.BooleanField(default=False)
+    is_read = models.BooleanField(default=False)
 
     def _get_objects(self, c_tp, pks):
         """
@@ -260,6 +261,7 @@ class NotificationMeta(models.Model):
 
     class Meta:
         verbose_name_plural = "notification metas"
+        ordering = ['-updated_at']
 
     def __unicode__(self):
         return "'%s' notification for %s" % (self.ntype, self.recipient)

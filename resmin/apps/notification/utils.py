@@ -41,7 +41,7 @@ def notify(ntype_slug, sub, obj, recipient, url,
             o_pks=_pks_to_str([obj.pk])).first()
         if nm:
             nm.add_sub(sub)
-            nm.save()
+            nm.save(update_fields=['s_pks'])
             return nm
         else:
             return _new_notification(ntype, sub, obj, recipient, url)
@@ -52,7 +52,7 @@ def notify(ntype_slug, sub, obj, recipient, url,
             s_pks=_pks_to_str([sub.pk])).first()
         if nm:
             nm.add_obj(obj)
-            nm.save()
+            nm.save(update_fields=['o_pks'])
             return nm
         else:
             return _new_notification(ntype, sub, obj, recipient, url)
