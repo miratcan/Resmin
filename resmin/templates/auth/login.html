@@ -10,7 +10,7 @@
 
   <div class="panel-left">
     {% url 'register' as register_url %}
-    <h3 class="f_stng mb" style="clear: both;">{% blocktrans %}Sign in <span class="f_weak c_weak wn">or <a href="{{ register_url }}">get registered</a>?</span>{% endblocktrans %}</h3>
+    <h3 class="f_stng mb" style="clear: both;">{% blocktrans %}Sign in{% endblocktrans %}</h3>
     <form method="post">
       {% csrf_token %}
       {{ form }}

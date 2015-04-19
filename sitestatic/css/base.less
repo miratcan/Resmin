@@ -86,10 +86,10 @@
 .mb         { margin-bottom: 10px; }
 .ml         { margin-left: 10px; }
 .mr         { margin-right: 10px; }
-.ma         { margin: 10px }
+.ma         { margin: 10px; }
 
-.rmr        { margin-right: -10px }
-.rml        { margin-left: -10px }
+.rmr        { margin-right: -10px; }
+.rml        { margin-left: -10px; }
 
 .mth        { margin-top: 5px; }
 .mbh        { margin-bottom: 5px; }
@@ -236,9 +236,11 @@ nav {
   nav a {
     .pa;
   }
+
   nav a:first-child {
     .pa;
   }
+
   nav a#pull {  
       .db;
       background-color: @VintageBlue;  
@@ -246,8 +248,13 @@ nav {
       position: relative;
       .pl;
   }
+
   nav .drawer {
     display: none;
+  }
+
+  nav .drawer .drawer-right {
+    float: right;
   }
 
   nav a#pull:after {  
@@ -383,8 +390,8 @@ textarea  {
             .f_nrml;
             .mb;
             resize: none;
-            border-radius: 5px; }
-textarea  { height: 200px; }
+            border-radius: 5px;
+            height: 150px; }
 
 .bttn {
     border: none;
