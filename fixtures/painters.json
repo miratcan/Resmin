@@ -1,0 +1,233 @@
+[
+{
+  "pk": 1, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "michelangelo", 
+    "first_name": "", 
+    "last_name": "", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2015-04-18T13:37:15.858", 
+    "groups": [], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$12000$ULw2ZFe2iTRR$JDFfn9OeBYh8kUGKdRF5zxWCWkit0rKjO09/sOWPaNM=", 
+    "email": "michelangelo@resm.in", 
+    "date_joined": "2015-04-18T13:37:15.858"
+  }
+},
+{
+  "pk": 2, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "leonardo", 
+    "first_name": "", 
+    "last_name": "", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2015-04-18T13:37:39.046", 
+    "groups": [], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$12000$BN2qWlWzl0tN$fBuekFi/knWye8uIiiGSDFJCoopvRrE0Bwe4dR76dsc=", 
+    "email": "leonardo@resm.in", 
+    "date_joined": "2015-04-18T13:37:39.046"
+  }
+},
+{
+  "pk": 3, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "caravaggio", 
+    "first_name": "", 
+    "last_name": "", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2015-04-18T13:38:01.459", 
+    "groups": [], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$12000$TlaZ1FvpbNYI$ZjfFsEu6z2K5dVV/RXweP2lJPgsoCwSUa8zJbaY2KGE=", 
+    "email": "caravaggio@resm.in", 
+    "date_joined": "2015-04-18T13:38:01.459"
+  }
+},
+{
+  "pk": 4, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "rembrant", 
+    "first_name": "", 
+    "last_name": "", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2015-04-18T13:38:59.844", 
+    "groups": [], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$12000$BZbByWHTS0ha$6IlmW4GYxN0j7xKj6RCIH+sl/0fW7nN+Xq8jNTwcqww=", 
+    "email": "rembrant@resm.in", 
+    "date_joined": "2015-04-18T13:38:59.844"
+  }
+},
+{
+  "pk": 5, 
+  "model": "auth.user", 
+  "fields": {
+    "username": "joanmiro", 
+    "first_name": "", 
+    "last_name": "", 
+    "is_active": true, 
+    "is_superuser": true, 
+    "is_staff": true, 
+    "last_login": "2015-04-18T13:40:00.549", 
+    "groups": [], 
+    "user_permissions": [], 
+    "password": "pbkdf2_sha256$12000$EHW8ed1XWnBE$9l/qCujihFMPUidhio+dVegNsYo2WyMktQchYXu+A/k=", 
+    "email": "joanmiro@resm.in", 
+    "date_joined": "2015-04-18T13:40:00.549"
+  }
+},
+{
+  "pk": 1, 
+  "model": "question.questionmeta", 
+  "fields": {
+    "status": 0, 
+    "is_featured": false, 
+    "cover_answer": null, 
+    "text": "What was your last drawing?", 
+    "created_at": "2015-04-18T13:45:19.252", 
+    "updated_at": "2015-04-18T13:55:11.913", 
+    "answer_count": 1, 
+    "redirected_to": null, 
+    "follower_count": 2, 
+    "latest_answer": 4, 
+    "owner": null, 
+    "is_sponsored": false
+  }
+},
+{
+  "pk": 2, 
+  "model": "question.questionmeta", 
+  "fields": {
+    "status": 0, 
+    "is_featured": false, 
+    "cover_answer": null, 
+    "text": "Can we see your face?", 
+    "created_at": "2015-04-18T13:45:38.333", 
+    "updated_at": "2015-04-18T13:52:29.554", 
+    "answer_count": 2, 
+    "redirected_to": null, 
+    "follower_count": 2, 
+    "latest_answer": 2, 
+    "owner": null, 
+    "is_sponsored": false
+  }
+},
+{
+  "pk": 3, 
+  "model": "question.questionmeta", 
+  "fields": {
+    "status": 0, 
+    "is_featured": false, 
+    "cover_answer": null, 
+    "text": "Most important thing in your life?", 
+    "created_at": "2015-04-18T13:45:50.856", 
+    "updated_at": "2015-04-18T13:45:50.856", 
+    "answer_count": 0, 
+    "redirected_to": null, 
+    "follower_count": 0, 
+    "latest_answer": null, 
+    "owner": null, 
+    "is_sponsored": false
+  }
+},
+{
+  "pk": 4, 
+  "model": "question.questionmeta", 
+  "fields": {
+    "status": 0, 
+    "is_featured": false, 
+    "cover_answer": null, 
+    "text": "What will you eat tonight?", 
+    "created_at": "2015-04-18T13:47:18.885", 
+    "updated_at": "2015-04-18T13:47:18.885", 
+    "answer_count": 0, 
+    "redirected_to": null, 
+    "follower_count": 0, 
+    "latest_answer": null, 
+    "owner": null, 
+    "is_sponsored": false
+  }
+},
+{
+  "pk": 5, 
+  "model": "question.questionmeta", 
+  "fields": {
+    "status": 0, 
+    "is_featured": false, 
+    "cover_answer": null, 
+    "text": "What are you wearing at the moment?", 
+    "created_at": "2015-04-18T13:47:41.741", 
+    "updated_at": "2015-04-18T13:47:41.741", 
+    "answer_count": 0, 
+    "redirected_to": null, 
+    "follower_count": 0, 
+    "latest_answer": null, 
+    "owner": null, 
+    "is_sponsored": false
+  }
+},
+{
+  "pk": 1, 
+  "model": "story.story", 
+  "fields": {
+    "status": 1, 
+    "is_featured": false, 
+    "description": "", 
+    "title": "", 
+    "cover_img": null, 
+    "created_at": "2015-04-18T13:55:08.507", 
+    "question": null, 
+    "is_playble": false, 
+    "visible_for": 0, 
+    "is_nsfw": false, 
+    "question_meta": 1, 
+    "comment_count": null, 
+    "like_count": 0, 
+    "is_anonymouse": false, 
+    "owner": [
+      "caravaggio"
+    ], 
+    "slot_count": 1
+  }
+},
+{
+  "pk": 1, 
+  "model": "story.slot", 
+  "fields": {
+    "story": 1, 
+    "cPk": 4, 
+    "cTp": [
+      "story", 
+      "upload"
+    ], 
+    "description": null, 
+    "title": null, 
+    "created_at": "2015-04-18T13:55:08.540", 
+    "order": 1
+  }
+},
+{
+  "pk": 1, 
+  "model": "story.image", 
+  "fields": {
+    "image": "fixtures/joanmiro_face.jpg", 
+    "md5sum": "222978649d902a1c3c1814839d528ec3", 
+    "is_playble": false, 
+    "mime_type": "image/jpeg", 
+    "taken_at": null
+  }
+}
+]
