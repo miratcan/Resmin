@@ -65,7 +65,7 @@
       {% if story.is_anonymouse %}
         {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
       {% else %}
-        {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a>{% endblocktrans %}
+        {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a><br>{% endblocktrans %}
       {% endif %}
       [<a title="{% trans "Visible to" %}: {{ story.get_visible_for_display|lower }}. {% trans "Posted at" %}: {{ story.created_at }}" href="#">?</a>]
     </p>

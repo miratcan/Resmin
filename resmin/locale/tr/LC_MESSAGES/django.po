@@ -1366,14 +1366,14 @@ msgid "Please activate javascript on your browser."
 msgstr ""
 
 #: templates/story/story_detail_inc.html:68
-msgid "Answer by an anonymouse user."
-msgstr "Gizli kullanıcı tarafından paylaşıldı."
+msgid "Answer by an anonymouse user"
+msgstr "Gizli kullanıcı tarafından paylaşıldı"
 
 #: templates/story/story_detail_inc.html:70
 #, python-format
 msgid "Answer by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>"
 msgstr ""
-"<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı."
+"<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı"
 
 #: templates/story/story_detail_inc.html:72
 msgid "Visible to"
