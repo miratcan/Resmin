@@ -49,7 +49,7 @@
               <a href="{{ user.get_absolute_url }}" class="right {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>
                 {% else %}
                   <a href="{% url 'login' %}" {% if request.path == '/login/' %}class="active right"{% endif %}>{% trans 'Login' %}</a>
-                  <a href="{% url 'reg' %}" {% if request.path == '/reg/' %}class="active right"{% endif %}>{% trans 'Register' %}</a>
+                  <a href="{% url 'register' %}" {% if request.path == '/reg/' %}class="active right"{% endif %}>{% trans 'Register' %}</a>
             {% endif %}
           </div>
         </div>
