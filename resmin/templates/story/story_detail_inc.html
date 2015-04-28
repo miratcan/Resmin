@@ -7,6 +7,9 @@
         <a href="#" class="bttn green fr pa ra" id="publish_button">{% trans "Publish" %}</a>
       </div>
     {% endif %}
+    <h1 class="f_stng mbd mt"><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
+    {% if story.description %}<div class="mbd">{{ story.description|linebreaks }}</div>{% endif %}
+
     {% for slot in story.slot_set.all %}
       <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
         {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
@@ -35,6 +38,16 @@
         {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
       </div>
     {% endfor %}
+    <div class="section">
+      <p class="f_weak c_weak mbd">
+        {% if story.is_anonymouse %}
+          {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
+        {% else %}
+          {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a>{% endblocktrans %}
+        {% endif %}[<a title="{% trans "Visible to" %}: {{ story.get_visible_for_display|lower }}. {% trans "Posted at" %}: {{ story.created_at }}" href="#">?</a>]
+      </p>
+    </div>
+
     <div id="comments" class="mb">
       {% for comment in comments %}
         {% include 'comments/comment.html' %}
@@ -49,42 +62,28 @@
       {% else %}
         <p class="imp pa f_stng"><a href="{% url 'login' %}">{% trans "Login to leave comment" %}</a></p>
       {% endif %}
-    </div>
-  </div>
+    </div></div>
   <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
     <input name="delete" id="delete_submit" type="submit" />
     <input name="publish" id="publish_submit" type="submit" />
-    <input name="set_cover" type="submit" />
-  </form>
+    <input name="set_cover" type="submit" /></form>
   <div class="panel-right">
-  <div class="section">
-      <h1 class="f_stng mbd mt"><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
-    {% if story.description %}<div class="mbd">{{ story.description|linebreaks }}</div>{% endif %}
-    <p class="f_weak c_weak">
-      {% if story.is_anonymouse %}
-        {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
-      {% else %}
-        {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a><br>{% endblocktrans %}
+    <div class="section">
+    <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
+    </div>
+    {% with likers=story.get_likers_from_redis %}
+      {% if likers %}
+        <div class="section">
+          <p class="wb mb">{% blocktrans with count=story.like_count %}{{ count }} people liked{% endblocktrans %}</p>
+          {% if story.owner == user %}
+            <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>
+          {% else %}
+            <p>{% trans 'Likers can be seen by owner of story.' %}</p>
+          {% endif %}
+        </div>
       {% endif %}
-      [<a title="{% trans "Visible to" %}: {{ story.get_visible_for_display|lower }}. {% trans "Posted at" %}: {{ story.created_at }}" href="#">?</a>]
-    </p>
-  </div>
-  <div class="section">
-  <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
-  </div>
-  {% with likers=story.get_likers_from_redis %}
-    {% if likers %}
-      <div class="section">
-        <p class="wb mb">{% blocktrans with count=story.like_count %}{{ count }} people liked{% endblocktrans %}</p>
-        {% if story.owner == user %}
-          <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>
-        {% else %}
-          <p>{% trans 'Likers can be seen by owner of story.' %}</p>
-        {% endif %}
-      </div>
-    {% endif %}
-  {% endwith %}
+    {% endwith %}
 
   {% comment %}
   <div class="section">
