@@ -10,7 +10,7 @@
     </div>
     <div class="panel-left">
       {% comment %}TODO: Make this line work same as login page.{% endcomment %}
-      <h2 class="f_stng mbd">{% trans 'Register' %} <span class="f_weak c_weak wn">{% trans 'or' %} <a href="{% url 'login'%}">{% trans 'Sign in' %}</a>?</span></h2>
+      <h2 class="f_stng mbd">{% trans 'Register' %}</h2>
       <form method="post" >
         {% csrf_token %}
         {{ form }}

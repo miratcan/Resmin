@@ -44,8 +44,7 @@ msgstr "Şifre alanları aynı olmalı"
 
 #: apps/account/forms.py:57
 msgid "This key reached it's maximum use limit. It cant be used anymore."
-msgstr ""
-"Bu davet kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
+msgstr "Bu davetiye kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
 
 #: apps/account/forms.py:63
 msgid "Invalid invitation key"
@@ -140,7 +139,7 @@ msgstr "Tercihlerin güncellendi"
 
 #: apps/comment/forms.py:14 apps/comment/forms.py:52
 msgid "Comment"
-msgstr ""
+msgstr "Yorum"
 
 #: apps/pm/admin.py:24
 msgid "group"
@@ -226,7 +225,7 @@ msgstr "Mesaj Geri Alındı"
 
 #: apps/pm/management.py:14
 msgid "you have undeleted a message"
-msgstr ""
+msgstr "silinmemiş mesajın var"
 
 #: apps/pm/models.py:56 apps/pm/templates/pm/inbox.html:10
 #: apps/pm/templates/pm/trash.html:10
@@ -394,7 +393,7 @@ msgstr ""
 #: apps/pm/templates/pm/base.html:8 apps/pm/templates/pm/inbox.html:6
 #: apps/pm/templates/pm/new_message.html:13 apps/pm/templates/pm/outbox.html:4
 msgid "Inbox"
-msgstr "Gelen kutusu"
+msgstr "Gelen Kutusu"
 
 #: apps/pm/templates/pm/base.html:9
 msgid "Sent Messages"
@@ -418,7 +417,7 @@ msgstr "Gönder"
 
 #: apps/pm/templates/pm/inbox.html:6 apps/pm/templates/pm/outbox.html:4
 msgid "Outbox"
-msgstr ""
+msgstr "Giden Kutusu"
 
 #: apps/pm/templates/pm/inbox.html:10
 msgid "Received"
@@ -427,7 +426,7 @@ msgstr "Alındı"
 #: apps/pm/templates/pm/inbox.html:10 apps/pm/templates/pm/outbox.html:12
 #: apps/pm/templates/pm/trash.html:10
 msgid "Action"
-msgstr "Hareketler"
+msgstr "Aksiyon"
 
 #: apps/pm/templates/pm/inbox.html:22 apps/pm/templates/pm/outbox.html:20
 #: apps/pm/templates/pm/trash.html:19 apps/pm/templates/pm/view.html:8
@@ -488,7 +487,8 @@ msgstr ""
 msgid "View Message"
 msgstr "Mesajı Görüntüle"
 
-#: apps/pm/templates/pm/view.html:13 templates/comments/comment.html:8
+#: apps/pm/templates/pm/view.html:13
+#: templates/comments/comment.html:8
 #: templates/story/story_detail_inc.html:105
 msgid "Delete"
 msgstr "Sil"
@@ -503,10 +503,8 @@ msgid "Questionees"
 msgstr "Sorular"
 
 #: apps/question/forms.py:36
-msgid ""
-"Separate the usernames with comma which you request answer. You can only "
-"request answer from your followers"
-msgstr ""
+msgid "Separate the usernames with comma which you request answer. You can only request answer from your followers"
+msgstr "Cevaplamasını istediğin kullanıcı adlarını virgülle ayır. Sadece takip ettiğin kullanıcılardan talepte bulunabilirsin."
 
 #: apps/question/forms.py:39
 msgid "Is Anonymouse"
@@ -1098,9 +1096,7 @@ msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
 msgid ""
 "%(comment_owner)s commented on an answer that you commented before. Click "
 "link below to see it:"
-msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+msgstr %(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya tıkla"
 
 #: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/site_notification.html:1
 #, fuzzy, python-format
@@ -1319,11 +1315,11 @@ msgstr "Herkesten"
 
 #: templates/story/listing_options.html:1
 msgid "Private"
-msgstr ""
+msgstr "Özel"
 
 #: templates/story/ordering_options.html:1
 msgid "Shows latest answers first."
-msgstr ""
+msgstr "En son cevaplar"
 
 #: templates/story/ordering_options.html:1
 msgid "Latest"
@@ -1331,7 +1327,7 @@ msgstr "Son Cevaplar"
 
 #: templates/story/ordering_options.html:1
 msgid "Show answers with most hearts first."
-msgstr "En çok kalp alanları başa alarak listele."
+msgstr "En çok kalplenenler"
 
 #: templates/story/ordering_options.html:1
 msgid "Popular"
@@ -1339,8 +1335,7 @@ msgstr "Popüler"
 
 #: templates/story/ordering_options.html:1
 msgid "Shows answers that is marked as qualified content by our admins."
-msgstr ""
-"Adminler tarafından kaliteli içerik olarak işaretlenenleri başa alarak liste."
+msgstr "Editörlerin seçtikleri"
 
 #: templates/story/story_detail.html:114
 msgid "Story is deleted by it's owner"
@@ -1391,7 +1386,7 @@ msgstr "Oluşturulma Zamanı"
 #: templates/story/story_detail_inc.html:81
 #, python-format
 msgid "%(count)s people liked"
-msgstr ""
+msgstr "kişi beğendi"
 
 #: templates/story/story_detail_inc.html:85
 msgid "Likers can be seen by owner of story."
@@ -1558,8 +1553,8 @@ msgstr "Burada Hiç Cevap Yok"
 #~ msgid "Email when somebody posted answer to my question"
 #~ msgstr "Biri benim soruma cevap yolladığında eposta gönder"
 
-#~ msgid "Kalpleyenler"
-#~ msgstr "Likers"
+#~ msgid "Likers"
+#~ msgstr "Kalpleyenler"
 
 #~ msgid "Set As Cover Of Question"
 #~ msgstr "Soru Kapağı Olarak Belirle"

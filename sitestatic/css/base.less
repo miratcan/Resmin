@@ -38,6 +38,8 @@
 .bg-darker  { background: @AllCs; }
 .pink       { color: @PositivePink; }
 .errorlist  { background: @Pink; color: @White; .np; .nm; .fr; }
+.p { word-break: break-all;
+     white-space: normal; }
 
 .bt, .br, .bb, .bl, .ba                          { border-color : @AGrey; }
 .bt_weak, .br_weak, .bb_weak, .bl_weak, .ba_weak { border-color : @AllCs; }
@@ -165,7 +167,7 @@ p { .mb; }
 
 .content {
   color: @DarthGray;
-  a { color: @St2; border-bottom: dashed 1px #aaa; }
+  a { color: @St2; }
 }
 
 footer {
@@ -226,9 +228,11 @@ nav {
   nav a {
     .pa;
   }
+
   nav a:first-child {
     .pa;
   }
+
   nav a#pull {  
       .db;
       background-color: @VintageBlue;  
@@ -236,8 +240,13 @@ nav {
       position: relative;
       .pl;
   }
+
   nav .drawer {
     display: none;
+  }
+
+  nav .drawer .drawer-right {
+    float: right;
   }
 
   nav a#pull:after {  
@@ -373,8 +382,8 @@ textarea  {
             .f_nrml;
             .mb;
             resize: none;
-            border-radius: 5px; }
-textarea  { height: 100px; }
+            border-radius: 5px;
+            height: 150px; }
 
 .bttn {
     border: none;
