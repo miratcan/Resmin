@@ -33,8 +33,7 @@
 
 *           { margin: 0; padding: 0; }
 .content    { min-height: 400px; background: @Darmstadtium; }
-.bg         { background: @White; 
-  a { color: @Pink; border-bottom: none; }}
+.bg         { background: @White;  a { color: @Pink; border-bottom: none; }}
 .bg-dark    { background: @Darmstadtium; }
 .bg-darker  { background: @AllCs; }
 .pink       { color: @PositivePink; }
@@ -44,6 +43,7 @@
 .bt_weak, .br_weak, .bb_weak, .bl_weak, .ba_weak { border-color : @AllCs; }
 .bt_stng, .br_stng, .bb_stng, .bl_stng, .ba_stng { border-color : @DarthGray; }
 
+/* We have three kind of font colors, weak, nrml, stng. */
 .c_weak     { color: @Six8sAre48; }
 .c_nrml     { color: @St2; }
 .c_stng     { color: @Charcoal; }
@@ -84,33 +84,25 @@
 .mb         { margin-bottom: 10px; }
 .ml         { margin-left: 10px; }
 .mr         { margin-right: 10px; }
-.ma         { margin: 10px }
-
-.rmr        { margin-right: -10px }
-.rml        { margin-left: -10px }
+.ma         { margin: 10px; }
 
 .mth        { margin-top: 5px; }
 .mbh        { margin-bottom: 5px; }
 .mlh        { margin-left: 5px; }
 .mrh        { margin-right: 5px; }
-.mah        { margin: 5px }
+.mah        { margin: 5px; }
 
 .mtd        { margin-top: 20px; }
 .mbd        { margin-bottom: 20px; }
 .mld        { margin-left: 20px; }
 .mrd        { margin-right: 20px; }
-.mad        { margin: 20px }
+.mad        { margin: 20px; }
 
 .bt         { border-top-style    : solid; border-top-width: 1px; }
 .bb         { border-bottom-style : solid; border-bottom-width: 1px; }
 .bl         { border-left-style   : solid; border-left-width: 1px; }
 .br         { border-right-style  : solid; border-right-width: 1px; }
 .ba         { border-style        : solid; border-width: 1px; }
-
-.bt_weak    { border-top-style: dashed; border-top-width: 1px; }
-.bb_weak    { border-bottom-style: dashed; border-bottom-width: 1px; }
-.bl_weak    { border-left-style: dashed; border-left-width: 1px; }
-.br_weak    { border-right-style: dashed; border-right-width: 1px; }
 
 .nb         { border: none; }
 .lt         { text-decoration: line-through; }
@@ -484,8 +476,8 @@ form#preferences {
   border-bottom: 3px solid #C15D63;
   background: #E17D83;
   cursor: pointer;
-  .active { display: none; }
-  .passive { display: initial; }
+  .active { display: none; }
+  .passive { display: initial; }
 }
 
 .like-big:active, .like-big.active {
