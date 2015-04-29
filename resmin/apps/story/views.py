@@ -32,11 +32,12 @@ def _delete_story(request, story=None):
 def _publish_story(request, story):
     if story.status == Story.DRAFT:
         story.status = Story.PUBLISHED
-        story.save()
+        story.created_at = datetime.now()
+        story.save(update_fields=['status', 'created_at'])
         if story.question:
             story.question.status = Question.ANSWERED
             story.question.answer = story
-            story.question.save()
+            story.question.save(update_fields=['status', 'answer'])
         messages.success(request, _('Your story published.'))
         user_created_story.send(sender=story)
     return HttpResponseRedirect(story.get_absolute_url())
