@@ -175,6 +175,30 @@ class Story(BaseModel):
     def get_like_count_from_redis(self):
         return redis.scard(self._like_set_key())
 
+    def get_next_story(self, requested_user=None):
+        from apps.follow.models import compute_blocked_user_ids_for
+        blocked_user_ids = compute_blocked_user_ids_for(requested_user) if requested_user \
+            else []
+        return Story.objects.filter(
+            question_meta=self.question_meta,
+            status=Story.PUBLISHED,
+            visible_for=Story.VISIBLE_FOR_EVERYONE,
+            created_at__lt=self.created_at)\
+            .exclude(owner_id__in=blocked_user_ids)\
+            .order_by('-created_at').first()
+
+    def get_prev_story(self, requested_user=None):
+        from apps.follow.models import compute_blocked_user_ids_for
+        blocked_user_ids = compute_blocked_user_ids_for(requested_user) if requested_user \
+            else []
+        return Story.objects.filter(
+            question_meta=self.question_meta,
+            status=Story.PUBLISHED,
+            visible_for=Story.VISIBLE_FOR_EVERYONE,
+            created_at__gt=self.created_at)\
+            .exclude(owner_id__in=blocked_user_ids)\
+            .order_by('created_at').first()
+
     def update_like_count(self, save=False):
         """Update self.likes count from redis db, it does not save, must
         be saved manually."""

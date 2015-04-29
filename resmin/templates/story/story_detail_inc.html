@@ -1,113 +1,117 @@
 {% load i18n thumbnail liked_by %}
-
-  <div class="panel-left">
-    {% if story.status == story.DRAFT %}
-      <div class="oa bg pa mbd imp ra">
-      <p class="mb">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
-        <a href="#" class="bttn green fr pa ra" id="publish_button">{% trans "Publish" %}</a>
-      </div>
-    {% endif %}
-    {% for slot in story.slot_set.all %}
-      <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
-        {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
-          <div class="img" style="position: relative;">
-            <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></span>
-              {% if slot.cTp.name == 'video' %}
-                    <video id="vid"
-                           class="video-js vjs-default-skin vjs-big-play-centered"
-                           controls preload="auto"
-                           width="100%"
-                           height="430"
-                           data-setup='{"loop":true}'>
-                        <source src="{{ slot.content.video.url }}" type='video/webm'/>
-                        <p class="vjs-no-js">{% trans 'Please activate javascript on your browser.' %}</p>
-                    </video>
-              {% else %}
-                {% if slot.content.is_playble %}
-                  <img src="{{ slot.content.image.url }}" style="width: 100%;">
-                {% else %}
-                  {% thumbnail slot.content.image "580" as img %}
-                    <img src="{{ img.url }}">
-                  {% endthumbnail %}
-                {% endif %}
-              {% endif %}
-          </div>
-        {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
-      </div>
-    {% endfor %}
-    <div id="comments" class="mb">
-      {% for comment in comments %}
-        {% include 'comments/comment.html' %}
-      {% endfor %}
-      {% if comment_form %}
-        <form method="post">
-          {% csrf_token %}
-          {{ comment_form.comment }}
-          <input type="hidden" name="action" value="create_comment">
-          <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
-        </form>
-      {% else %}
-        <p class="imp pa f_stng"><a href="{% url 'login' %}">{% trans "Login to leave comment" %}</a></p>
-      {% endif %}
-    </div>
-  </div>
+<div class="narrow-with-page-arrows" style="position: relative; margin: 0 auto;">
   <form id="action_form" method="post" style="display: none;">
     {% csrf_token %}
     <input name="delete" id="delete_submit" type="submit" />
     <input name="publish" id="publish_submit" type="submit" />
     <input name="set_cover" type="submit" />
   </form>
-  <div class="panel-right">
-  <div class="section">
-      <h1 class="f_stng mbd mt"><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
-    {% if story.description %}<div class="mbd">{{ story.description|linebreaks }}</div>{% endif %}
-    <p class="f_weak c_weak">
-      {% if story.is_anonymouse %}
-        {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
-      {% else %}
-        {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a><br>{% endblocktrans %}
+
+  <div class="page-left-arrow">
+    {% with story.get_prev_story as prev_story %}{% if prev_story %}<a href="{{ prev_story.get_absolute_url }}"></a>{% endif %}{% endwith %}
+  </div>
+
+  <div class="page-right-arrow">
+    {% with story.get_next_story as next_story %}{% if next_story %}<a href="{{ next_story.get_absolute_url }}"></a>{% endif %}{% endwith %}
+  </div>
+
+  <div class="middle">
+    <div class="panel-left">
+      {% if story.status == story.DRAFT %}
+        <div class="oa bg pa mbd imp ra">
+          <p class="mb">{% trans "This story is currently in draft status, click publish to make it visible for others." %}</p>
+          <a href="#" class="bttn green fr pa ra" id="publish_button">{% trans "Publish" %}</a>
+        </div>
       {% endif %}
-      [<a title="{% trans "Visible to" %}: {{ story.get_visible_for_display|lower }}. {% trans "Posted at" %}: {{ story.created_at }}" href="#">?</a>]
-    </p>
-  </div>
-  <div class="section">
-  <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
-  </div>
-  {% with likers=story.get_likers_from_redis %}
-    {% if likers %}
+      {% for slot in story.slot_set.all %}
+          <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
+            {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
+              <div class="img" style="position: relative;">
+                <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></span>
+                  {% if slot.cTp.name == 'video' %}
+                        <video id="vid"
+                               class="video-js vjs-default-skin vjs-big-play-centered"
+                               controls preload="auto"
+                               width="100%"
+                               height="430"
+                               data-setup='{"loop":true}'>
+                            <source src="{{ slot.content.video.url }}" type='video/webm'/>
+                            <p class="vjs-no-js">{% trans 'Please activate javascript on your browser.' %}</p>
+                        </video>
+                  {% else %}
+                    {% if slot.content.is_playble %}
+                      <img src="{{ slot.content.image.url }}" alt="{{ story.question_meta.text }}" style="width: 100%;">
+                    {% else %}
+                      {% thumbnail slot.content.image "580" as img %}
+                        <img alt="{{ story.question_meta.text }}" src="{{ img.url }}">
+                      {% endthumbnail %}
+                    {% endif %}
+                  {% endif %}
+              </div>
+            {% if slot.description %}<div class="descr">{{ slot.description|linebreaks }}</div>{% endif %}
+          </div>
+      {% endfor %}
       <div class="section">
-        <p class="wb mb">{% blocktrans with count=story.like_count %}{{ count }} people liked{% endblocktrans %}</p>
-        {% if story.owner == user %}
-          <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>
-        {% else %}
-          <p>{% trans 'Likers can be seen by owner of story.' %}</p>
-        {% endif %}
+          <p class="f_weak c_weak mbd">
+            {% if story.is_anonymouse %}
+              {% blocktrans %}Answer by an anonymouse user.{% endblocktrans %}
+            {% else %}
+              {% blocktrans with story_owner=story.owner.username story_owner_url=story.owner.get_absolute_url  %}Answer by <a href="{{ story_owner_url }}">{{ story_owner }}</a>{% endblocktrans %}
+            {% endif %}[<a title="{% trans "Visible to" %}: {{ story.get_visible_for_display|lower }}. {% trans "Posted at" %}: {{ story.created_at }}" href="#">?</a>]
+          </p>
       </div>
-    {% endif %}
-  {% endwith %}
+      <div id="comments" class="mb">
+          {% for comment in comments %}
+            {% include 'comments/comment.html' %}
+          {% endfor %}
+          {% if comment_form %}
+            <form method="post">
+              {% csrf_token %}
+              {{ comment_form.comment }}
+              <input type="hidden" name="action" value="create_comment">
+              <input type="submit" class="fr ra pa bttn green" value="{% trans "Save" %}">
+            </form>
+          {% else %}
+            <p class="imp pa f_stng"><a href="{% url 'login' %}">{% trans "Login to leave comment" %}</a></p>
+          {% endif %}</div>
+    </div>
+    <div class="panel-right">
+    <h1 class="f_stng mbd mt"><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></h1>
 
-  {% comment %}
-  <div class="section">
-    <p class="wb mb">{% trans "Links" %}</p>
-    <input type="text" value="http://{{ current_site.domain }}{{ story.get_absolute_url }}" />
-  </div>
-  {% endcomment %}
+    {% if story.description %}<div class="mbd">{{ story.description|linebreaks|urlize }}</div>{% endif %}
 
-  {% if story.owner == request.user %}
-  <div class="section">
-    <p class="wb mb">{% trans 'Actions' %}</p>
-    <ul class="mb">
-      <li><a href="{{ story.get_update_images_url }}">{% trans "Rearrange Images" %}</a></li>
-      <li><a href="{{ story.get_update_details_url }}">{% trans "Edit Title and Descriptions" %}</a></li>
-      {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}
-    </ul>
-  </div>
-  {% endif %}
-  <div class="section">
-    <p class="wb mb">{% trans "Sponsor" %}</p>
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <!-- Resmin-StoryDetailPage -->
-    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2927206957331194" data-ad-slot="9208720407" data-ad-format="auto"></ins>
-    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    <div class="section">
+      <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
+    </div>
+    {% with likers=story.get_likers_from_redis %}
+      {% if likers %}
+        <div class="section">
+          <p class="wb mb">{% blocktrans with count=story.like_count %}{{ count }} people liked{% endblocktrans %}</p>
+            {% if story.owner == user %}
+              <p>{% for liker in likers %}{% include "auth/username_inc.html" with user=liker %}{% if forloop.last %}{% else %}, {% endif %}{% endfor %}</p>
+            {% else %}
+              <p>{% trans 'Likers can be seen by owner of story.' %}</p>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% endwith %}
+      {% if story.owner == request.user %}
+        <div class="section">
+          <p class="wb mb">{% trans 'Actions' %}</p>
+          <ul class="mb">
+            <li><a href="{{ story.get_update_images_url }}">{% trans "Rearrange Images" %}</a></li>
+            <li><a href="{{ story.get_update_details_url }}">{% trans "Edit Title and Descriptions" %}</a></li>
+            {% if story.status == story.PUBLISHED %}<li><a id="fake_delete_button" href="#">{% trans "Delete" %}</a> <a class="f_tiny" id="delete_button" href="#" style="display: none;"/>{% trans "Click here if you're sure to delete." %}</a></li>{% endif %}
+          </ul>
+        </div>
+      {% endif %}
+      <div class="section">
+        <p class="wb mb">{% trans "Sponsor" %}</p>
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Resmin-StoryDetailPage -->
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2927206957331194" data-ad-slot="9208720407" data-ad-format="auto"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+      </div>
+    </div>
   </div>
 </div>
