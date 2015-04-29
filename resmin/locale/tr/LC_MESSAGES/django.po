@@ -473,9 +473,8 @@ msgid "Date"
 msgstr "Tarih"
 
 #: apps/pm/templates/pm/trash.html:20
-#, fuzzy
 msgid "undelete"
-msgstr "Sil"
+msgstr "silmeyi geri al"
 
 #: apps/pm/templates/pm/trash.html:29
 msgid ""
@@ -874,10 +873,6 @@ msgstr "Eposta İle Bildir"
 msgid "Save"
 msgstr "Kaydet"
 
-#: templates/story/story_detail_inc.html:48
-msgid "Save"
-msgstr "Gönder"
-
 #: templates/auth/pending_follow_requests.html:13
 #, python-format
 msgid "<a href=\"%(url)s\">%(username)s</a> wants to be your follower."
@@ -1096,16 +1091,16 @@ msgid ""
 msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
 
 #: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/email_body.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "%(comment_owner)s commented on an answer that you commented before. Click "
 "link below to see it:"
-msgstr %(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya tıkla"
+msgstr "%(comment_owner)s daha önce yorum yaptığın bir cevaba yorum yaptı. Görmek için aşağıdaki bağlantıya tıkla:"
 
 #: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/site_notification.html:1
-#, fuzzy, python-format
+#, python-format
 msgid "%(comment_owner)s commented on an answer that you commented before."
-msgstr "Biri yorum yazdığım cevaba yorum eklediğinde eposta gönder"
+msgstr "%(comment_owner)s daha önce yorum yaptığın bir cevaba yorum yaptı."
 
 #: templates/notification/new_comment_on_my_story/sub_plur_obj_sing/email_body.txt:1
 #, python-format
@@ -1390,7 +1385,7 @@ msgstr "Oluşturulma Zamanı"
 #: templates/story/story_detail_inc.html:81
 #, python-format
 msgid "%(count)s people liked"
-msgstr "kişi beğendi"
+msgstr "%(count)s kişi beğendi"
 
 #: templates/story/story_detail_inc.html:85
 msgid "Likers can be seen by owner of story."
@@ -1423,184 +1418,3 @@ msgstr ""
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
-
-#~ msgid ""
-#~ "List of questions that asked Resm.in. To add a question here simply ask a "
-#~ "question to someone, or to yourself."
-#~ msgstr ""
-#~ "Burada Resm.in'de sorulmuş soruların listesi var. Buraya soru eklemek "
-#~ "için birine ya da kendine soru sor."
-
-#~ msgid "Likers"
-#~ msgstr "Kalpleyenler"
-
-#~ msgid "Mounted Questions"
-#~ msgstr "Bağlı Sorular"
-
-#~ msgid "Your remote key has been reset"
-#~ msgstr "Uzak anahtarın sıfırlandı"
-
-#~ msgid "From Followings"
-#~ msgstr "Takip Ettiğim Kişilerden"
-
-#~ msgid ""
-#~ "You can ask for an invitation code from a friend who has a resm.in "
-#~ "account, or you can ask for an invitation sending a picture of yours "
-#~ "where your face is visible and you holding a card written \"hello!\" on "
-#~ "it to <a href=\"mailto:merhaba@resm.in\">merhaba@resm.in</a> !"
-#~ msgstr ""
-#~ "Davetiye kodunu eğer varsa resm.in hesabı olan bir arkadaşından "
-#~ "isteyebilir, ya da <a href=\"mailto:merhaba@resm.in\">merhaba@resm.in</a> "
-#~ "adresine yüzün gözükecek şekilde ve elinde \"merhaba\" yazan bir karton "
-#~ "ile fotoğraf göndererek davetiye isteyebilirsin."
-
-#~ msgid "%(follower_username)s wants to be your follower"
-#~ msgstr "%(follower_username)s müridin olmak istiyor"
-
-#~ msgid "Click the link below to display answer"
-#~ msgstr "Cevabı görüntülemek için aşağıdaki linke tıkla"
-
-#~ msgid ""
-#~ "If you don't want to get more emails about that question, click the link "
-#~ "below"
-#~ msgstr "Bu soru hak"
-
-#~ msgid "A question that you asked has a new answer"
-#~ msgstr "Sorduğun bir soruya yeni cevap geldi O_o"
-
-#~ msgid "A question that you answered before has new answer"
-#~ msgstr "Cevapladığın bir soruyu başkası da cevapladı :o)"
-
-#~ msgid "New story on \"%(question_text)s\""
-#~ msgstr "\"%(question_text)s\" için yeni bir cevap var."
-
-#~ msgid "<strong>%(username)s</strong> accepted your follow request."
-#~ msgstr "<strong>%(username)s</strong> müridi olma talebini kabul etti"
-
-#~ msgid "Nothing to show here"
-#~ msgstr "Burada gösterecek bir şey yok"
-
-#~ msgid "<a href=\"url\">%(username)s</a> liked your answer."
-#~ msgstr "<a href=\"url\">%(username)s</a> cevabını beğendi."
-
-#~ msgid "Next Hikayeler"
-#~ msgstr "Sonraki Hikayeler"
-
-#~ msgid "Add Images"
-#~ msgstr "Görsel Ekle"
-
-#~ msgid "Edit"
-#~ msgstr "Düzenle"
-
-#, fuzzy
-#~ msgid "Foo"
-#~ msgstr "Müridi Ol"
-
-#~ msgid "Latest Asked Questions"
-#~ msgstr "Son Sorulan Sorular"
-
-#~ msgid "Latest Answered Questions"
-#~ msgstr "Son Cevaplanan Sorular"
-
-#~ msgid "asked by"
-#~ msgstr "diye sordu"
-
-#~ msgid ""
-#~ "<a class=\"imp\" href=\"%(create_answer_url)s\">Click here</a> to post an "
-#~ "answer."
-#~ msgstr ""
-#~ "Cevaplamak için <a class=\"imp\" href=\"%(create_answer_url)s\">buraya "
-#~ "tıkla</a>."
-
-#~ msgid "Links"
-#~ msgstr "Bağlantılar"
-
-#~ msgid "This key is used by someone else before"
-#~ msgstr "Bu anahtar daha önce biri tarafından kullanılmış"
-
-#~ msgid "Understood"
-#~ msgstr "Anladım"
-
-#~ msgid "Your question is deleted"
-#~ msgstr "Sorun silindi"
-
-#~ msgid "Select an image to submit an answer"
-#~ msgstr "Cevap olarak göndereceğin resmi seç"
-
-#~ msgid "You can not update an answer that is not yours."
-#~ msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin"
-
-#~ msgid "Source URL"
-#~ msgstr "Kaynak URL"
-
-#~ msgid "Updated Cover Image"
-#~ msgstr "Kapak Fotoğrafı Güncellendi"
-
-#~ msgid "Answer Requests"
-#~ msgstr "Cevap Talepleri"
-
-#~ msgid "Click and choose the image that you want to send"
-#~ msgstr "Göndermek istediğin resmi seçmek için tıkla"
-
-#~ msgid "Updated at %(updated_timesince)s ago."
-#~ msgstr "%(updated_timesince)s önce güncellendi"
-
-#~ msgid "Enter word(s) that you want to search in questions"
-#~ msgstr "Sorular içinde aramak istediğin kelime/yi/leri yaz"
-
-#~ msgid "Random Unanswered Question"
-#~ msgstr "Rasgtele Cevaplanmamış Soru"
-
-#~ msgid "Email when somebody sends follow request to me"
-#~ msgstr "Biri müridim olmak istediğinde eposta gönder"
-
-#~ msgid "Email when somebody posted answer to my question"
-#~ msgstr "Biri benim soruma cevap yolladığında eposta gönder"
-
-#~ msgid "Likers"
-#~ msgstr "Kalpleyenler"
-
-#~ msgid "Set As Cover Of Question"
-#~ msgstr "Soru Kapağı Olarak Belirle"
-
-#~ msgid "Login To Post Answer"
-#~ msgstr "Cevap Göndermek İçin Giriş Yap"
-
-#~ msgid "Update Answer"
-#~ msgstr "Cevap Güncelle"
-
-#~ msgctxt "question follow"
-#~ msgid "Unfollow"
-#~ msgstr "Takipten Çık"
-
-#~ msgctxt "question follow"
-#~ msgid "Follow"
-#~ msgstr "Takip Et"
-
-#~ msgid "Preferences"
-#~ msgstr "Tercihler"
-
-#~ msgid "You updated your preferences"
-#~ msgstr "Seçeneklerin güncellendi"
-
-#~ msgid "My Answers To Public"
-#~ msgstr "Umumi Cevaplarım"
-
-#~ msgid "My Answers To Followers"
-#~ msgstr "Müritlerim İçin Cevaplarım"
-
-#~ msgid ""
-#~ "<a class=\"wb\" href=\"%(answer.question.get_absolute_url)s\">%(answer."
-#~ "question)s</a> sorusuna cevap olarak %(answer.created_at)s tarihinde "
-#~ "%(answer.get_visible_for_display|lower)s gözükecek şekilde gönderildi."
-#~ msgstr ""
-#~ "<a class=\"wb\" title=\"%(answer.question)s\" href=\"%(answer.question."
-#~ "get_absolute_url)s\">%(answer.question)s</a> sorusuna cevap olarak "
-#~ "%(answer.created_at)s tarihinde %(answer.get_visible_for_display|lower)s "
-#~ "gözükecek şekilde gönderildi."
-
-#~ msgid "My Direct Answers"
-#~ msgstr "Direkt Cevapların"
-
-#~ msgid "Direct Answers"
-#~ msgstr "Bana Özel Cevaplar"
