@@ -8,11 +8,13 @@
   </form>
 
   <div class="page-left-arrow">
-    {% with story.get_next_story as next_story %}{% if next_story %}<a href="{{ next_story.get_absolute_url }}"></a>{% endif %}{% endwith %}
-  </div>
-  <div class="page-right-arrow">
     {% with story.get_prev_story as prev_story %}{% if prev_story %}<a href="{{ prev_story.get_absolute_url }}"></a>{% endif %}{% endwith %}
   </div>
+
+  <div class="page-right-arrow">
+    {% with story.get_next_story as next_story %}{% if next_story %}<a href="{{ next_story.get_absolute_url }}"></a>{% endif %}{% endwith %}
+  </div>
+
   <div class="middle">
     <div class="panel-left">
       {% if story.status == story.DRAFT %}
