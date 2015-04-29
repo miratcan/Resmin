@@ -183,8 +183,9 @@ class Story(BaseModel):
             question_meta=self.question_meta,
             status=Story.PUBLISHED,
             visible_for=Story.VISIBLE_FOR_EVERYONE,
-            owner_id__not__in=blocked_user_ids,
-            created_at__lt=self.created_at).order_by('-created_at').first()
+            created_at__lt=self.created_at)\
+            .exclude(owner_id__in=blocked_user_ids)\
+            .order_by('-created_at').first()
 
     def get_prev_story(self, requested_user=None):
         from apps.follow.models import compute_blocked_user_ids_for
@@ -194,8 +195,9 @@ class Story(BaseModel):
             question_meta=self.question_meta,
             status=Story.PUBLISHED,
             visible_for=Story.VISIBLE_FOR_EVERYONE,
-            owner_id__not__in=blocked_user_ids,
-            created_at__gt=self.created_at).order_by('created_at').first()
+            created_at__gt=self.created_at)\
+            .exclude(owner_id__in=blocked_user_ids)\
+            .order_by('created_at').first()
 
     def update_like_count(self, save=False):
         """Update self.likes count from redis db, it does not save, must
