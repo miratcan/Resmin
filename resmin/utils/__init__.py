@@ -2,11 +2,13 @@ import os
 import uuid
 import datetime
 
+from Levenshtein import ratio
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.contenttypes.models import ContentType
 from django.conf import settings
+from django.contrib.contenttypes.models import ContentType
 
 
 def unique_filename(instance, filename, prefix):
@@ -75,3 +77,16 @@ def _set_avatar_to_answer(story):
     slot = story.slot_set.filter(cTp=cTp).reverse().first()
     story.owner.userprofile.avatar = slot.content.image
     story.owner.userprofile.save(update_fields=['avatar'])
+
+
+def get_similar_items(model, field, string, minimum_similarity=0.6,
+                      limit=None):
+    similar_list = []
+    ctype = ContentType.objects.get_for_model(model)
+    klass = ctype.model_class()
+    for item in klass.objects.all():
+        similarity = ratio(string, getattr(item, field))
+        if similarity > minimum_similarity:
+            similar_list.append((item, similarity))
+    similar_list = sorted(similar_list, key=lambda i: i[1], reverse=True)
+    return similar_list[:limit]

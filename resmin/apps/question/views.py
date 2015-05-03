@@ -1,5 +1,4 @@
 import json
-import watson
 
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
@@ -15,6 +14,7 @@ from redis_cache import get_redis_connection
 
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
+from utils import get_similar_items
 from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
 from apps.question.forms import RequestAnswerForm, SearchForm
@@ -52,8 +52,9 @@ def questions(request):
     if request.GET:
         search_form = SearchForm(request.GET)
         if search_form.is_valid():
-            results = watson.search(search_form.cleaned_data['q'])
-
+            results = get_similar_items(
+                QuestionMeta, 'text', search_form.cleaned_data['q'],
+                minimum_similarity=0.3)
         return render(request, "question/question_meta_list.html", {
             'search_form': search_form,
             'results': results})

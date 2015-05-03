@@ -12,10 +12,10 @@
     {% for qm in qms %}
       {% include "question/question_meta_list_item.html" %}
     {% endfor %}
-    {% for result in results %}
 
-    <li><p class="nm"><a href="{{ result.url }}">{{ result.meta.text }}</a> <a class="f_tiny imp pink" href="{% url 'create-story' result.meta.base62_id %}">{% trans 'Answer' %}</a></p>
-<p class="f_weak">{% blocktrans with ac=result.meta.answer_count %}{{ ac }} answers.{% endblocktrans %}</p></li>
+    {% for item, similarity in results %}
+      <li><p class="nm"><a href="{{ item.url }}">{{ item.text }}</a> <a class="f_tiny imp pink" href="{% url 'create-story' item.base62_id %}">{% trans 'Answer' %}</a></p>
+      <p class="f_weak">{% blocktrans with ac=item.answer_count %}{{ ac }} answers.{% endblocktrans %}</p></li>
 
     {% endfor %}
 </div>
