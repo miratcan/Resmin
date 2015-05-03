@@ -53,8 +53,7 @@ def questions(request):
         search_form = SearchForm(request.GET)
         if search_form.is_valid():
             results = get_similar_items(
-                QuestionMeta, 'text', search_form.cleaned_data['q'],
-                minimum_similarity=0.3)
+                QuestionMeta, 'text', search_form.cleaned_data['q'])
         return render(request, "question/question_meta_list.html", {
             'search_form': search_form,
             'results': results})
