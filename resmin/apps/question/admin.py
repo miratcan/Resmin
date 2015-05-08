@@ -16,9 +16,10 @@ def merge_questions(modeladmin, request, queryset):
 class QuestionMetaAdmin(admin.ModelAdmin):
     list_display = ('text', 'redirected_to', 'created_at', 'updated_at',
                     'answer_count', 'follower_count', 'is_featured', 'status')
-    fields = ('text', 'status', 'redirected_to',
+    fields = ('text', 'owner', 'status', 'redirected_to',
               'is_featured', 'is_sponsored')
-    raw_id_fields = ('redirected_to',)
+    raw_id_fields = ('redirected_to', 'owner')
+    search_fields = ('text',)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "redirected_to":
