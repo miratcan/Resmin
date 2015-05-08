@@ -228,6 +228,8 @@ urlpatterns = patterns(
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
 
+    url(r'^rosetta/', include('rosetta.urls')),
+
     url(r'pm/', include('apps.pm.urls')),
 
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {
