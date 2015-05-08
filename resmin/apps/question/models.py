@@ -154,7 +154,7 @@ class QuestionMetaComplaint(models.Model):
             'Write some explanation to make admins understand situation.')}
 
     question_meta = models.ForeignKey(QuestionMeta)
-    complain_type = models.PositiveIntegerField(
+    complaint_type = models.PositiveIntegerField(
         choices=((DUPLICATE, _('Duplicate')), (MEANINGLESS, _('Meaningless')),
                  (HATE_SPEECH, _('Hate Speech')), (INSULTING, _('Insulting'))))
     status = models.PositiveIntegerField(

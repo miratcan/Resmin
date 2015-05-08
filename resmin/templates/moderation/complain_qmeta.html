@@ -24,7 +24,7 @@
   </div>
 <script>
   descriptions = {{ descriptions|safe }};
-  $('#id_complain_type').change(function() {
+  $('#id_complaint_type').change(function() {
   	var selected =  $(this).find('option:selected').val()
   	$("#tips").html(descriptions[selected])
   })

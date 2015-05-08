@@ -70,14 +70,14 @@ class ComplainQuestionMetaForm(forms.ModelForm):
 
     class Meta:
         model = QuestionMetaComplaint
-        fields = ['complain_type', 'description']
+        fields = ['complaint_type', 'description']
 
     def save(self, *args, **kwargs):
         complainer = kwargs.pop('complainer')
         complaint = QuestionMetaComplaint.objects.create(
             question_meta=self.qmeta,
             description=self.cleaned_data['description'],
-            complain_type=self.cleaned_data['complain_type'])
+            complaint_type=self.cleaned_data['complaint_type'])
         complaint.complainers.add(complainer)
 
 
