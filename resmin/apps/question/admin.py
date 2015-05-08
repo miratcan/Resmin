@@ -1,15 +1,5 @@
-from django.http import HttpResponse
-from django.conf.urls import patterns, url
 from django.contrib import admin
-from django.contrib import messages
-from django.shortcuts import render
-
-from libs.baseconv import base62
-from django.utils.translation import ugettext as _
-
-from functools import update_wrapper
-
-from apps.question.models import QuestionMeta, Question
+from apps.question.models import QuestionMeta, Question, QuestionMetaComplaint
 from apps.story.models import Story
 
 
@@ -28,7 +18,7 @@ class QuestionMetaAdmin(admin.ModelAdmin):
                     'answer_count', 'follower_count', 'is_featured', 'status')
     fields = ('text', 'status', 'redirected_to',
               'is_featured', 'is_sponsored')
-    raw_id = ('redirected_to',)
+    raw_id_fields = ('redirected_to',)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "redirected_to":
@@ -58,3 +48,4 @@ class QuestionAdmin(admin.ModelAdmin):
 
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(QuestionMeta, QuestionMetaAdmin)
+admin.site.register(QuestionMetaComplaint)

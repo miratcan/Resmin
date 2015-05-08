@@ -142,6 +142,10 @@ urlpatterns = patterns(
         'apps.story.views.create_story',
         name='create-story'),
 
+    url(r'^q/(?P<base62_id>[-\w]+)/complain/$',
+        'apps.question.views.complain_question',
+        name='complain-question'),
+
     url(r'^q/(?P<base62_id>[-\w]+)(?:/(?P<ordering>[a-zA-Z]+))?/$',
         'apps.question.views.question',
         name='question'),
@@ -225,7 +229,6 @@ urlpatterns = patterns(
         include(admin.site.urls)),
 
     url(r'pm/', include('apps.pm.urls')),
-    url(r'm/', include('apps.moderation.urls')),
 
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {
         'sitemaps': {

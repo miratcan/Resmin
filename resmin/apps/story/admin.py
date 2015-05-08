@@ -5,6 +5,8 @@ from apps.story.models import (Story, Slot, Image, Video, Upload)
 class StoryAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'is_nsfw', 'is_featured',
                     'status', 'created_at')
+    fields = ('owner', 'question_meta', 'title', 'description', 'status',
+              'visible_for', 'cover_img')
 
 
 class SlotAdmin(admin.ModelAdmin):

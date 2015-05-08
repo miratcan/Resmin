@@ -93,7 +93,6 @@ INSTALLED_APPS = (
     'apps.story',
     'apps.comment',
     'apps.pm',
-    'apps.moderation',
 
     'seo_cascade',
     'sorl.thumbnail',

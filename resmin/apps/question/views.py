@@ -17,7 +17,8 @@ from libs.shortcuts import render_to_json
 from utils import get_similar_items
 from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
-from apps.question.forms import RequestAnswerForm, SearchForm
+from apps.question.forms import (RequestAnswerForm, SearchForm,
+                                 ComplainQuestionMetaForm)
 from apps.notification.utils import notify
 from apps.follow.models import QuestionFollow
 
@@ -60,13 +61,14 @@ def questions(request):
 
     return render(request, "question/question_meta_list.html", {
         'search_form': SearchForm(),
-        'qms': QuestionMeta.objects.filter(status=QuestionMeta.PUBLISHED)})
+        'qms': QuestionMeta.objects.filter(
+            status=QuestionMeta.PUBLISHED, redirected_to=None)})
 
 
 def question(request, base62_id, ordering=None, show_delete=False, **kwargs):
     qmeta = get_object_or_404(QuestionMeta, id=base62.to_decimal(base62_id))
 
-    if qmeta.status == QuestionMeta.REDIRECTED and qmeta.redirected_to:
+    if qmeta.redirected_to:
         return HttpResponseRedirect(qmeta.redirected_to.get_absolute_url())
 
     stories = Story.objects.build(frm=qmeta, ordering=ordering)
@@ -211,3 +213,21 @@ def follow_question(request):
     return HttpResponse(json.dumps({
         'is_following': is_following,
         'follower_count': qf.target.follower_count}))
+
+
+def complain_question(request, base62_id):
+    qmeta = get_object_or_404(QuestionMeta, id=base62.to_decimal(base62_id))
+    complain_form = ComplainQuestionMetaForm(
+        qmeta=qmeta)
+    descriptions = json.dumps(
+        ComplainQuestionMetaForm._meta.model.DESCRIPTION_MAP)
+    if request.method == "POST":
+        complain_form = ComplainQuestionMetaForm(request.POST, qmeta=qmeta)
+        if complain_form.is_valid():
+            complain_form.save(complainer=request.user)
+            messages.success(request, _('Your complaint sent to moderation.'))
+            return HttpResponseRedirect(qmeta.get_absolute_url())
+
+    return render(request, 'moderation/complain_qmeta.html', {
+        'complain_form': complain_form,
+        'descriptions': descriptions})
