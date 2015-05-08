@@ -11,8 +11,8 @@
   <p class="f_nrml c_weak wn tac">
     {% if user.is_authenticated %}
       {% url 'create-story' question.base62_id as create_answer_url %}
-        <a href="{{ create_answer_url }}">{% trans 'Answer' %}</a> / <a href="#" onClick='$("form").slideToggle()'>{% trans "Request Answer" %}</a> / {% if is_following %}<a class="follow_action" data-action='unfollow' href="#">{% trans 'Unfollow' context "follow" %}</a>{% else %}<a class="follow_action" data-action='follow' href="#">{% trans 'Follow' context "follow" %}</a> / <a href="{% url 'complain-question' question.base62_id %}">{% trans 'Complain' %}</a>
-      {% endif %}
+        <a href="{{ create_answer_url }}">{% trans 'Answer' %}</a> / <a href="#" onClick='$("form").slideToggle()'>{% trans "Request Answer" %}</a> / {% if is_following %}<a class="follow_action" data-action='unfollow' href="#">{% trans 'Unfollow' context "follow" %}</a>{% else %}<a class="follow_action" data-action='follow' href="#">{% trans 'Follow' context "follow" %}</a> 
+      {% endif %}/ <a href="{% url 'complain-question' question.base62_id %}">{% trans 'Complain' %}</a>
     {% else %}
       {% url 'login' as login_url %}
       {% blocktrans %}<a class="imp" href="{{ login_url }}">Login</a> to post an answer.{% endblocktrans %}
