@@ -225,6 +225,7 @@ urlpatterns = patterns(
         include(admin.site.urls)),
 
     url(r'pm/', include('apps.pm.urls')),
+    url(r'm/', include('apps.moderation.urls')),
 
     url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {
         'sitemaps': {

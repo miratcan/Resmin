@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils.translation import ugettext as _
-from question.models import QuestionMeta
+from apps.question.models import QuestionMeta
 
 
 class QuestionMetaComplaint(models.Model):
@@ -30,7 +30,7 @@ class QuestionMetaComplaint(models.Model):
             'If question is insulting you or your life us this one.'
             'Write some explanation to make admins understand situation.')}
 
-    meta = models.ForeignKey(QuestionMeta)
+    question_meta = models.ForeignKey(QuestionMeta)
     complain_type = models.PositiveIntegerField(
         choices=((DUPLICATE, _('Duplicate')), (MEANINGLESS, _('Meaningless')),
                  (HATE_SPEECH, _('Hate Speech')), (INSULTING, _('Insulting'))))
@@ -44,5 +44,5 @@ class QuestionMetaComplaint(models.Model):
     def action_delete(self):
         pass
 
-    def action_merge(self):
+    def action_merge(self, target_qm):
         pass

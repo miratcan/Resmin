@@ -1,3 +1,4 @@
 from django.contrib import admin
+from apps.moderation.models import QuestionMetaComplaint
 
-# Register your models here.
+admin.site.register(QuestionMetaComplaint)

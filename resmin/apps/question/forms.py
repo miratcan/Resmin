@@ -3,7 +3,9 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
 from apps.question.signals import user_created_question
-from apps.question.models import Question
+from apps.question.models import Question, QuestionMeta
+from apps.story.models import Story
+from libs.baseconv import base62
 
 
 class CreateQuestionForm(forms.ModelForm):

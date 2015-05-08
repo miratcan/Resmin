@@ -16,12 +16,9 @@ from apps.follow.models import QuestionFollow
 class QuestionMeta(models.Model):
 
     PUBLISHED = 0
-    DELETED_BY_OWNER = 1
     DELETED_BY_ADMINS = 2
-    REDIRECTED = 3
 
     STATUS_CHOICES = ((PUBLISHED, 'Published '),
-                      (DELETED_BY_OWNER, 'Deleted by Owner'),
                       (DELETED_BY_ADMINS, 'Deleted by Admins'))
 
     owner = models.ForeignKey(User, null=True, blank=True)
