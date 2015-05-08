@@ -47,6 +47,9 @@ class QuestionAdmin(admin.ModelAdmin):
     actions = [merge_questions]
 
 
+class QuestionMetaComplaintAdmin(admin.ModelAdmin):
+    list_display = ('question_meta', 'complaint_type', 'status')
+
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(QuestionMeta, QuestionMetaAdmin)
-admin.site.register(QuestionMetaComplaint)
+admin.site.register(QuestionMetaComplaint, QuestionMetaComplaintAdmin)
