@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-08 22:11+0300\n"
-"PO-Revision-Date: 2015-05-08 22:52+0156\n"
-"Last-Translator:   <>\n"
+"PO-Revision-Date: 2015-05-09 09:08+0157\n"
+"Last-Translator:   <miratcanbayrak@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -411,7 +411,7 @@ msgstr "Çöp"
 
 #: apps/pm/templates/pm/compose.html:3
 msgid "Compose Message"
-msgstr ""
+msgstr "Mesaj Yaz"
 
 #: apps/pm/templates/pm/compose.html:6
 msgid "Send"
@@ -498,9 +498,8 @@ msgid "Hide my name"
 msgstr "Adımı Gizle"
 
 #: apps/question/forms.py:34
-#, fuzzy
 msgid "Questionees"
-msgstr "Sorular"
+msgstr "Sorulanlar"
 
 #: apps/question/forms.py:36
 msgid ""
@@ -523,16 +522,20 @@ msgid ""
 "If you think that there is a question already has meaning of given question,"
 " type URL of other question."
 msgstr ""
+"Eğer bu soruyla aynı anlama gelen başka bir soru olduğunu düşünüyorsan, o "
+"başka sorunun adresini yaz."
 
 #: apps/question/models.py:146
 msgid "If question is something like: 'fddskfllksd' use this one."
-msgstr ""
+msgstr "Eğer soru 'slkşfdskf' gibi anlamsız bir şeyse bunu kullan."
 
 #: apps/question/models.py:149
 msgid ""
 "If question is targeting spesific audience with hate use this one. Write "
 "some explanation to make admins understand situation."
 msgstr ""
+"Soru belli bir topluluğu nefretle anıyorsa bunu kullan. Adminlerin "
+"anlayabilmesi için biraz açıklama iyi olabilir."
 
 #: apps/question/models.py:153
 msgid ""
@@ -581,9 +584,8 @@ msgid "Action not found"
 msgstr "Hareket bulunamadı"
 
 #: apps/question/views.py:228
-#, fuzzy
 msgid "Your complaint sent to moderation."
-msgstr "Sorun kullanıcıya gönderildi."
+msgstr "Şikayetin yönetime gönderildi."
 
 #: apps/question/widgets.py:50
 msgid "Lookup"
@@ -993,10 +995,9 @@ msgid "Update Profile"
 msgstr "Profili Güncelle"
 
 #: templates/auth/user_detail.html:14
-#, fuzzy
 msgctxt "profile public"
 msgid "Public"
-msgstr "Herkesten"
+msgstr "Herkese Açık"
 
 #: templates/auth/user_detail.html:14 templates/story/listing_options.html:1
 msgid "Private"
@@ -1104,63 +1105,63 @@ msgstr ""
 
 #: templates/moderation/complain_qmeta.html:21
 msgid "TIPS:"
-msgstr ""
+msgstr "İpuçları:"
 
 #: templates/notification/list.html:9
 msgid "No new notifications."
 msgstr "Yeni bildirim yok."
 
 #: templates/notification/new_answer_to_following_question/sub_plur_obj_sing/email_body.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "There are %(count)s new answers on \"%(sentence)s\". Click link below to see"
 " them:"
 msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+"%(sentence)s sorusuna için %(count)s yeni cevap geldi. Görmek için aşağıdaki"
+" bağlantıya tıkla:"
 
 #: templates/notification/new_answer_to_following_question/sub_plur_obj_sing/email_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "There are %(count)s new answers on a question that you're following."
-msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
+msgstr "Takip ettiğin soruya %(count)s yeni cevap geldi."
 
 #: templates/notification/new_answer_to_following_question/sub_plur_obj_sing/site_notification.html:1
 #, python-format
 msgid "There are %(count)s new answers on \"%(sentence)s\"."
-msgstr ""
+msgstr "\"%(sentence)s sorusu için %(count)s yeni cevap var."
 
 #: templates/notification/new_answer_to_following_question/sub_sing_obj_sing/email_body.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "There's a new answer on \"%(sentence)s\". Click link below to see it:"
 msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+"%(sentence)s sorusuna yeni bir cevap geldi. Görmek için aşağıdaki bağlantıya"
+" tıkla:"
 
 #: templates/notification/new_answer_to_following_question/sub_sing_obj_sing/email_subject.txt:1
-#, fuzzy
 msgid "There's a new answer on a question that you're following"
-msgstr "Sorduğum soruya bir cevap geldiğinde"
+msgstr "Takip ettiğin bir soruya yeni bir cevap geldi"
 
 #: templates/notification/new_answer_to_following_question/sub_sing_obj_sing/site_notification.html:1
 #, python-format
 msgid "There's a new answer on \"%(sentence)s\"."
-msgstr ""
+msgstr "\"%(sentence)s\" sorusu için yeni bir cevap var."
 
 #: templates/notification/new_comment_on_commented_story/sub_plur_obj_sing/email_body.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "There are %(num_of_comments)s new comments on an answer that you commented "
 "before. Click link below to see them:"
 msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+"Daha önce yorum yaptığın bir cevaba %(num_of_comments)s yeni yorum geldi. "
+"Görmek için aşağıdaki bağlantıya tıkla:"
 
 #: templates/notification/new_comment_on_commented_story/sub_plur_obj_sing/site_notification.html:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "There are %(num_of_comments)s new comments on an answer that you commented "
 "before."
-msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
+msgstr ""
+"Daha önce yorum yaptığın bir cevaba %(num_of_comments)s yeni yorum geldi."
 
 #: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/email_body.txt:1
 #, python-format
@@ -1302,7 +1303,7 @@ msgstr ""
 
 #: templates/question/merge_form.html:11 templates/question/merge_form.html:36
 msgid "Merge"
-msgstr ""
+msgstr "Birleştir"
 
 #: templates/question/pending_questions.html:16
 msgid "ago"
@@ -1352,15 +1353,14 @@ msgid "Submit"
 msgstr "Gönder"
 
 #: templates/question/question_meta_list.html:5
-#, fuzzy
 msgid "Find a Question"
-msgstr "Soru"
+msgstr "Soru bul"
 
 #: templates/question/question_meta_list.html:18
 #: templates/question/question_meta_list_item.html:2
-#, fuzzy, python-format
+#, python-format
 msgid "%(ac)s answers."
-msgstr "%(count)s cevap aldı"
+msgstr "%(ac)s cevap."
 
 #: templates/question/question_sentence.html:8
 #, python-format
@@ -1382,9 +1382,8 @@ msgid "Follow"
 msgstr "Takip Et"
 
 #: templates/question/question_sentence.html:14
-#, fuzzy
 msgid "Complain"
-msgstr "Tamamlandı"
+msgstr "Şikayet Et"
 
 #: templates/question/question_sentence.html:18
 #, python-format
@@ -1445,12 +1444,11 @@ msgstr "Yayınla"
 
 #: templates/story/story_detail_inc.html:39
 msgid "Please activate javascript on your browser."
-msgstr ""
+msgstr "Lütfen tarayıcında Javascript'i etkinleştir"
 
 #: templates/story/story_detail_inc.html:57
-#, fuzzy
 msgid "Answer by an anonymouse user."
-msgstr "Gizli kullanıcı tarafından paylaşıldı"
+msgstr "Gizli kullanıcı tarafından cevaplandı"
 
 #: templates/story/story_detail_inc.html:59
 #, python-format
@@ -1467,7 +1465,7 @@ msgstr "Oluşturulma Zamanı"
 
 #: templates/story/story_detail_inc.html:75
 msgid "Login to leave comment"
-msgstr ""
+msgstr "Yorum yapmak için giriş yap"
 
 #: templates/story/story_detail_inc.html:89
 #, python-format
@@ -1505,6 +1503,7 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnail.html:16
 msgid "This story marked as qualified answer by admins."
 msgstr ""
+"Bu hikaye yöneticilerimiz tarafından kaliteli içerik olarak işaretlenmiş."
 
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
