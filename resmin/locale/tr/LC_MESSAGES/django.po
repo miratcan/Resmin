@@ -8,9 +8,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-08 22:11+0300\n"
-"PO-Revision-Date: 2015-05-09 09:08+0157\n"
-"Last-Translator:   <miratcanbayrak@gmail.com>\n"
+"POT-Creation-Date: 2015-05-09 09:41+0300\n"
+"PO-Revision-Date: 2015-05-09 09:44+0156\n"
+"Last-Translator:   <>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -587,10 +587,6 @@ msgstr "Hareket bulunamadı"
 msgid "Your complaint sent to moderation."
 msgstr "Şikayetin yönetime gönderildi."
 
-#: apps/question/widgets.py:50
-msgid "Lookup"
-msgstr ""
-
 #: apps/story/forms.py:126 apps/story/models.py:53
 msgid "Title"
 msgstr "Başlık"
@@ -623,6 +619,10 @@ msgstr "Herkese"
 msgid "Followers"
 msgstr "Takipçileri"
 
+#: apps/story/models.py:54
+msgid "Cover Image"
+msgstr "Kapak Görseli"
+
 #: apps/story/models.py:56 templates/story/ordering_options.html:1
 msgid "Featured"
 msgstr "Vizyonda"
@@ -631,21 +631,69 @@ msgstr "Vizyonda"
 msgid "NSFW"
 msgstr "AYIP"
 
+#: apps/story/models.py:63
+msgid "Status"
+msgstr "Durum"
+
 #: apps/story/models.py:66
 msgid "Visible For"
 msgstr "Şuna Görünür"
 
-#: apps/story/models.py:302
+#: apps/story/models.py:237 templates/auth/user_detail_inc.html:8
+msgid "Story"
+msgstr "Hikaye"
+
+#: apps/story/models.py:238
+msgid "Stories"
+msgstr "Hikayeler"
+
+#: apps/story/models.py:260
+msgid "Video"
+msgstr "Video"
+
+#: apps/story/models.py:261
+msgid "Videos"
+msgstr "Videolar"
+
+#: apps/story/models.py:276
+msgid "Image"
+msgstr "Görsel"
+
+#: apps/story/models.py:277
+msgid "Images"
+msgstr "Görseller"
+
+#: apps/story/models.py:297
+msgid "Slot"
+msgstr "Slot"
+
+#: apps/story/models.py:298
+msgid "Slots"
+msgstr "Slotlar"
+
+#: apps/story/models.py:313
 msgid "Uploading"
 msgstr "Yükleniyor"
 
-#: apps/story/models.py:303
+#: apps/story/models.py:314
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: apps/story/models.py:304
+#: apps/story/models.py:315
 msgid "Failed"
 msgstr "Bitirilemedi"
+
+#: apps/story/models.py:326 utils/models.py:13
+msgid "Owner"
+msgstr "Sahip"
+
+#: apps/story/models.py:443
+msgid "Upload"
+msgstr "Yükleme"
+
+#: apps/story/models.py:444
+msgid "Uploads"
+msgstr "Yüklemeler"
 
 #: apps/story/views.py:28
 msgid "Your story deleted."
@@ -671,60 +719,68 @@ msgstr "Dosya boyutu çok büyük"
 msgid "post method required."
 msgstr "post metodu gerekli."
 
+#: config/settings.py:24
+msgid "English"
+msgstr "İngilizce"
+
+#: config/settings.py:25
+msgid "Turkish"
+msgstr "Türkçe"
+
 #: templates/base.html:17
 msgid "Story questions with pics."
 msgstr "Sorulara görsellerle cevap ver"
 
-#: templates/base.html:34 templates/story/listing_options.html:1
+#: templates/base.html:46 templates/story/listing_options.html:1
 msgid "Wall"
 msgstr "Duvar"
 
-#: templates/base.html:35
+#: templates/base.html:47
 msgid "Questions"
 msgstr "Sorular"
 
-#: templates/base.html:38
+#: templates/base.html:50
 msgid "Pending Questions"
 msgstr "Bekleyen Sorular"
 
-#: templates/base.html:39
+#: templates/base.html:51
 msgid "Follow Requests"
 msgstr "Takipçi Olma Talepleri"
 
-#: templates/base.html:40
+#: templates/base.html:52
 msgid "PM's"
 msgstr "Özel Mesajlar"
 
-#: templates/base.html:41
+#: templates/base.html:53
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: templates/base.html:47 templates/auth/login.html:17
+#: templates/base.html:59 templates/auth/login.html:17
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/base.html:48 templates/auth/register.html:14
+#: templates/base.html:60 templates/auth/register.html:14
 #: templates/auth/register.html.py:18
 msgid "Register"
 msgstr "Kayıt Ol"
 
-#: templates/base.html:52
+#: templates/base.html:64
 msgid "Menu"
 msgstr "Menü"
 
-#: templates/base.html:67
+#: templates/base.html:79
 msgid "Suggestions"
 msgstr "İstek & Öneri"
 
-#: templates/base.html:69
+#: templates/base.html:81
 msgid "Top Users"
 msgstr "Sevdicekler"
 
-#: templates/base.html:70
+#: templates/base.html:82
 msgid "IRC"
 msgstr "Chat"
 
-#: templates/base.html:74
+#: templates/base.html:86
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -736,7 +792,7 @@ msgstr ""
 "için sakıncalı olabilir. Sorulardan ve gönderilen cevaplardan göndericileri "
 "sorumludur. Kaynak göstermeden alıntılanamaz. Zaten niye alıntılıyorsun?"
 
-#: templates/base.html:90
+#: templates/base.html:102
 msgid "suggestions"
 msgstr "istek & öneri"
 
@@ -1007,10 +1063,6 @@ msgstr "Özel"
 msgid "Like"
 msgstr "Kalp"
 
-#: templates/auth/user_detail_inc.html:8
-msgid "Story"
-msgstr "Hikaye"
-
 #: templates/auth/user_detail_inc.html:10
 msgid "Follower"
 msgstr "Takipçi"
@@ -1101,7 +1153,7 @@ msgstr "Sonraki Cevaplar"
 
 #: templates/moderation/complain_qmeta.html:11
 msgid "You're going to complain about"
-msgstr ""
+msgstr "Şikayet etmek üzeresin"
 
 #: templates/moderation/complain_qmeta.html:21
 msgid "TIPS:"
@@ -1381,7 +1433,7 @@ msgctxt "follow"
 msgid "Follow"
 msgstr "Takip Et"
 
-#: templates/question/question_sentence.html:14
+#: templates/question/question_sentence.html:15
 msgid "Complain"
 msgstr "Şikayet Et"
 
@@ -1508,6 +1560,10 @@ msgstr ""
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#: utils/models.py:15
+msgid "Created at"
+msgstr "Oluşturulma Zamanı"
 
 #~ msgid ""
 #~ "Sign in <span class=\"f_weak c_weak wn\">or <a href=\"%(register_url)s\">get"
