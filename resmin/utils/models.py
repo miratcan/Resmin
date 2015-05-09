@@ -4,13 +4,15 @@ from sorl.thumbnail import get_thumbnail
 from django.db import models
 from django.contrib.auth.models import User, AnonymousUser
 from django.contrib.contenttypes.models import ContentType
+from django.utils.translation import ugettext as _
 
 from resmin.libs.baseconv import base62
 
 
 class BaseModel(models.Model):
-    owner = models.ForeignKey(User)
-    created_at = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, verbose_name=_('Owner'))
+    created_at = models.DateTimeField(auto_now_add=True,
+                                      verbose_name=_('Created at'))
 
     def get_owner(self):
         if hasattr(self, 'is_anonymouse'):

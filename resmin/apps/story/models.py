@@ -51,7 +51,7 @@ class Story(BaseModel):
     question = models.ForeignKey('question.Question', null=True, blank=True)
     question_meta = models.ForeignKey('question.QuestionMeta')
     title = models.CharField(_('Title'), max_length=255, null=True, blank=True)
-    cover_img = JSONField(null=True, blank=True)
+    cover_img = JSONField(_('Cover Image'), null=True, blank=True)
     description = models.TextField(_('Description'), null=True, blank=True)
     is_featured = models.BooleanField(_('Featured'), default=False)
     is_nsfw = models.BooleanField(_('NSFW'), default=False)
@@ -60,7 +60,7 @@ class Story(BaseModel):
     like_count = models.PositiveIntegerField(default=0)
     slot_count = models.PositiveIntegerField(null=True, blank=True)
     comment_count = models.PositiveIntegerField(null=True, blank=True)
-    status = models.PositiveSmallIntegerField(default=DRAFT,
+    status = models.PositiveSmallIntegerField(_('Status'), default=DRAFT,
                                               choices=STATUS_CHOICES)
     visible_for = models.PositiveSmallIntegerField(
         default=VISIBLE_FOR_EVERYONE, verbose_name=_('Visible For'),
@@ -234,7 +234,8 @@ class Story(BaseModel):
 
     class Meta:
         ordering = ['-created_at']
-        verbose_name_plural = 'Stories'
+        verbose_name = _('Story')
+        verbose_name_plural = _('Stories')
 
 
 class Video(UniqueFileModel):
@@ -255,6 +256,10 @@ class Video(UniqueFileModel):
                 return None
         return self.frame
 
+    class Meta:
+        verbose_name = _('Video')
+        verbose_name_plural = _('Videos')
+
 
 class Image(UniqueFileModel):
     FILE_FIELD = 'image'
@@ -266,6 +271,10 @@ class Image(UniqueFileModel):
     def save(self, *args, **kwargs):
         self.is_playble = self.mime_type in settings.PLAYBLE_MIME_TYPES
         super(Image, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = _('Image')
+        verbose_name_plural = _('Images')
 
 
 class Slot(models.Model):
@@ -285,6 +294,8 @@ class Slot(models.Model):
 
     class Meta:
         ordering = ['story', 'order']
+        verbose_name = _('Slot')
+        verbose_name_plural = _('Slots')
 
 
 class UploadError(Exception):
@@ -312,7 +323,7 @@ class Upload(models.Model):
                     'video/webm': Video,
                     'video/mp4': Video}
 
-    owner = models.ForeignKey(User)
+    owner = models.ForeignKey(User, verbose_name=_('Owner'))
     upload_id = models.CharField(max_length=32, unique=True, editable=False,
                                  default=generate_upload_id)
     file = models.FileField(max_length=255, upload_to=filename_for_upload)
@@ -427,3 +438,7 @@ class Upload(models.Model):
                 self.status = self.FAILED
 
         super(Upload, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = _('Upload')
+        verbose_name_plural = _('Uploads')
