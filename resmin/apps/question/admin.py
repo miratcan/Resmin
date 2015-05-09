@@ -24,7 +24,10 @@ class QuestionMetaAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         redirected_to = form.cleaned_data.get('redirected_to')
-        # Move stories of source question meta to target questionmeta.
+        """
+        Move stories of source question meta to target questionmeta.
+        TODO: Move followers of source question meta to target questionmeta.
+        """
         if redirected_to:
             Story.objects.filter(question_meta=obj).update(
                 question_meta=redirected_to)
