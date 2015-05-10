@@ -275,6 +275,7 @@ class QuestionForm(forms.Form):
     def clean(self):
         if not self.questioner.is_authenticated():
             raise forms.ValidationError('You have to login to ask a question.')
+        return self.cleaned_data
 
     def save(self):
         meta = QuestionMeta.objects.get_or_create(
