@@ -8,7 +8,6 @@ class EmailCandidateAdmin(admin.ModelAdmin):
 
 class InvitationAdmin(admin.ModelAdmin):
     list_display = ('key', 'owner', 'used_count')
-    readonly_fields = ('is_usable',)
 
 
 class ProfileAdmin(admin.ModelAdmin):

@@ -84,7 +84,6 @@ class Invitation(models.Model):
             self.key = key_generator()
         if self.pk is not None:
             self.used_count = self.registered_users.count()
-        self.is_usable = bool(self.used_count < self.use_limit)
         return super(Invitation, self).save(*args, **kwargs)
 
     class Meta:
