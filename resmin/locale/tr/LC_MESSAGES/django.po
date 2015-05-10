@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-09 09:41+0300\n"
-"PO-Revision-Date: 2015-05-09 09:44+0156\n"
-"Last-Translator:   <>\n"
+"PO-Revision-Date: 2015-05-10 10:30+0157\n"
+"Last-Translator:   <miratcanbayrak@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
@@ -184,7 +184,7 @@ msgstr "Mesaj"
 
 #: apps/pm/management.py:9
 msgid "Message Received"
-msgstr "Mesaj alındı"
+msgstr "Mesaj Alındı"
 
 #: apps/pm/management.py:9
 msgid "you have received a message"
