@@ -21,7 +21,7 @@ class QuestionMeta(models.Model):
     STATUS_CHOICES = ((PUBLISHED, 'Published '),
                       (DELETED_BY_ADMINS, 'Deleted by Admins'))
 
-    owner = models.ForeignKey(User, null=True, blank=True)
+    owner = models.ForeignKey(User)
     text = models.CharField(_('Question'), max_length=512)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
