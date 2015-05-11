@@ -1,0 +1,11 @@
+<script>
+  $(function() {  
+    var pull        = $('#pull');  
+        menu        = $('nav .drawer');  
+        menuHeight  = menu.height();
+    $(pull).on('click', function(e) {  
+        e.preventDefault();  
+        menu.slideToggle();  
+    });
+  })
+</script>

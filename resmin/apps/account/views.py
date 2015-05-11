@@ -61,8 +61,7 @@ def profile(request, username=None, listing='public', action=None):
             frm=user, requested_user=request.user, listing=listing)
 
     if request.POST:
-        questioner = request.user if request.user.is_authenticated() else None
-        question_form = QuestionForm(request.POST, questioner=questioner,
+        question_form = QuestionForm(request.POST, questioner=request.user,
                                      questionee=user)
         if question_form.is_valid():
             question_form.save()

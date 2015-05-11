@@ -142,6 +142,10 @@ urlpatterns = patterns(
         'apps.story.views.create_story',
         name='create-story'),
 
+    url(r'^q/(?P<base62_id>[-\w]+)/complain/$',
+        'apps.question.views.complain_question',
+        name='complain-question'),
+
     url(r'^q/(?P<base62_id>[-\w]+)(?:/(?P<ordering>[a-zA-Z]+))?/$',
         'apps.question.views.question',
         name='question'),
@@ -223,6 +227,8 @@ urlpatterns = patterns(
 
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
+
+    url(r'^rosetta/', include('rosetta.urls')),
 
     url(r'pm/', include('apps.pm.urls')),
 

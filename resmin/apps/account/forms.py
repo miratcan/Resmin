@@ -268,9 +268,14 @@ class QuestionForm(forms.Form):
                                        required=False, initial=True)
 
     def __init__(self, *args, **kwargs):
-        self.questioner = kwargs.pop('questioner', None)
+        self.questioner = kwargs.pop('questioner')
         self.questionee = kwargs.pop('questionee')
         super(QuestionForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        if not self.questioner.is_authenticated():
+            raise forms.ValidationError('You have to login to ask a question.')
+        return self.cleaned_data
 
     def save(self):
         meta = QuestionMeta.objects.get_or_create(

@@ -4,6 +4,8 @@
 import os
 import sys
 from datetime import timedelta
+from django.utils.translation import ugettext_lazy as _
+
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -17,6 +19,11 @@ MANAGERS = ADMINS
 
 TIME_ZONE = 'Europe/Istanbul'
 SITE_ID = 1
+
+LANGUAGES = (
+    ('en', _('English')),
+    ('tr', _('Turkish')),
+)
 
 LANGUAGE_CODE = 'tr'
 
@@ -101,6 +108,7 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'haystack'
+    'rosetta'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

@@ -16,15 +16,12 @@ from apps.follow.models import QuestionFollow
 class QuestionMeta(models.Model):
 
     PUBLISHED = 0
-    DELETED_BY_OWNER = 1
     DELETED_BY_ADMINS = 2
-    REDIRECTED = 3
 
     STATUS_CHOICES = ((PUBLISHED, 'Published '),
-                      (DELETED_BY_OWNER, 'Deleted by Owner'),
                       (DELETED_BY_ADMINS, 'Deleted by Admins'))
 
-    owner = models.ForeignKey(User, null=True, blank=True)
+    owner = models.ForeignKey(User)
     text = models.CharField(_('Question'), max_length=512)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
@@ -129,4 +126,40 @@ class Question(models.Model):
             reverse('create-story', kwargs={
                 'base62_id': self.meta.base62_id}), self.id)
 
-watson.register(QuestionMeta, store=("text", "answer_count", "base62_id"))
+
+class QuestionMetaComplaint(models.Model):
+
+    DUPLICATE = 0
+    MEANINGLESS = 1
+    HATE_SPEECH = 2
+    INSULTING = 3
+
+    PENDING = 0
+    SOLVED = 1
+    REJECTED = 2
+
+    DESCRIPTION_MAP = {
+        DUPLICATE: _(
+            'If you think that there is a question already has '
+            'meaning of given question, type URL of other question.'),
+        MEANINGLESS: _(
+            'If question is something like: \'fddskfllksd\' use '
+            'this one.'),
+        HATE_SPEECH: _(
+            'If question is targeting spesific audience with hate '
+            'use this one. Write some explanation to make admins understand '
+            'situation.'),
+        INSULTING: _(
+            'If question is insulting you or your life us this one.'
+            'Write some explanation to make admins understand situation.')}
+
+    question_meta = models.ForeignKey(QuestionMeta)
+    complaint_type = models.PositiveIntegerField(
+        choices=((DUPLICATE, _('Duplicate')), (MEANINGLESS, _('Meaningless')),
+                 (HATE_SPEECH, _('Hate Speech')), (INSULTING, _('Insulting'))))
+    status = models.PositiveIntegerField(
+        default=PENDING, choices=((PENDING, _('Pending')),
+                                  (SOLVED, _('Solved')),
+                                  (REJECTED, _('Rejected'))))
+    complainers = models.ManyToManyField(User)
+    description = models.TextField(null=True, blank=True)

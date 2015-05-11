@@ -2,21 +2,22 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-06 11:09+0300\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-05-09 09:41+0300\n"
+"PO-Revision-Date: 2015-05-10 10:30+0157\n"
+"Last-Translator:   <miratcanbayrak@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Translated-Using: django-rosetta 0.7.6\n"
 
 #: apps/account/forms.py:20
 msgid "Username"
@@ -44,7 +45,9 @@ msgstr "Şifre alanları aynı olmalı"
 
 #: apps/account/forms.py:57
 msgid "This key reached it's maximum use limit. It cant be used anymore."
-msgstr "Bu davetiye kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
+msgstr ""
+"Bu davetiye kodu maksimum kullanma limitine ulaşmış. Daha fazla "
+"kullanılamaz."
 
 #: apps/account/forms.py:63
 msgid "Invalid invitation key"
@@ -101,35 +104,35 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:67
+#: apps/account/views.py:69
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:87
+#: apps/account/views.py:89
 msgid "Follow request sent to user"
 msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:90
+#: apps/account/views.py:92
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının takipçisi değilsin"
 
-#: apps/account/views.py:93
+#: apps/account/views.py:95
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:96
+#: apps/account/views.py:98
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:185
+#: apps/account/views.py:187
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:214
+#: apps/account/views.py:216
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:303
+#: apps/account/views.py:305
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -137,7 +140,7 @@ msgstr "E-posta adresin onaylandı :)"
 msgid "Your preferences updated"
 msgstr "Tercihlerin güncellendi"
 
-#: apps/comment/forms.py:14 apps/comment/forms.py:52
+#: apps/comment/forms.py:15 apps/comment/forms.py:56
 msgid "Comment"
 msgstr "Yorum"
 
@@ -181,7 +184,7 @@ msgstr "Mesaj"
 
 #: apps/pm/management.py:9
 msgid "Message Received"
-msgstr "Mesaj alındı"
+msgstr "Mesaj Alındı"
 
 #: apps/pm/management.py:9
 msgid "you have received a message"
@@ -234,7 +237,7 @@ msgstr "Gönderen"
 
 #: apps/pm/models.py:62
 msgid "Parent message"
-msgstr ""
+msgstr "Üst mesaj"
 
 #: apps/pm/models.py:63
 msgid "sent at"
@@ -301,8 +304,7 @@ msgstr "'%(message)s' mesajını sildin."
 
 #: apps/pm/templates/notification/messages_deleted/notice.html:1
 #, python-format
-msgid ""
-"You have deleted the message <a href=\"%(message_url)s\">%(message)s</a>."
+msgid "You have deleted the message <a href=\"%(message_url)s\">%(message)s</a>."
 msgstr "<a href=\"%(message_url)s\">%(message)s</a> mesajını sildin"
 
 #: apps/pm/templates/notification/messages_received/full.txt:1
@@ -409,7 +411,7 @@ msgstr "Çöp"
 
 #: apps/pm/templates/pm/compose.html:3
 msgid "Compose Message"
-msgstr ""
+msgstr "Mesaj Yaz"
 
 #: apps/pm/templates/pm/compose.html:6
 msgid "Send"
@@ -486,174 +488,299 @@ msgstr ""
 msgid "View Message"
 msgstr "Mesajı Görüntüle"
 
-#: apps/pm/templates/pm/view.html:13
-#: templates/comments/comment.html:8
-#: templates/story/story_detail_inc.html:105
+#: apps/pm/templates/pm/view.html:13 templates/comments/comment.html:9
+#: templates/story/story_detail_inc.html:104
 msgid "Delete"
 msgstr "Sil"
 
-#: apps/question/forms.py:15 apps/story/models.py:55
+#: apps/question/forms.py:15 apps/story/models.py:58
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
 #: apps/question/forms.py:34
-#, fuzzy
 msgid "Questionees"
-msgstr "Sorular"
+msgstr "Sorulanlar"
 
 #: apps/question/forms.py:36
-msgid "Separate the usernames with comma which you request answer. You can only request answer from your followers"
-msgstr "Cevaplamasını istediğin kullanıcı adlarını virgülle ayır. Sadece takip ettiğin kullanıcılardan talepte bulunabilirsin."
+msgid ""
+"Separate the usernames with comma which you request answer. You can only "
+"request answer from your followers"
+msgstr ""
+"Cevaplamasını istediğin kullanıcı adlarını virgülle ayır. Sadece takip "
+"ettiğin kullanıcılardan talepte bulunabilirsin."
 
 #: apps/question/forms.py:39
 msgid "Is Anonymouse"
 msgstr "Gizli"
 
-#: apps/question/models.py:28
+#: apps/question/models.py:25
 msgid "Question"
 msgstr "Soru"
 
-#: apps/question/views.py:114
+#: apps/question/models.py:143
+msgid ""
+"If you think that there is a question already has meaning of given question,"
+" type URL of other question."
+msgstr ""
+"Eğer bu soruyla aynı anlama gelen başka bir soru olduğunu düşünüyorsan, o "
+"başka sorunun adresini yaz."
+
+#: apps/question/models.py:146
+msgid "If question is something like: 'fddskfllksd' use this one."
+msgstr "Eğer soru 'slkşfdskf' gibi anlamsız bir şeyse bunu kullan."
+
+#: apps/question/models.py:149
+msgid ""
+"If question is targeting spesific audience with hate use this one. Write "
+"some explanation to make admins understand situation."
+msgstr ""
+"Soru belli bir topluluğu nefretle anıyorsa bunu kullan. Adminlerin "
+"anlayabilmesi için biraz açıklama iyi olabilir."
+
+#: apps/question/models.py:153
+msgid ""
+"If question is insulting you or your life us this one.Write some explanation"
+" to make admins understand situation."
+msgstr ""
+
+#: apps/question/models.py:158
+msgid "Duplicate"
+msgstr "Aynısı Var"
+
+#: apps/question/models.py:158
+msgid "Meaningless"
+msgstr "Anlamsız"
+
+#: apps/question/models.py:159
+msgid "Hate Speech"
+msgstr "Nefret Söylemi"
+
+#: apps/question/models.py:159
+msgid "Insulting"
+msgstr "Hakaret"
+
+#: apps/question/models.py:161
+msgid "Pending"
+msgstr "Bekliyor"
+
+#: apps/question/models.py:162
+msgid "Solved"
+msgstr "Çözüldü"
+
+#: apps/question/models.py:163
+msgid "Rejected"
+msgstr "Reddedildi"
+
+#: apps/question/views.py:116
 msgid "You have to login to complete this action."
 msgstr "Bu işlemi gerçekleştirmek için giriş yapmalısın."
 
-#: apps/question/views.py:120
+#: apps/question/views.py:122
 msgid "You have send bad data."
 msgstr "Bir mesaj gönderdin"
 
-#: apps/question/views.py:156
+#: apps/question/views.py:158
 msgid "Action not found"
 msgstr "Hareket bulunamadı"
 
-#: apps/story/forms.py:125 apps/story/models.py:50
+#: apps/question/views.py:228
+msgid "Your complaint sent to moderation."
+msgstr "Şikayetin yönetime gönderildi."
+
+#: apps/story/forms.py:126 apps/story/models.py:53
 msgid "Title"
 msgstr "Başlık"
 
-#: apps/story/forms.py:130 apps/story/models.py:52
+#: apps/story/forms.py:131 apps/story/models.py:55
 msgid "Description"
 msgstr "Açıklama"
 
-#: apps/story/models.py:39
+#: apps/story/models.py:42 templates/auth/user_detail.html:14
 msgid "Draft"
 msgstr "Taslak"
 
-#: apps/story/models.py:40
+#: apps/story/models.py:43
 msgid "Published"
 msgstr "Yayında"
 
-#: apps/story/models.py:41
+#: apps/story/models.py:44
 msgid "Deleted by Owner"
 msgstr "Sahibi Tarafından Silinmiş"
 
-#: apps/story/models.py:42
+#: apps/story/models.py:45
 msgid "Deleted by Admins"
 msgstr "Adminler Tarafından Silinmiş"
 
-#: apps/story/models.py:44
+#: apps/story/models.py:47
 msgid "Everyone"
 msgstr "Herkese"
 
-#: apps/story/models.py:45 templates/auth/followers.html:8
+#: apps/story/models.py:48 templates/auth/followers.html:8
 msgid "Followers"
 msgstr "Takipçileri"
 
-#: apps/story/models.py:53 templates/story/ordering_options.html:1
-msgid "Featured"
-msgstr ""
+#: apps/story/models.py:54
+msgid "Cover Image"
+msgstr "Kapak Görseli"
 
-#: apps/story/models.py:54 templates/story/story_thumbnail.html:8
+#: apps/story/models.py:56 templates/story/ordering_options.html:1
+msgid "Featured"
+msgstr "Vizyonda"
+
+#: apps/story/models.py:57 templates/story/story_thumbnail.html:8
 msgid "NSFW"
 msgstr "AYIP"
 
 #: apps/story/models.py:63
+msgid "Status"
+msgstr "Durum"
+
+#: apps/story/models.py:66
 msgid "Visible For"
 msgstr "Şuna Görünür"
 
-#: apps/story/models.py:271
+#: apps/story/models.py:237 templates/auth/user_detail_inc.html:8
+msgid "Story"
+msgstr "Hikaye"
+
+#: apps/story/models.py:238
+msgid "Stories"
+msgstr "Hikayeler"
+
+#: apps/story/models.py:260
+msgid "Video"
+msgstr "Video"
+
+#: apps/story/models.py:261
+msgid "Videos"
+msgstr "Videolar"
+
+#: apps/story/models.py:276
+msgid "Image"
+msgstr "Görsel"
+
+#: apps/story/models.py:277
+msgid "Images"
+msgstr "Görseller"
+
+#: apps/story/models.py:297
+msgid "Slot"
+msgstr "Slot"
+
+#: apps/story/models.py:298
+msgid "Slots"
+msgstr "Slotlar"
+
+#: apps/story/models.py:313
 msgid "Uploading"
 msgstr "Yükleniyor"
 
-#: apps/story/models.py:272
+#: apps/story/models.py:314
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: apps/story/models.py:273
+#: apps/story/models.py:315
 msgid "Failed"
 msgstr "Bitirilemedi"
+
+#: apps/story/models.py:326 utils/models.py:13
+msgid "Owner"
+msgstr "Sahip"
+
+#: apps/story/models.py:443
+msgid "Upload"
+msgstr "Yükleme"
+
+#: apps/story/models.py:444
+msgid "Uploads"
+msgstr "Yüklemeler"
 
 #: apps/story/views.py:28
 msgid "Your story deleted."
 msgstr "Hikayen silindi"
 
-#: apps/story/views.py:40
+#: apps/story/views.py:41
 msgid "Your story published."
 msgstr "Hikayen yayınlandı."
 
-#: apps/story/views.py:108
+#: apps/story/views.py:109
 msgid "Your story updated"
 msgstr "Hikayen güncellendi"
 
-#: apps/story/views.py:140
+#: apps/story/views.py:141
 msgid "md5sum and size required."
 msgstr "md5sum ve size gerekli."
 
-#: apps/story/views.py:145
+#: apps/story/views.py:146
 msgid "File is too big to upload."
 msgstr "Dosya boyutu çok büyük"
 
-#: apps/story/views.py:164
+#: apps/story/views.py:165
 msgid "post method required."
 msgstr "post metodu gerekli."
+
+#: config/settings.py:24
+msgid "English"
+msgstr "İngilizce"
+
+#: config/settings.py:25
+msgid "Turkish"
+msgstr "Türkçe"
 
 #: templates/base.html:17
 msgid "Story questions with pics."
 msgstr "Sorulara görsellerle cevap ver"
 
-#: templates/base.html:34 templates/story/listing_options.html:1
+#: templates/base.html:46 templates/story/listing_options.html:1
 msgid "Wall"
 msgstr "Duvar"
 
-#: templates/base.html:35
+#: templates/base.html:47
 msgid "Questions"
 msgstr "Sorular"
 
-#: templates/base.html:36
+#: templates/base.html:50
 msgid "Pending Questions"
 msgstr "Bekleyen Sorular"
 
-#: templates/base.html:37
+#: templates/base.html:51
 msgid "Follow Requests"
 msgstr "Takipçi Olma Talepleri"
 
-#: templates/base.html:38
+#: templates/base.html:52
 msgid "PM's"
 msgstr "Özel Mesajlar"
 
-#: templates/base.html:39
+#: templates/base.html:53
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: templates/base.html:40
-msgid "Top Users"
-msgstr "Sevdicekler"
-
-#: templates/base.html:41
-msgid "IRC"
-msgstr "Chat"
-
-#: templates/base.html:44 templates/auth/login.html:17
+#: templates/base.html:59 templates/auth/login.html:17
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/base.html:47
+#: templates/base.html:60 templates/auth/register.html:14
+#: templates/auth/register.html.py:18
+msgid "Register"
+msgstr "Kayıt Ol"
+
+#: templates/base.html:64
 msgid "Menu"
 msgstr "Menü"
 
-#: templates/base.html:63
+#: templates/base.html:79
 msgid "Suggestions"
 msgstr "İstek & Öneri"
 
-#: templates/base.html:69
+#: templates/base.html:81
+msgid "Top Users"
+msgstr "Sevdicekler"
+
+#: templates/base.html:82
+msgid "IRC"
+msgstr "Chat"
+
+#: templates/base.html:86
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -665,7 +792,7 @@ msgstr ""
 "için sakıncalı olabilir. Sorulardan ve gönderilen cevaplardan göndericileri "
 "sorumludur. Kaynak göstermeden alıntılanamaz. Zaten niye alıntılıyorsun?"
 
-#: templates/base.html:85
+#: templates/base.html:102
 msgid "suggestions"
 msgstr "istek & öneri"
 
@@ -676,9 +803,9 @@ msgid ""
 "to take a look at the request(s) please <a href=\"%(the_pending_url)s\" "
 "title=\"Click here!\">click here.</a>"
 msgstr ""
-"%(pending_follow_requests)s kişi müridin olmak istiyor. Bekleyen talep(leri) "
-"incelemek için <a href=\"%(the_pending_url)s\" title=\"Buraya tıkla!"
-"\">buraya tıkla."
+"%(pending_follow_requests)s kişi müridin olmak istiyor. Bekleyen talep(leri)"
+" incelemek için <a href=\"%(the_pending_url)s\" title=\"Buraya "
+"tıkla!\">buraya tıkla."
 
 #: templates/index.html:19 templates/index2.html:9
 #, python-format
@@ -696,12 +823,12 @@ msgstr ""
 #: templates/index.html:26
 #, python-format
 msgid ""
-"Some of your answers lack the visibility information. Please <a href="
-"\"%(the_fixanswers_url)s\" title=\"Click here!\">click here</a> to update "
-"your answers and decide who can be able to see them."
+"Some of your answers lack the visibility information. Please <a "
+"href=\"%(the_fixanswers_url)s\" title=\"Click here!\">click here</a> to "
+"update your answers and decide who can be able to see them."
 msgstr ""
-"Görünürlüğü belirsiz cevapların var. Lütfen <a href=\"%(the_fixanswers_url)s"
-"\">buraya tıklayarak</a> cevaplarını düzenle."
+"Görünürlüğü belirsiz cevapların var. Lütfen <a "
+"href=\"%(the_fixanswers_url)s\">buraya tıklayarak</a> cevaplarını düzenle."
 
 #: templates/index2.html:20
 msgid ""
@@ -733,7 +860,7 @@ msgstr "Bizi Takip Et"
 msgid "Recommened Questions"
 msgstr "Önerilen Sorular"
 
-#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:54
+#: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:55
 msgid "Update Email"
 msgstr "E-Posta Güncelle"
 
@@ -742,8 +869,8 @@ msgid ""
 "We'll use your e-mail address to send you notifications when it's necessary "
 "and we'll never share it with other people."
 msgstr ""
-"Adresini bildirim gereken durumlarda sana e-posta atmak için kullanacağız ve "
-"kimseye vermeyeceğiz."
+"Adresini bildirim gereken durumlarda sana e-posta atmak için kullanacağız ve"
+" kimseye vermeyeceğiz."
 
 #: templates/auth/email_form.html:13
 msgid "Submit your e-mail"
@@ -751,14 +878,16 @@ msgstr "Gönder"
 
 #: templates/auth/email_form.html:18
 msgid "The link that you've clicked isn't valid. You might try it again."
-msgstr "Tıkladığın link yanlış ya da tarihi geçmiş. Tekrar denesen iyi olacak."
+msgstr ""
+"Tıkladığın link yanlış ya da tarihi geçmiş. Tekrar denesen iyi olacak."
 
 #: templates/auth/email_form.html:20
 msgid ""
 "We just sent a link to your e-mail. You can confirm the action clicking on "
 "it."
 msgstr ""
-"E-posta adresine bir link gönderdik, ona tıklayarak işlemi tamamlayabilirsin."
+"E-posta adresine bir link gönderdik, ona tıklayarak işlemi "
+"tamamlayabilirsin."
 
 #: templates/auth/followers.html:16 templates/auth/user_list_inc.html:6
 msgid "Restricted Follower"
@@ -812,7 +941,7 @@ msgstr "Takip Edenleri"
 msgid "Users receiving most hearts"
 msgstr "En çok kalp toplayan kullanıcılar"
 
-#: templates/auth/invitations.html:2 templates/auth/user_detail_inc.html:55
+#: templates/auth/invitations.html:2 templates/auth/user_detail_inc.html:56
 msgid "Invitations"
 msgstr "Davetiyeler"
 
@@ -822,8 +951,8 @@ msgstr "Tebrikler :) Davetiyeleriniz var."
 
 #: templates/auth/invitations.html:8
 msgid ""
-"Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin "
-"kişiye kutucuklardaki linklerden birini vermek. Aktif olacağını, güzel "
+"Siteye yeni birilerini getirmek için yapman gereken şey: gelmesini istediğin"
+" kişiye kutucuklardaki linklerden birini vermek. Aktif olacağını, güzel "
 "paylaşımlarda bulunacağını düşündüğün kişileri çağırırmalısın. Uzaktan "
 "izleyenleri sevmiyoruz. :)"
 msgstr ""
@@ -840,16 +969,11 @@ msgstr ""
 "tıklarsın</a>?"
 
 #: templates/auth/login.html:13
-#, python-format
-msgid ""
-"Sign in <span class=\"f_weak c_weak wn\">or <a href=\"%(register_url)s\">get "
-"registered</a>?</span>"
-msgstr ""
-"Giriş yap <span class=\"f_weak c_weak wn\">veya <a href=\"%(register_url)s"
-"\">kayıt ol</a>?</span>"
+msgid "Sign in"
+msgstr "Giriş yap"
 
 #: templates/auth/notification_preferences.html:5
-#: templates/auth/user_detail_inc.html:53
+#: templates/auth/user_detail_inc.html:54
 msgid "Update Notification Preferences"
 msgstr "Bildirim Tercihleri Güncelle"
 
@@ -866,9 +990,9 @@ msgid "Send Email Notification"
 msgstr "Eposta İle Bildir"
 
 #: templates/auth/notification_preferences.html:27
-#: templates/auth/preferences.html:9
-#: templates/comments/update_form.html:7
+#: templates/auth/preferences.html:9 templates/comments/update_form.html:7
 #: templates/story/create_story.html:37
+#: templates/story/story_detail_inc.html:72
 #: templates/story/update_captions.html:21
 msgid "Save"
 msgstr "Kaydet"
@@ -922,29 +1046,22 @@ msgstr ""
 "Resm.in hesabı olan birinden davet kodu isteyebilir ya da bulmak için hayal "
 "gücünü kullanabilirsin."
 
-#: templates/auth/register.html:14 templates/auth/register.html.py:18
-msgid "Register"
-msgstr "Kayıt Ol"
-
-#: templates/auth/register.html:14
-msgid "or"
-msgstr "veya"
-
-#: templates/auth/register.html:14
-msgid "Sign in"
-msgstr "Giriş yap"
-
-#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:52
+#: templates/auth/update_profile.html:3 templates/auth/user_detail_inc.html:53
 msgid "Update Profile"
 msgstr "Profili Güncelle"
+
+#: templates/auth/user_detail.html:14
+msgctxt "profile public"
+msgid "Public"
+msgstr "Herkese Açık"
+
+#: templates/auth/user_detail.html:14 templates/story/listing_options.html:1
+msgid "Private"
+msgstr "Özel"
 
 #: templates/auth/user_detail_inc.html:7
 msgid "Like"
 msgstr "Kalp"
-
-#: templates/auth/user_detail_inc.html:8
-msgid "Story"
-msgstr "Hikaye"
 
 #: templates/auth/user_detail_inc.html:10
 msgid "Follower"
@@ -954,15 +1071,15 @@ msgstr "Takipçi"
 msgid "Following"
 msgstr "Takip Edilen"
 
-#: templates/auth/user_detail_inc.html:33
+#: templates/auth/user_detail_inc.html:34
 msgid ""
 "Blocking this user means that you wouldn't dispose any of your questions or "
 "answers while you wouldn't be to see any question or answer. Is this cool?"
 msgstr ""
-"Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da "
-"senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?"
+"Bu kullanıcıyı engellersen onun soru ve cevaplarını göremeyeceğin gibi, o da"
+" senin soru ve cevaplarını göremeyecek. Yakışıklı mıyım?"
 
-#: templates/auth/user_detail_inc.html:36
+#: templates/auth/user_detail_inc.html:37
 msgid ""
 "As you unblock you'd be able to see questions & answers by this user who "
 "would also be able to access your contributions. Am I magnificient?"
@@ -970,39 +1087,39 @@ msgstr ""
 "Bu kullanıcının engelini kaldırırsan onun soru ve cevaplarını "
 "görebileceksin. O da senin soru ve cevaplarını görebilecek. Harika mıyım?"
 
-#: templates/auth/user_detail_inc.html:39
+#: templates/auth/user_detail_inc.html:40
 msgid "You want to be a disciple of this user. You're nuts..."
 msgstr "Bu kullanıcının müridi olmak istiyorsun, Çılgınsın?"
 
-#: templates/auth/user_detail_inc.html:42
+#: templates/auth/user_detail_inc.html:43
 msgid "Me don't want no more contact with this user. Ummmm are you bored?"
 msgstr "Artık bu kullanıcının müridi olmak istemiyorsun, Gıcık etti?"
 
-#: templates/auth/user_detail_inc.html:56
+#: templates/auth/user_detail_inc.html:57
 msgid "Log Out"
 msgstr "Çıkış Yap"
 
-#: templates/auth/user_detail_inc.html:60
+#: templates/auth/user_detail_inc.html:61
 msgid "Unblock"
 msgstr "Engeli Kaldır"
 
-#: templates/auth/user_detail_inc.html:62
+#: templates/auth/user_detail_inc.html:63
 msgid "Send PM"
 msgstr "Özel mesaj gönder"
 
-#: templates/auth/user_detail_inc.html:64
+#: templates/auth/user_detail_inc.html:65
 msgid "Unfollow"
 msgstr "Takipten Çık"
 
-#: templates/auth/user_detail_inc.html:67
+#: templates/auth/user_detail_inc.html:68
 msgid "Your follow request sent"
 msgstr "Takip İsteği Gönderilmiş"
 
-#: templates/auth/user_detail_inc.html:69
+#: templates/auth/user_detail_inc.html:70
 msgid "Follow"
 msgstr "Takip Et"
 
-#: templates/auth/user_detail_inc.html:72
+#: templates/auth/user_detail_inc.html:73
 msgid "Block"
 msgstr "Engelle"
 
@@ -1010,7 +1127,7 @@ msgstr "Engelle"
 msgid "anonymouse"
 msgstr "gizli kullanıcı"
 
-#: templates/comments/comment.html:7
+#: templates/comments/comment.html:8
 msgid "Update"
 msgstr "Güncelle"
 
@@ -1034,68 +1151,78 @@ msgstr "Önceki Hikayeler"
 msgid "Next Answers"
 msgstr "Sonraki Cevaplar"
 
+#: templates/moderation/complain_qmeta.html:11
+msgid "You're going to complain about"
+msgstr "Şikayet etmek üzeresin"
+
+#: templates/moderation/complain_qmeta.html:21
+msgid "TIPS:"
+msgstr "İpuçları:"
+
 #: templates/notification/list.html:9
 msgid "No new notifications."
 msgstr "Yeni bildirim yok."
 
 #: templates/notification/new_answer_to_following_question/sub_plur_obj_sing/email_body.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
-"There are %(count)s new answers on \"%(sentence)s\". Click link below to see "
-"them:"
+"There are %(count)s new answers on \"%(sentence)s\". Click link below to see"
+" them:"
 msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+"%(sentence)s sorusuna için %(count)s yeni cevap geldi. Görmek için aşağıdaki"
+" bağlantıya tıkla:"
 
 #: templates/notification/new_answer_to_following_question/sub_plur_obj_sing/email_subject.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "There are %(count)s new answers on a question that you're following."
-msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
+msgstr "Takip ettiğin soruya %(count)s yeni cevap geldi."
 
 #: templates/notification/new_answer_to_following_question/sub_plur_obj_sing/site_notification.html:1
 #, python-format
 msgid "There are %(count)s new answers on \"%(sentence)s\"."
-msgstr ""
+msgstr "\"%(sentence)s sorusu için %(count)s yeni cevap var."
 
 #: templates/notification/new_answer_to_following_question/sub_sing_obj_sing/email_body.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid "There's a new answer on \"%(sentence)s\". Click link below to see it:"
 msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+"%(sentence)s sorusuna yeni bir cevap geldi. Görmek için aşağıdaki bağlantıya"
+" tıkla:"
 
 #: templates/notification/new_answer_to_following_question/sub_sing_obj_sing/email_subject.txt:1
-#, fuzzy
 msgid "There's a new answer on a question that you're following"
-msgstr "Sorduğum soruya bir cevap geldiğinde"
+msgstr "Takip ettiğin bir soruya yeni bir cevap geldi"
 
 #: templates/notification/new_answer_to_following_question/sub_sing_obj_sing/site_notification.html:1
 #, python-format
 msgid "There's a new answer on \"%(sentence)s\"."
-msgstr ""
+msgstr "\"%(sentence)s\" sorusu için yeni bir cevap var."
 
 #: templates/notification/new_comment_on_commented_story/sub_plur_obj_sing/email_body.txt:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "There are %(num_of_comments)s new comments on an answer that you commented "
 "before. Click link below to see them:"
 msgstr ""
-"%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
-"tıkla:"
+"Daha önce yorum yaptığın bir cevaba %(num_of_comments)s yeni yorum geldi. "
+"Görmek için aşağıdaki bağlantıya tıkla:"
 
 #: templates/notification/new_comment_on_commented_story/sub_plur_obj_sing/site_notification.html:1
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "There are %(num_of_comments)s new comments on an answer that you commented "
 "before."
-msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
+msgstr ""
+"Daha önce yorum yaptığın bir cevaba %(num_of_comments)s yeni yorum geldi."
 
 #: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/email_body.txt:1
 #, python-format
 msgid ""
 "%(comment_owner)s commented on an answer that you commented before. Click "
 "link below to see it:"
-msgstr "%(comment_owner)s daha önce yorum yaptığın bir cevaba yorum yaptı. Görmek için aşağıdaki bağlantıya tıkla:"
+msgstr ""
+"%(comment_owner)s daha önce yorum yaptığın bir cevaba yorum yaptı. Görmek "
+"için aşağıdaki bağlantıya tıkla:"
 
 #: templates/notification/new_comment_on_commented_story/sub_sing_obj_sing/site_notification.html:1
 #, python-format
@@ -1120,7 +1247,8 @@ msgstr "Cevabına %(num_of_comments)s yeni yorum geldi."
 
 #: templates/notification/new_comment_on_my_story/sub_sing_obj_sing/email_body.txt:1
 #, python-format
-msgid "%(comment_owner)s commented on your answer. Click link below to see it:"
+msgid ""
+"%(comment_owner)s commented on your answer. Click link below to see it:"
 msgstr ""
 "%(comment_owner)s cevabına yorum yaptı. Görmek için aşağıdaki bağlantıya "
 "tıkla:"
@@ -1166,11 +1294,11 @@ msgstr "%(username)s sorunu cevapladı."
 #: templates/notification/user_answered_my_question/sub_sing_obj_sing/site_notification.html:1
 #, python-format
 msgid ""
-"<strong>%(username)s</strong> answered <strong>%(question)s</strong> by your "
-"request."
+"<strong>%(username)s</strong> answered <strong>%(question)s</strong> by your"
+" request."
 msgstr ""
-"<strong>%(username)s</strong> senin isteğin üzerine <strong>%(question)s</"
-"strong> sorusuna cevap verdi."
+"<strong>%(username)s</strong> senin isteğin üzerine "
+"<strong>%(question)s</strong> sorusuna cevap verdi."
 
 #: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/email_body.txt:1
 #: templates/notification/user_asked_me_a_question/sub_sing_obj_sing/site_notification.html:1
@@ -1221,6 +1349,14 @@ msgstr ""
 msgid "%(username)s liked your answer."
 msgstr "%(username)s cevabını beğendi."
 
+#: templates/question/merge_form.html:8
+msgid "Home"
+msgstr ""
+
+#: templates/question/merge_form.html:11 templates/question/merge_form.html:36
+msgid "Merge"
+msgstr "Birleştir"
+
 #: templates/question/pending_questions.html:16
 msgid "ago"
 msgstr "önce"
@@ -1250,13 +1386,13 @@ msgstr ""
 
 #: templates/question/question_list.html:32
 msgid ""
-"If the question you're searching for wasn't previously asked, <a class=\"imp"
-"\" href=\"#\" onclick=\"$('#create_form').show('slow'); $('#search_form')."
-"hide('slow');\">click here</a> to ask it now."
+"If the question you're searching for wasn't previously asked, <a "
+"class=\"imp\" href=\"#\" onclick=\"$('#create_form').show('slow'); "
+"$('#search_form').hide('slow');\">click here</a> to ask it now."
 msgstr ""
-"Aradığın soru daha önce sorulmamış ise <a class=\"imp\" href=\"#\" onclick="
-"\"$('#create_form').show('slow'); $('#search_form').hide('slow');\">buraya "
-"tıklayarak</a> sen sorabilirsin."
+"Aradığın soru daha önce sorulmamış ise <a class=\"imp\" href=\"#\" "
+"onclick=\"$('#create_form').show('slow'); "
+"$('#search_form').hide('slow');\">buraya tıklayarak</a> sen sorabilirsin."
 
 #: templates/question/question_list.html:34
 #: templates/question/question_meta_list.html:7
@@ -1269,15 +1405,14 @@ msgid "Submit"
 msgstr "Gönder"
 
 #: templates/question/question_meta_list.html:5
-#, fuzzy
 msgid "Find a Question"
-msgstr "Soru"
+msgstr "Soru bul"
 
 #: templates/question/question_meta_list.html:18
 #: templates/question/question_meta_list_item.html:2
-#, fuzzy, python-format
+#, python-format
 msgid "%(ac)s answers."
-msgstr "%(count)s cevap aldı"
+msgstr "%(ac)s cevap."
 
 #: templates/question/question_sentence.html:8
 #, python-format
@@ -1298,11 +1433,14 @@ msgctxt "follow"
 msgid "Follow"
 msgstr "Takip Et"
 
+#: templates/question/question_sentence.html:15
+msgid "Complain"
+msgstr "Şikayet Et"
+
 #: templates/question/question_sentence.html:18
 #, python-format
 msgid "<a class=\"imp\" href=\"%(login_url)s\">Login</a> to post an answer."
-msgstr ""
-"Cevaplayabilmek için <a class=\"imp\" href=\"%(login_url)s\">giriş yap</a>."
+msgstr "Cevaplayabilmek için <a class=\"imp\" href=\"%(login_url)s\">giriş yap</a>."
 
 #: templates/story/listing_options.html:1
 msgid "Show public answers from your followings."
@@ -1311,10 +1449,6 @@ msgstr ""
 #: templates/story/listing_options.html:1
 msgid "Public"
 msgstr "Herkesten"
-
-#: templates/story/listing_options.html:1
-msgid "Private"
-msgstr "Özel"
 
 #: templates/story/ordering_options.html:1
 msgid "Shows latest answers first."
@@ -1348,7 +1482,7 @@ msgstr "Bu cevap adminler tarafından silinmiş"
 msgid "This story is not visible for you"
 msgstr "Bu cevabı görmeye hakkın yok"
 
-#: templates/story/story_detail_inc.html:7
+#: templates/story/story_detail_inc.html:22
 msgid ""
 "This story is currently in draft status, click publish to make it visible "
 "for others."
@@ -1356,56 +1490,63 @@ msgstr ""
 "Bu hikaye şu anda müsvette durumunda, yayınla butonuna basarak başkaları "
 "için görünür hale getir."
 
-#: templates/story/story_detail_inc.html:8
+#: templates/story/story_detail_inc.html:23
 msgid "Publish"
 msgstr "Yayınla"
 
-#: templates/story/story_detail_inc.html:24
+#: templates/story/story_detail_inc.html:39
 msgid "Please activate javascript on your browser."
-msgstr ""
+msgstr "Lütfen tarayıcında Javascript'i etkinleştir"
 
-#: templates/story/story_detail_inc.html:68
-msgid "Answer by an anonymouse user"
-msgstr "Gizli kullanıcı tarafından paylaşıldı"
+#: templates/story/story_detail_inc.html:57
+msgid "Answer by an anonymouse user."
+msgstr "Gizli kullanıcı tarafından cevaplandı"
 
-#: templates/story/story_detail_inc.html:70
+#: templates/story/story_detail_inc.html:59
 #, python-format
 msgid "Answer by <a href=\"%(story_owner_url)s\">%(story_owner)s</a>"
-msgstr ""
-"<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı"
+msgstr "<a href=\"%(story_owner_url)s\">%(story_owner)s</a> tarafından paylaşıldı"
 
-#: templates/story/story_detail_inc.html:72
+#: templates/story/story_detail_inc.html:60
 msgid "Visible to"
 msgstr "Şuna Görünür"
 
-#: templates/story/story_detail_inc.html:72
+#: templates/story/story_detail_inc.html:60
 msgid "Posted at"
 msgstr "Oluşturulma Zamanı"
 
-#: templates/story/story_detail_inc.html:81
+#: templates/story/story_detail_inc.html:75
+msgid "Login to leave comment"
+msgstr "Yorum yapmak için giriş yap"
+
+#: templates/story/story_detail_inc.html:89
 #, python-format
 msgid "%(count)s people liked"
 msgstr "%(count)s kişi beğendi"
 
-#: templates/story/story_detail_inc.html:85
+#: templates/story/story_detail_inc.html:93
 msgid "Likers can be seen by owner of story."
 msgstr "Kalpleyenler hikaye sahibi tarafından görüntülenebilir."
 
-#: templates/story/story_detail_inc.html:101
+#: templates/story/story_detail_inc.html:100
 msgid "Actions"
 msgstr "Hareketler"
 
-#: templates/story/story_detail_inc.html:103
+#: templates/story/story_detail_inc.html:102
 msgid "Rearrange Images"
 msgstr "Görselleri Düzenle"
 
-#: templates/story/story_detail_inc.html:104
+#: templates/story/story_detail_inc.html:103
 msgid "Edit Title and Descriptions"
 msgstr "Başlık ve Açıklamaları Düzenle"
 
-#: templates/story/story_detail_inc.html:105
+#: templates/story/story_detail_inc.html:104
 msgid "Click here if you're sure to delete."
 msgstr "Silmeye eminsen buraya tıkla."
+
+#: templates/story/story_detail_inc.html:109
+msgid "Sponsor"
+msgstr ""
 
 #: templates/story/story_thumbnail.html:14
 msgid "This story is visible for followers."
@@ -1414,7 +1555,22 @@ msgstr "Bu hikaye sadece takipçilere açık"
 #: templates/story/story_thumbnail.html:16
 msgid "This story marked as qualified answer by admins."
 msgstr ""
+"Bu hikaye yöneticilerimiz tarafından kaliteli içerik olarak işaretlenmiş."
 
 #: templates/story/story_thumbnails.html:9
 msgid "No Answers Found Here"
 msgstr "Burada Hiç Cevap Yok"
+
+#: utils/models.py:15
+msgid "Created at"
+msgstr "Oluşturulma Zamanı"
+
+#~ msgid ""
+#~ "Sign in <span class=\"f_weak c_weak wn\">or <a href=\"%(register_url)s\">get"
+#~ " registered</a>?</span>"
+#~ msgstr ""
+#~ "Giriş yap <span class=\"f_weak c_weak wn\">veya <a "
+#~ "href=\"%(register_url)s\">kayıt ol</a>?</span>"
+
+#~ msgid "or"
+#~ msgstr "veya"

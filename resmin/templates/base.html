@@ -16,6 +16,7 @@
       <title>resm.in</title>
       <meta name="description" content="{% trans 'Story questions with pics.' %}" />
     {% endmeta %}
+    {% comment %}{% include "adverts/popmarker.html" %}{% endcomment %}
   </head>
   
   <body>
@@ -35,15 +36,11 @@
           <a href="/qs/" class="{% if request.path == '/qs/' %}active{% endif %}">{% trans "Questions" %}</a>
 
           {% if user.is_authenticated %}
-            <a href="/pq/" class="{% if request.path == '/pq/' %}active{% endif %}">{% trans "Pending Questions" %}{% if num_of_pending_questions %} ({{ num_of_pending_questions }}){% endif %}</a>          
+            <a href="/pq/" class="{% if request.path == '/pq/' %}active{% endif %}">{% trans "Pending Questions" %}{% if num_of_pending_questions %} ({{ num_of_pending_questions }}){% endif %}</a>
             <a href="/pfr/" class="{% if request.path == '/pfr/' %}active{% endif %}">{% trans "Follow Requests" %}{% if num_of_pending_follow_requests > 0 %} ({{ num_of_pending_follow_requests }}){% endif %}</a>
             <a href="/pm/" class="{% if request.path == '/pm/' %}active{% endif %}">{% trans "PM's" %}{% if num_of_unread_messages > 0 %} ({{ num_of_unread_messages }}){% endif %}</a>
             <a href="/n/" class="{% if request.path == '/n/' %}active{% endif %}">{% trans "Notifications" %}{% if num_of_pending_notifications > 0 %} ({{ num_of_pending_notifications}}){% endif %}</a>
-            <a href="/hof/" class="{% if request.path == '/hof/' %}active{% endif %}">{% trans "Top Users" %}</a>
-          {% endif %}
-
-          <a href="https://kiwiirc.com/client/irc.freenode.net/#resmin" target="_blank">{% trans "IRC" %}</a>
-          
+          {% endif %}          
           <div class="drawer-right">
             {% if user.is_authenticated %}
               <a href="{{ user.get_absolute_url }}" class="right {% if request.path == '/me/' %}imp{% endif %}">{{ user }}</a>
@@ -63,7 +60,6 @@
         {% block content %}{% endblock content %}
       </div>
     </div>
-    
     <footer class="oa tac pbh ptd">
       <div class="wrap mb">
         <a href="http://twitter.com/mirat/" class="mld mrd" target="_blank">Twitter</a>
@@ -71,8 +67,9 @@
         <a href="http://resm-in.tumblr.com/" class="mld mrd" target="_blank">Blog</a>
         <a href="https://resmin.uservoice.com/forums/219051-general" class="mld mrd" target="_blank">{% trans 'Suggestions' %}</a>
         <a href="http://resm-in.tumblr.com/post/59702522278/resm-in-api-ilk-nefes" class="mld mrd" target="_blank">Api</a>
+        <a href="/hof/" class="mld mrd">{% trans "Top Users" %}</a>
+        <a href="https://kiwiirc.com/client/irc.freenode.net/#resmin" target="_blank" class="mld mrd">{% trans "IRC" %}</a>
       </div>
-      
       <div class="wrap mb">
         <p class="f_weak mb">
           {% trans 'Non of the images & content that appear at this site are real. Site content might not be convenient for kids & minors. Users who create the questions & share the images are responsible and liable from their content. Every content should be conveniently credited. By the way Why do you just copy when you can create something original?' %}
@@ -80,41 +77,8 @@
       </div>
     </footer>
   {% block extra_foot %}{% endblock %}
-  <!-- UserVoice JavaScript SDK (only needed once on a page) -->
-  <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/9BBHpvGQ4iGT34cMgcfFnQ.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-  <!-- A tab to launch the Classic Widget -->
-  <script>
-    UserVoice = window.UserVoice || [];
-    UserVoice.push(['showTab', 'classic_widget', {
-      mode: 'full',
-      primary_color: '#333333',
-      link_color: '#c15d64',
-      default_mode: 'feedback',
-      forum_id: 219051,
-      tab_label: '{% trans 'suggestions' %}',
-      tab_color: '#c15d64',
-      tab_position: 'middle-right',
-      tab_inverted: false
-    }]);
-  </script>
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-6315603-14', 'resm.in');
-    ga('send', 'pageview');
-    $(function() {  
-      var pull        = $('#pull');  
-          menu        = $('nav .drawer');  
-          menuHeight  = menu.height();
-      $(pull).on('click', function(e) {  
-          e.preventDefault();  
-          menu.slideToggle();  
-      });  
-    });
-    (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter27825243 = new Ya.Metrika({ id:27825243, webvisor:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");
-  </script>
+  {% include "scripts/uservoice.html" %}
+  {% include "scripts/google_analytics.html" %}
+  {% include "scripts/menu.html" %}
   </body>
 </html>

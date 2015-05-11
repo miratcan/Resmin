@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
 from apps.question.signals import user_created_question
-from apps.question.models import Question
+from apps.question.models import Question, QuestionMetaComplaint
 
 
 class CreateQuestionForm(forms.ModelForm):
@@ -60,6 +60,25 @@ class RequestAnswerForm(forms.Form):
                 questioner=self.questioner,
                 is_anonymouse=self.cleaned_data['is_anonymouse'])
         return usernames
+
+
+class ComplainQuestionMetaForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.qmeta = kwargs.pop('qmeta')
+        super(ComplainQuestionMetaForm, self).__init__(*args, **kwargs)
+
+    class Meta:
+        model = QuestionMetaComplaint
+        fields = ['complaint_type', 'description']
+
+    def save(self, *args, **kwargs):
+        complainer = kwargs.pop('complainer')
+        complaint = QuestionMetaComplaint.objects.create(
+            question_meta=self.qmeta,
+            description=self.cleaned_data['description'],
+            complaint_type=self.cleaned_data['complaint_type'])
+        complaint.complainers.add(complainer)
 
 
 class SearchForm(forms.Form):

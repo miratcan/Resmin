@@ -1,0 +1,33 @@
+{% extends "base.html" %}{% load i18n %}
+{% block wrap_class %}narrow{% endblock %}
+
+{% block extra_head %}
+{% endblock %}
+
+{% block content %}
+  <div class="panel-left">
+    <form method="post" action="#">
+      <p class="mb">
+        <label>{% trans "You're going to complain about" %}</label>
+        <input type="text" disabled="disabled" value="{{ complain_form.qmeta.text }}" />
+      </p>
+      {% csrf_token %}
+      {{ complain_form.as_p }}
+      <input class="fr bttn green" type="submit">
+    </form>
+  </div>
+  <div class="panel-right">
+    <div class="section">
+    	<h4 class="mb">{% trans "TIPS:" %}</h4>
+    	<p id="tips"></p>
+    </div>
+  </div>
+<script>
+  descriptions = {{ descriptions|safe }};
+  $('#id_complaint_type').change(function() {
+  	var selected =  $(this).find('option:selected').val()
+  	$("#tips").html(descriptions[selected])
+  })
+</script>
+
+{% endblock %}

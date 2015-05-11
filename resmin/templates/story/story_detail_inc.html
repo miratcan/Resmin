@@ -81,7 +81,7 @@
     {% if story.description %}<div class="mbd">{{ story.description|linebreaks|urlize }}</div>{% endif %}
 
     <div class="section">
-      <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">Kalple</span><span class="active">Kalpledin</span></p>
+      <p class="like-big{% if story|is_liked_by:user %} active{% endif %}" data-story-id="{{ story.id }}">&#10084; <span class="passive">{% trans 'Give a Heart' %}</span><span class="active">{% trans 'Hearted' %}</span></p>
     </div>
     {% with likers=story.get_likers_from_redis %}
       {% if likers %}
