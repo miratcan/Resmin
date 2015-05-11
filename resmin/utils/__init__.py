@@ -2,7 +2,6 @@ import os
 import uuid
 import datetime
 
-from Levenshtein import ratio
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
@@ -78,15 +77,3 @@ def _set_avatar_to_answer(story):
     story.owner.userprofile.avatar = slot.content.image
     story.owner.userprofile.save(update_fields=['avatar'])
 
-
-def get_similar_items(model, field, string, minimum_similarity=0.6,
-                      limit=None):
-    similar_list = []
-    ctype = ContentType.objects.get_for_model(model)
-    klass = ctype.model_class()
-    for item in klass.objects.all():
-        similarity = ratio(string, getattr(item, field))
-        if similarity > minimum_similarity:
-            similar_list.append((item, similarity))
-    similar_list = sorted(similar_list, key=lambda i: i[1], reverse=True)
-    return similar_list[:limit]

@@ -100,7 +100,7 @@ INSTALLED_APPS = (
     'json_field',
     'django_extensions',
     'rest_framework',
-    'watson'
+    'haystack'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -253,6 +253,19 @@ REST_FRAMEWORK = {
     )
 }
 
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
+        'URL': 'https://resmin.east-us.azr.facetflow.io',
+        'INDEX_NAME': 'my_index',
+        'KWARGS': {
+            'http_auth': 'GS66co7J06Kp2b0s2DvAlpSjDGuEqYIz:', 
+            'use_ssl': True,
+            'port': 443
+        }
+
+    },
+}
 
 try:
     from resmin.config.local_settings import *
