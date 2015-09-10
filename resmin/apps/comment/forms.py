@@ -12,7 +12,8 @@ class CommentForm(forms.Form):
     comment = forms.CharField(
         label='Comment',
         widget=forms.Textarea(
-            attrs={'placeholder':  _('Comment')}))
+            attrs={'placeholder':  _('Comment'),
+                   'rows': 5}))
 
     def __init__(self, *args, **kwargs):
         self.owner = kwargs.pop('owner')
