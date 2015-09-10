@@ -11,3 +11,4 @@ celery==3.1.17
 python-magic==0.4.6
 django-rosetta==0.7.6
 sorl-thumbnail==12.3
+haystack==0.15
