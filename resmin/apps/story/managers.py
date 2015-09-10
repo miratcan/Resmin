@@ -52,7 +52,7 @@ class StoryManager(Manager):
 
         ordering = {'popular': '-like_count',
                     'featured': 'is_featured',
-                    'recent': '-created_at'}.get(ordering, '-updated_at')
+                    'recent': '-created_at'}.get(ordering, '-created_at')
 
         return Story.objects\
             .filter(qset)\
