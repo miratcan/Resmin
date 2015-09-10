@@ -107,7 +107,6 @@ INSTALLED_APPS = (
     'json_field',
     'django_extensions',
     'rest_framework',
-    'haystack',
     'rosetta'
 )
 
@@ -259,20 +258,6 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     )
-}
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'https://resmin.east-us.azr.facetflow.io',
-        'INDEX_NAME': 'my_index',
-        'KWARGS': {
-            'http_auth': 'GS66co7J06Kp2b0s2DvAlpSjDGuEqYIz:', 
-            'use_ssl': True,
-            'port': 443
-        }
-
-    },
 }
 
 try:
