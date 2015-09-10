@@ -14,7 +14,6 @@ from redis_cache import get_redis_connection
 
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
-from utils import get_similar_items
 from apps.story.models import Story
 from apps.question.models import Question, QuestionMeta
 from apps.question.forms import (RequestAnswerForm, SearchForm,
@@ -51,13 +50,7 @@ def index(request, listing='public'):
 def questions(request):
 
     if request.GET:
-        search_form = SearchForm(request.GET)
-        if search_form.is_valid():
-            results = get_similar_items(
-                QuestionMeta, 'text', search_form.cleaned_data['q'])
-        return render(request, "question/question_meta_list.html", {
-            'search_form': search_form,
-            'results': results})
+        return render(request, "question/question_meta_list.html", {})
 
     return render(request, "question/question_meta_list.html", {
         'search_form': SearchForm(),
