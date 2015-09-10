@@ -59,7 +59,7 @@
 }
 
 .narrow     { max-width: 860px; }
-.narrow-with-page-arrows { max-width: 1016px }
+.narrow-with-page-arrows {}
 .shadowed   { box-shadow: 0 0 10px #ccc; }
 
 .np         { padding: 0 !important; }
@@ -168,7 +168,7 @@ p { .mb; }
 
 .content {
   color: @DarthGray;
-  a { color: @St2; }
+  a { color: @St2; text-decoration: underline; }
 }
 
 footer {
@@ -396,11 +396,13 @@ textarea  {
 
 .bttn.green       { background-color: #6687c9;
                     border-bottom: 2px solid #365799;
-                    color: @White; }
+                    color: @White;
+                    text-decoration: none;}
 .bttn.green:hover { background-color: #365799;}
 
 .bttn.red         { background-color: #971b1b;
-                    color: @White; }
+                    color: @White;
+                    text-decoration: none;}
 
 .bttn.red:hover   { background-color: #670000 }
 
@@ -602,10 +604,23 @@ form#preferences {
 }
 
 .slotBig {
-  .ra;
-  .bg; .bb; .oa; .pah; .mbd; 
-  img {
-    .nm; .ba;
+  .oa; .pa; .bg; .mbd; .ra;
+  
+  min-height: 10px;
+  .imgWrap {
+    width: 100%;
+    height: 400px;
+    line-height: 400px;
+    .tac;
+    img {
+      vertical-align: middle;
+      max-width: 100%;
+      max-height: 100%;
+      .nm;
+    }
+    span {
+      line-height: 16px;
+    }
   }
   h3 { .pa; }
   .descr { 
@@ -615,7 +630,7 @@ form#preferences {
 
 @media only screen and (max-width:800px) {
   .thmb-row {
-    White-space:nowrap;
+    white-space:nowrap;
     overflow-y: show;
     overflow-x: scroll;
     -webkit-overflow-scrolling: touch;
@@ -659,7 +674,7 @@ th {
 
 td {
   .tac;
-  vertical-align: bottom;
+  vertical-align: top;
 }
 
 .heartie {

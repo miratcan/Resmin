@@ -26,7 +26,7 @@
       {% for slot in story.slot_set.all %}
           <div id="slot{{ slot.order }}" class="slotBig" style="border-bottom-width: 3px; position: relative;">
             {% if slot.title %}<h3>{{ slot.title }}</h3>{% endif %}
-              <div class="img" style="position: relative;">
+              <div class="imgWrap" style="position: relative;">
                 <span style="position: absolute; top: 0; right: 0; padding: 5px; background: #E17D83; border-bottom-left-radius: 3px;"><a style="color: white;" href="{{ story.get_absolute_url}}#slot{{ slot.order }}">#{{ slot.order }}</a></span>
                   {% if slot.cTp.name == 'video' %}
                         <video id="vid"
@@ -42,7 +42,7 @@
                     {% if slot.content.is_playble %}
                       <img src="{{ slot.content.image.url }}" alt="{{ story.question_meta.text }}" style="width: 100%;">
                     {% else %}
-                      {% thumbnail slot.content.image "580" as img %}
+                      {% thumbnail slot.content.image "700" as img %}
                         <img alt="{{ story.question_meta.text }}" src="{{ img.url }}">
                       {% endthumbnail %}
                     {% endif %}
