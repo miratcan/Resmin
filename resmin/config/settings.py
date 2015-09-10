@@ -107,7 +107,7 @@ INSTALLED_APPS = (
     'json_field',
     'django_extensions',
     'rest_framework',
-    'haystack'
+    'haystack',
     'rosetta'
 )
 
