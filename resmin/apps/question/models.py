@@ -1,4 +1,3 @@
-import watson
 from datetime import datetime
 
 from django.core.urlresolvers import reverse
