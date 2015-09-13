@@ -1,12 +1,11 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from apps.story.models import Story
+from apps.question.models import QuestionMeta
 from apps.notification.models import (NotificationMeta, NotificationType,
                                       SiteNotification,
                                       notification_preferences)
 from apps.notification.utils import notify
-
-
 
 
 def _create_user(username, password):
@@ -14,7 +13,8 @@ def _create_user(username, password):
 
 
 def _create_story(owner):
-    return Story.objects.create(owner=owner)
+    qmeta = QuestionMeta.objects.create(text='Are you alive?', owner=owner)
+    return Story.objects.create(owner=owner, question_meta=qmeta)
 
 
 class SimpleTest(TestCase):
