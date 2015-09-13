@@ -37,4 +37,5 @@ def deploy():
     with prefix(env.activate_env):
         with cd(env.webapp):
             pull()
+            collect_static()
             restart_server()
