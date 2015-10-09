@@ -54,13 +54,16 @@ def story(request, base62_id):
             story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                                       owner=request.user)
             return method(request, story)
-    statuses_in = [Story.DRAFT, Story.PUBLISHED] if request.user.is_authenticated() \
-        else [Story.PUBLISHED]
+    statuses_in = [Story.DRAFT, Story.PUBLISHED] if \
+        request.user.is_authenticated() else [Story.PUBLISHED]
     story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                               status__in=statuses_in, owner__is_active=True)
-    story_is_visible = story.is_visible_for(request.user)
+    blocked_user_ids = request.user.blocked_user_ids
+    story_is_visible = story.is_visible_for(request.user,
+                                            blocked_user_ids=blocked_user_ids)
     comments = Comment.objects\
         .filter(story=story, status=Comment.PUBLISHED, owner__is_active=True)\
+        .exclude(owner_id__in=blocked_user_ids)\
         .select_related('owner__profile')
     comments = paginated(request, comments, settings.COMMENTS_PER_PAGE)
     if request.user.is_authenticated():
