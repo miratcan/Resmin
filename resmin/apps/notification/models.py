@@ -201,7 +201,7 @@ class NotificationMeta(models.Model):
     @property
     def sub(self):
         """
-        Return first subject. Usually used with notification types 
+        Return first subject. Usually used with notification types
         with singular subjects.
         """
         return self.subs[0]
@@ -209,7 +209,7 @@ class NotificationMeta(models.Model):
     @property
     def obj(self):
         """
-        Return first object. Usually used with notification types 
+        Return first object. Usually used with notification types
         with singular subjects.
         """
         return self.objs[0]
