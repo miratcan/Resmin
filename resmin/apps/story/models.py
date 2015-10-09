@@ -177,8 +177,8 @@ class Story(BaseModel):
 
     def get_next_story(self, requested_user=None):
         from apps.follow.models import compute_blocked_user_ids_for
-        blocked_user_ids = compute_blocked_user_ids_for(requested_user) if requested_user \
-            else []
+        blocked_user_ids = compute_blocked_user_ids_for(requested_user) if \
+            requested_user else []
         return Story.objects.filter(
             question_meta=self.question_meta,
             status=Story.PUBLISHED,
@@ -189,8 +189,8 @@ class Story(BaseModel):
 
     def get_prev_story(self, requested_user=None):
         from apps.follow.models import compute_blocked_user_ids_for
-        blocked_user_ids = compute_blocked_user_ids_for(requested_user) if requested_user \
-            else []
+        blocked_user_ids = compute_blocked_user_ids_for(requested_user) \
+            if requested_user else []
         return Story.objects.filter(
             question_meta=self.question_meta,
             status=Story.PUBLISHED,
