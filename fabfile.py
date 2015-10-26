@@ -4,8 +4,8 @@ from fabric.api import run, env, cd, sudo, prefix
 def server():
     env.host_string = "resm.in"
     env.user = "miratcan"
-    env.webapp = "/home/miratcan/webapps/resmin/resmin/"
-    env.activate_env = 'source /home/miratcan/envs/CB2/bin/activate'
+    env.webapp = "~/webapps/resmin/resmin/"
+    env.activate_env = 'source ~/envs/CB2/bin/activate'
 
 
 def _virtualenv(command):
