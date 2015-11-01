@@ -5,7 +5,7 @@ from apps.follow.models import QuestionFollow
 from apps.notification.utils import notify
 from redis_cache import get_redis_connection
 
-from utils import _set_avatar_to_answer
+from resmin.utils import _set_avatar_to_answer
 
 
 redis = get_redis_connection('default')

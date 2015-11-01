@@ -15,9 +15,10 @@ from apps.comment.forms import CommentForm
 from apps.story.forms import StoryForm, UpdateCaptionsForm
 from apps.story.models import Story, Upload, Image, Video
 from apps.notification.decorators import delete_notification
-from libs.baseconv import base62
-from libs.shortcuts import render_to_json
-from utils import paginated
+
+from resmin.libs.baseconv import base62
+from resmin.libs.shortcuts import render_to_json
+from resmin.utils import paginated
 
 
 def _delete_story(request, story=None):

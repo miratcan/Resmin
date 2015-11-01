@@ -18,9 +18,10 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from redis_cache import get_redis_connection
 
-from utils import (filename_for_image, filename_for_upload, generate_upload_id,
-                   filename_for_video, filename_for_video_frame)
-from utils.models import BaseModel, UniqueFileModel
+from resmin.utils import (filename_for_image, filename_for_upload,
+                          generate_upload_id, filename_for_video,
+                          filename_for_video_frame)
+from resmin.utils.models import BaseModel, UniqueFileModel
 
 from apps.story.managers import StoryManager
 from apps.story.video_processing import grab_frame
