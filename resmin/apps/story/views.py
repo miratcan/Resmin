@@ -63,8 +63,9 @@ def story(request, base62_id):
     story_is_visible = story.is_visible_for(request.user,
                                             blocked_user_ids=blocked_user_ids)
     comments = Comment.objects\
-        .filter(story=story, status=Comment.PUBLISHED, owner__is_active=True)\
-        .exclude(owner_id__in=blocked_user_ids)\
+        .filter(story=story)\
+        .from_active_owners()\
+        .visible_for(request.user)\
         .select_related('owner__profile')
     comments = paginated(request, comments, settings.COMMENTS_PER_PAGE)
     if request.user.is_authenticated():
