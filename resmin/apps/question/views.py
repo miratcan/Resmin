@@ -21,7 +21,7 @@ from apps.question.forms import (RequestAnswerForm, SearchForm,
 from apps.notification.utils import notify
 from apps.follow.models import QuestionFollow
 
-from utils import paginated
+from resmin.utils import paginated
 
 redis = get_redis_connection('default')
 

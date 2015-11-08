@@ -1,4 +1,5 @@
 -r requirements
 django-debug-toolbar
 django-extensions
+pytest-django==2.8.0
 ipython

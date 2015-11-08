@@ -15,9 +15,10 @@ from apps.comment.forms import CommentForm
 from apps.story.forms import StoryForm, UpdateCaptionsForm
 from apps.story.models import Story, Upload, Image, Video
 from apps.notification.decorators import delete_notification
-from libs.baseconv import base62
-from libs.shortcuts import render_to_json
-from utils import paginated
+
+from resmin.libs.baseconv import base62
+from resmin.libs.shortcuts import render_to_json
+from resmin.utils import paginated
 
 
 def _delete_story(request, story=None):
@@ -54,13 +55,17 @@ def story(request, base62_id):
             story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                                       owner=request.user)
             return method(request, story)
-    statuses_in = [Story.DRAFT, Story.PUBLISHED] if request.user.is_authenticated() \
-        else [Story.PUBLISHED]
+    statuses_in = [Story.DRAFT, Story.PUBLISHED] if \
+        request.user.is_authenticated() else [Story.PUBLISHED]
     story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                               status__in=statuses_in, owner__is_active=True)
-    story_is_visible = story.is_visible_for(request.user)
+    blocked_user_ids = request.user.blocked_user_ids
+    story_is_visible = story.is_visible_for(request.user,
+                                            blocked_user_ids=blocked_user_ids)
     comments = Comment.objects\
-        .filter(story=story, status=Comment.PUBLISHED, owner__is_active=True)\
+        .filter(story=story)\
+        .from_active_owners()\
+        .visible_for(request.user)\
         .select_related('owner__profile')
     comments = paginated(request, comments, settings.COMMENTS_PER_PAGE)
     if request.user.is_authenticated():

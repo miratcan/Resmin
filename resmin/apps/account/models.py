@@ -7,13 +7,14 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
-from utils.models import BaseModel
+
 from apps.follow.models import UserFollow
 from apps.story.models import Story
 
+from resmin.utils.models import BaseModel
+from resmin.utils import filename_for_avatar
 
 from libs import key_generator
-from utils import filename_for_avatar
 
 
 class UserProfile(models.Model):

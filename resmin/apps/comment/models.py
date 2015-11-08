@@ -1,12 +1,42 @@
-from django.db import models
 from django.contrib.auth.models import User
+
+from django.db import models
+from django.db.models.query import QuerySet
+
 from apps.story.models import Story
+from apps.follow.models import compute_blocked_user_ids_for
+
 from django.template.defaultfilters import linebreaks, urlize
 
 
-class CommentManager(models.Manager):
+class CommentQuerySet(QuerySet):
+
+    def from_active_owners(self):
+        return self.filter(owner__is_active=True)
+
     def published(self):
-        return self.get_queryset().filter(status=Comment.PUBLISHED)
+        return self.filter(status=Comment.PUBLISHED)
+
+    def visible_for(self, user, blocked_user_ids=None):
+        if not blocked_user_ids:
+            blocked_user_ids = compute_blocked_user_ids_for(user)
+        return self.exclude(owner_id__in=blocked_user_ids)
+
+
+class CommentManager(models.Manager):
+
+    def get_query_set(self):
+        return CommentQuerySet(self.model)
+
+    def from_active_owners(self):
+        return self.get_queryset().from_active_owners()
+
+    def published(self):
+        return self.get_queryset().published()
+
+    def visible_for(self, user, blocked_user_ids=None):
+        return self.get_queryset().visible_for(user, blocked_user_ids)
+
 
 COMMENT_RENDERER = lambda b: linebreaks(urlize(b))
 

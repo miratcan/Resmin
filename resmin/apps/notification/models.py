@@ -41,6 +41,7 @@ class NotificationType(MultilingualModel):
         help_text='Used for generating template names for this notification '
                   'type.')
     default_preferences = JSONField(
+        default={},
         help_text='Default preferences that will be used if user has no '
                   'NotificationPreference or NotificationPreference has no '
                   'info about that kind of notification.')
@@ -81,7 +82,7 @@ class NotificationPreference(models.Model):
 
     user = models.ForeignKey(User)
     ntype = models.ForeignKey(NotificationType)
-    preferences = JSONField()
+    preferences = JSONField(default={})
 
     @staticmethod
     def cache_key(user_id, preference_slug):

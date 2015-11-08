@@ -25,8 +25,9 @@ from apps.notification.decorators import delete_notification
 from apps.story.models import Story
 from apps.account.signals import follower_count_changed
 from apps.account.forms import NotificationPreferencesForm
-from utils import paginated, send_email_from_template
-from libs.shortcuts import render_to_json
+
+from resmin.utils import paginated, send_email_from_template
+from resmin.libs.shortcuts import render_to_json
 
 redis = get_redis_connection('default')
 
