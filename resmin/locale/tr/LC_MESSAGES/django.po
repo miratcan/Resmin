@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-11 01:02+0300\n"
+"POT-Creation-Date: 2015-11-09 19:13+0200\n"
 "PO-Revision-Date: 2015-05-10 10:30+0157\n"
 "Last-Translator:   <miratcanbayrak@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,51 +87,51 @@ msgstr "Bana bir soru sor:"
 msgid "Ask as anonymouse"
 msgstr "Kimliğimi gizle"
 
-#: apps/account/models.py:21
+#: apps/account/models.py:22
 msgid "bio"
 msgstr "biografi"
 
-#: apps/account/models.py:22
+#: apps/account/models.py:23
 msgid "website"
 msgstr "internet sitesi"
 
-#: apps/account/models.py:27
+#: apps/account/models.py:28
 msgid "location"
 msgstr "konum"
 
-#: apps/account/models.py:94
+#: apps/account/models.py:95
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:68
+#: apps/account/views.py:70
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:88
+#: apps/account/views.py:90
 msgid "Follow request sent to user"
 msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:91
+#: apps/account/views.py:93
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının takipçisi değilsin"
 
-#: apps/account/views.py:94
+#: apps/account/views.py:96
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:97
+#: apps/account/views.py:99
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:186
+#: apps/account/views.py:188
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:215
+#: apps/account/views.py:217
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:304
+#: apps/account/views.py:306
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -139,7 +139,7 @@ msgstr "E-posta adresin onaylandı :)"
 msgid "Your preferences updated"
 msgstr "Tercihlerin güncellendi"
 
-#: apps/comment/forms.py:15 apps/comment/forms.py:56
+#: apps/comment/forms.py:15 apps/comment/forms.py:57
 msgid "Comment"
 msgstr "Yorum"
 
@@ -493,7 +493,7 @@ msgstr "Mesajı Görüntüle"
 msgid "Delete"
 msgstr "Sil"
 
-#: apps/question/forms.py:15 apps/story/models.py:58
+#: apps/question/forms.py:15 apps/story/models.py:59
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
@@ -587,135 +587,135 @@ msgstr "Hareket bulunamadı"
 msgid "Your complaint sent to moderation."
 msgstr "Şikayetin yönetime gönderildi."
 
-#: apps/story/forms.py:126 apps/story/models.py:53
+#: apps/story/forms.py:128 apps/story/models.py:54
 msgid "Title"
 msgstr "Başlık"
 
-#: apps/story/forms.py:131 apps/story/models.py:55
+#: apps/story/forms.py:133 apps/story/models.py:56
 msgid "Description"
 msgstr "Açıklama"
 
-#: apps/story/models.py:42 templates/auth/user_detail.html:14
+#: apps/story/models.py:43 templates/auth/user_detail.html:14
 msgid "Draft"
 msgstr "Taslak"
 
-#: apps/story/models.py:43
+#: apps/story/models.py:44
 msgid "Published"
 msgstr "Yayında"
 
-#: apps/story/models.py:44
+#: apps/story/models.py:45
 msgid "Deleted by Owner"
 msgstr "Sahibi Tarafından Silinmiş"
 
-#: apps/story/models.py:45
+#: apps/story/models.py:46
 msgid "Deleted by Admins"
 msgstr "Adminler Tarafından Silinmiş"
 
-#: apps/story/models.py:47
+#: apps/story/models.py:48
 msgid "Everyone"
 msgstr "Herkese"
 
-#: apps/story/models.py:48 templates/auth/followers.html:8
+#: apps/story/models.py:49 templates/auth/followers.html:8
 msgid "Followers"
 msgstr "Takipçileri"
 
-#: apps/story/models.py:54
+#: apps/story/models.py:55
 msgid "Cover Image"
 msgstr "Kapak Görseli"
 
-#: apps/story/models.py:56 templates/story/ordering_options.html:1
+#: apps/story/models.py:57 templates/story/ordering_options.html:1
 msgid "Featured"
 msgstr "Vizyonda"
 
-#: apps/story/models.py:57 templates/story/story_thumbnail.html:8
+#: apps/story/models.py:58 templates/story/story_thumbnail.html:8
 msgid "NSFW"
 msgstr "AYIP"
 
-#: apps/story/models.py:63
+#: apps/story/models.py:64
 msgid "Status"
 msgstr "Durum"
 
-#: apps/story/models.py:66
+#: apps/story/models.py:67
 msgid "Visible For"
 msgstr "Şuna Görünür"
 
-#: apps/story/models.py:237 templates/auth/user_detail_inc.html:8
+#: apps/story/models.py:238 templates/auth/user_detail_inc.html:8
 msgid "Story"
 msgstr "Hikaye"
 
-#: apps/story/models.py:238
+#: apps/story/models.py:239
 msgid "Stories"
 msgstr "Hikayeler"
 
-#: apps/story/models.py:260
+#: apps/story/models.py:261
 msgid "Video"
 msgstr "Video"
 
-#: apps/story/models.py:261
+#: apps/story/models.py:262
 msgid "Videos"
 msgstr "Videolar"
 
-#: apps/story/models.py:276
+#: apps/story/models.py:277
 msgid "Image"
 msgstr "Görsel"
 
-#: apps/story/models.py:277
+#: apps/story/models.py:278
 msgid "Images"
 msgstr "Görseller"
 
-#: apps/story/models.py:297
+#: apps/story/models.py:298
 msgid "Slot"
 msgstr "Slot"
 
-#: apps/story/models.py:298
+#: apps/story/models.py:299
 msgid "Slots"
 msgstr "Slotlar"
 
-#: apps/story/models.py:313
+#: apps/story/models.py:314
 msgid "Uploading"
 msgstr "Yükleniyor"
 
-#: apps/story/models.py:314
+#: apps/story/models.py:315
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: apps/story/models.py:315
+#: apps/story/models.py:316
 msgid "Failed"
 msgstr "Bitirilemedi"
 
-#: apps/story/models.py:326 utils/models.py:13
+#: apps/story/models.py:327 utils/models.py:13
 msgid "Owner"
 msgstr "Sahip"
 
-#: apps/story/models.py:443
+#: apps/story/models.py:444
 msgid "Upload"
 msgstr "Yükleme"
 
-#: apps/story/models.py:444
+#: apps/story/models.py:445
 msgid "Uploads"
 msgstr "Yüklemeler"
 
-#: apps/story/views.py:28
+#: apps/story/views.py:30
 msgid "Your story deleted."
 msgstr "Hikayen silindi"
 
-#: apps/story/views.py:41
+#: apps/story/views.py:43
 msgid "Your story published."
 msgstr "Hikayen yayınlandı."
 
-#: apps/story/views.py:109
+#: apps/story/views.py:115
 msgid "Your story updated"
 msgstr "Hikayen güncellendi"
 
-#: apps/story/views.py:141
+#: apps/story/views.py:147
 msgid "md5sum and size required."
 msgstr "md5sum ve size gerekli."
 
-#: apps/story/views.py:146
+#: apps/story/views.py:152
 msgid "File is too big to upload."
 msgstr "Dosya boyutu çok büyük"
 
-#: apps/story/views.py:165
+#: apps/story/views.py:171
 msgid "post method required."
 msgstr "post metodu gerekli."
 
@@ -985,7 +985,6 @@ msgstr "Eposta İle Bildir"
 
 #: templates/auth/notification_preferences.html:27
 #: templates/auth/preferences.html:9 templates/comments/update_form.html:7
-#: templates/story/create_story.html:36
 #: templates/story/story_detail_inc.html:72
 #: templates/story/update_captions.html:21
 msgid "Save"
@@ -1342,14 +1341,6 @@ msgstr ""
 msgid "%(username)s liked your answer."
 msgstr "%(username)s cevabını beğendi."
 
-#: templates/question/merge_form.html:8
-msgid "Home"
-msgstr ""
-
-#: templates/question/merge_form.html:11 templates/question/merge_form.html:36
-msgid "Merge"
-msgstr "Birleştir"
-
 #: templates/question/pending_questions.html:16
 msgid "ago"
 msgstr "önce"
@@ -1435,6 +1426,15 @@ msgstr ""
 msgid "suggestions"
 msgstr "istek & öneri"
 
+#: templates/story/create_story.html:36
+msgid "Save as Draft"
+msgstr "Müsvette Olarak Kaydet"
+
+#: templates/story/create_story.html:37
+#: templates/story/story_detail_inc.html:23
+msgid "Publish"
+msgstr "Yayınla"
+
 #: templates/story/listing_options.html:1
 msgid "Show public answers from your followings."
 msgstr ""
@@ -1482,10 +1482,6 @@ msgid ""
 msgstr ""
 "Bu hikaye şu anda müsvette durumunda, yayınla butonuna basarak başkaları "
 "için görünür hale getir."
-
-#: templates/story/story_detail_inc.html:23
-msgid "Publish"
-msgstr "Yayınla"
 
 #: templates/story/story_detail_inc.html:39
 msgid "Please activate javascript on your browser."
@@ -1566,6 +1562,9 @@ msgstr "Burada Hiç Cevap Yok"
 #: utils/models.py:15
 msgid "Created at"
 msgstr "Oluşturulma Zamanı"
+
+#~ msgid "Merge"
+#~ msgstr "Birleştir"
 
 #~ msgid "Find a Question"
 #~ msgstr "Soru bul"

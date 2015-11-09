@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
+from apps.follow.models import compute_blocked_user_ids_for
 from apps.question.models import Question, QuestionMeta
 from apps.question.signals import user_created_story
 from apps.comment.models import Comment
@@ -59,7 +60,7 @@ def story(request, base62_id):
         request.user.is_authenticated() else [Story.PUBLISHED]
     story = get_object_or_404(Story, id=base62.to_decimal(base62_id),
                               status__in=statuses_in, owner__is_active=True)
-    blocked_user_ids = request.user.blocked_user_ids
+    blocked_user_ids = compute_blocked_user_ids_for(request.user)
     story_is_visible = story.is_visible_for(request.user,
                                             blocked_user_ids=blocked_user_ids)
     comments = Comment.objects\
@@ -93,7 +94,7 @@ def create_story(request, base62_id):
     if request.POST:
         story_form = StoryForm(request.POST, owner=request.user, meta=meta)
         if story_form.is_valid():
-            story = story_form.save()
+            story = story_form.save(publish='publish' in request.POST)
             return HttpResponseRedirect(story.get_absolute_url())
     else:
         story_form = StoryForm(owner=request.user, meta=meta, initial={

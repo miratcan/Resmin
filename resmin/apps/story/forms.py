@@ -64,7 +64,7 @@ class StoryForm(forms.ModelForm):
                     story=story, order=sd['order'], cPk=sd['cPk'],
                     cTp=ContentType.objects.get(id=sd['cTp']))
 
-    def save(self, *args, **kwargs):
+    def save(self, publish=False, *args, **kwargs):
 
         # Save Story
         story = super(StoryForm, self).save(commit=False)
@@ -72,6 +72,8 @@ class StoryForm(forms.ModelForm):
         story.question_meta = self.meta
         story.slot_count = None
         story.cover_img = None
+        if publish:
+            story.status = Story.PUBLISHED
         story.save()
 
         # If there's a meta add as mounted question meta.
