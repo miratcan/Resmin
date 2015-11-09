@@ -186,9 +186,13 @@ urlpatterns = patterns(
         'apps.question.views.pending_question_action',
         name='pending-question-action'),
 
-    url(r'^n/',
+    url(r'^n/$',
         'apps.notification.views.notifications',
         name='notifications'),
+
+    url(r'^n/m/$',
+        'apps.notification.views.mark_as_read',
+        name='mark_notification_as_read'),
 
     url(r'^reg/$',
         'apps.account.views.register',
