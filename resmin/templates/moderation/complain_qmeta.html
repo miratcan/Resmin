@@ -8,7 +8,7 @@
   <div class="panel-left">
     <form method="post" action="#">
       <p class="mb">
-        <label>{% trans "You're going to complain about" %}</label>
+        <label>{% trans "You're going to complain about" %}:</label>
         <input type="text" disabled="disabled" value="{{ complain_form.qmeta.text }}" />
       </p>
       {% csrf_token %}

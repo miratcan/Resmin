@@ -154,6 +154,7 @@ class QuestionMetaComplaint(models.Model):
 
     question_meta = models.ForeignKey(QuestionMeta)
     complaint_type = models.PositiveIntegerField(
+        _('Complaint type'),
         choices=((DUPLICATE, _('Duplicate')), (MEANINGLESS, _('Meaningless')),
                  (HATE_SPEECH, _('Hate Speech')), (INSULTING, _('Insulting'))))
     status = models.PositiveIntegerField(
@@ -161,4 +162,4 @@ class QuestionMetaComplaint(models.Model):
                                   (SOLVED, _('Solved')),
                                   (REJECTED, _('Rejected'))))
     complainers = models.ManyToManyField(User)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(_('Description'), null=True, blank=True)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-09 19:13+0200\n"
+"POT-Creation-Date: 2015-11-09 19:36+0200\n"
 "PO-Revision-Date: 2015-05-10 10:30+0157\n"
 "Last-Translator:   <miratcanbayrak@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -544,32 +544,40 @@ msgid ""
 msgstr ""
 
 #: apps/question/models.py:157
+msgid "Complaint type"
+msgstr "Şikayet tipi"
+
+#: apps/question/models.py:158
 msgid "Duplicate"
 msgstr "Aynısı Var"
 
-#: apps/question/models.py:157
+#: apps/question/models.py:158
 msgid "Meaningless"
 msgstr "Anlamsız"
 
-#: apps/question/models.py:158
+#: apps/question/models.py:159
 msgid "Hate Speech"
 msgstr "Nefret Söylemi"
 
-#: apps/question/models.py:158
+#: apps/question/models.py:159
 msgid "Insulting"
 msgstr "Hakaret"
 
-#: apps/question/models.py:160
+#: apps/question/models.py:161
 msgid "Pending"
 msgstr "Bekliyor"
 
-#: apps/question/models.py:161
+#: apps/question/models.py:162
 msgid "Solved"
 msgstr "Çözüldü"
 
-#: apps/question/models.py:162
+#: apps/question/models.py:163
 msgid "Rejected"
 msgstr "Reddedildi"
+
+#: apps/question/models.py:165 apps/story/forms.py:133 apps/story/models.py:56
+msgid "Description"
+msgstr "Açıklama"
 
 #: apps/question/views.py:109
 msgid "You have to login to complete this action."
@@ -590,10 +598,6 @@ msgstr "Şikayetin yönetime gönderildi."
 #: apps/story/forms.py:128 apps/story/models.py:54
 msgid "Title"
 msgstr "Başlık"
-
-#: apps/story/forms.py:133 apps/story/models.py:56
-msgid "Description"
-msgstr "Açıklama"
 
 #: apps/story/models.py:43 templates/auth/user_detail.html:14
 msgid "Draft"
@@ -1146,7 +1150,7 @@ msgstr "Sonraki Cevaplar"
 
 #: templates/moderation/complain_qmeta.html:11
 msgid "You're going to complain about"
-msgstr "Şikayet etmek üzeresin"
+msgstr "Şunu şikayet etmek üzeresin"
 
 #: templates/moderation/complain_qmeta.html:21
 msgid "TIPS:"
