@@ -1,13 +1,36 @@
 {% extends "base.html" %}{% load i18n %}
 
+{% block extra_head %}
+  <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>
+  <script src="{{ STATIC_URL }}js/csrf_token.js"></script>
+{% endblock %}
+
 {% block content %}
 <div class="narrow fc bg ra pad">
   <ul>
   {% for n in notifications %}
-    <li class="pt pb bb"><a href="{{ n.meta.get_url }}">{% include n.template_name with nm=n.meta %}</a></li>
+    <li data-snpk="{{ n.id }}" class="pt pb bb"><a href="{{ n.meta.get_url }}">{% include n.template_name with nm=n.meta %}</a> - <a class="action ml nm ra imp" data-action="mark_as_read" href="#">{% trans "Delete" %}</a></li>
   {% empty %}
     <p class="imp pa f_stng">{% trans "No new notifications." %}</p>
   {% endfor %}
   </ul>
 </div>
+<script>
+$(document).ready(function() {
+  $('.action').click(function(ev){
+    var target = $(ev.target);
+    var snpk = target.parent().attr('data-snpk');
+    var action = target.attr('data-action');
+    $.ajax({
+      method: "post",
+      url: "/n/m/",
+      data: {'pk': snpk, 'action': action}
+    })
+    .done(function(data) {
+      target.parent().slideUp('slow');
+    });
+  })
+});
+</script>
+
 {% endblock %}
