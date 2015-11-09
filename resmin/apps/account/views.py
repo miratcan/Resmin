@@ -35,8 +35,8 @@ redis = get_redis_connection('default')
 @delete_notification
 def profile(request, username=None, listing='public', action=None):
 
-    user = get_object_or_404(User, username=username, is_active=True) if username \
-        else request.user
+    user = get_object_or_404(User, username=username, is_active=True) if \
+        username else request.user
 
     user_is_blocked_me, user_is_blocked_by_me,\
         i_am_follower_of_user, have_pending_follow_request \
@@ -58,9 +58,10 @@ def profile(request, username=None, listing='public', action=None):
 
     # If there are not blocks, fill ctx with answers
     if not (user_is_blocked_me or user_is_blocked_by_me):
-        ctx['stories'] = Story.objects.build(
+        stories = Story.objects.build(
             frm=user, requested_user=request.user, listing=listing)
-
+        ctx['stories'] = paginated(request, stories,
+                                   settings.STORIES_PER_PAGE)
     if request.POST:
         question_form = QuestionForm(request.POST, questioner=request.user,
                                      questionee=user)
