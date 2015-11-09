@@ -1,14 +1,36 @@
 {% extends "base.html" %}
 {% block content %}
+<h1 class="mbd">Test</h1>
+<p class="mb">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed nisl euismod, scelerisque neque sed, rutrum nulla. Sed at laoreet urna, in ullamcorper nibh. Duis laoreet varius vestibulum. Aenean sit amet metus neque. Donec convallis mollis neque ac cursus. Suspendisse non vulputate ligula. In sit amet sollicitudin enim. Etiam consectetur felis non mauris mattis, non posuere orci viverra. Nunc et mauris scelerisque, sagittis dolor id, faucibus ipsum. Quisque ante mauris, eleifend at lacinia sit amet, dictum id justo.</p>
 
-<table style="width: 100%">
-	<tr><td class="bg_white pa">A</td></tr>
-	<tr><td class="bg_grey pa">A</td></tr>
-	<tr><td class="bg_darker pa">A</td></tr>
-	<tr><td class="bg_black pa">A</td></tr>
-	<tr><td class="bg_green pa">A</td></tr>
-	<tr><td class="bg_pink pa">A</td></tr>
-	<tr><td class="bg_yellow pa">A</td></tr>
-	<tr><td></td></tr>
-</table>	
+<p class="mb">Nulla suscipit <span class="imp">tellus quis</span> libero tristique, et mattis dui tincidunt. Maecenas elit diam, interdum a iaculis ac, hendrerit quis metus. Quisque mollis tempor nisl eu aliquam. Nulla rutrum maximus ligula, ut aliquet dolor laoreet ut. Mauris sollicitudin mi sed bibendum rhoncus. Maecenas pharetra ex vitae diam vulputate, at consectetur mauris bibendum. Donec sit amet est eu nulla feugiat interdum non sit amet turpis. Praesent semper ex mauris, et aliquet libero tincidunt et.</p>
+
+<ul class="mbd">
+  <li>List item 1</li>
+  <li>List item 2</li>
+  <li>List item 3</li>
+  <li>List item 4</li>
+  <li>List item 5</li>
+</ul>
+
+<div id="thumbnails" class="mbd oa">
+{% for thmb in "xxxxx" %}
+  <div class="thmb-wrap shadowed" style="position: relative">
+    <a class="thmb" style="height: 300px; width: 220px; background-image: url(https://placeimg.com/220/300/any); background-size: 100%;">
+    </a>
+    <div class="footer oa db pl pr">
+      <div class="username">Mirat</div>
+      <div class="likes-wrap like-button" data-story-id="{{ story.id }}"><div class="count">3</div><i class="mth fa fa-heart"></i></div>
+      <div class="comments-wrap"><a href="{{ story.get_absolute_url }}#comments"><span class="count">42</span><i class="mth fa fa-comment"></a></i></div>
+    </div>
+  </div>
+{% endfor %}
+</div>
+
+
+<div class="narrow fc bg ra pad">
+  <h1 class="mbd">Test</h1>
+  <p class="mb">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sed nisl euismod, scelerisque neque sed, rutrum nulla. Sed at laoreet urna, in ullamcorper nibh. Duis laoreet varius vestibulum. Aenean sit amet metus neque. Donec convallis mollis neque ac cursus. Suspendisse non vulputate ligula. In sit amet sollicitudin enim. Etiam consectetur felis non mauris mattis, non posuere orci viverra. Nunc et mauris scelerisque, sagittis dolor id, faucibus ipsum. Quisque ante mauris, eleifend at lacinia sit amet, dictum id justo.</p>
+  <p class="mb">Nulla suscipit <span class="imp">tellus quis</span> libero tristique, et mattis dui tincidunt. Maecenas elit diam, interdum a iaculis ac, hendrerit quis metus. Quisque mollis tempor nisl eu aliquam. Nulla rutrum maximus ligula, ut aliquet dolor laoreet ut. Mauris sollicitudin mi sed bibendum rhoncus. Maecenas pharetra ex vitae diam vulputate, at consectetur mauris bibendum. Donec sit amet est eu nulla feugiat interdum non sit amet turpis. Praesent semper ex mauris, et aliquet libero tincidunt et.</p>
+</div>
 {% endblock %}
