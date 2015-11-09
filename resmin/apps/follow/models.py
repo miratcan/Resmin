@@ -141,7 +141,7 @@ def compute_blocked_user_ids_for(user):
     Makes two SQL requests. May be it can be cached.
     """
     ids = set()
-    if user.is_anonymouse:
+    if user.is_anonymous:
       return ids
     ids.update(f.target_id for f in UserFollow.objects.filter(
         follower=user, status=UserFollow.BLOCKED))
