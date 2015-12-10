@@ -10,7 +10,7 @@ class StorySerializer(serializers.ModelSerializer):
                   'title',
                   'description',
                   'is_nsfw',
-                  'is_anonymouse',
+                  'cover_img',
                   'is_featured',
                   'like_count',
                   'slot_count',
