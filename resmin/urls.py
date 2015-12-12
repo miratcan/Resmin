@@ -10,7 +10,7 @@ admin.autodiscover()
 from django.contrib.sitemaps import Sitemap
 from apps.question.models import QuestionMeta
 from apps.story.models import Story
-from apps.story.api_views import PublicStoryList
+from apps.story.api_views import PublicStoryList, UserStoryList, UserList
 
 
 class QMetaSitemap(Sitemap):
@@ -227,7 +227,15 @@ urlpatterns = patterns(
         name='test'),
 
     url(r'^api/v1/story/list/public/$', PublicStoryList.as_view(),
-        name='story-list'),
+        name='api-public-story-list'),
+
+    url(r'^api/v1/story/list/user/(?P<username>[-\w]+)/$',
+        UserStoryList.as_view(),
+        name='api-user-story-list'),
+
+    url(r'^api/v1/user/list/',
+        UserList.as_view(),
+        name='api-user-list'),
 
     url(r'^adminmisinlansen/',
         include(admin.site.urls)),
