@@ -70,6 +70,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -107,7 +108,8 @@ INSTALLED_APPS = (
     'json_field',
     'django_extensions',
     'rest_framework',
-    'rosetta'
+    'rosetta',
+    'corsheaders'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -259,6 +261,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.JSONRenderer',
     )
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 try:
     from resmin.config.local_settings import *

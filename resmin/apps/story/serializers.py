@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
+
 from .models import Story
+
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -29,6 +31,16 @@ class UserSerializer(serializers.ModelSerializer):
                   'avatar')
 
 
+class JSONSerializerField(serializers.Field):
+    """ Serializer for JSONField -- required to make field writable. """
+
+    def to_internal_value(self, data):
+        return data
+
+    def to_representation(self, value):
+        return value
+
+
 class StorySerializer(serializers.ModelSerializer):
 
     question_meta_text = serializers.CharField(
@@ -36,6 +48,9 @@ class StorySerializer(serializers.ModelSerializer):
 
     owner = serializers.CharField(
         source='owner.username', read_only=True)
+
+    cover_img = serializers.CharField(
+        read_only=True)
 
     class Meta:
         model = Story
@@ -53,4 +68,3 @@ class StorySerializer(serializers.ModelSerializer):
                   'question',
                   'question_meta',
                   'question_meta_text')
-
