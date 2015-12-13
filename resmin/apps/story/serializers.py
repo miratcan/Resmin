@@ -49,7 +49,7 @@ class StorySerializer(serializers.ModelSerializer):
     owner = serializers.CharField(
         source='owner.username', read_only=True)
 
-    cover_img = serializers.CharField(
+    cover_img = JSONSerializerField(
         read_only=True)
 
     class Meta:
