@@ -13,6 +13,7 @@ class InvitationAdmin(admin.ModelAdmin):
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'bio', 'like_count', 'story_count',
                     'follower_count')
+    search_fields = ['user']
 
 admin.site.register(Invitation, InvitationAdmin)
 admin.site.register(UserProfile, ProfileAdmin)
