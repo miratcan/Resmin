@@ -101,7 +101,7 @@ class StoryForm(forms.ModelForm):
 
     class Meta:
         model = Story
-        fields = ['title', 'visible_for', 'is_nsfw',
+        fields = ['title', 'is_nsfw',
                   'description', 'question', 'slot_data']
 
 

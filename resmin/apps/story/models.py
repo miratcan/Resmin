@@ -37,16 +37,10 @@ class Story(BaseModel):
     DELETED_BY_OWNER = 2
     DELETED_BY_ADMINS = 3
 
-    VISIBLE_FOR_EVERYONE = 0
-    VISIBLE_FOR_FOLLOWERS = 1
-
     STATUS_CHOICES = ((DRAFT, _('Draft')),
                       (PUBLISHED, _('Published')),
                       (DELETED_BY_OWNER, _('Deleted by Owner')),
                       (DELETED_BY_ADMINS, _('Deleted by Admins')))
-
-    VISIBLE_FOR_CHOICES = ((VISIBLE_FOR_EVERYONE, _('Everyone')),
-                           (VISIBLE_FOR_FOLLOWERS, _('Followers')))
 
     LIKE_SET_PATTERN = 'answer:%s:likes'
     question = models.ForeignKey('question.Question', null=True, blank=True)
@@ -63,9 +57,6 @@ class Story(BaseModel):
     comment_count = models.PositiveIntegerField(null=True, blank=True)
     status = models.PositiveSmallIntegerField(_('Status'), default=DRAFT,
                                               choices=STATUS_CHOICES)
-    visible_for = models.PositiveSmallIntegerField(
-        default=VISIBLE_FOR_EVERYONE, verbose_name=_('Visible For'),
-        choices=VISIBLE_FOR_CHOICES)
 
     objects = StoryManager()
 
@@ -97,13 +88,7 @@ class Story(BaseModel):
                user.id in blocked_user_ids:
                 return False
 
-            if self.status == self.PUBLISHED and \
-               self.visible_for == Story.VISIBLE_FOR_FOLLOWERS and \
-               user.id in self.owner.follower_user_ids:
-                return True
-
-        if self.status == Story.PUBLISHED and self.visible_for == \
-           Story.VISIBLE_FOR_EVERYONE:
+        if self.status == Story.PUBLISHED:
             return True
 
         return False
@@ -183,7 +168,6 @@ class Story(BaseModel):
         return Story.objects.filter(
             question_meta=self.question_meta,
             status=Story.PUBLISHED,
-            visible_for=Story.VISIBLE_FOR_EVERYONE,
             created_at__lt=self.created_at)\
             .exclude(owner_id__in=blocked_user_ids)\
             .order_by('-created_at').first()
@@ -195,7 +179,6 @@ class Story(BaseModel):
         return Story.objects.filter(
             question_meta=self.question_meta,
             status=Story.PUBLISHED,
-            visible_for=Story.VISIBLE_FOR_EVERYONE,
             created_at__gt=self.created_at)\
             .exclude(owner_id__in=blocked_user_ids)\
             .order_by('created_at').first()

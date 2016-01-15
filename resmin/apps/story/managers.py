@@ -12,15 +12,14 @@ class StoryManager(Manager):
         from apps.story.models import Story
 
         if not requested_user.is_authenticated() and listing in \
-           ['wall', 'private', 'draft']:
+           ['wall', 'draft']:
             return Story.objects.none()
 
-        if listing not in ['public', 'wall', 'private', 'draft']:
+        if listing not in ['public', 'wall', 'draft']:
             listing = 'public'
 
         if listing == 'public':
             qset = Q(status=Story.PUBLISHED,
-                     visible_for=Story.VISIBLE_FOR_EVERYONE,
                      owner__is_active=True)
             if not requested_user.is_authenticated():
                 qset = qset & Q(is_nsfw=False)
@@ -28,13 +27,6 @@ class StoryManager(Manager):
             oids = requested_user.following_user_ids
             oids.append(requested_user.id)
             qset = Q(status=Story.PUBLISHED,
-                     visible_for=Story.VISIBLE_FOR_EVERYONE,
-                     owner_id__in=oids)
-        elif listing == 'private':
-            oids = requested_user.following_user_ids
-            oids.append(requested_user.id)
-            qset = Q(status=Story.PUBLISHED,
-                     visible_for=Story.VISIBLE_FOR_FOLLOWERS,
                      owner_id__in=oids)
         elif listing == 'draft':
             qset = Q(status=Story.DRAFT, owner=requested_user)

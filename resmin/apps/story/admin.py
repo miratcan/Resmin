@@ -6,7 +6,7 @@ class StoryAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'question_meta', 'is_nsfw', 'is_featured',
                     'status', 'created_at')
     fields = ('owner', 'question_meta', 'title', 'description', 'status',
-              'visible_for', 'cover_img')
+              'cover_img')
     search_fields = ('title', 'description', 'question_meta__text')
 
 

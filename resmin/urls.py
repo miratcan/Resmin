@@ -31,8 +31,7 @@ class StorySiteMap(Sitemap):
 
     def items(self):
         return Story.objects.filter(
-            status=Story.PUBLISHED,
-            visible_for=Story.VISIBLE_FOR_EVERYONE)
+            status=Story.PUBLISHED)
 
     def lastmod(self, obj):
         return obj.created_at
@@ -47,10 +46,6 @@ urlpatterns = patterns(
     url(r'^public/$',
         'apps.question.views.index',
         name='index-public', kwargs={'listing': 'public'}),
-
-    url(r'^private/$',
-        'apps.question.views.index',
-        name='index-public', kwargs={'listing': 'private'}),
 
     url(r'^pfr/$', 'apps.account.views.pending_follow_requests',
         name='pending-follow-requests'),
@@ -69,11 +64,6 @@ urlpatterns = patterns(
     url(r'^u/(?P<username>[-\w]+)/followings/$',
         'apps.account.views.followings',
         name='followings'),
-
-    url(r'^u/(?P<username>[-\w]+)/private/$',
-        'apps.account.views.profile',
-        name='profile-privates',
-        kwargs={'listing': 'private'}),
 
     url(r'^u/(?P<username>[-\w]+)/draft/',
         'apps.account.views.profile',

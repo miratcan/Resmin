@@ -18,13 +18,11 @@ class TestStoryBase(TestCase):
 
         """ Draft story. """
         self.ds = StoryFactory(
-            owner=self.u1, visible_for=Story.VISIBLE_FOR_EVERYONE,
-            status=Story.DRAFT, question_meta=self.qm)
+            owner=self.u1, status=Story.DRAFT, question_meta=self.qm)
 
         """ Published story. """
         self.ps = StoryFactory(
-            owner=self.u1, visible_for=Story.VISIBLE_FOR_EVERYONE,
-            status=Story.PUBLISHED, question_meta=self.qm)
+            owner=self.u1, status=Story.PUBLISHED, question_meta=self.qm)
 
         """ User 3 blocks User 1."""
         UserFollowFactory(
