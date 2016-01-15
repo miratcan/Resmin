@@ -219,9 +219,8 @@ class FollowForm(forms.Form):
 class FollowerActionForm(forms.Form):
 
     action = forms.ChoiceField(choices=(
-        ('make-follow', 'Make Follow'),
         ('make-unfollow', 'Make Unfollow'),
-        ('make-restricted', 'Make Restricted')), widget=forms.TextInput)
+    ), widget=forms.TextInput)
 
     follow = forms.ModelChoiceField(
         queryset=UserFollow.objects.none(),
@@ -231,19 +230,6 @@ class FollowerActionForm(forms.Form):
         follow.delete()
         return _('You made %s unfollow you.') % \
             follow.follower.username
-
-    def _make_follow(request, follow):
-        if follow.status == UserFollow.FOLLOWING_RESTRICTED:
-            follow.status = UserFollow.FOLLOWING
-            follow.save()
-            return _('You set %s as follower.') % follow.follower.username
-
-    def _make_restricted(request, follow):
-        if follow.status == UserFollow.FOLLOWING:
-            follow.status = UserFollow.FOLLOWING_RESTRICTED
-            follow.save()
-            return _('You set %s as restricted follower.') % \
-                follow.follower.username
 
     def __init__(self, *args, **kwargs):
         self.username = kwargs.pop('username')
@@ -255,9 +241,7 @@ class FollowerActionForm(forms.Form):
         action_key = self.cleaned_data['action']
         follow = self.cleaned_data['follow']
         if action_key:
-            method = {u'make-follow': self._make_follow,
-                      u'make-restricted': self._make_restricted,
-                      u'make-unfollow': self._make_unfollow}.get(action_key)
+            method = {u'make-unfollow': self._make_unfollow}.get(action_key)
             if method:
                 return method(follow)
 

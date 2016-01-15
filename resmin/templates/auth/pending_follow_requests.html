@@ -11,7 +11,7 @@
   {% for follow_request in pending_follow_requests %}
     <li class="bb pad" data-frpk="{{ follow_request.pk }}">
       <p>{% blocktrans with username=follow_request.follower.username url=follow_request.follower.get_absolute_url %}<a href="{{ url }}">{{ username }}</a> wants to be your follower.{% endblocktrans %}</p>
-      <p><a class="action" data-action='accept' href="#">{% trans 'Accept' %}</a> / <a title="{% trans 'This user will be your follower but will only see your public posts.' %}" class="action" data-action='accept-restricted' href="#">{% trans 'Add to Restricted' %}</a> / <a class="action" data-action='decline' href="#">{% trans 'Decline' %}</a></p>
+      <p><a class="action" data-action='accept' href="#">{% trans 'Accept' %}</a> / <a class="action" data-action='decline' href="#">{% trans 'Decline' %}</a></p>
     </li>
   </ul>
   {% empty %}

@@ -14,9 +14,8 @@
       {% for follow in user_follows %}
         <li class="mb pb bb" class="follower">
           <div class="info f_stng">{% include "auth/username_inc.html" with user=follow.follower %}<span class="f_tiny mlh">{% if follow.status == 3 %}({% trans 'Restricted Follower' %}){% endif %} {% if follow.follower.userprofile.bio %} {{ follow.follower.userprofile.bio }}{% endif %}</span></div>
-          
           <div class="f_weak actions" data-follow='{{ follow.id }}'>
-            <a class="action" title="{% trans 'Make him/her unfollow you.' %}" data-action="make-unfollow" href="#">{% trans "Discard from Followers" %}</a> / {% if follow.status == 1 %}<a class="action" title="{% trans 'This user will be your follower but will only see your public posts.' %}" data-action="make-restricted" href="#">{% trans "Make Restricted Follower" %}</a>{% else %}<a class="action" data-action="make-follow" title="{% blocktrans %}This user is currently your follower but can't see answers that you posted as visible to followers. Make him/her follower to give access. {% endblocktrans %}" href="#">{% trans "Make Follower" %}</a>{% endif %}
+            <a class="action" title="{% trans 'Make him/her unfollow you.' %}" data-action="make-unfollow" href="#">{% trans "Discard from Followers" %}</a>
           </div>
         </li>
       {% endfor %}
