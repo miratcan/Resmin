@@ -243,7 +243,8 @@ def followers(request, username):
     else:
         action_form = FollowerActionForm(username=username)
     user = get_object_or_404(User, username=username)
-    user_follows = UserFollow.objects.filter(target=user)\
+    user_follows = UserFollow.objects\
+        .filter(target=user, follower__is_active=True)\
         .prefetch_related('follower__userprofile')
     return render(
         request,
@@ -257,7 +258,8 @@ def followers(request, username):
 @login_required
 def followings(request, username):
     user = get_object_or_404(User, username=username)
-    user_follows = UserFollow.objects.filter(follower=user)\
+    user_follows = UserFollow.objects\
+        .filter(follower=user, target__is_active=True)\
         .prefetch_related('follower__userprofile')
     return render(
         request,
