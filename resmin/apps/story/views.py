@@ -90,15 +90,18 @@ def story(request, base62_id):
 @login_required
 def create_story(request, base62_id):
     mid = base62.to_decimal(base62_id)
+    qid = request.GET.get('qid')
     meta = get_object_or_404(QuestionMeta, id=mid)
+    question = get_object_or_404(Question, id=qid) if qid else None
     if request.POST:
-        story_form = StoryForm(request.POST, owner=request.user, meta=meta)
+        story_form = StoryForm(request.POST, owner=request.user, meta=meta,
+                               question=question)
         if story_form.is_valid():
             story = story_form.save(publish='publish' in request.POST)
             return HttpResponseRedirect(story.get_absolute_url())
     else:
         story_form = StoryForm(owner=request.user, meta=meta, initial={
-            'question': request.GET.get('qid')})
+            'question': question})
     return render(request, 'story/create_story.html',
                   {'story_form': story_form})
 

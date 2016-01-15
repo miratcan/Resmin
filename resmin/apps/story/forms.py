@@ -32,11 +32,8 @@ class StoryForm(forms.ModelForm):
         self.owner = kwargs.pop('owner')
         self.meta = kwargs.pop('meta', None)
         self.question = kwargs.pop('question', None)
-        super(StoryForm, self).__init__(*args, **kwargs)
 
-        for fn in ['title', 'description']:
-            self.fields[fn].widget.attrs.update({
-                'placeholder': self.fields[fn].label})
+        super(StoryForm, self).__init__(*args, **kwargs)
 
         if self.owner:
             self.fields['question'] = \
@@ -66,22 +63,20 @@ class StoryForm(forms.ModelForm):
 
     def save(self, publish=False, *args, **kwargs):
 
-        # Save Story
+        # Setup Story
         story = super(StoryForm, self).save(commit=False)
         story.owner = self.owner
         story.question_meta = self.meta
         story.slot_count = None
         story.cover_img = None
+
+        # If directly publishing, override default status.
         if publish:
             story.status = Story.PUBLISHED
+
         story.save()
 
-        # If there's a meta add as mounted question meta.
-        if self.meta:
-            story.question_meta = self.meta
-            story.save(update_fields=['question_meta_id'])
-
-        if self.question:
+        if publish and self.question:
             self.question.status = Question.ANSWERED
             self.question.save()
 
