@@ -42,7 +42,7 @@ def index(request, listing='public'):
     recommended_questions = QuestionMeta.objects\
         .filter(is_featured=True).order_by('?')[:10]
     last_registered_users = User.objects\
-        .filter(is_active=True).order_by('-date_joined')[:20]
+        .filter(is_active=True).order_by('-date_joined')[:50]
     ctx = {'stories': stories,
            'listing': listing,
            'recommended_questions': recommended_questions,
