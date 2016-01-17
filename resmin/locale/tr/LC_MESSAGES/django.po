@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-09 19:36+0200\n"
+"POT-Creation-Date: 2016-01-17 12:46+0200\n"
 "PO-Revision-Date: 2015-05-10 10:30+0157\n"
 "Last-Translator:   <miratcanbayrak@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,26 +64,16 @@ msgstr "sitede bildir"
 msgid "You can not do that action on yourself."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin."
 
-#: apps/account/forms.py:232
+#: apps/account/forms.py:231
 #, python-format
 msgid "You made %s unfollow you."
 msgstr "%s kişisini takipçin olmaktan çıkardın."
 
-#: apps/account/forms.py:239
-#, python-format
-msgid "You set %s as follower."
-msgstr "%s kişisini takipçin yaptın."
-
-#: apps/account/forms.py:245
-#, python-format
-msgid "You set %s as restricted follower."
-msgstr "%s kişisini kısıtlı takipçi yaptın."
-
-#: apps/account/forms.py:266
+#: apps/account/forms.py:250
 msgid "Ask me a question:"
 msgstr "Bana bir soru sor:"
 
-#: apps/account/forms.py:267
+#: apps/account/forms.py:251
 msgid "Ask as anonymouse"
 msgstr "Kimliğimi gizle"
 
@@ -131,7 +121,7 @@ msgstr "Profilin güncellendi"
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:306
+#: apps/account/views.py:308
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -489,11 +479,12 @@ msgid "View Message"
 msgstr "Mesajı Görüntüle"
 
 #: apps/pm/templates/pm/view.html:13 templates/comments/comment.html:9
+#: templates/notification/list.html:12
 #: templates/story/story_detail_inc.html:104
 msgid "Delete"
 msgstr "Sil"
 
-#: apps/question/forms.py:15 apps/story/models.py:59
+#: apps/question/forms.py:15 apps/story/models.py:53
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
@@ -575,127 +566,115 @@ msgstr "Çözüldü"
 msgid "Rejected"
 msgstr "Reddedildi"
 
-#: apps/question/models.py:165 apps/story/forms.py:133 apps/story/models.py:56
+#: apps/question/models.py:165 apps/story/forms.py:128 apps/story/models.py:50
 msgid "Description"
 msgstr "Açıklama"
 
-#: apps/question/views.py:109
+#: apps/question/views.py:113
 msgid "You have to login to complete this action."
 msgstr "Bu işlemi gerçekleştirmek için giriş yapmalısın."
 
-#: apps/question/views.py:115
+#: apps/question/views.py:119
 msgid "You have send bad data."
 msgstr "Bir mesaj gönderdin"
 
-#: apps/question/views.py:151
+#: apps/question/views.py:155
 msgid "Action not found"
 msgstr "Hareket bulunamadı"
 
-#: apps/question/views.py:221
+#: apps/question/views.py:225
 msgid "Your complaint sent to moderation."
 msgstr "Şikayetin yönetime gönderildi."
 
-#: apps/story/forms.py:128 apps/story/models.py:54
+#: apps/story/forms.py:123 apps/story/models.py:48
 msgid "Title"
 msgstr "Başlık"
 
-#: apps/story/models.py:43 templates/auth/user_detail.html:14
+#: apps/story/models.py:40
 msgid "Draft"
 msgstr "Taslak"
 
-#: apps/story/models.py:44
+#: apps/story/models.py:41
 msgid "Published"
 msgstr "Yayında"
 
-#: apps/story/models.py:45
+#: apps/story/models.py:42
 msgid "Deleted by Owner"
 msgstr "Sahibi Tarafından Silinmiş"
 
-#: apps/story/models.py:46
+#: apps/story/models.py:43
 msgid "Deleted by Admins"
 msgstr "Adminler Tarafından Silinmiş"
 
-#: apps/story/models.py:48
-msgid "Everyone"
-msgstr "Herkese"
-
-#: apps/story/models.py:49 templates/auth/followers.html:8
-msgid "Followers"
-msgstr "Takipçileri"
-
-#: apps/story/models.py:55
+#: apps/story/models.py:49
 msgid "Cover Image"
 msgstr "Kapak Görseli"
 
-#: apps/story/models.py:57 templates/story/ordering_options.html:1
+#: apps/story/models.py:51 templates/story/ordering_options.html:1
 msgid "Featured"
 msgstr "Vizyonda"
 
-#: apps/story/models.py:58 templates/story/story_thumbnail.html:8
+#: apps/story/models.py:52 templates/story/story_thumbnail.html:8
 msgid "NSFW"
 msgstr "AYIP"
 
-#: apps/story/models.py:64
+#: apps/story/models.py:58
 msgid "Status"
 msgstr "Durum"
 
-#: apps/story/models.py:67
-msgid "Visible For"
-msgstr "Şuna Görünür"
-
-#: apps/story/models.py:238 templates/auth/user_detail_inc.html:8
+#: apps/story/models.py:221 templates/auth/user_detail_inc.html:8
 msgid "Story"
 msgstr "Hikaye"
 
-#: apps/story/models.py:239
+#: apps/story/models.py:222
 msgid "Stories"
 msgstr "Hikayeler"
 
-#: apps/story/models.py:261
+#: apps/story/models.py:244
 msgid "Video"
 msgstr "Video"
 
-#: apps/story/models.py:262
+#: apps/story/models.py:245
 msgid "Videos"
 msgstr "Videolar"
 
-#: apps/story/models.py:277
+#: apps/story/models.py:260
 msgid "Image"
 msgstr "Görsel"
 
-#: apps/story/models.py:278
+#: apps/story/models.py:261
 msgid "Images"
 msgstr "Görseller"
 
-#: apps/story/models.py:298
+#: apps/story/models.py:281
 msgid "Slot"
 msgstr "Slot"
 
-#: apps/story/models.py:299
+#: apps/story/models.py:282
 msgid "Slots"
 msgstr "Slotlar"
 
-#: apps/story/models.py:314
+#: apps/story/models.py:297
 msgid "Uploading"
 msgstr "Yükleniyor"
 
-#: apps/story/models.py:315
+#: apps/story/models.py:298
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: apps/story/models.py:316
+#: apps/story/models.py:299
 msgid "Failed"
 msgstr "Bitirilemedi"
 
-#: apps/story/models.py:327 utils/models.py:13
+#: apps/story/models.py:310 utils/models.py:13
 msgid "Owner"
 msgstr "Sahip"
 
-#: apps/story/models.py:444
+#: apps/story/models.py:427
 msgid "Upload"
 msgstr "Yükleme"
 
-#: apps/story/models.py:445
+#: apps/story/models.py:428
 msgid "Uploads"
 msgstr "Yüklemeler"
 
@@ -707,19 +686,19 @@ msgstr "Hikayen silindi"
 msgid "Your story published."
 msgstr "Hikayen yayınlandı."
 
-#: apps/story/views.py:115
+#: apps/story/views.py:118
 msgid "Your story updated"
 msgstr "Hikayen güncellendi"
 
-#: apps/story/views.py:147
+#: apps/story/views.py:150
 msgid "md5sum and size required."
 msgstr "md5sum ve size gerekli."
 
-#: apps/story/views.py:152
+#: apps/story/views.py:155
 msgid "File is too big to upload."
 msgstr "Dosya boyutu çok büyük"
 
-#: apps/story/views.py:171
+#: apps/story/views.py:174
 msgid "post method required."
 msgstr "post metodu gerekli."
 
@@ -743,48 +722,48 @@ msgstr "Duvar"
 msgid "Questions"
 msgstr "Sorular"
 
-#: templates/base.html:40
+#: templates/base.html:39
 msgid "Pending Questions"
 msgstr "Bekleyen Sorular"
 
-#: templates/base.html:41
+#: templates/base.html:40
 msgid "Follow Requests"
 msgstr "Takipçi Olma Talepleri"
 
-#: templates/base.html:42
+#: templates/base.html:41
 msgid "PM's"
 msgstr "Özel Mesajlar"
 
-#: templates/base.html:43
+#: templates/base.html:42
 msgid "Notifications"
 msgstr "Bildirimler"
 
-#: templates/base.html:49 templates/auth/login.html:17
+#: templates/base.html:48 templates/auth/login.html:17
 msgid "Login"
 msgstr "Giriş Yap"
 
-#: templates/base.html:50 templates/auth/register.html:14
+#: templates/base.html:49 templates/auth/register.html:14
 #: templates/auth/register.html.py:18
 msgid "Register"
 msgstr "Kayıt Ol"
 
-#: templates/base.html:54
+#: templates/base.html:53
 msgid "Menu"
 msgstr "Menü"
 
-#: templates/base.html:69
+#: templates/base.html:66
 msgid "Suggestions"
 msgstr "İstek & Öneri"
 
-#: templates/base.html:71
+#: templates/base.html:68
 msgid "Top Users"
 msgstr "Sevdicekler"
 
-#: templates/base.html:72
+#: templates/base.html:69
 msgid "IRC"
 msgstr "Chat"
 
-#: templates/base.html:76
+#: templates/base.html:73
 msgid ""
 "Non of the images & content that appear at this site are real. Site content "
 "might not be convenient for kids & minors. Users who create the questions & "
@@ -856,9 +835,13 @@ msgstr ""
 msgid "Follow Us"
 msgstr "Bizi Takip Et"
 
-#: templates/index2.html:44
+#: templates/index2.html:38
 msgid "Recommened Questions"
 msgstr "Önerilen Sorular"
+
+#: templates/index2.html:44
+msgid "Last Registered Users"
+msgstr ""
 
 #: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:55
 msgid "Update Email"
@@ -887,53 +870,35 @@ msgid ""
 msgstr ""
 "E-posta adresine bir link gönderdik, ona tıklayarak işlemi tamamlayabilirsin."
 
+#: templates/auth/followers.html:8
+msgid "Followers"
+msgstr "Takipçileri"
+
 #: templates/auth/followers.html:16 templates/auth/user_list_inc.html:6
 msgid "Restricted Follower"
 msgstr "Kısıtlı Takipçi"
 
-#: templates/auth/followers.html:19 templates/auth/user_list_inc.html:8
+#: templates/auth/followers.html:18 templates/auth/user_list_inc.html:8
 msgid "Make him/her unfollow you."
 msgstr "Takipçin olmaktan çıkar."
 
-#: templates/auth/followers.html:19 templates/auth/user_list_inc.html:8
+#: templates/auth/followers.html:18 templates/auth/user_list_inc.html:8
 msgid "Discard from Followers"
 msgstr "Takipçim Olmaktan Çıkar"
 
-#: templates/auth/followers.html:19
-#: templates/auth/pending_follow_requests.html:14
-#: templates/auth/user_list_inc.html:8
-msgid "This user will be your follower but will only see your public posts."
-msgstr ""
-"Bu kulanıcı takipçin olacak ama sadece herkese açık gönderilerini "
-"görebilecek."
-
-#: templates/auth/followers.html:19 templates/auth/user_list_inc.html:8
-msgid "Make Restricted Follower"
-msgstr "Kısıtlı Takipçi Yap"
-
-#: templates/auth/followers.html:19 templates/auth/user_list_inc.html:8
-msgid ""
-"This user is currently your follower but can't see answers that you posted "
-"as visible to followers. Make him/her follower to give access. "
-msgstr ""
-
-#: templates/auth/followers.html:19 templates/auth/user_list_inc.html:8
-msgid "Make Follower"
-msgstr "Takipçim Yap"
-
-#: templates/auth/followers.html:35 templates/auth/followings.html:15
+#: templates/auth/followers.html:34 templates/auth/followings.html:15
 #: templates/includes/pagination_links_for_users.html:4
 msgid "Previous Users"
 msgstr "Önceki Kullanıcılar"
 
-#: templates/auth/followers.html:38 templates/auth/followings.html:18
+#: templates/auth/followers.html:37 templates/auth/followings.html:18
 #: templates/includes/pagination_links_for_users.html:7
 msgid "Next Users"
 msgstr "Sonraki Kullanıcılar"
 
 #: templates/auth/followings.html:3
 msgid "Followings"
-msgstr "Takip Edenleri"
+msgstr "Takip Ettikleri"
 
 #: templates/auth/hof.html:4
 msgid "Users receiving most hearts"
@@ -1004,10 +969,6 @@ msgid "Accept"
 msgstr "Kabul et"
 
 #: templates/auth/pending_follow_requests.html:14
-msgid "Add to Restricted"
-msgstr "Kısıtlılara Ekle"
-
-#: templates/auth/pending_follow_requests.html:14
 msgid "Decline"
 msgstr "Görmezden Gel"
 
@@ -1048,13 +1009,13 @@ msgid "Update Profile"
 msgstr "Profili Güncelle"
 
 #: templates/auth/user_detail.html:14
-msgctxt "profile public"
-msgid "Public"
-msgstr "Herkese Açık"
+msgctxt "profile answers"
+msgid "Answers"
+msgstr "Cevapları"
 
-#: templates/auth/user_detail.html:14 templates/story/listing_options.html:1
-msgid "Private"
-msgstr "Özel"
+#: templates/auth/user_detail.html:14
+msgid "Drafts"
+msgstr "Taslaklar"
 
 #: templates/auth/user_detail_inc.html:7
 msgid "Like"
@@ -1120,6 +1081,26 @@ msgstr "Takip Et"
 msgid "Block"
 msgstr "Engelle"
 
+#: templates/auth/user_list_inc.html:8
+msgid "This user will be your follower but will only see your public posts."
+msgstr ""
+"Bu kulanıcı takipçin olacak ama sadece herkese açık gönderilerini "
+"görebilecek."
+
+#: templates/auth/user_list_inc.html:8
+msgid "Make Restricted Follower"
+msgstr "Kısıtlı Takipçi Yap"
+
+#: templates/auth/user_list_inc.html:8
+msgid ""
+"This user is currently your follower but can't see answers that you posted "
+"as visible to followers. Make him/her follower to give access. "
+msgstr ""
+
+#: templates/auth/user_list_inc.html:8
+msgid "Make Follower"
+msgstr "Takipçim Yap"
+
 #: templates/auth/username_inc.html:1
 msgid "anonymouse"
 msgstr "gizli kullanıcı"
@@ -1156,7 +1137,7 @@ msgstr "Şunu şikayet etmek üzeresin"
 msgid "TIPS:"
 msgstr "İpuçları:"
 
-#: templates/notification/list.html:9
+#: templates/notification/list.html:14
 msgid "No new notifications."
 msgstr "Yeni bildirim yok."
 
@@ -1350,7 +1331,7 @@ msgid "ago"
 msgstr "önce"
 
 #: templates/question/pending_questions.html:19
-#: templates/question/question_meta_list.html:11
+#: templates/question/question_meta_list.html:12
 #: templates/question/question_meta_list_item.html:1
 #: templates/question/question_sentence.html:14
 msgid "Answer"
@@ -1391,7 +1372,7 @@ msgstr "Ara"
 msgid "Submit"
 msgstr "Gönder"
 
-#: templates/question/question_meta_list.html:12
+#: templates/question/question_meta_list.html:13
 #: templates/question/question_meta_list_item.html:2
 #, python-format
 msgid "%(ac)s answers."
@@ -1550,11 +1531,7 @@ msgstr "Silmeye eminsen buraya tıkla."
 msgid "Sponsor"
 msgstr ""
 
-#: templates/story/story_thumbnail.html:14
-msgid "This story is visible for followers."
-msgstr "Bu hikaye sadece takipçilere açık"
-
-#: templates/story/story_thumbnail.html:16
+#: templates/story/story_thumbnail.html:13
 msgid "This story marked as qualified answer by admins."
 msgstr ""
 "Bu hikaye yöneticilerimiz tarafından kaliteli içerik olarak işaretlenmiş."
@@ -1566,6 +1543,31 @@ msgstr "Burada Hiç Cevap Yok"
 #: utils/models.py:15
 msgid "Created at"
 msgstr "Oluşturulma Zamanı"
+
+#~ msgid "You set %s as follower."
+#~ msgstr "%s kişisini takipçin yaptın."
+
+#~ msgid "You set %s as restricted follower."
+#~ msgstr "%s kişisini kısıtlı takipçi yaptın."
+
+#~ msgid "Everyone"
+#~ msgstr "Herkese"
+
+#~ msgid "Visible For"
+#~ msgstr "Şuna Görünür"
+
+#~ msgid "Add to Restricted"
+#~ msgstr "Kısıtlılara Ekle"
+
+#~ msgctxt "profile public"
+#~ msgid "Public"
+#~ msgstr "Herkese Açık"
+
+#~ msgid "Private"
+#~ msgstr "Özel"
+
+#~ msgid "This story is visible for followers."
+#~ msgstr "Bu hikaye sadece takipçilere açık"
 
 #~ msgid "Merge"
 #~ msgstr "Birleştir"
