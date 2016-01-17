@@ -55,8 +55,12 @@ class Story(BaseModel):
     like_count = models.PositiveIntegerField(default=0)
     slot_count = models.PositiveIntegerField(null=True, blank=True)
     comment_count = models.PositiveIntegerField(null=True, blank=True)
-    status = models.PositiveSmallIntegerField(_('Status'), default=DRAFT,
-                                              choices=STATUS_CHOICES)
+    status = models.PositiveSmallIntegerField(
+        _('Status'), default=DRAFT,
+        choices=STATUS_CHOICES)
+    updated_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name=_('Updated at'))
 
     objects = StoryManager()
 
@@ -201,6 +205,11 @@ class Story(BaseModel):
             status=Comment.PUBLISHED, story=self).count()
         if save:
             self.save(update_fields=['comment_count'])
+
+    def set_updated_at_to_now(self, save=False):
+        self.updated_at = datetime.now()
+        if save:
+            self.save(update_fields=['updated_at'])
 
     def serialize_slots(self):
         data = []
