@@ -34,7 +34,6 @@
         <div class="drawer">
           <a href="/" class="{% if request.path == '/' %}active{% endif %}">{% trans "Wall" %}</a>
           <a href="/qs/" class="{% if request.path == '/qs/' %}active{% endif %}">{% trans "Questions" %}</a>
-
           {% if user.is_authenticated %}
             <a href="/pq/" class="{% if request.path == '/pq/' %}active{% endif %}">{% trans "Pending Questions" %}{% if num_of_pending_questions %} ({{ num_of_pending_questions }}){% endif %}</a>
             <a href="/pfr/" class="{% if request.path == '/pfr/' %}active{% endif %}">{% trans "Follow Requests" %}{% if num_of_pending_follow_requests > 0 %} ({{ num_of_pending_follow_requests }}){% endif %}</a>
@@ -62,13 +61,11 @@
     </div>
     <footer class="oa tac pbh ptd">
       <div class="wrap mb">
-        <a href="http://twitter.com/mirat/" class="mld mrd" target="_blank">Twitter</a>
         <a href="https://www.facebook.com/pages/resmin/283100028481671?fref=ts" class="mld mrd" target="_blank">Facebook</a>
-        <a href="http://resm-in.tumblr.com/" class="mld mrd" target="_blank">Blog</a>
         <a href="https://resmin.uservoice.com/forums/219051-general" class="mld mrd" target="_blank">{% trans 'Suggestions' %}</a>
         <a href="http://resm.in/api/v1/story/list/public/" class="mld mrd" target="_blank">Api</a>
         <a href="/hof/" class="mld mrd">{% trans "Top Users" %}</a>
-        <a href="https://kiwiirc.com/client/irc.freenode.net/#resmin" target="_blank" class="mld mrd">{% trans "IRC" %}</a>
+        <a href="" target="_blank" class="mld mrd">{% trans "IRC" %}</a>
       </div>
       <div class="wrap mb">
         <p class="f_weak mb">
