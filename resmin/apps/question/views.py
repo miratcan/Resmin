@@ -4,6 +4,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.http import (HttpResponse, HttpResponseBadRequest,
                          HttpResponseRedirect)
 from django.conf import settings
@@ -38,11 +39,14 @@ def index(request, listing='public'):
     stories = Story.objects.build(
         requested_user=request.user, listing=listing)
     stories = paginated(request, stories, settings.STORIES_PER_PAGE)
-    recommended_questions = QuestionMeta.objects.\
-        filter(is_featured=True).order_by('?')[:10]
+    recommended_questions = QuestionMeta.objects\
+        .filter(is_featured=True).order_by('?')[:10]
+    last_registered_users = User.objects\
+        .filter(is_active=True).order_by('-date_joined')[:20]
     ctx = {'stories': stories,
            'listing': listing,
            'recommended_questions': recommended_questions,
+           'last_registered_users': last_registered_users,
            'show_email_message': show_email_message}
     return render(request, "index2.html", ctx)
 
