@@ -354,6 +354,7 @@ input[type='password'],
 input[type='file'],
 input[type='url'],
 input[type='email'],
+input[type='search']
 textarea         { border: none; .bb; }
 
 label            { display: block; .f_nrml; .c_nrml; .mbh; .mr; }
@@ -362,6 +363,7 @@ input[type=text],
 input[type=password],
 input[type='url'],
 input[type='email'],
+input[type='search'],
 textarea         { box-sizing: border-box; /* css3 rec */
                    -moz-box-sizing: border-box; /* ff2 */
                    -ms-box-sizing: border-box; /* ie8 */
@@ -378,8 +380,7 @@ input[type=checkbox] { margin-top: 3px; }
 input,
 textarea  { 
   .pah; .f_nrml; .mb; resize: none;
-  border-radius: 5px; }
-
+}
 
 .bttn {
     border: none;
@@ -395,6 +396,7 @@ textarea  {
                     border-bottom: 2px solid #365799;
                     color: @White;
                     text-decoration: none;}
+
 .bttn.green:hover { background-color: #365799;}
 
 .bttn.red         { background-color: #971b1b;
@@ -409,7 +411,7 @@ form#preferences {
 
 .q:hover p.info { visibility: visible; }
 
-#id_text, #id_q {
+#id_q {
   .f_stng;
   .pa;
 }

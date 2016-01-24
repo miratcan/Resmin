@@ -82,4 +82,5 @@ class ComplainQuestionMetaForm(forms.ModelForm):
 
 
 class SearchForm(forms.Form):
-    q = forms.CharField()
+    q = forms.CharField(widget=
+        forms.TextInput(attrs={'placeholder': _('Type some words to filter questions...')}))

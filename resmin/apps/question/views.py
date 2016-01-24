@@ -1,27 +1,24 @@
 import json
-
-from django.shortcuts import get_object_or_404
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
+from django.contrib.contenttypes.models import ContentType
+from apps.follow.models import QuestionFollow
+from apps.notification.utils import notify
+from apps.question.forms import (ComplainQuestionMetaForm, RequestAnswerForm,
+                                 SearchForm)
+from apps.question.models import Question, QuestionMeta
+from apps.story.models import Story
+from django.conf import settings
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import (HttpResponse, HttpResponseBadRequest,
                          HttpResponseRedirect)
-from django.conf import settings
-from django.views.decorators.csrf import csrf_exempt
-
+from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
-from redis_cache import get_redis_connection
-
+from django.views.decorators.csrf import csrf_exempt
 from libs.baseconv import base62
 from libs.shortcuts import render_to_json
-from apps.story.models import Story
-from apps.question.models import Question, QuestionMeta
-from apps.question.forms import (RequestAnswerForm, SearchForm,
-                                 ComplainQuestionMetaForm)
-from apps.notification.utils import notify
-from apps.follow.models import QuestionFollow
-
+from multilingual_tags.models import Tag
+from redis_cache import get_redis_connection
 from resmin.utils import paginated
 
 redis = get_redis_connection('default')
@@ -53,13 +50,22 @@ def index(request, listing='public'):
 
 def questions(request):
 
-    if request.GET:
-        return render(request, "question/question_meta_list.html", {})
+    qms = QuestionMeta.objects\
+        .filter(status=QuestionMeta.PUBLISHED, redirected_to=None)
+
+    tag = request.GET.get('tag')
+
+    if tag:
+        tag = get_object_or_404(Tag, slug=tag)
+        ctype = ContentType.objects.get_for_model(QuestionMeta)
+        qmeta_ids = tag.tagged_items\
+            .filter(content_type=ctype)\
+            .values_list('object_id', flat=True)
+        qms = qms.filter(id__in=qmeta_ids)
 
     return render(request, "question/question_meta_list.html", {
         'search_form': SearchForm(),
-        'qms': QuestionMeta.objects.filter(
-            status=QuestionMeta.PUBLISHED, redirected_to=None)})
+        'qms': qms, 'tag': tag})
 
 
 def question(request, base62_id, ordering=None, show_delete=False, **kwargs):

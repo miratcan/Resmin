@@ -13,3 +13,6 @@ django-rosetta==0.7.6
 sorl-thumbnail==12.3
 django-haystack==2.4.0
 django-cors-headers==1.1.0
+django-hvad==1.4.0
+django-multilingual-tags==0.8.7
+django-widget-tweaks==1.4.1

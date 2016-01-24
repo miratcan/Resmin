@@ -109,7 +109,10 @@ INSTALLED_APPS = (
     'django_extensions',
     'rest_framework',
     'rosetta',
-    'corsheaders'
+    'corsheaders',
+    'hvad',
+    'multilingual_tags',
+    'widget_tweaks'
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (

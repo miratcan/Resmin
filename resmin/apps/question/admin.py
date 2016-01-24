@@ -1,7 +1,7 @@
 from django.contrib import admin
 from apps.question.models import QuestionMeta, Question, QuestionMetaComplaint
 from apps.story.models import Story
-
+from multilingual_tags.admin import TaggedItemInline
 
 class QuestionMetaAdmin(admin.ModelAdmin):
     list_display = ('text', 'redirected_to', 'created_at', 'updated_at',
@@ -10,6 +10,7 @@ class QuestionMetaAdmin(admin.ModelAdmin):
               'is_featured', 'is_sponsored')
     raw_id_fields = ('redirected_to', 'owner')
     search_fields = ('text',)
+    inlines = [TaggedItemInline]
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         """
