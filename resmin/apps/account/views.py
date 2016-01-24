@@ -49,6 +49,7 @@ def profile(request, username=None, listing='public', action=None):
         have_pending_follow_request = \
             request.user.has_pending_follow_request(user)
 
+
     ctx = {'profile_user': user,
            'listing': listing,
            'user_is_blocked_by_me': user_is_blocked_by_me,

@@ -247,7 +247,14 @@ class FollowerActionForm(forms.Form):
 
 
 class QuestionForm(forms.Form):
-    question = forms.CharField(label=_('Ask me a question:'), max_length=512)
+
+    question_meta = forms.ModelChoiceField(
+        label=_('Ask me a question:'),
+        widget = forms.HiddenInput(),
+        queryset=QuestionMeta.objects\
+            .filter(status=QuestionMeta.PUBLISHED,
+                    redirected_to=None))
+
     is_anonymouse = forms.BooleanField(label=_('Ask as anonymouse'),
                                        required=False, initial=True)
 
@@ -256,17 +263,9 @@ class QuestionForm(forms.Form):
         self.questionee = kwargs.pop('questionee')
         super(QuestionForm, self).__init__(*args, **kwargs)
 
-    def clean(self):
-        if not self.questioner.is_authenticated():
-            raise forms.ValidationError('You have to login to ask a question.')
-        return self.cleaned_data
-
     def save(self):
-        meta = QuestionMeta.objects.get_or_create(
-            text=self.cleaned_data['question'],
-            defaults={'owner': self.questioner})[0]
         question = Question.objects.create(
-            meta=meta,
+            meta=self.cleaned_data['question_meta'],
             questioner=self.questioner,
             questionee=self.questionee,
             is_anonymouse=self.cleaned_data['is_anonymouse'])

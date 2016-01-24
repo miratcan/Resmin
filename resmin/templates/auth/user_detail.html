@@ -1,14 +1,21 @@
-{% extends "answers_base.html" %}{% load i18n %}
+{% extends "answers_base.html" %}{% load i18n widget_tweaks %}
+
+{% block extra_head %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/1.3.1/fuse.min.js"></script>
+{% endblock %}
 
 {% block before_content %}
   {% include "auth/user_detail_inc.html" %}
 {% endblock %}
 
 {% block content %}
+
   <form class="narrow wrap mbd pa" method="post">
-    {% csrf_token %}
-    {{ question_form }}
-    <input class="bttn fr green ra" type="submit">
+    {% csrf_token  %}
+    {% render_field question_form.question_meta %}
+    <input type="text" id="id_question" class="search nm">
+    <ul id="candidates" class="bg mb nostyle" style="max-height: 200px; overflow: scroll;"></ul>
+    <input class="bttn fr green ra" value = "{% trans 'Ask' %}" type="submit">
   </form>
 
   {% load i18n %}<p class="mbd"><a {% if listing == 'public' %}class="imp" {% endif %}href="{% url 'profile' profile_user %}">{% trans 'Answers' context 'profile answers' %}</a>{% if request.user == profile_user %} / <a {% if listing == 'draft' %}class="imp" {% endif %}href="{% url 'profile-drafts' profile_user %}">{% trans 'Drafts' %}</a>{% endif %}</p>
@@ -17,4 +24,40 @@
     {% include "story/story_thumbnails.html" with show_question_info_below_answers=True %}
     {% include "includes/pagination_links_for_stories.html" %}
   {% endwith %}
+
+  <script>
+
+    var question_metas = [
+     {% for qm in question_form.fields.question_meta.queryset %}
+     { text: '{{ qm.text }}', id: {{ qm.id }} },
+     {% endfor %}
+    ];
+
+    var fuse = new Fuse(
+      question_metas, {
+        keys: ["text"]
+      }
+    );
+
+    function onCandidateClicked(ev) {
+      var id = $(event.target).attr('data-id');
+      $('#id_question_meta').val(id);
+      $('#id_question').val($(ev.target).html())
+      $('#candidates').empty();
+    };
+
+    var question_el = $('#id_question');
+
+    question_el.on('input', function(e){
+      var results = fuse.search(question_el.val())
+      var html = ''
+      for (var i = 0; i < results.length; i++) {
+        html += '<li class="pa" data-id=' + results[i].id + '>' + results[i].text + '</li>'
+      };
+      $('#candidates').html(html);
+      $('#candidates li:not(.bound)').addClass('bound').bind('click', onCandidateClicked);
+    });
+
+  </script>
+
 {% endblock content %}

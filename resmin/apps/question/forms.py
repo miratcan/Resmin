@@ -12,7 +12,8 @@ class CreateQuestionForm(forms.ModelForm):
         required=True,
         widget=forms.TextInput(attrs={'autocomplete': 'off'}))
 
-    is_anonymouse = forms.BooleanField(label=_('Hide my name'), required=False)
+    is_anonymouse = forms.BooleanField(
+        label=_('Hide my name'), required=False)
 
     def save(self, *args, **kwargs):
         question = super(CreateQuestionForm, self).save(commit=False)
