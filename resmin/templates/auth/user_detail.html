@@ -31,7 +31,7 @@
   <script>
 
     var question_metas = [
-     {% for qm in question_form.fields.question_meta.queryset %}
+     {% for qm in question_form.base_fields.question_meta.queryset %}
      { text: '{{ qm.text }}', id: {{ qm.id }} },
      {% endfor %}
     ];
