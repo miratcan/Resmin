@@ -1,18 +1,17 @@
 import re
-
+from multilingual_tags.models import Tag
+from apps.account.models import EmailCandidate, Invitation, UserProfile
+from apps.account.signals import (follower_count_changed,
+                                  following_count_changed)
+from apps.follow.models import UserFollow
+from apps.notification.models import (NotificationPreference, NotificationType,
+                                      notification_preferences)
+from apps.question.models import Question, QuestionMeta
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
-from apps.account.models import (Invitation, UserProfile, EmailCandidate)
-
-from apps.follow.models import UserFollow
-from apps.notification.models import (NotificationType, NotificationPreference,
-                                      notification_preferences)
-from apps.question.models import Question, QuestionMeta
-from apps.account.signals import (follower_count_changed,
-                                  following_count_changed)
-
 from libs import key_generator
 
 
@@ -251,9 +250,16 @@ class QuestionForm(forms.Form):
     question_meta = forms.ModelChoiceField(
         label=_('Ask me a question:'),
         widget = forms.HiddenInput(),
-        queryset=QuestionMeta.objects\
-            .filter(status=QuestionMeta.PUBLISHED,
-                    redirected_to=None))
+        queryset= QuestionMeta.objects.filter(id__in=
+            Tag.objects\
+                .filter(slug='personal')\
+                .first()\
+                .tagged_items\
+                .filter(content_type=
+                    ContentType.objects.get_for_model(QuestionMeta)
+            ).values_list('object_id', flat=True)
+        )
+    )
 
     is_anonymouse = forms.BooleanField(label=_('Ask as anonymouse'),
                                        required=False, initial=True)
