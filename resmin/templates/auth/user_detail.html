@@ -10,12 +10,15 @@
 
 {% block content %}
 
-  <form class="narrow wrap mbd pa" method="post">
-    {% csrf_token  %}
+  <form class="narrow wrap oa bb mbd pa" method="post">
+    {% csrf_token %}
     {% render_field question_form.question_meta %}
     <input type="text" id="id_question" class="search nm">
     <ul id="candidates" class="bg mb nostyle" style="max-height: 200px; overflow: scroll;"></ul>
-    <input class="bttn fr green ra" value = "{% trans 'Ask' %}" type="submit">
+    <p>
+      <span class="fl mt">{% trans 'Ask Anonymous' %}: {% render_field question_form.is_anonymouse %}</span>
+      <input class="bttn fr green ra" value = "{% trans 'Ask' %}" type="submit" />
+    </p>
   </form>
 
   {% load i18n %}<p class="mbd"><a {% if listing == 'public' %}class="imp" {% endif %}href="{% url 'profile' profile_user %}">{% trans 'Answers' context 'profile answers' %}</a>{% if request.user == profile_user %} / <a {% if listing == 'draft' %}class="imp" {% endif %}href="{% url 'profile-drafts' profile_user %}">{% trans 'Drafts' %}</a>{% endif %}</p>
