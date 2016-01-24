@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-17 12:46+0200\n"
+"POT-Creation-Date: 2016-01-24 20:48+0200\n"
 "PO-Revision-Date: 2015-05-10 10:30+0157\n"
 "Last-Translator:   <miratcanbayrak@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,61 +19,61 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Translated-Using: django-rosetta 0.7.6\n"
 
-#: apps/account/forms.py:20
+#: apps/account/forms.py:19
 msgid "Username"
 msgstr "Kullanıcı Adı"
 
-#: apps/account/forms.py:21
+#: apps/account/forms.py:20
 msgid "Password"
 msgstr "Şifre"
 
-#: apps/account/forms.py:22
+#: apps/account/forms.py:21
 msgid "Password Again"
 msgstr "Şifre Tekrar"
 
-#: apps/account/forms.py:24
+#: apps/account/forms.py:23
 msgid "Invitation Key"
 msgstr "Davetiye Kodu"
 
-#: apps/account/forms.py:29
+#: apps/account/forms.py:28
 msgid "User with this username already exists"
 msgstr "Bu kullanıcı adı daha önce alınmış"
 
-#: apps/account/forms.py:38
+#: apps/account/forms.py:37
 msgid "Password fields must be same"
 msgstr "Şifre alanları aynı olmalı"
 
-#: apps/account/forms.py:57
+#: apps/account/forms.py:56
 msgid "This key reached it's maximum use limit. It cant be used anymore."
 msgstr ""
 "Bu davetiye kodu maksimum kullanma limitine ulaşmış. Daha fazla kullanılamaz."
 
-#: apps/account/forms.py:63
+#: apps/account/forms.py:62
 msgid "Invalid invitation key"
 msgstr "Geçersiz davetiye kodu"
 
-#: apps/account/forms.py:139
+#: apps/account/forms.py:138
 msgid "send email notification"
 msgstr "eposta ile bildir"
 
-#: apps/account/forms.py:140
+#: apps/account/forms.py:139
 msgid "send site notification"
 msgstr "sitede bildir"
 
-#: apps/account/forms.py:199
+#: apps/account/forms.py:198
 msgid "You can not do that action on yourself."
 msgstr "Bu işlemi kendi üzerinde gerçekleştiremezsin."
 
-#: apps/account/forms.py:231
+#: apps/account/forms.py:230
 #, python-format
 msgid "You made %s unfollow you."
 msgstr "%s kişisini takipçin olmaktan çıkardın."
 
-#: apps/account/forms.py:250
+#: apps/account/forms.py:251
 msgid "Ask me a question:"
 msgstr "Bana bir soru sor:"
 
-#: apps/account/forms.py:251
+#: apps/account/forms.py:264
 msgid "Ask as anonymouse"
 msgstr "Kimliğimi gizle"
 
@@ -93,35 +93,35 @@ msgstr "konum"
 msgid "email"
 msgstr "eposta"
 
-#: apps/account/views.py:70
+#: apps/account/views.py:71
 msgid "Your question sent to user."
 msgstr "Sorun kullanıcıya gönderildi."
 
-#: apps/account/views.py:90
+#: apps/account/views.py:91
 msgid "Follow request sent to user"
 msgstr "Takipçi olma isteğin kullanıcıya gönderildi"
 
-#: apps/account/views.py:93
+#: apps/account/views.py:94
 msgid "You are not a follower anymore"
 msgstr "Artık bu kullanıcının takipçisi değilsin"
 
-#: apps/account/views.py:96
+#: apps/account/views.py:97
 msgid "You have blocked this user"
 msgstr "Bu kullanıcıyı engelledin"
 
-#: apps/account/views.py:99
+#: apps/account/views.py:100
 msgid "You have unblocked this user"
 msgstr "Bu kullanıcının engelini kaldırdın"
 
-#: apps/account/views.py:188
+#: apps/account/views.py:189
 msgid "Your profile updated"
 msgstr "Profilin güncellendi"
 
-#: apps/account/views.py:217
+#: apps/account/views.py:218
 msgid "Registration complete, wellcome :)"
 msgstr "Kayıt tamamlandı, hoşgeldin :)"
 
-#: apps/account/views.py:308
+#: apps/account/views.py:309
 msgid "Your email confirmed :)"
 msgstr "E-posta adresin onaylandı :)"
 
@@ -129,7 +129,7 @@ msgstr "E-posta adresin onaylandı :)"
 msgid "Your preferences updated"
 msgstr "Tercihlerin güncellendi"
 
-#: apps/comment/forms.py:15 apps/comment/forms.py:57
+#: apps/comment/forms.py:15 apps/comment/forms.py:60
 msgid "Comment"
 msgstr "Yorum"
 
@@ -484,15 +484,15 @@ msgstr "Mesajı Görüntüle"
 msgid "Delete"
 msgstr "Sil"
 
-#: apps/question/forms.py:15 apps/story/models.py:53
+#: apps/question/forms.py:16 apps/story/models.py:53
 msgid "Hide my name"
 msgstr "Adımı Gizle"
 
-#: apps/question/forms.py:34
+#: apps/question/forms.py:35
 msgid "Questionees"
 msgstr "Sorulanlar"
 
-#: apps/question/forms.py:36
+#: apps/question/forms.py:37
 msgid ""
 "Separate the usernames with comma which you request answer. You can only "
 "request answer from your followers"
@@ -500,15 +500,19 @@ msgstr ""
 "Cevaplamasını istediğin kullanıcı adlarını virgülle ayır. Sadece takip "
 "ettiğin kullanıcılardan talepte bulunabilirsin."
 
-#: apps/question/forms.py:39
+#: apps/question/forms.py:40
 msgid "Is Anonymouse"
 msgstr "Gizli"
+
+#: apps/question/forms.py:87
+msgid "Type some words to filter questions..."
+msgstr ""
 
 #: apps/question/models.py:24
 msgid "Question"
 msgstr "Soru"
 
-#: apps/question/models.py:142
+#: apps/question/models.py:146
 msgid ""
 "If you think that there is a question already has meaning of given question, "
 "type URL of other question."
@@ -516,11 +520,11 @@ msgstr ""
 "Eğer bu soruyla aynı anlama gelen başka bir soru olduğunu düşünüyorsan, o "
 "başka sorunun adresini yaz."
 
-#: apps/question/models.py:145
+#: apps/question/models.py:149
 msgid "If question is something like: 'fddskfllksd' use this one."
 msgstr "Eğer soru 'slkşfdskf' gibi anlamsız bir şeyse bunu kullan."
 
-#: apps/question/models.py:148
+#: apps/question/models.py:152
 msgid ""
 "If question is targeting spesific audience with hate use this one. Write "
 "some explanation to make admins understand situation."
@@ -528,61 +532,61 @@ msgstr ""
 "Soru belli bir topluluğu nefretle anıyorsa bunu kullan. Adminlerin "
 "anlayabilmesi için biraz açıklama iyi olabilir."
 
-#: apps/question/models.py:152
+#: apps/question/models.py:156
 msgid ""
 "If question is insulting you or your life us this one.Write some explanation "
 "to make admins understand situation."
 msgstr ""
 
-#: apps/question/models.py:157
+#: apps/question/models.py:161
 msgid "Complaint type"
 msgstr "Şikayet tipi"
 
-#: apps/question/models.py:158
+#: apps/question/models.py:162
 msgid "Duplicate"
 msgstr "Aynısı Var"
 
-#: apps/question/models.py:158
+#: apps/question/models.py:162
 msgid "Meaningless"
 msgstr "Anlamsız"
 
-#: apps/question/models.py:159
+#: apps/question/models.py:163
 msgid "Hate Speech"
 msgstr "Nefret Söylemi"
 
-#: apps/question/models.py:159
+#: apps/question/models.py:163
 msgid "Insulting"
 msgstr "Hakaret"
 
-#: apps/question/models.py:161
+#: apps/question/models.py:165
 msgid "Pending"
 msgstr "Bekliyor"
 
-#: apps/question/models.py:162
+#: apps/question/models.py:166
 msgid "Solved"
 msgstr "Çözüldü"
 
-#: apps/question/models.py:163
+#: apps/question/models.py:167
 msgid "Rejected"
 msgstr "Reddedildi"
 
-#: apps/question/models.py:165 apps/story/forms.py:128 apps/story/models.py:50
+#: apps/question/models.py:169 apps/story/forms.py:128 apps/story/models.py:50
 msgid "Description"
 msgstr "Açıklama"
 
-#: apps/question/views.py:113
+#: apps/question/views.py:119
 msgid "You have to login to complete this action."
 msgstr "Bu işlemi gerçekleştirmek için giriş yapmalısın."
 
-#: apps/question/views.py:119
+#: apps/question/views.py:125
 msgid "You have send bad data."
 msgstr "Bir mesaj gönderdin"
 
-#: apps/question/views.py:155
+#: apps/question/views.py:161
 msgid "Action not found"
 msgstr "Hareket bulunamadı"
 
-#: apps/question/views.py:225
+#: apps/question/views.py:231
 msgid "Your complaint sent to moderation."
 msgstr "Şikayetin yönetime gönderildi."
 
@@ -618,87 +622,92 @@ msgstr "Vizyonda"
 msgid "NSFW"
 msgstr "AYIP"
 
-#: apps/story/models.py:58
+#: apps/story/models.py:59
 msgid "Status"
 msgstr "Durum"
 
-#: apps/story/models.py:221 templates/auth/user_detail_inc.html:8
+#: apps/story/models.py:63
+#, fuzzy
+msgid "Updated at"
+msgstr "Güncelle"
+
+#: apps/story/models.py:230 templates/auth/user_detail_inc.html:8
 msgid "Story"
 msgstr "Hikaye"
 
-#: apps/story/models.py:222
+#: apps/story/models.py:231
 msgid "Stories"
 msgstr "Hikayeler"
 
-#: apps/story/models.py:244
+#: apps/story/models.py:253
 msgid "Video"
 msgstr "Video"
 
-#: apps/story/models.py:245
+#: apps/story/models.py:254
 msgid "Videos"
 msgstr "Videolar"
 
-#: apps/story/models.py:260
+#: apps/story/models.py:269
 msgid "Image"
 msgstr "Görsel"
 
-#: apps/story/models.py:261
+#: apps/story/models.py:270
 msgid "Images"
 msgstr "Görseller"
 
-#: apps/story/models.py:281
+#: apps/story/models.py:290
 msgid "Slot"
 msgstr "Slot"
 
-#: apps/story/models.py:282
+#: apps/story/models.py:291
 msgid "Slots"
 msgstr "Slotlar"
 
-#: apps/story/models.py:297
+#: apps/story/models.py:306
 msgid "Uploading"
 msgstr "Yükleniyor"
 
-#: apps/story/models.py:298
+#: apps/story/models.py:307
 msgid "Complete"
 msgstr "Tamamlandı"
 
-#: apps/story/models.py:299
+#: apps/story/models.py:308
 msgid "Failed"
 msgstr "Bitirilemedi"
 
-#: apps/story/models.py:310 utils/models.py:13
+#: apps/story/models.py:319 utils/models.py:13
 msgid "Owner"
 msgstr "Sahip"
 
-#: apps/story/models.py:427
+#: apps/story/models.py:436
 msgid "Upload"
 msgstr "Yükleme"
 
-#: apps/story/models.py:428
+#: apps/story/models.py:437
 msgid "Uploads"
 msgstr "Yüklemeler"
 
-#: apps/story/views.py:30
+#: apps/story/views.py:31
 msgid "Your story deleted."
 msgstr "Hikayen silindi"
 
-#: apps/story/views.py:43
+#: apps/story/views.py:44
 msgid "Your story published."
 msgstr "Hikayen yayınlandı."
 
-#: apps/story/views.py:118
+#: apps/story/views.py:119
 msgid "Your story updated"
 msgstr "Hikayen güncellendi"
 
-#: apps/story/views.py:150
+#: apps/story/views.py:151
 msgid "md5sum and size required."
 msgstr "md5sum ve size gerekli."
 
-#: apps/story/views.py:155
+#: apps/story/views.py:156
 msgid "File is too big to upload."
 msgstr "Dosya boyutu çok büyük"
 
-#: apps/story/views.py:174
+#: apps/story/views.py:175
 msgid "post method required."
 msgstr "post metodu gerekli."
 
@@ -1008,12 +1017,21 @@ msgstr ""
 msgid "Update Profile"
 msgstr "Profili Güncelle"
 
-#: templates/auth/user_detail.html:14
+#: templates/auth/user_detail.html:19
+#, fuzzy
+msgid "Ask Anonymous"
+msgstr "Gizli"
+
+#: templates/auth/user_detail.html:20
+msgid "Ask"
+msgstr ""
+
+#: templates/auth/user_detail.html:24
 msgctxt "profile answers"
 msgid "Answers"
 msgstr "Cevapları"
 
-#: templates/auth/user_detail.html:14
+#: templates/auth/user_detail.html:24
 msgid "Drafts"
 msgstr "Taslaklar"
 
@@ -1331,8 +1349,7 @@ msgid "ago"
 msgstr "önce"
 
 #: templates/question/pending_questions.html:19
-#: templates/question/question_meta_list.html:12
-#: templates/question/question_meta_list_item.html:1
+#: templates/question/question_meta_list_item.html:10
 #: templates/question/question_sentence.html:14
 msgid "Answer"
 msgstr "Cevapla"
@@ -1373,7 +1390,11 @@ msgid "Submit"
 msgstr "Gönder"
 
 #: templates/question/question_meta_list.html:13
-#: templates/question/question_meta_list_item.html:2
+#, python-format
+msgid "Listing questions tagged with: #%(tag)s "
+msgstr ""
+
+#: templates/question/question_meta_list_item.html:11
 #, python-format
 msgid "%(ac)s answers."
 msgstr "%(ac)s cevap."
