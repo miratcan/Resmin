@@ -9,7 +9,7 @@
     </div>
   {% else %}
     {% with story.get_cover_img as cover_img %}
-    <a class="thmb">
+    <a class="thmb" href="{{ story.get_absolute_url }}">
       {% if story.is_featured %}<i href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator fa fa-star"></i>{% endif %}
       <img src="{{ cover_img.url}}">
     </a>
