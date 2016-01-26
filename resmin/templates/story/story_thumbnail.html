@@ -23,11 +23,11 @@
 
     <div class="likes-wrap like-button" data-story-id="{{ story.id }}">
       <div class="count">{{ story.like_count }}</div>
-      <i class="mth fa fa-heart{% if story|is_liked_by:user %} pink{% endif %}"></i>
+      <i class="mth fa fa-heart fa-lg{% if story|is_liked_by:user %} pink{% endif %}"></i>
     </div>
 
     <div class="comments-wrap">
-      <a href="{{ story.get_absolute_url }}#comments"><span class="count">{% if story.comment_count %}{{ story.comment_count }}{% else %}0{% endif %}</span><i class="mth fa fa-comment"></a></i>
+      <a href="{{ story.get_absolute_url }}#comments"><span class="count">{% if story.comment_count %}{{ story.comment_count }}{% else %}0{% endif %}</span><i class="mth fa fa-comment fa-lg"></a></i>
     </div>
 
   </div>
