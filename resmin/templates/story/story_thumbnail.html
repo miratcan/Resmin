@@ -1,7 +1,7 @@
 {% load thumbnail liked_by story_tags %}{% load i18n %}
 <div class="thmb-wrap shadowed" style="position: relative">
   {% if show_question_info_below_answers %}
-    <div class="oa pa db bb f_tiny"><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></div>
+    <div class="oa pa db bb "><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></div>
   {% endif %}
   {% if story.is_nsfw %}
     <div class="nsfw_block">
@@ -9,12 +9,14 @@
     </div>
   {% else %}
     {% with story.get_cover_img as cover_img %}
-    <a class="thmb" style="height: {{ cover_img.height }}px; width: {{ cover_img.width }}px; background-image: url({{ cover_img.url }}); background-size: 100%;" href="{{ story.get_absolute_url }}">
+    <a class="thmb">
       {% if story.is_featured %}<i href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator fa fa-star"></i>{% endif %}
+      <img src="{{ cover_img.url}}">
     </a>
     {% endwith %}
   {% endif %}
   <div class="footer oa db pl pr">
+
     <div class="username">
       {% include "auth/username_inc.html" with user=story.owner anonymouse=story.is_anonymouse narrow=True %}
     </div>

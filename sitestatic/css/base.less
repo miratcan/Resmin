@@ -292,12 +292,16 @@ img.db      { width: 100%; }
 
 .thmb span  { width: 100%; .tac; .db; .f_weak; .wb; margin-top: 90px; }
 .thmb-wrap  {
-  .bg;
-  .mbd; .mlh; .mrh; .fl; .shadowed; width: 220px; .bb; border-bottom-width: 3px;
-    .a { .db; .oa; }
-    .footer {
-      .username { .f_weak; .fl; .pt; .mbh; }
-      }
+  .bg; .mbd; .mlh; .mrh; .fl; .shadowed;
+  width: 220px; .bb;
+  border-bottom-width: 3px;
+
+  .a { .db; .oa; }
+
+  .footer {
+    .username { .fl; .pt; .mbh; }
+  }
+
   .featured_answer_indicator {
     position: absolute;
     margin: 0;
@@ -305,8 +309,9 @@ img.db      { width: 100%; }
     top: 0;
     right: 0;
   }
-
+  .img { width: 100%; }  
 }
+
 .thmb-wrap.featued {
   background: @Crematorix;
 }
@@ -457,8 +462,9 @@ form#preferences {
   .count { display: inline-block;
            margin: 0 2px 0 0;
           .fl; .mth; .f_weak;
-  }
+  };
 }
+
 .comments-wrap {
   .mr;
   a { .c_nrml };
@@ -556,8 +562,9 @@ form#preferences {
   font-size: 20px;
   .pt;
 }
-.question .inner a { color: #fff;}
-.question .inner p { color: #ccc;}
+
+.question .inner a { color: #fff; }
+.question .inner p { color: #ccc; }
 
 #slot-list { .db; .oa; .mb; }
 
@@ -635,6 +642,7 @@ form#preferences {
 }
 
 @media only screen and (max-width:600px) {
+
   .panel-left, .panel-right {
     position: initial;
     display: block;
@@ -645,7 +653,38 @@ form#preferences {
     border-left: none;
     .np;
   }
-  .panel-right { .db; .bb; .mb; }
+
+  #thumbnails  { .nm; }
+
+  .panel-right   { .db; .bb; .mb; }
+  .comments-wrap { font-size: 16px; }
+
+}
+
+@media only screen and (max-width:400px) {
+  .wrap {
+    .nm;
+    .np;
+  }
+  .thmb-wrap {
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
+    .thmb img {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+  .comments-wrap, .likes-wrap {
+    font-size: 16px;
+    line-height: 16px;
+  }
+  .footer {
+    .pb;
+  }
+  .fa-comment, .fa-heart {
+    .fa-lg;
+  }
 }
 
 .sortable-placeholder {   
@@ -697,4 +736,12 @@ td {
     -webkit-box-sizing: border-box; /* safari3 */
     -khtml-box-sizing: border-box; /* konqueror */
   }
+}
+
+.thmb-wrap {
+  box-sizing: border-box; /* css3 rec */
+  -moz-box-sizing: border-box; /* ff2 */
+  -ms-box-sizing: border-box; /* ie8 */
+  -webkit-box-sizing: border-box; /* safari3 */
+  -khtml-box-sizing: border-box; /* konqueror */
 }
