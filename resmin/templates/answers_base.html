@@ -2,12 +2,12 @@
 {% block extra_head %}
   <script src="{{ STATIC_URL }}js/jquery-2.0.3.min.js"></script>  
   <script src="{{ STATIC_URL }}js/masonry.pkgd.min.js"></script>
-  
+  <script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
+
   <script>
     $(document).ready(function() {
-      var container = document.querySelector('#thumbnails');
-      var msnry = new Masonry(container, {
-          itemSelector: '.thmb-wrap',
+      var $grid = $('#thumbnails').imagesLoaded( function() {
+        $grid.masonry();
       });
     });
   </script>
