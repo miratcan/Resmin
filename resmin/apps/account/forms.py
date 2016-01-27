@@ -83,7 +83,7 @@ class RegisterForm(forms.Form):
 class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['bio', 'website', 'location']
+        fields = ['bio', 'website', 'location', 'facebook', 'instagram', 'twitter', 'github']
 
 
 class EmailCandidateForm(forms.ModelForm):

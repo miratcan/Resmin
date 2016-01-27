@@ -26,6 +26,10 @@
       {% if profile.bio %}<p style="margin-left: 110px;">{{ profile.bio }}</p>{% endif %}
       {% if profile.website %}<p style="margin-left: 110px;" class="f_weak"><a href="{{ profile.website }}">{{ profile.website }}</a></p>{% endif %}
       {% if profile.location %}<p style="margin-left: 110px;">{{ profile.location }}</p>{% endif %}
+      {% if profile.facebook %}<p style="margin-left: 110px;" class="f_weak"><a href="https://facebook.com/{{ profile.facebook }}">{{ profile.facebook }}</a></p>{% endif %}
+      {% if profile.instagram %}<p style="margin-left: 110px;" class="f_weak"><a href="https://instagram.com/{{ profile.instagram }}">{{ profile.instagram }}</a></p>{% endif %}
+      {% if profile.twitter %}<p style="margin-left: 110px;" class="f_weak"><a href="https://twitter.com/{{ profile.twitter }}">{{ profile.twitter }}</a></p>{% endif %}
+      {% if profile.github %}<p style="margin-left: 110px;" class="f_weak"><a href="https://github.com/{{ profile.github }}">{{ profile.github }}</a></p>{% endif %}
       </ul>
     </div>
     {% if follow_form %}
