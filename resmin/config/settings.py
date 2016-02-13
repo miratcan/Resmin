@@ -265,6 +265,13 @@ REST_FRAMEWORK = {
     )
 }
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'sqlite3.db'
+    }
+}
+
 CORS_ORIGIN_ALLOW_ALL = True
 
 try:
