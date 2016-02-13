@@ -10,13 +10,14 @@
   {% if pending_questions %}
   <ul class="nostyle">
     {% for question in pending_questions %}
-      <li class="bb pad">
-        <p>
-          <span class="wb">{{ question.meta.text }}</span> 
-          <span class="f_weak">{% include 'auth/username_inc.html' with user=question.questioner anonymouse=question.is_anonymouse %} {{ question.created_at|timesince }} {% trans 'ago' %}.</span>
+  
+      <li class="mbd">
+        <p class="mb f_stng">
+          <a class="question_text" href="{{ question.meta.get_absolute_url }}">{{ question.meta.text }}</a>
+          <span class="f_weak"> / {% include 'auth/username_inc.html' with user=question.questioner anonymouse=question.is_anonymouse %}</span>
         </p>
-        <p class="nm f_weak">
-          <a href="{{ question.post_answer_url }}">{% trans 'Answer' %}</a> / <a class="reject" data-qpk='{{ question.pk }}' href="#">{% trans 'Reject' %}</a>
+        <p class="mb f_weak">
+          <a class="imp" href="{{ question.post_answer_url }}">{% trans 'Answer' %}</a> / <a class="reject imp" data-qpk='{{ question.pk }}' href="#">{% trans 'Reject' %}</a>
         </p>
       </li>
     {% endfor %}
