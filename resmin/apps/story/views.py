@@ -65,7 +65,7 @@ def story(request, base62_id):
     story_is_visible = story.is_visible_for(request.user,
                                             blocked_user_ids=blocked_user_ids)
     comments = Comment.objects\
-        .filter(story=story)\
+        .filter(story=story, status=Comment.PUBLISHED)\
         .from_active_owners()\
         .visible_for(request.user)\
         .select_related('owner__profile')
