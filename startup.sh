@@ -26,8 +26,12 @@ apt-get install nodejs -y &>> $log_file
 echo "Installing NPM "
 npm install bower less -g &>> $log_file
 
+echo "Setting up config files."
+cp /vagrant/resmin/config/local_settings.py.template /vagrant/resmin/config/local_settings.py
+
 echo "Setting initialization scripts to run Django Devserver on every start"
 echo "cd /vagrant/" &>> /home/vagrant/.bashrc
+echo "python manage.py syncdb" &>> /home/vagrant/.bashrc
 echo "python manage.py runserver 0.0.0.0:8000" >> /home/vagrant/.bashrc
 
 touch /tmp/dontrunagain &>> $log_file
