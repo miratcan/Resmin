@@ -10,7 +10,6 @@
   {% if pending_questions %}
   <ul class="nostyle">
     {% for question in pending_questions %}
-  
       <li class="mbd">
         <p class="mb f_stng">
           <a class="question_text" href="{{ question.meta.get_absolute_url }}">{{ question.meta.text }}</a>
