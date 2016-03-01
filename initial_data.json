@@ -1,0 +1,18 @@
+[
+{
+  "pk": 1, 
+  "model": "multilingual_tags.tagtranslation", 
+  "fields": {
+    "master": 1, 
+    "name": "Personal", 
+    "language_code": "en-us"
+  }
+},
+{
+  "pk": 1, 
+  "model": "multilingual_tags.tag", 
+  "fields": {
+    "slug": "personal"
+  }
+}
+]
