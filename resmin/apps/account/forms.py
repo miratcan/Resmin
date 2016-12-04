@@ -246,28 +246,26 @@ class FollowerActionForm(forms.Form):
 
 
 class QuestionForm(forms.Form):
-
-    question_meta = forms.ModelChoiceField(
-        label=_('Ask me a question:'),
-        widget = forms.HiddenInput(),
-        queryset= QuestionMeta.objects.filter(id__in=
-            Tag.objects\
-                .filter(slug='personal')\
-                .first()\
-                .tagged_items\
-                .filter(content_type=
-                    ContentType.objects.get_for_model(QuestionMeta)
-            ).values_list('object_id', flat=True)
-        )
-    )
-
+    question_meta = forms.ModelChoiceField
+    label=_('Ask me a question:'),
+    widget = forms.HiddenInput(),
     is_anonymouse = forms.BooleanField(label=_('Ask as anonymouse'),
                                        required=False, initial=True)
 
     def __init__(self, *args, **kwargs):
         self.questioner = kwargs.pop('questioner')
         self.questionee = kwargs.pop('questionee')
+	self.queryset = self.get_queryset()
         super(QuestionForm, self).__init__(*args, **kwargs)
+
+    def get_queryset(self):
+	# Note: There must be at least one question that is tagged as personal
+        personal_tag = Tag.objects.get(slug='personal')
+        question_meta_ctype  = ContentType.objects.get_for_model(QuestionMeta)
+        ids = personal_tag.tagged_items.filter(content_type=question_meta_ctype)
+        return  QuestionMeta.objects\
+	    .filter(id__in=ids)\
+	    .values_list('object_id', flat=True)
 
     def save(self):
         question = Question.objects.create(

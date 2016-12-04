@@ -106,7 +106,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'pipeline',
     'json_field',
-    'django_extensions',
+    # 'django_extensions',
     'rest_framework',
     'rosetta',
     'corsheaders',
