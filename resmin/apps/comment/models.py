@@ -3,8 +3,8 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models.query import QuerySet
 
-from apps.story.models import Story
-from apps.follow.models import compute_blocked_user_ids_for
+from ..story.models import Story
+from ..follow.models import compute_blocked_user_ids_for
 
 from django.template.defaultfilters import linebreaks, urlize
 

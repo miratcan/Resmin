@@ -5,10 +5,10 @@ from logging import getLogger
 from json import dumps
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
-from json_field.fields import JSONField
+from jsonfield import JSONField
 
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.core.files import File
@@ -16,15 +16,15 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-from redis_cache import get_redis_connection
+from django_redis import get_redis_connection
 
 from resmin.utils import (filename_for_image, filename_for_upload,
                           generate_upload_id, filename_for_video,
                           filename_for_video_frame)
 from resmin.utils.models import BaseModel, UniqueFileModel
 
-from apps.story.managers import StoryManager
-from apps.story.video_processing import grab_frame
+from .managers import StoryManager
+from .video_processing import grab_frame
 
 redis = get_redis_connection('default')
 logger = getLogger(__name__)

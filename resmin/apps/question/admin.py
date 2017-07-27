@@ -1,6 +1,6 @@
 from django.contrib import admin
-from apps.question.models import QuestionMeta, Question, QuestionMetaComplaint
-from apps.story.models import Story
+from .models import QuestionMeta, Question, QuestionMetaComplaint
+from ..story.models import Story
 from multilingual_tags.admin import TaggedItemInline
 
 class QuestionMetaAdmin(admin.ModelAdmin):

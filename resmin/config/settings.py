@@ -43,6 +43,7 @@ PROJECT_ROOT = os.path.dirname(
 
 sys.path.append(os.path.join(PROJECT_ROOT, 'resmin'))
 
+
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
@@ -102,10 +103,9 @@ INSTALLED_APPS = (
     'apps.comment',
     'apps.pm',
 
-    'seo_cascade',
     'sorl.thumbnail',
     'pipeline',
-    'json_field',
+
     # 'django_extensions',
     'rest_framework',
     'rosetta',
@@ -186,10 +186,10 @@ ABSOLUTE_URL_OVERRIDES = {
 
 CACHES = {
     "default": {
-        "BACKEND": "redis_cache.cache.RedisCache",
+        "BACKEND": "django_redis.cache.RedisCache",
         "LOCATION": "127.0.0.1:6379:1",
         "OPTIONS": {
-            "CLIENT_CLASS": "redis_cache.client.DefaultClient",
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
 }

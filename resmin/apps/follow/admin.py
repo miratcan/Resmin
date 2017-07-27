@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.follow.models import UserFollow, QuestionFollow, StoryFollow
+from .models import UserFollow, QuestionFollow, StoryFollow
 
 
 class UserFollowAdmin(admin.ModelAdmin):

@@ -1,10 +1,7 @@
 from datetime import datetime
-
-from apps.follow.models import QuestionFollow
-from apps.story.models import Story
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.contrib.contenttypes import generic
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -36,9 +33,7 @@ class QuestionMeta(models.Model):
     latest_answer = models.ForeignKey(
         'story.Story', related_name='latest_answer', null=True, blank=True)
 
-    tags = generic.GenericRelation(
-        'multilingual_tags.TaggedItem',
-    )
+    tags = GenericForeignKey('multilingual_tags.TaggedItem', )
 
     class Meta:
         ordering = ["-is_featured", "-updated_at"]
@@ -87,6 +82,7 @@ class QuestionMeta(models.Model):
     def update_answer_count(self):
         """Updates answer_count but does not saves question
         instance, it have to be saved later."""
+        from apps.story.models import Story
         self.answer_count = self.story_set.filter(
             status=Story.PUBLISHED).count()
 
@@ -94,6 +90,7 @@ class QuestionMeta(models.Model):
         """
         Update follower_count but does not saves question.
         """
+        from apps.follow.models import QuestionFollow
         self.follower_count = self.follow_set.filter(
             status=QuestionFollow.FOLLOWING).count()
 

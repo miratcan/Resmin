@@ -2,9 +2,9 @@ from datetime import datetime
 from multilingual_model.models import (MultilingualModel,
                                        MultilingualTranslation)
 
-from json_field.fields import JSONField
+from jsonfield import JSONField
 from django.db import models
-from django.core.cache import get_cache
+from django.core.cache import caches
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -13,7 +13,7 @@ from .managers import EmailNotificationManager
 from logging import getLogger
 
 
-cache = get_cache('default')
+cache = caches['default']
 logger = getLogger(__name__)
 
 

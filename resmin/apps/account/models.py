@@ -8,9 +8,6 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from apps.follow.models import UserFollow
-from apps.story.models import Story
-
 from resmin.utils.models import BaseModel
 from resmin.utils import filename_for_avatar
 
@@ -40,19 +37,23 @@ class UserProfile(models.Model):
         return 'like_scoreboard'
 
     def update_like_count(self):
+        from apps.story.models import Story
         self.like_count = self.user.story_set.filter(status=Story.PUBLISHED)\
             .aggregate(like_count_total=Sum('like_count'))['like_count_total']\
             or 0
 
     def update_follower_count(self):
+        from apps.follow.models import UserFollow
         self.follower_count = UserFollow.objects.filter(
             target=self.user).count()
 
     def update_following_count(self):
+        from apps.follow.models import UserFollow
         self.following_count = UserFollow.objects.filter(
             follower=self.user).count()
 
     def update_story_count(self):
+        from apps.story.models import Story
         self.story_count = self.user.story_set.filter(
             status=Story.PUBLISHED).count()
 

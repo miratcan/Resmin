@@ -21,6 +21,8 @@ class QuestionFollow(FollowBase):
     ANSWERED = 1
     FOLLOWED = 2
 
+"""
+
     STATUS_CHOICES = ((FOLLOWING, 'Following'),
                       (UNFOLLOWED, 'Unfollowed'))
 
@@ -44,7 +46,7 @@ class QuestionFollow(FollowBase):
 
     def cancellation_url(self):
         return reverse('cancel_follow', kwargs={'key': self.key})
-
+"""
 
 class StoryFollow(FollowBase):
 
@@ -79,6 +81,7 @@ class UserFollow(FollowBase):
         return '%s %s %s' % (self.follower,
                              self.get_status_display().lower(),
                              self.target)
+
 
 FOLLOWING_STATUSES = [UserFollow.FOLLOWING, UserFollow.FOLLOWING_RESTRICTED]
 
@@ -142,7 +145,7 @@ def compute_blocked_user_ids_for(user):
     """
     ids = set()
     if user.is_anonymous:
-      return ids
+        return ids
     ids.update(f.target_id for f in UserFollow.objects.filter(
         follower=user, status=UserFollow.BLOCKED))
     ids.update(f.follower_id for f in UserFollow.objects.filter(

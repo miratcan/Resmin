@@ -111,5 +111,5 @@ def inbox_count_for(user):
 # fallback for email notification if django-notification could not be found
 if "notification" not in settings.INSTALLED_APPS and\
    getattr(settings, 'apps.pm_NOTIFY', True):
-    from apps.pm.utils import new_message_email
+    from ..pm.utils import new_message_email
     signals.post_save.connect(new_message_email, sender=Message)
