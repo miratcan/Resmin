@@ -1,8 +1,7 @@
 from django.contrib import admin
-from apps.notification.models import (NotificationMeta, NotificationPreference,
-                                      NotificationType,
-                                      NotificationTypeTranslation,
-                                       SiteNotification, EmailNotification)
+from .models import (NotificationMeta, NotificationPreference,
+                     NotificationType, NotificationTypeTranslation,
+                     SiteNotification, EmailNotification)
 from multilingual_model.admin import TranslationStackedInline
 
 

@@ -1,7 +1,7 @@
-from apps.follow.models import UserFollow
-from apps.question.models import Question
-from apps.notification.models import SiteNotification
-from apps.pm.models import Message
+from ..follow.models import UserFollow
+from ..question.models import Question
+from ..pm.models import Message
+from .models import SiteNotification
 
 
 def notifications(request):

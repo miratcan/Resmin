@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.story.models import (Story, Slot, Image, Video, Upload)
+from .models import (Story, Slot, Image, Video, Upload)
 
 
 class StoryAdmin(admin.ModelAdmin):

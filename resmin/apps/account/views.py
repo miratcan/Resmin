@@ -7,27 +7,28 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.contrib.sites.models import get_current_site
+from django.contrib.sites.shortcuts import get_current_site
+
 from django.conf import settings
 from datetime import datetime, timedelta
-from redis_cache import get_redis_connection
+from django_redis import get_redis_connection
 
-from apps.account.models import (Invitation, UserProfile,
-                                 EmailCandidate)
-from apps.account.forms import (FollowForm, RegisterForm, UpdateProfileForm,
-                                EmailCandidateForm, QuestionForm,
-                                FollowerActionForm)
-from apps.question.models import (QuestionMeta, Question)
+from .models import (Invitation, UserProfile,
+                     EmailCandidate)
+from .forms import (FollowForm, RegisterForm, UpdateProfileForm,
+                    EmailCandidateForm, QuestionForm,
+                    FollowerActionForm)
+from ..question.models import (QuestionMeta, Question)
 from django.http import HttpResponseBadRequest
-from apps.follow.models import UserFollow
-from apps.notification.utils import notify
-from apps.notification.decorators import delete_notification
-from apps.story.models import Story
-from apps.account.signals import follower_count_changed
-from apps.account.forms import NotificationPreferencesForm
+from ..follow.models import UserFollow
+from ..notification.utils import notify
+from ..notification.decorators import delete_notification
+from ..story.models import Story
+from ..account.signals import follower_count_changed
+from ..account.forms import NotificationPreferencesForm
 
 from resmin.utils import paginated, send_email_from_template
-from resmin.libs.shortcuts import render_to_json
+
 
 redis = get_redis_connection('default')
 
@@ -48,7 +49,6 @@ def profile(request, username=None, listing='public', action=None):
         i_am_follower_of_user = request.user.is_following(user)
         have_pending_follow_request = \
             request.user.has_pending_follow_request(user)
-
 
     ctx = {'profile_user': user,
            'listing': listing,
@@ -119,18 +119,6 @@ def pending_follow_requests(request):
 
 
 @login_required
-def pending_questions(request):
-    qs = Question.objects\
-        .filter(questionee=request.user, status=Question.PENDING)\
-        .order_by('-created_at')
-    site = get_current_site(request) if not qs else None
-    return render(
-        request,
-        'question/pending_questions.html',
-        {'pending_questions': qs, 'site': site})
-
-
-@login_required
 def pending_follow_request_action(request):
     if request.method == 'POST':
 
@@ -138,8 +126,7 @@ def pending_follow_request_action(request):
         try:
             frpk = int(frpk)
         except ValueError:
-            return render_to_json(
-                {'errMsg': 'Invalida data'}, HttpResponseBadRequest)
+            return JsonRsponse({'errMsg': 'Invalida data'}, status=400)
 
         action = request.POST['action']
 
@@ -155,7 +142,7 @@ def pending_follow_request_action(request):
                    obj=follow_request,
                    recipient=follow_request.follower,
                    url=follow_request.target.get_absolute_url())
-            return render_to_json({'success': True})
+            return JsonRsponse({'success': True})
         elif action == 'accept-restricted':
             follow_request.status = UserFollow.FOLLOWING_RESTRICTED
             follow_request.save()
@@ -167,9 +154,9 @@ def pending_follow_request_action(request):
                    url=follow_request.target.get_absolute_url())
         if action == 'decline':
             follow_request.delete()
-            return render_to_json({'success': True})
-    return render_to_json({'success': False,
-                           'message': 'Invalida data'})
+            return JsonRsponse({'success': True})
+    return JsonRsponse({'success': False,
+                        'message': 'Invalida data'})
 
 
 @login_required

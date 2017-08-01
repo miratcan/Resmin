@@ -2,8 +2,8 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.contrib.auth.models import User
 
-from apps.question.signals import user_created_question
-from apps.question.models import Question, QuestionMetaComplaint
+from .signals import user_created_question
+from .models import Question, QuestionMetaComplaint
 
 
 class CreateQuestionForm(forms.ModelForm):

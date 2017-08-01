@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.account.models import Invitation, UserProfile, EmailCandidate
+from .models import Invitation, UserProfile, EmailCandidate
 
 
 class EmailCandidateAdmin(admin.ModelAdmin):

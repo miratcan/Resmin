@@ -1,21 +1,22 @@
-{% load meta %}{% load compressed i18n %}
+{% load pipeline i18n %}
 <!DOCTYPE HTML>
 <html>
   <head>
-    {% compressed_css 'base' %}
+    {% stylesheet 'base' %}
+    <link rel="stylesheet" href="{{ STATIC_URL }}/css/base.css" type="text/css" />
+
     <meta name="viewport" content="width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="apple-touch-icon" href="{{ STATIC_URL }}iphone/icon.png"/>
     <link rel='icon' href='{{ STATIC_URL }}/favico.png' type='image/png' />
     <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
-
     {% block extra_head %}{% endblock %}
-    
-    {% meta %}
-      <title>resm.in</title>
-      <meta name="description" content="{% trans 'Story questions with pics.' %}" />
-    {% endmeta %}
+
+
+    <title>resm.in</title>
+    <meta name="description" content="{% trans 'Story questions with pics.' %}" />
+
     {% comment %}{% include "adverts/popmarker.html" %}{% endcomment %}
   </head>
   

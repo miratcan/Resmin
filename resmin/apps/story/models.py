@@ -5,10 +5,10 @@ from logging import getLogger
 from json import dumps
 from datetime import datetime
 from sorl.thumbnail import get_thumbnail
-from json_field.fields import JSONField
+from jsonfield import JSONField
 
 from django.contrib.auth.models import User
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.core.files import File
@@ -16,15 +16,18 @@ from django.core.files.base import ContentFile
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext as _
-from redis_cache import get_redis_connection
+from django_redis import get_redis_connection
 
 from resmin.utils import (filename_for_image, filename_for_upload,
                           generate_upload_id, filename_for_video,
                           filename_for_video_frame)
 from resmin.utils.models import BaseModel, UniqueFileModel
+from ..follow.models import compute_blocked_user_ids_for
+from ..account.models import UserProfile
+from ..question.signals import story_like_changed
 
-from apps.story.managers import StoryManager
-from apps.story.video_processing import grab_frame
+from .managers import StoryManager
+from .video_processing import grab_frame
 
 redis = get_redis_connection('default')
 logger = getLogger(__name__)
@@ -85,7 +88,6 @@ class Story(BaseModel):
                 return True
 
             if blocked_user_ids == []:
-                from apps.follow.models import compute_blocked_user_ids_for
                 blocked_user_ids = compute_blocked_user_ids_for(user)
 
             if self.owner_id in blocked_user_ids or \
@@ -104,8 +106,6 @@ class Story(BaseModel):
         """
         @type liked: object
         """
-        from apps.account.models import UserProfile
-        from apps.question.signals import story_like_changed
 
         is_liked = False
 
@@ -166,7 +166,6 @@ class Story(BaseModel):
         return redis.scard(self._like_set_key())
 
     def get_next_story(self, requested_user=None):
-        from apps.follow.models import compute_blocked_user_ids_for
         blocked_user_ids = compute_blocked_user_ids_for(requested_user) if \
             requested_user else []
         return Story.objects.filter(
@@ -177,7 +176,6 @@ class Story(BaseModel):
             .order_by('-created_at').first()
 
     def get_prev_story(self, requested_user=None):
-        from apps.follow.models import compute_blocked_user_ids_for
         blocked_user_ids = compute_blocked_user_ids_for(requested_user) \
             if requested_user else []
         return Story.objects.filter(

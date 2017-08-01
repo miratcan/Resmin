@@ -1,12 +1,11 @@
 import re
-from multilingual_tags.models import Tag
-from apps.account.models import EmailCandidate, Invitation, UserProfile
-from apps.account.signals import (follower_count_changed,
-                                  following_count_changed)
-from apps.follow.models import UserFollow
-from apps.notification.models import (NotificationPreference, NotificationType,
-                                      notification_preferences)
-from apps.question.models import Question, QuestionMeta
+from .models import EmailCandidate, Invitation, UserProfile
+from .signals import (follower_count_changed,
+                      following_count_changed)
+from ..follow.models import UserFollow
+from ..notification.models import (NotificationPreference, NotificationType,
+                                   notification_preferences)
+from ..question.models import Question, QuestionMeta
 from django import forms
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -81,12 +80,15 @@ class RegisterForm(forms.Form):
 
 
 class UpdateProfileForm(forms.ModelForm):
+
     class Meta:
         model = UserProfile
-        fields = ['bio', 'website', 'location', 'facebook', 'instagram', 'twitter', 'github']
+        fields = ['bio', 'website', 'location', 'facebook', 'instagram',
+                  'twitter', 'github']
 
 
 class EmailCandidateForm(forms.ModelForm):
+
     class Meta:
         model = EmailCandidate
         fields = ['email']
@@ -247,7 +249,7 @@ class FollowerActionForm(forms.Form):
 
 class QuestionForm(forms.Form):
     question_meta = forms.ModelChoiceField
-    label=_('Ask me a question:'),
+    label = _('Ask me a question:'),
     widget = forms.HiddenInput(),
     is_anonymouse = forms.BooleanField(label=_('Ask as anonymouse'),
                                        required=False, initial=True)
@@ -255,17 +257,11 @@ class QuestionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.questioner = kwargs.pop('questioner')
         self.questionee = kwargs.pop('questionee')
-	self.queryset = self.get_queryset()
+        self.queryset = self.get_queryset()
         super(QuestionForm, self).__init__(*args, **kwargs)
 
     def get_queryset(self):
-	# Note: There must be at least one question that is tagged as personal
-        personal_tag = Tag.objects.get(slug='personal')
-        question_meta_ctype  = ContentType.objects.get_for_model(QuestionMeta)
-        ids = personal_tag.tagged_items.filter(content_type=question_meta_ctype)
-        return  QuestionMeta.objects\
-	    .filter(id__in=ids)\
-	    .values_list('object_id', flat=True)
+        return QuestionMeta.objects.values_list('object_id', flat=True)
 
     def save(self):
         question = Question.objects.create(

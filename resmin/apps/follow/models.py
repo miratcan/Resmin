@@ -6,7 +6,7 @@ from libs import key_generator
 
 
 class FollowBase(models.Model):
-    follower = models.ForeignKey(User)
+    follower = models.ForeignKey('auth.User')
 
     class Meta:
         abstract = True
@@ -33,7 +33,7 @@ class QuestionFollow(FollowBase):
     status = models.PositiveSmallIntegerField(default=0,
                                               choices=STATUS_CHOICES)
     key = models.CharField(max_length=255, blank=True)
-    reason = models.PositiveIntegerField(max_length=16, choices=REASON_CHOICES)
+    reason = models.PositiveIntegerField(choices=REASON_CHOICES)
 
     def __unicode__(self):
         return '%s %s %s' % (self.follower, self.reason, self.target)
@@ -79,6 +79,7 @@ class UserFollow(FollowBase):
         return '%s %s %s' % (self.follower,
                              self.get_status_display().lower(),
                              self.target)
+
 
 FOLLOWING_STATUSES = [UserFollow.FOLLOWING, UserFollow.FOLLOWING_RESTRICTED]
 
@@ -142,7 +143,7 @@ def compute_blocked_user_ids_for(user):
     """
     ids = set()
     if user.is_anonymous:
-      return ids
+        return ids
     ids.update(f.target_id for f in UserFollow.objects.filter(
         follower=user, status=UserFollow.BLOCKED))
     ids.update(f.follower_id for f in UserFollow.objects.filter(

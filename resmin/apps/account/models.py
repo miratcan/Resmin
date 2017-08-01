@@ -8,9 +8,6 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from django.dispatch import receiver
 
-from apps.follow.models import UserFollow
-from apps.story.models import Story
-
 from resmin.utils.models import BaseModel
 from resmin.utils import filename_for_avatar
 
@@ -22,7 +19,8 @@ class UserProfile(models.Model):
     bio = models.CharField(_('bio'), max_length=255, null=True, blank=True)
     website = models.URLField(_('website'), null=True, blank=True)
     facebook = models.SlugField(_('facebook username'), null=True, blank=True)
-    instagram = models.SlugField(_('instagram username'), null=True, blank=True)
+    instagram = models.SlugField(
+        _('instagram username'), null=True, blank=True)
     twitter = models.SlugField(_('twitter username'), null=True, blank=True)
     github = models.SlugField(_('github username'), null=True, blank=True)
     like_count = models.PositiveIntegerField(default=0)
@@ -31,7 +29,6 @@ class UserProfile(models.Model):
     story_count = models.PositiveIntegerField(default=0)
     location = models.CharField(_('location'), max_length=64,
                                 null=True, blank=True)
-
     avatar = models.ImageField(upload_to=filename_for_avatar, null=True,
                                blank=True)
 
@@ -40,19 +37,23 @@ class UserProfile(models.Model):
         return 'like_scoreboard'
 
     def update_like_count(self):
+        from apps.story.models import Story
         self.like_count = self.user.story_set.filter(status=Story.PUBLISHED)\
             .aggregate(like_count_total=Sum('like_count'))['like_count_total']\
             or 0
 
     def update_follower_count(self):
+        from apps.follow.models import UserFollow
         self.follower_count = UserFollow.objects.filter(
             target=self.user).count()
 
     def update_following_count(self):
+        from apps.follow.models import UserFollow
         self.following_count = UserFollow.objects.filter(
             follower=self.user).count()
 
     def update_story_count(self):
+        from apps.story.models import Story
         self.story_count = self.user.story_set.filter(
             status=Story.PUBLISHED).count()
 
@@ -73,7 +74,7 @@ class Invitation(models.Model):
     used_count = models.PositiveIntegerField(default=0)
     use_limit = models.PositiveIntegerField(
         default=settings.DEFAULT_INVITATION_USE_LIMIT)
-    registered_users = models.ManyToManyField(User, null=True, blank=True,
+    registered_users = models.ManyToManyField(User, blank=True,
                                               related_name='registed_users')
     is_usable = models.BooleanField(default=True)
 

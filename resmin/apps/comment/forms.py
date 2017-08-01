@@ -2,9 +2,9 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.utils.html import strip_tags
 
-from apps.notification.utils import notify
-from apps.comment.models import Comment
-from apps.follow.models import StoryFollow
+from ..notification.utils import notify
+from .models import Comment
+from ..follow.models import StoryFollow
 
 
 class CommentForm(forms.Form):

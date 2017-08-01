@@ -11,9 +11,6 @@
 
       <p class="c_weak f_weak mbd">
       {% render_field search_form.q class="search" %}
-      {% if tag %}
-        {% blocktrans with tag=tag.name %}Listing questions tagged with: #{{ tag }} {% endblocktrans %}
-      {% endif %}
       </p>
     <ul class="nostyle list">
       {% for qm in qms %}

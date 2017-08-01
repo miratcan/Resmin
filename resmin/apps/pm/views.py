@@ -1,5 +1,5 @@
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.template import RequestContext
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -8,9 +8,9 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.conf import settings
 
-from apps.pm.models import Message
-from apps.pm.forms import ComposeForm
-from apps.pm.utils import format_quote, get_user_model, get_username_field
+from .models import Message
+from .forms import ComposeForm
+from .utils import format_quote, get_user_model, get_username_field
 
 User = get_user_model()
 
@@ -28,9 +28,7 @@ def inbox(request, template_name='pm/inbox.html'):
         ``template_name``: name of the template to use.
     """
     message_list = Message.objects.inbox_for(request.user)
-    return render_to_response(template_name, {
-        'message_list': message_list,
-    }, context_instance=RequestContext(request))
+    return render(request, template_name, {'message_list': message_list})
 
 
 @login_required
@@ -41,9 +39,7 @@ def outbox(request, template_name='pm/outbox.html'):
         ``template_name``: name of the template to use.
     """
     message_list = Message.objects.outbox_for(request.user)
-    return render_to_response(template_name, {
-        'message_list': message_list,
-    }, context_instance=RequestContext(request))
+    return render(request, template_name, {'message_list': message_list})
 
 
 @login_required
@@ -56,9 +52,7 @@ def trash(request, template_name='pm/trash.html'):
     by sender and recipient.
     """
     message_list = Message.objects.trash_for(request.user)
-    return render_to_response(template_name, {
-        'message_list': message_list,
-    }, context_instance=RequestContext(request))
+    return render(request, template_name, {'message_list': message_list})
 
 
 @login_required
@@ -95,9 +89,7 @@ def compose(request, recipient=None, form_class=ComposeForm,
                           get_username_field(): [r.strip() for r in
                                                  recipient.split('+')]})]
             form.fields['recipient'].initial = recipients
-    return render_to_response(template_name, {
-        'form': form,
-    }, context_instance=RequestContext(request))
+    return render(request, template_name, {'form': form})
 
 
 @login_required
@@ -130,9 +122,7 @@ def reply(request, message_id, form_class=ComposeForm,
             'body': quote_helper(parent.sender, parent.body),
             'subject': subject_template % {'subject': parent.subject},
             'recipient': [parent.sender]})
-    return render_to_response(template_name, {
-        'form': form,
-    }, context_instance=RequestContext(request))
+    return render(template_name, {'form': form})
 
 
 @login_required
@@ -232,5 +222,4 @@ def view(request, message_id, form_class=ComposeForm,
             'subject': subject_template % {'subject': message.subject},
             'recipient': [message.sender]})
         context['reply_form'] = form
-    return render_to_response(template_name, context,
-                              context_instance=RequestContext(request))
+    return render(request, template_name, context)

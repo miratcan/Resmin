@@ -1,11 +1,11 @@
 import json
 from django.contrib.contenttypes.models import ContentType
-from apps.follow.models import QuestionFollow
-from apps.notification.utils import notify
-from apps.question.forms import (ComplainQuestionMetaForm, RequestAnswerForm,
-                                 SearchForm)
-from apps.question.models import Question, QuestionMeta
-from apps.story.models import Story
+from ..follow.models import QuestionFollow
+from ..notification.utils import notify
+from ..question.forms import (ComplainQuestionMetaForm, RequestAnswerForm,
+                              SearchForm)
+from .models import Question, QuestionMeta
+from ..story.models import Story
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -16,9 +16,7 @@ from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
 from libs.baseconv import base62
-from libs.shortcuts import render_to_json
-from multilingual_tags.models import Tag
-from redis_cache import get_redis_connection
+from django_redis import get_redis_connection
 from resmin.utils import paginated
 
 redis = get_redis_connection('default')
@@ -115,15 +113,14 @@ def question(request, base62_id, ordering=None, show_delete=False, **kwargs):
 @csrf_exempt
 def like(request):
     if not request.user.is_authenticated():
-        return render_to_json(
+        return JsonResponse(
             {'errMsg': _('You have to login to complete this action.')},
-            HttpResponse, 401)
+            status=401)
 
     # TODO: Make it decorator
     if not request.POST:
-        return render_to_json(
-            {'errMsg': _('You have send bad data.')},
-            HttpResponse, 400)
+        return JsonResponse(
+            {'errMsg': _('You have send bad data.')}, status=400)
 
     sid, val = request.POST.get('sid'), request.POST.get('val')
 
@@ -149,8 +146,8 @@ def pending_question_action(request):
     def _reject(question):
         question.status = Question.REJECTED
         question.save()
-        return render_to_json({'qpk': question.pk,
-                               'status': question.status})
+        return JsonResponse({'qpk': question.pk,
+                             'status': question.status})
 
     qpk, action = request.POST.get('qpk'), request.POST.get('action')
     question = get_object_or_404(Question, pk=qpk, questionee=request.user)
@@ -158,8 +155,8 @@ def pending_question_action(request):
     if action_method:
         return action_method(question)
     else:
-        return render_to_json({'errMsg': _('Action not found')},
-                              HttpResponseBadRequest)
+        return JsonResponse({'errMsg': _('Action not found')},
+                            status=400)
 
 
 @csrf_exempt
@@ -234,3 +231,15 @@ def complain_question(request, base62_id):
     return render(request, 'moderation/complain_qmeta.html', {
         'complain_form': complain_form,
         'descriptions': descriptions})
+
+
+@login_required
+def pending_questions(request):
+    qs = Question.objects\
+        .filter(questionee=request.user, status=Question.PENDING)\
+        .order_by('-created_at')
+    site = get_current_site(request) if not qs else None
+    return render(
+        request,
+        'question/pending_questions.html',
+        {'pending_questions': qs, 'site': site})

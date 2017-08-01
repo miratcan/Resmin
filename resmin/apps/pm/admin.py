@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from apps.pm.utils import get_user_model
+from .utils import get_user_model
 User = get_user_model()
 
 if "notification" in settings.INSTALLED_APPS and getattr(
@@ -13,7 +13,8 @@ if "notification" in settings.INSTALLED_APPS and getattr(
 else:
     notification = None
 
-from apps.pm.models import Message
+
+from .models import Message
 
 
 class MessageAdminForm(forms.ModelForm):

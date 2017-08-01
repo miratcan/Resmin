@@ -1,6 +1,7 @@
 from django.db.models import Q, Manager
 from django.contrib.auth.models import User, AnonymousUser
-from apps.follow.models import compute_blocked_user_ids_for
+from ..question.models import QuestionMeta
+from ..follow.models import compute_blocked_user_ids_for
 
 
 class StoryManager(Manager):
@@ -8,28 +9,25 @@ class StoryManager(Manager):
     def build(self, requested_user=AnonymousUser(), frm=None,
               listing='public', ordering='recent'):
 
-        from apps.question.models import QuestionMeta
-        from apps.story.models import Story
-
         if not requested_user.is_authenticated() and listing in \
            ['wall', 'draft']:
-            return Story.objects.none()
+            return self.get_queryset.none()
 
         if listing not in ['public', 'wall', 'draft']:
             listing = 'public'
 
         if listing == 'public':
-            qset = Q(status=Story.PUBLISHED,
+            qset = Q(status=self.model.PUBLISHED,
                      owner__is_active=True)
             if not requested_user.is_authenticated():
                 qset = qset & Q(is_nsfw=False)
         elif listing == 'wall':
             oids = requested_user.following_user_ids
             oids.append(requested_user.id)
-            qset = Q(status=Story.PUBLISHED,
+            qset = Q(status=self.model.PUBLISHED,
                      owner_id__in=oids)
         elif listing == 'draft':
-            qset = Q(status=Story.DRAFT, owner=requested_user)
+            qset = Q(status=self.model.DRAFT, owner=requested_user)
 
         if frm:
             if isinstance(frm, QuestionMeta):
@@ -46,7 +44,7 @@ class StoryManager(Manager):
                     'featured': 'is_featured',
                     'recent': '-updated_at'}.get(ordering, '-updated_at')
 
-        return Story.objects\
+        return self.get_queryset()\
             .filter(qset)\
             .exclude(owner_id__in=blocked_user_ids)\
             .order_by(ordering)
