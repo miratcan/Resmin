@@ -6,7 +6,6 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext as _
 from libs.baseconv import base62
-from multilingual_tags.admin import TaggedItemInline
 
 
 class QuestionMeta(models.Model):
@@ -32,8 +31,6 @@ class QuestionMeta(models.Model):
         'story.Story', related_name='cover_answer', null=True, blank=True)
     latest_answer = models.ForeignKey(
         'story.Story', related_name='latest_answer', null=True, blank=True)
-
-    tags = GenericForeignKey('multilingual_tags.TaggedItem', )
 
     class Meta:
         ordering = ["-is_featured", "-updated_at"]

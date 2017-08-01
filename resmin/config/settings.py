@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+
 THUMBNAIL_DEBUG = DEBUG
 
 ADMINS = (
@@ -40,9 +40,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 PROJECT_ROOT = os.path.dirname(
     os.path.abspath(os.path.join(__file__.decode('utf-8'), '..', '..'))
 )
-
 sys.path.append(os.path.join(PROJECT_ROOT, 'resmin'))
-
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
 MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
@@ -64,11 +62,26 @@ STATICFILES_FINDERS = (
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '^)pcn-k==)1nclfdrm$_6-q(fhh0q60niurvcygo$_a-mz5amt'
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(PROJECT_ROOT, "resmin", "templates"), ],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.messages.context_processors.messages',
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "apps.notification.context_processors.notifications"
+            ],
+        },
+    },
+]
 
 MIDDLEWARE_CLASSES = (
     'corsheaders.middleware.CorsMiddleware',
@@ -83,7 +96,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'urls'
 
-TEMPLATE_DIRS = (os.path.join(PROJECT_ROOT, "resmin", "templates"), )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -108,24 +120,12 @@ INSTALLED_APPS = (
 
     # 'django_extensions',
     'rest_framework',
-    'rosetta',
     'corsheaders',
     'hvad',
-    'multilingual_tags',
-    'widget_tweaks'
+    'widget_tweaks',
+    'debug_toolbar'
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.i18n",
-    "django.contrib.messages.context_processors.messages",
-    'django.core.context_processors.request',
-    'apps.notification.context_processors.notifications'
-)
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -199,16 +199,18 @@ STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE_CSS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.yuglify.YuglifyCompressor'
 
-PIPELINE_CSS = {
-    'base': {
-        'source_filenames': (
-            'css/base.less',
-        ),
-        'output_filename': 'css/style.css',
-        'extra_context': {
-            'media': 'screen, projection',
+PIPELINE = {
+    'STYLESHEETS': {
+        'base': {
+            'source_filenames': (
+                'css/base.less',
+            ),
+            'output_filename': 'css/style.css',
+            'extra_context': {
+                'media': 'screen, projection',
+            },
         },
-    },
+    }
 }
 
 PIPELINE_COMPILERS = (
@@ -216,14 +218,14 @@ PIPELINE_COMPILERS = (
 )
 
 
-PIPELINE_JS = {
-    'ga': {
-        'source_filenames': (
-            'js/ga.js',
-        ),
-        'output_filename': 'js/ga.js',
+PIPELINE = {
+    'PIPELINE_ENABLED': True,
+    'JAVASCRIPT': {
+        'ga': {'source_filenames': ('js/ga.js',),
+               'output_filename': 'js/ga.js'},
     }
 }
+
 
 BROKER_URL = 'redis://localhost:6379/0'
 

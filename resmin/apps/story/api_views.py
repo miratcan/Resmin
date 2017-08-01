@@ -13,14 +13,15 @@ class BaseStoryList(generics.ListAPIView):
     serializer_class = StorySerializer
     paginate_by = settings.STORIES_PER_PAGE
 
+
 class PublicStoryList(BaseStoryList):
     queryset = Story.objects.build(listing='public')
+
 
 class UserStoryList(BaseStoryList):
     def get_queryset(self):
         user = get_object_or_404(User, username=self.kwargs['username'])
         return Story.objects.build(listing='public', frm=user)
-
 
     def list(self, request, *args, **kwargs):
         instance = self.filter_queryset(self.get_queryset())

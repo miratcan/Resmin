@@ -1,8 +1,8 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404, render
-from apps.comment.models import Comment
-from apps.comment.forms import UpdateCommentForm
-from libs.shortcuts import render_to_json
+from .models import Comment
+from .forms import UpdateCommentForm
+from django.http.response import JsonResponse
 from django.views.decorators.http import require_http_methods
 
 
@@ -37,4 +37,4 @@ def delete_comment(request, cid):
     comment.status = Comment.DELETED_BY_OWNER
     comment.save()
     comment.story.update_comment_count(save=True)
-    return render_to_json({'status': 'deleted'})
+    return JsonResponse({'status': 'deleted'})

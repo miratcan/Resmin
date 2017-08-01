@@ -22,6 +22,9 @@ from resmin.utils import (filename_for_image, filename_for_upload,
                           generate_upload_id, filename_for_video,
                           filename_for_video_frame)
 from resmin.utils.models import BaseModel, UniqueFileModel
+from ..follow.models import compute_blocked_user_ids_for
+from ..account.models import UserProfile
+from ..question.signals import story_like_changed
 
 from .managers import StoryManager
 from .video_processing import grab_frame
@@ -85,7 +88,6 @@ class Story(BaseModel):
                 return True
 
             if blocked_user_ids == []:
-                from apps.follow.models import compute_blocked_user_ids_for
                 blocked_user_ids = compute_blocked_user_ids_for(user)
 
             if self.owner_id in blocked_user_ids or \
@@ -104,8 +106,6 @@ class Story(BaseModel):
         """
         @type liked: object
         """
-        from apps.account.models import UserProfile
-        from apps.question.signals import story_like_changed
 
         is_liked = False
 
@@ -166,7 +166,6 @@ class Story(BaseModel):
         return redis.scard(self._like_set_key())
 
     def get_next_story(self, requested_user=None):
-        from apps.follow.models import compute_blocked_user_ids_for
         blocked_user_ids = compute_blocked_user_ids_for(requested_user) if \
             requested_user else []
         return Story.objects.filter(
@@ -177,7 +176,6 @@ class Story(BaseModel):
             .order_by('-created_at').first()
 
     def get_prev_story(self, requested_user=None):
-        from apps.follow.models import compute_blocked_user_ids_for
         blocked_user_ids = compute_blocked_user_ids_for(requested_user) \
             if requested_user else []
         return Story.objects.filter(

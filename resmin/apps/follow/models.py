@@ -6,7 +6,7 @@ from libs import key_generator
 
 
 class FollowBase(models.Model):
-    follower = models.ForeignKey(User)
+    follower = models.ForeignKey('auth.User')
 
     class Meta:
         abstract = True
@@ -21,8 +21,6 @@ class QuestionFollow(FollowBase):
     ANSWERED = 1
     FOLLOWED = 2
 
-"""
-
     STATUS_CHOICES = ((FOLLOWING, 'Following'),
                       (UNFOLLOWED, 'Unfollowed'))
 
@@ -35,7 +33,7 @@ class QuestionFollow(FollowBase):
     status = models.PositiveSmallIntegerField(default=0,
                                               choices=STATUS_CHOICES)
     key = models.CharField(max_length=255, blank=True)
-    reason = models.PositiveIntegerField(max_length=16, choices=REASON_CHOICES)
+    reason = models.PositiveIntegerField(choices=REASON_CHOICES)
 
     def __unicode__(self):
         return '%s %s %s' % (self.follower, self.reason, self.target)
@@ -46,7 +44,7 @@ class QuestionFollow(FollowBase):
 
     def cancellation_url(self):
         return reverse('cancel_follow', kwargs={'key': self.key})
-"""
+
 
 class StoryFollow(FollowBase):
 

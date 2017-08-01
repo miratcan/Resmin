@@ -1,25 +1,25 @@
 import re
 from datetime import datetime
 
-from apps.comment.forms import CommentForm
-from apps.comment.models import Comment
-from apps.follow.models import compute_blocked_user_ids_for
-from apps.notification.decorators import delete_notification
-from apps.question.models import Question, QuestionMeta
-from apps.question.signals import user_created_story
-from apps.story.forms import StoryForm, UpdateCaptionsForm
-from apps.story.models import Image, Story, Upload, Video
+from ..comment.forms import CommentForm
+from ..comment.models import Comment
+from ..follow.models import compute_blocked_user_ids_for
+from ..notification.decorators import delete_notification
+from ..question.models import Question, QuestionMeta
+from ..question.signals import user_created_story
+from .forms import StoryForm, UpdateCaptionsForm
+from .models import Image, Story, Upload, Video
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseBadRequest, HttpResponseRedirect
+from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 
 from resmin.libs.baseconv import base62
-from resmin.libs.shortcuts import render_to_json
 from resmin.utils import paginated
 
 
@@ -68,7 +68,7 @@ def story(request, base62_id):
         .filter(story=story, status=Comment.PUBLISHED)\
         .from_active_owners()\
         .visible_for(request.user)\
-        .select_related('owner__profile')
+        .select_related('owner__userprofile')
     comments = paginated(request, comments, settings.COMMENTS_PER_PAGE)
     if request.user.is_authenticated():
         if request.method == 'POST' and request.POST.get('action') ==\
@@ -147,20 +147,20 @@ def get_upload(request):
                               [u'md5sum', u'size'])
 
         if missing_keys:
-            return render_to_json({
+            return JsonResponse({
                 'success': False, 'msg': _('md5sum and size required.')},
                 status=400)
 
         if int(request.POST['size']) > settings.MAXIMUM_UPLOAD_SIZE:
-            return render_to_json({
+            return JsonResponse({
                 'success': False, 'msg': _('File is too big to upload.')},
                 status=400)
 
         for model in [Image, Video]:
             try:
                 obj = model.objects.get(md5sum=request.POST['md5sum'])
-                return render_to_json({'status': 'uploaded',
-                                       'object': obj.serialize()})
+                return JsonResponse({'status': 'uploaded',
+                                     'object': obj.serialize()})
             except model.DoesNotExist:
                 pass
 
@@ -168,10 +168,10 @@ def get_upload(request):
                                        size=int(request.POST['size']),
                                        owner=request.user)
 
-        return render_to_json({'status': 'uploading',
-                               'upload_id': upload.upload_id})
+        return JsonResponse({'status': 'uploading',
+                             'upload_id': upload.upload_id})
     else:
-        return render_to_json({
+        return JsonResponse({
             'success': False, 'msg': _('post method required.')},
             status=400)
 
@@ -210,13 +210,13 @@ def upload(request, upload_id):
     try:
         upload.append_data(chunk, size=chunk_size)
     except Exception as err:
-        return render_to_json({'status': 'failed',
-                               'msg': err.status}, status=400)
+        return JsonResponse({'status': 'failed',
+                             'msg': err.status}, status=400)
 
     if end >= upload.size:
         obj = upload.convert_to_model()
-        return render_to_json({'status': 'uploaded',
-                               'object': obj.serialize()})
-    return render_to_json({'upload_id': upload.upload_id,
-                           'status': 'uploading',
-                           'offset': upload.offset})
+        return JsonResponse({'status': 'uploaded',
+                             'object': obj.serialize()})
+    return JsonResponse({'upload_id': upload.upload_id,
+                         'status': 'uploading',
+                         'offset': upload.offset})

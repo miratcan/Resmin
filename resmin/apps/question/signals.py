@@ -1,9 +1,9 @@
 from django.dispatch import Signal, receiver
 
-from apps.question.tasks import (story_like_changed_callback_task,
-                                 user_created_question_callback_task,
-                                 user_created_story_callback_task,
-                                 user_deleted_story_callback_task)
+from .tasks import (story_like_changed_callback_task,
+                    user_created_question_callback_task,
+                    user_created_story_callback_task,
+                    user_deleted_story_callback_task)
 
 story_like_changed = Signal()
 user_created_question = Signal()
@@ -29,4 +29,3 @@ def user_created_story_callback(sender, **kwargs):
 @receiver(user_deleted_story)
 def user_deleted_story_callback(sender, **kwargs):
     user_deleted_story_callback_task.delay(sender)
-

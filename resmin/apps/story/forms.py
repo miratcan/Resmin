@@ -5,10 +5,10 @@ from django.db import transaction
 from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext as _
 
-from json_field.forms import JSONFormField as JSONField
+from jsonfield.fields import JSONFormField as JSONField
 
-from apps.question.models import Question
-from apps.story.models import Story, Slot
+from ..question.models import Question
+from .models import Story, Slot
 
 
 def find_in_dictlist(k, v, dl):
@@ -152,7 +152,6 @@ class UpdateCaptionsForm(forms.Form):
                     slot_data[slot_id] = {'descr': val}
         return slot_data
 
-    @transaction.commit_on_success
     def save(self, slot_data):
         data = self.parse_slots(slot_data)
         for slot_id, data in data.iteritems():

@@ -19,7 +19,8 @@ class UserProfile(models.Model):
     bio = models.CharField(_('bio'), max_length=255, null=True, blank=True)
     website = models.URLField(_('website'), null=True, blank=True)
     facebook = models.SlugField(_('facebook username'), null=True, blank=True)
-    instagram = models.SlugField(_('instagram username'), null=True, blank=True)
+    instagram = models.SlugField(
+        _('instagram username'), null=True, blank=True)
     twitter = models.SlugField(_('twitter username'), null=True, blank=True)
     github = models.SlugField(_('github username'), null=True, blank=True)
     like_count = models.PositiveIntegerField(default=0)
@@ -28,7 +29,6 @@ class UserProfile(models.Model):
     story_count = models.PositiveIntegerField(default=0)
     location = models.CharField(_('location'), max_length=64,
                                 null=True, blank=True)
-
     avatar = models.ImageField(upload_to=filename_for_avatar, null=True,
                                blank=True)
 
@@ -74,7 +74,7 @@ class Invitation(models.Model):
     used_count = models.PositiveIntegerField(default=0)
     use_limit = models.PositiveIntegerField(
         default=settings.DEFAULT_INVITATION_USE_LIMIT)
-    registered_users = models.ManyToManyField(User, null=True, blank=True,
+    registered_users = models.ManyToManyField(User, blank=True,
                                               related_name='registed_users')
     is_usable = models.BooleanField(default=True)
 

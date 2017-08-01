@@ -5,4 +5,5 @@ from django.apps import AppConfig
 
 
 class FollowConfig(AppConfig):
-    name = 'Follow'
+    name = 'apps.follow'
+    verbose_name = 'Follow'

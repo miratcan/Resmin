@@ -1,9 +1,9 @@
 from django.conf import settings
 from resmin.celery_app import app
 
-from apps.follow.models import QuestionFollow
-from apps.notification.utils import notify
-from redis_cache import get_redis_connection
+from ..follow.models import QuestionFollow
+from ..notification.utils import notify
+from django_redis import get_redis_connection
 
 from resmin.utils import _set_avatar_to_answer
 

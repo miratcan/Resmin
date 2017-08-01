@@ -1,5 +1,5 @@
-from apps.notification.models import NotificationMeta, NotificationType
-from apps.notification.models import _pks_to_str
+from .models import NotificationMeta, NotificationType
+from .models import _pks_to_str
 from logging import getLogger
 
 logger = getLogger(__name__)

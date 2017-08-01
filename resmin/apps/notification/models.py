@@ -5,6 +5,7 @@ from multilingual_model.models import (MultilingualModel,
 from jsonfield import JSONField
 from django.db import models
 from django.core.cache import caches
+from django.core.validators import validate_comma_separated_integer_list
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -102,9 +103,11 @@ class NotificationMeta(models.Model):
     ntype = models.ForeignKey(
         NotificationType, verbose_name='Type')
     recipient = models.ForeignKey(User, related_name='recipient')
-    s_pks = models.CommaSeparatedIntegerField(
+    s_pks = models.CharField(
+        validators=[validate_comma_separated_integer_list],
         verbose_name='Subject Pks', max_length=4096)
-    o_pks = models.CommaSeparatedIntegerField(
+    o_pks = models.CharField(
+        validators=[validate_comma_separated_integer_list],
         verbose_name='Object Pks', max_length=4096)
     url = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)

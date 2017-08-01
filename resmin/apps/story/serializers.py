@@ -1,8 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import Story
-
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -53,7 +51,7 @@ class StorySerializer(serializers.ModelSerializer):
         read_only=True)
 
     class Meta:
-        model = Story
+        model = 'apps.story.Story'
         fields = ('id',
                   'title',
                   'description',

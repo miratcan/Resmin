@@ -1,6 +1,5 @@
 {% extends "base.html" %} 
 {% load i18n %} 
-{% load url from future %}
 
 {% block content %}
   <p class="f_stng mb">{% trans "Inbox" %} <a class="f_weak" href="{% url 'messages_outbox' %}">{% trans "Outbox" %}</a></p>

@@ -1,7 +1,7 @@
 from django.dispatch import Signal, receiver
 
-from apps.account.tasks import (follow_request_sent_callback_task,
-                                follower_count_changed_callback_task,
+from .tasks import (follow_request_sent_callback_task,
+                             follower_count_changed_callback_task,
                                 following_count_changed_callback_task)
 
 

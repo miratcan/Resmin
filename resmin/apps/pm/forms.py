@@ -8,8 +8,8 @@ if "notification" in settings.INSTALLED_APPS and getattr(settings, 'apps.pm_NOTI
 else:
     notification = None
 
-from apps.pm.models import Message
-from apps.pm.fields import CommaSeparatedUserField
+from .models import Message
+from .fields import CommaSeparatedUserField
 
 
 class ComposeForm(forms.Form):

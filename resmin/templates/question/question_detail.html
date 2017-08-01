@@ -1,8 +1,8 @@
-{% extends "answers_base.html" %}{% load i18n meta %}
+{% extends "answers_base.html" %}{% load i18n %}
 
-{% meta %}
+{% block extra_head %}
   <title>{{ question.text}}</title>
-{% endmeta %}
+{% endblock %}
 
 {% block before_content %}
   {% include "question/question_sentence.html" %}

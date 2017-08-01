@@ -25,10 +25,11 @@ class CommentQuerySet(QuerySet):
 
 class CommentManager(models.Manager):
 
-    def get_query_set(self):
+    def get_queryset(self):
         return CommentQuerySet(self.model)
 
     def from_active_owners(self):
+        import ipdb; ipdb.set_trace()
         return self.get_queryset().from_active_owners()
 
     def published(self):
@@ -36,7 +37,6 @@ class CommentManager(models.Manager):
 
     def visible_for(self, user, blocked_user_ids=None):
         return self.get_queryset().visible_for(user, blocked_user_ids)
-
 
 COMMENT_RENDERER = lambda b: linebreaks(urlize(b))
 

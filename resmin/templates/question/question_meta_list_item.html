@@ -2,9 +2,6 @@
 <li class="pbh mb">
   <p class="nm f_stng">
     <a class="question_text" href="{{ qm.get_absolute_url }}">{{ qm.text }}</a>
-    <span class="nm f_weak">
-  	  {% for tag in qm.tags.all %}<a class="mr" href="?tag={{ tag.tag.slug }}">#{{ tag.tag.name }}</a>{% endfor %}
-  	</span>
   </p>
   <p class="f_weak">
     <a class="imp pink" href="{% url 'create-story' qm.base62_id %}">{% trans 'Answer' %}</a> / 

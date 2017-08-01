@@ -1,5 +1,5 @@
 import functools
-from apps.notification.models import NotificationMeta
+from .models import NotificationMeta
 
 
 def delete_notification(method):
