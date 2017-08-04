@@ -257,11 +257,7 @@ class QuestionForm(forms.Form):
     def __init__(self, *args, **kwargs):
         self.questioner = kwargs.pop('questioner')
         self.questionee = kwargs.pop('questionee')
-        self.queryset = self.get_queryset()
         super(QuestionForm, self).__init__(*args, **kwargs)
-
-    def get_queryset(self):
-        return QuestionMeta.objects.values_list('object_id', flat=True)
 
     def save(self):
         question = Question.objects.create(

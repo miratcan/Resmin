@@ -6,8 +6,10 @@ import sys
 from datetime import timedelta
 from django.utils.translation import ugettext_lazy as _
 
-
-DEBUG = True
+try:
+    from resmin.config.local_settings import DEBUG
+except:
+    DEBUG = True
 
 THUMBNAIL_DEBUG = DEBUG
 
@@ -40,6 +42,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 PROJECT_ROOT = os.path.dirname(
     os.path.abspath(os.path.join(__file__.decode('utf-8'), '..', '..'))
 )
+
 sys.path.append(os.path.join(PROJECT_ROOT, 'resmin'))
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, "static")
@@ -97,7 +100,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'urls'
 
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -118,14 +121,15 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'pipeline',
 
-    # 'django_extensions',
+    'django_extensions',
     'rest_framework',
     'corsheaders',
     'hvad',
     'widget_tweaks',
-    'debug_toolbar'
-)
+]
 
+if DEBUG:
+    INSTALLED_APPS.append('debug_toolbar')
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
@@ -270,7 +274,7 @@ REST_FRAMEWORK = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'sqlite3.db'
+        'NAME': '/tmp/sqlite3.db'
     }
 }
 

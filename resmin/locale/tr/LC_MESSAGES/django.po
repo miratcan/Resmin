@@ -850,7 +850,7 @@ msgstr "Önerilen Sorular"
 
 #: templates/index2.html:44
 msgid "Last Registered Users"
-msgstr ""
+msgstr "Yeni Gelen Kullanıcılar"
 
 #: templates/auth/email_form.html:2 templates/auth/user_detail_inc.html:55
 msgid "Update Email"

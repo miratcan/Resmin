@@ -198,7 +198,7 @@ class Story(BaseModel):
             self.save(update_fields=['slot_count'])
 
     def update_comment_count(self, save=False):
-        from apps.comment.models import Comment
+        from ..comment.models import Comment
         self.comment_count = Comment.objects.filter(
             status=Comment.PUBLISHED, story=self).count()
         if save:
