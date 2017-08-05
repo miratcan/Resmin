@@ -3,9 +3,6 @@ from django.contrib import admin
 from django.conf import settings
 
 from django.views.generic import TemplateView
-from django.contrib.sitemaps import Sitemap
-from apps.question.models import QuestionMeta
-from apps.story.models import Story
 from apps.question import views as question_views
 from apps.account import views as account_views
 from apps.comment import views as comment_views

@@ -214,15 +214,10 @@ PIPELINE = {
                 'media': 'screen, projection',
             },
         },
-    }
-}
-
-PIPELINE_COMPILERS = (
-    'pipeline.compilers.less.LessCompiler',
-)
-
-
-PIPELINE = {
+    },
+    'COMPILERS': (
+        'pipeline.compilers.less.LessCompiler',
+    ),
     'PIPELINE_ENABLED': True,
     'JAVASCRIPT': {
         'ga': {'source_filenames': ('js/ga.js',),
