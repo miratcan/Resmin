@@ -2,15 +2,16 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    {% stylesheet 'base' %}
-    <link rel="stylesheet" href="{{ STATIC_URL }}/css/base.css" type="text/css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css" />
+    <script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 
     <meta name="viewport" content="width=device-width">
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <link rel="apple-touch-icon" href="{{ STATIC_URL }}iphone/icon.png"/>
     <link rel='icon' href='{{ STATIC_URL }}/favico.png' type='image/png' />
-    <script src="{{ STATIC_URL }}js/jquery-1.11.1.min.js"></script>
+
     {% block extra_head %}{% endblock %}
 
 
@@ -21,61 +22,41 @@
   </head>
   
   <body>
-    {% if messages %}
-      {% for message in messages %}
-        <p class="yellow-stripe">{{ message }}</p>
-      {% endfor %}
-    {% endif %}
-    
-    {% block extra_messages %}
-    {% endblock %}
-    
-    <header>
-      <nav class="clearfix wrap">
-        <div class="drawer">
-          <a href="/" class="{% if request.path == '/' %}active{% endif %}">{% trans "Wall" %}</a>
-          <a href="/qs/" class="{% if request.path == '/qs/' %}active{% endif %}">{% trans "Questions" %}</a>
-          {% if user.is_authenticated %}
-            <a href="/pq/" class="{% if request.path == '/pq/' %}active{% endif %}">{% trans "Pending Questions" %}{% if num_of_pending_questions %} ({{ num_of_pending_questions }}){% endif %}</a>
-            <a href="/pfr/" class="{% if request.path == '/pfr/' %}active{% endif %}">{% trans "Follow Requests" %}{% if num_of_pending_follow_requests > 0 %} ({{ num_of_pending_follow_requests }}){% endif %}</a>
-            <a href="/pm/" class="{% if request.path == '/pm/inbox/' %}active{% endif %}">{% trans "PM's" %}{% if num_of_unread_messages > 0 %} ({{ num_of_unread_messages }}){% endif %}</a>
-            <a href="/n/" class="{% if request.path == '/n/' %}active{% endif %}">{% trans "Notifications" %}{% if num_of_pending_notifications > 0 %} ({{ num_of_pending_notifications}}){% endif %}</a>
-          {% endif %}          
-          <div class="drawer-right">
-            {% if user.is_authenticated %}
-              <a href="{{ user.get_absolute_url }}" class="right {% if request.path == user.get_absolute_url %}active{% endif %}">{{ user }}</a>
-                {% else %}
-                  <a href="{% url 'login' %}" {% if request.path == '/login/' %}class="active right"{% endif %}>{% trans 'Login' %}</a>
-                  <a href="{% url 'register' %}" {% if request.path == '/reg/' %}class="active right"{% endif %}>{% trans 'Register' %}</a>
-            {% endif %}
+      <!-- Always shows a header, even in smaller screens. -->
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+          <!-- Title -->
+          <span class="mdl-layout-title">Anasayfa</span>
+          <!-- Add spacer, to align navigation to the right -->
+          <div class="mdl-layout-spacer"></div>
+          <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable mdl-textfield--floating-label mdl-textfield--align-right">
+          <!-- search icon -->      
+          <label class="mdl-button mdl-js-button mdl-button--icon" for="fixed-header-drawer-exp">
+            <i class="material-icons">search</i>
+          </label>
+           <!-- expandable input field -->         
+          <div class="mdl-textfield__expandable-holder">
+            <input class="mdl-textfield__input" type="text" name="header" id="fixed-header-drawer-exp" />
           </div>
         </div>
-        <a href="#" id="pull">{% trans 'Menu' %}</a>
-      </nav>
-    </header>
-    {% block before_content %}{% endblock %}
-    
-    <div class="content pbd ptd oa">
-      <div class="wrap oa {% block wrap_class %}{% endblock %}">
-        {% block content %}{% endblock content %}
+      </header>
+
+      <div class="mdl-layout__drawer">
+        <nav class="mdl-navigation">
+          <a class="mdl-navigation__link" href="{% url 'index' %}">{% trans 'Home Page' %}</a>
+
+          {% if user.is_authenticated %}
+            <a class="mdl-navigation__link" href="{% url 'profile' username=user.username %}">{% trans 'My Profile' %}</a>
+            <a class="mdl-navigation__link" href="{% url 'profile' username=user.username %}">{% trans 'Settings' %}</a>
+            <a class="mdl-navigation__link" href="{% url 'notifications' %}">{% trans "Notifications" %}{% if num_of_pending_notifications > 0 %} ({{ num_of_pending_notifications}}){% endif %}</a>
+            <a class="mdl-navigation__link" href="{% url 'logout' %}">{% trans "Logout" %}</a>
+          {% endif %}
+        </nav>
       </div>
+      <main class="mdl-layout__content">
+        <div class="page-content">{% block content %}{% endblock %}</div>
+      </main>
     </div>
-    <footer class="oa tac pbh ptd">
-      <div class="wrap mb">
-        <a href="https://www.facebook.com/pages/resmin/283100028481671?fref=ts" class="mld mrd" target="_blank">Facebook</a>
-        <a href="https://resmin.uservoice.com/forums/219051-general" class="mld mrd" target="_blank">{% trans 'Suggestions' %}</a>
-        <a href="http://resm.in/api/v1/story/list/public/" class="mld mrd" target="_blank">Api</a>
-        <a href="/hof/" class="mld mrd">{% trans "Top Users" %}</a>
-        <a href="" target="_blank" class="mld mrd">{% trans "IRC" %}</a>
-      </div>
-      <div class="wrap mb">
-        <p class="f_weak mb">
-          {% trans 'Non of the images & content that appear at this site are real. Site content might not be convenient for kids & minors. Users who create the questions & share the images are responsible and liable from their content. Every content should be conveniently credited. By the way Why do you just copy when you can create something original?' %}
-        </p>
-      </div>
-    </footer>
-  {% block extra_foot %}{% endblock %}
-  {% include "scripts/google_analytics.html" %}
-  {% include "scripts/menu.html" %}
-  </body>
+  <body>
 </html>

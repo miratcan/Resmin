@@ -13,14 +13,9 @@
 {% endblock %}
 
 {% block content %}
-  {% if user.is_authenticated %}
-    {% include "story/listing_options.html" %}
-  {% else %}
     <div class="bg ptd">
       <p class="f_stng mbd pbd wb tac">{% trans "Resm.in is a question-answer platform that you answer questions by posting photo stories." %}</p>
-      <p class="mbd pbd tac">{% trans "You can use resm.in to share information, meet new people or learn useful things." %}</p>
     </div>
-  {% endif %}
 
   {% if not stories %}
     {% if user.is_authenticated %}
@@ -30,20 +25,6 @@
 
   <div id="thumbnails">
     <div class="thmb-wrap pa" style="box-sizing: border-box">
-    <h4 class="mb bb pbh">{% trans "Follow Us" %}</h4>
-
-    <iframe src="//www.facebook.com/plugins/likebox.php?href=https%3A%2F%2Fwww.facebook.com%2Fpages%2Fresmin%2F283100028481671%3Ffref%3Dts&amp;width=200&amp;height=258&amp;colorscheme=light&amp;show_faces=true&amp;header=false&amp;stream=false&amp;show_border=false&amp;appId=682578225173398" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:258px;" allowTransparency="true"></iframe>
-
-    {% if recommended_questions %}
-      <h4 class="mb bb pbh">{% trans "Recommened Questions" %}</h4>
-      {% for question in recommended_questions %}
-        <p class="f_tiny mbh"><a href="{{ question.get_absolute_url }}">{{ question.text}}</a></p>
-      {% endfor %}
-    {% endif %}
-
-    <h4 class="mb bb pbh">{% trans "Last Registered Users" %}</h4>
-    <p class="f_tiny mbh">{% for reguser in last_registered_users %}<a class="mr" href="{{ reguser.get_absolute_url }}">{{ reguser.username }}</a>{% endfor %}</p>
-    </div>
     {% for story in stories %}
       {% include "story/story_thumbnail.html" with show_question_info_below_answers=True %}
     {% endfor %}

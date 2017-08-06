@@ -1,37 +1,11 @@
-{% load thumbnail liked_by story_tags %}{% load i18n %}
-<div class="thmb-wrap shadowed" style="position: relative">
-  {% if show_question_info_below_answers %}
-    <div class="oa pa db bb "><a href="{{ story.question_meta.get_absolute_url }}">{{ story.question_meta.text }}</a></div>
-  {% endif %}
-  {% if story.is_nsfw %}
-    <div class="nsfw_block">
-      <a href="{{ story.get_absolute_url }}">{% trans 'NSFW' %}</a>
-    </div>
-  {% else %}
-    {% with story.get_cover_img as cover_img %}
-    <a class="thmb" href="{{ story.get_absolute_url }}">
-      {% if story.is_featured %}<i href="#" title='{% trans "This story marked as qualified answer by admins." %}' class="featured_answer_indicator fa fa-star"></i>{% endif %}
-      <img src="{{ cover_img.url}}">
-    </a>
-    {% endwith %}
-  {% endif %}
-  <div class="footer oa db pl pr">
 
-    <div class="username">
-      {% include "auth/username_inc.html" with user=story.owner anonymouse=story.is_anonymouse narrow=True %}
-    </div>
-
-    <div class="likes-wrap like-button" data-story-id="{{ story.id }}">
-      <div class="count">{{ story.like_count }}</div>
-      <i class="mth fa fa-heart fa-lg{% if story|is_liked_by:user %} pink{% endif %}"></i>
-    </div>
-
-    <div class="comments-wrap">
-      <a href="{{ story.get_absolute_url }}#comments"><span class="count">{% if story.comment_count %}{{ story.comment_count }}{% else %}0{% endif %}</span><i class="mth fa fa-comment fa-lg"></a></i>
-    </div>
-
+<div class="demo-card-square mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title mdl-card--expand" style="background: url({{ story.cover_img.thmb }}); background-size: 100%; background-position: center; height: 220px;">
+    
   </div>
-  {% for idx in story.get_slot_count|more_loop %}
-    <div class="bb mbh"></div>
-  {% endfor %}
+  <div class="mdl-card__actions mdl-card--border">
+    <a href="{{ story.get_absoulte_url }}">
+      {{ story.question_meta }}
+    </a>
+  </div>
 </div>

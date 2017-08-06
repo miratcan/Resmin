@@ -15,6 +15,7 @@ from django.http import (HttpResponse, HttpResponseBadRequest,
 from django.shortcuts import get_object_or_404, render
 from django.utils.translation import ugettext as _
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.sites.shortcuts import get_current_site
 from libs.baseconv import base62
 from django_redis import get_redis_connection
 from resmin.utils import paginated
